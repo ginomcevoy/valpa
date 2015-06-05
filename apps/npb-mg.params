@@ -1,0 +1,18 @@
+[Application]
+# Dir for executable
+app.home=/home/shared/NPB-MG
+
+# Name for executable
+app.executable=run-mg.sh
+
+# Timeout (assume failure)
+exec.walltime=90:00
+
+# Copy a file besides standard output/error? ('Y' or 'N')
+exec.needsoutputcopy=N
+
+# if exec.needsoutputcopy is 'Y', (space-separated) filename(s) 
+exec.otheroutput=
+
+# if exec.needsoutputcopy is 'Y', possibly rename file, leave blank if multiple files
+exec.outputrename=

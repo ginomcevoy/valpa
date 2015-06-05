@@ -1,0 +1,44 @@
+<domain type="kvm">
+	<name>@vm_name</name>
+	<uuid>@vm_uuid</uuid>
+	<memory>@cluster_memory</memory>
+	<memoryBacking>
+		<nosharepages/>
+	</memoryBacking>
+	<vcpu>@cluster_vcpu</vcpu>
+	<os>
+		<type arch="x86_64" machine="pc">hvm</type>
+		<boot dev="hd"/>
+	</os>
+	<features>
+		<acpi/>
+	</features>
+	<clock offset="utc"/>
+	<on_poweroff>destroy</on_poweroff>
+	<on_reboot>restart</on_reboot>
+	<on_crash>destroy</on_crash>
+	<devices>
+		<interface type="network">
+			<source network="valpa-external-bridge"/>
+			<mac address="@vm_mac"/>
+#if (@network_option == 'vhost' || @network_option == 'virtio')
+			<model type="virtio"/>
+			<driver name="@network_driver"/>
+#end
+		</interface>
+		<emulator>/usr/bin/kvm</emulator>
+		<disk type="file" device="disk">
+			<driver name="qemu" type="raw"/>
+			<source file="/home/giacomo2/@cluster_path/@vm_path/disk.img"/>
+			<target dev="vda" bus="@cluster_disk_bus"/>
+		</disk>
+		<console type="pty">
+			<target port="0"/>
+		</console>
+		<input type="mouse" bus="ps2"/>
+		<graphics type="vnc" port="-1" autoport="yes" listen="127.0.0.1" keymap="en-us"/>
+		<video>
+			<model type="cirrus" vram="9216" heads="1"/>
+		</video>
+	</devices>
+</domain>

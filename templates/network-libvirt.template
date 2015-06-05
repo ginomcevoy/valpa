@@ -1,0 +1,10 @@
+<network>
+  <name>@network_name</name>
+  <forward mode='nat' dev='@network_interface'/>
+  <bridge name='@network_bridge' stp='off' delay='0' />
+  <ip address='@node_address' netmask='@network_netmask'>
+    <dhcp>
+      <range start='@dhcp_range_start' end='@dhcp_range_end' />
+    </dhcp>
+  </ip>
+</network>

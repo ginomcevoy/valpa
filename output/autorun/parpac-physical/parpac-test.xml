@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<experiments>
+	<experiment name="nc12-cpv2-ppBIND_CORE" trials="1">
+		<clusters>
+			<cluster virtual="False">
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>BIND_CORE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+			</cluster>
+		</clusters>
+	</experiment>
+</experiments>

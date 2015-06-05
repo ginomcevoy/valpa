@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<experiments>
+        <deploy-group name='48-BALANCED-1'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>1</cpv>
+                                <idf>2</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='48-BALANCED-2'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>6</cpv>
+                                <idf>2</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='48-BALANCED-3'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>1</cpv>
+                                <idf>3</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='48-BALANCED-4'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>4</cpv>
+                                <idf>3</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='48-BALANCED-5'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>1</cpv>
+                                <idf>6</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='48-BALANCED-6'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>2</cpv>
+                                <idf>6</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='48-BALANCED-7'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>12</np>
+                                <cpv>1</cpv>
+                                <idf>12</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+</experiments>

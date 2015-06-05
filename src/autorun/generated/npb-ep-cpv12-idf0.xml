@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<experiments>
+	<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppBIND_CORE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_CORE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppBIND_SOCKET" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_SOCKET</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppNONE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>NONE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psBAL_SET-ppBIND_CORE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_CORE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psBAL_SET-ppBIND_SOCKET" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_SOCKET</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psBAL_SET-ppNONE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>NONE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psGREEDY-ppBIND_CORE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_CORE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psGREEDY-ppBIND_SOCKET" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_SOCKET</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psGREEDY-ppNONE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>NONE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psSPLIT-ppBIND_CORE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_CORE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psSPLIT-ppBIND_SOCKET" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_SOCKET</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psSPLIT-ppNONE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>NONE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psNONE-ppBIND_CORE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_CORE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psNONE-ppBIND_SOCKET" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>BIND_SOCKET</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv12-idf0-psNONE-ppNONE" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 C</args>
+					<tuning>
+						<procpin>NONE</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+</experiments>

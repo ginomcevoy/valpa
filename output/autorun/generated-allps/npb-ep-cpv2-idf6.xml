@@ -1,0 +1,1543 @@
+<?xml version="1.0"?>
+<experiments>
+	<experiment name="nc12-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>12 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc18-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>18 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="18" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc24-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>24 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="24" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc30-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>30 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="30" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc36-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>36 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="36" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc42-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>42 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="42" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>48 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc54-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>54 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="54" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc60-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>60 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="60" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc66-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>66 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="66" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psBAL_ONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psBAL_SET-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psGREEDY-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psGREEDY-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psSPLIT-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psSPLIT-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psNONE-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc72-cpv2-idf6-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="10">
+				    <args>72 D</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="72" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+</experiments>

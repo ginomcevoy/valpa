@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<experiments>
+	<experiment name="nc12-cpv6-idf0-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="2">
+				    <args>12 S</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="6" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc12-cpv2-idf6-psBAL_SET-ppTrue" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-ep" runs="2">
+				    <args>12 S</args>
+					<tuning>
+						<procpin>True</procpin>
+					</tuning>
+				</app>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</clusters>
+	</experiment>
+</experiments>

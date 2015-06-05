@@ -1,0 +1,22 @@
+<network>
+  <name>valpa-libvirt-bridge</name>
+  <forward mode='nat' dev='eth0'/>
+  <bridge name='br0' stp='off' delay='0' />
+  <ip address='172.16.82.254' netmask='255.255.0.0'>
+    <dhcp>
+      <range start='172.16.82.1' end='172.16.82.12' />
+	<host mac="00:16:36:ff:82:01" name="kvm-pbs082-01" ip="172.16.82.1" />
+	<host mac="00:16:36:ff:82:02" name="kvm-pbs082-02" ip="172.16.82.2" />
+	<host mac="00:16:36:ff:82:03" name="kvm-pbs082-03" ip="172.16.82.3" />
+	<host mac="00:16:36:ff:82:04" name="kvm-pbs082-04" ip="172.16.82.4" />
+	<host mac="00:16:36:ff:82:05" name="kvm-pbs082-05" ip="172.16.82.5" />
+	<host mac="00:16:36:ff:82:06" name="kvm-pbs082-06" ip="172.16.82.6" />
+	<host mac="00:16:36:ff:82:07" name="kvm-pbs082-07" ip="172.16.82.7" />
+	<host mac="00:16:36:ff:82:08" name="kvm-pbs082-08" ip="172.16.82.8" />
+	<host mac="00:16:36:ff:82:09" name="kvm-pbs082-09" ip="172.16.82.9" />
+	<host mac="00:16:36:ff:82:10" name="kvm-pbs082-10" ip="172.16.82.10" />
+	<host mac="00:16:36:ff:82:11" name="kvm-pbs082-11" ip="172.16.82.11" />
+	<host mac="00:16:36:ff:82:12" name="kvm-pbs082-12" ip="172.16.82.12" />
+    </dhcp>
+  </ip>
+</network>

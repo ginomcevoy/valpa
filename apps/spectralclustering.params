@@ -1,0 +1,20 @@
+# Requires custom pbs file! master.pbs.spectralclustering
+
+[Application]
+# Dir for executable
+app.home=/home/shared/graphlab/release/toolkits/clustering
+
+# Name for executable
+app.executable=PARPACBench
+
+# Timeout (assume failure)
+exec.walltime=30:00
+
+# Copy a file besides standard output/error? ('Y' or 'N')
+exec.needsoutputcopy=N
+
+# if exec.needsoutputcopy is 'Y', (space-separated) filename(s) 
+exec.otheroutput=
+
+# if exec.needsoutputcopy is 'Y', possibly rename file, leave blank if multiple files
+exec.outputrename=

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<experiments>
+	<experiment name="nc48-cpv1-idf4-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="1" />
+				<mapping idf="4" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf4-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="4" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv4-idf4-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="4" />
+				<mapping idf="4" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv1-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="1" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv6-idf6-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="6" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv1-idf8-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="1" />
+				<mapping idf="8" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv2-idf8-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="2" />
+				<mapping idf="8" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv4-idf8-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="4" />
+				<mapping idf="8" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc48-cpv8-idf8-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="parpac" runs="1">
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="48" cpv="8" />
+				<mapping idf="8" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+		</experiment>
+		<experiment name="nc48-cpv1-idf12-psBAL_ONE-ppFalse" trials="1">
+			<clusters>
+				<cluster>
+					<app name="parpac" runs="1">
+						<tuning>
+							<procpin>False</procpin>
+						</tuning>
+					</app>
+					<topology nc="48" cpv="1" />
+					<mapping idf="12" pstrat="BAL_ONE" />
+				</cluster>
+			</clusters>
+		</experiment>
+		<experiment name="nc48-cpv2-idf12-psBAL_ONE-ppFalse" trials="1">
+			<clusters>
+				<cluster>
+					<app name="parpac" runs="1">
+						<tuning>
+							<procpin>False</procpin>
+						</tuning>
+					</app>
+					<topology nc="48" cpv="2" />
+					<mapping idf="12" pstrat="BAL_ONE" />
+				</cluster>
+			</clusters>
+		</experiment>
+		<experiment name="nc48-cpv4-idf12-psBAL_ONE-ppFalse" trials="1">
+			<clusters>
+				<cluster>
+					<app name="parpac" runs="1">
+						<tuning>
+							<procpin>False</procpin>
+						</tuning>
+					</app>
+					<topology nc="48" cpv="4" />
+					<mapping idf="12" pstrat="BAL_ONE" />
+				</cluster>
+			</clusters>
+		</experiment>
+		<experiment name="nc48-cpv6-idf12-psBAL_ONE-ppFalse" trials="1">
+			<clusters>
+				<cluster>
+					<app name="parpac" runs="1">
+						<tuning>
+							<procpin>False</procpin>
+						</tuning>
+					</app>
+					<topology nc="48" cpv="6" />
+					<mapping idf="12" pstrat="BAL_ONE" />
+				</cluster>
+			</clusters>
+		</experiment>
+</experiments>

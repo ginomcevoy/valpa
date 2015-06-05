@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<experiments>
+    <experiment name="nc8-cpv1-idf0-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="1" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv2-idf0-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="2" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv4-idf0-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="4" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv8-idf0-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="8" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv1-idf0-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="1" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv2-idf0-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="2" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv4-idf0-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="4" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc8-cpv8-idf0-psNONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="npb-mg" runs="2">
+				    <args>8 C</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="8" cpv="8" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+</experiments>

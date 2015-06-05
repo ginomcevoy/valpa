@@ -1,0 +1,4 @@
+REMOVE_CURRENT_VMS=true
+EXPERIMENT_INPUT=sets/test-48cpv6-all.xml
+READER_OUTPUT=reader.out
+READER_GROUPS=/tmp/reader-groups

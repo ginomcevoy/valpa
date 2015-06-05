@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<experiments>
+        <deploy-group name='144-NONE-4'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>144</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>NONE</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='144-BALANCED-4'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>144</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+</experiments>

@@ -1,0 +1,3 @@
+mpirun run-ep.sh 16 D
+User	System	Ellapsed
+2584.66	53.18	331.09

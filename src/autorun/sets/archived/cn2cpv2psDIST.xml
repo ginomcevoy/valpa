@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<experiments>
+        <deploy-group name='cn2-7'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>2</np>
+                                <cpv>2</cpv>
+                                <idf>6</idf>
+                                <pstrat>DISTRIBUTED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+</experiments>
+
+

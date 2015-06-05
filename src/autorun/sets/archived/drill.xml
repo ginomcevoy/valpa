@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<experiments>
+	<deploy-group name='drill'>
+		<deploy-unit>
+			<app-name>parpac</app-name>
+			<dist>
+				<np>144</np>
+				<cpv>1</cpv>
+				<idf>1</idf>
+				<pstrat>GREEDY</pstrat>
+			</dist>
+			<runs>1</runs>
+		</deploy-unit>
+	</deploy-group>
+</experiments>
+
+<!-- See example.xml -->

@@ -1,0 +1,6 @@
+<network>
+   <name>valpa-sriov</name>
+   <forward mode='hostdev' managed='yes'>
+     <pf dev='eth0'/>
+   </forward>
+</network>

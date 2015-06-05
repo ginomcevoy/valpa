@@ -1,0 +1,72 @@
+<experiments>
+	<experiment name="nc108-cpv12-idf12-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="cavity3d" runs="10">
+				    <args>300</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="108" cpv="12" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc108-cpv1-idf12-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="cavity3d" runs="10">
+				    <args>300</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="108" cpv="1" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc108-cpv2-idf12-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="cavity3d" runs="10">
+				    <args>300</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="108" cpv="2" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc108-cpv4-idf12-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="cavity3d" runs="10">
+				    <args>300</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="108" cpv="4" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+	<experiment name="nc108-cpv6-idf12-psBAL_ONE-ppFalse" trials="1">
+		<clusters>
+			<cluster>
+				<app name="cavity3d" runs="10">
+				    <args>300</args>
+					<tuning>
+						<procpin>False</procpin>
+					</tuning>
+				</app>
+				<topology nc="108" cpv="6" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+		</clusters>
+	</experiment>
+</experiments>

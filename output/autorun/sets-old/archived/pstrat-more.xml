@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<experiments>
+	<deploy-group name='PSTRAT-1'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>2</cpv>
+                                <idf>3</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-2'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>96</np>
+                                <cpv>2</cpv>
+                                <idf>1.5</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-8'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>144</np>
+                                <cpv>4</cpv>
+                                <idf>1</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-3'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>2</cpv>
+                                <idf>3</idf>
+                                <pstrat>GREEDY</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-4'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>96</np>
+                                <cpv>2</cpv>
+                                <idf>1.5</idf>
+                                <pstrat>GREEDY</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-8'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>144</np>
+                                <cpv>4</cpv>
+                                <idf>1</idf>
+                                <pstrat>GREEDY</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-5'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>2</cpv>
+                                <idf>3</idf>
+                                <pstrat>DISTRIBUTED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-6'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>96</np>
+                                <cpv>2</cpv>
+                                <idf>1.5</idf>
+                                <pstrat>DISTRIBUTED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='PSTRAT-8'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>144</np>
+                                <cpv>4</cpv>
+                                <idf>1</idf>
+                                <pstrat>DISTRIBUTED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+</experiments>

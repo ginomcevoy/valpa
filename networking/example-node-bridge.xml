@@ -1,0 +1,23 @@
+<network>
+  <name>kvm-bridge</name>
+  <forward mode="nat" dev="eth0"/>
+  <bridge name="br0" stp="off" delay="0" />
+  <ip address="172.16.2.254" netmask="255.255.0.0">
+    <dhcp>
+      <range start="172.16.2.1" end="172.16.2.12" />
+
+      <host mac="00:16:36:ff:02:01" name="kvm-pbs02-01" ip="172.16.2.1" />
+      <host mac="00:16:36:ff:02:02" name="kvm-pbs02-02" ip="172.16.2.2" />
+      <host mac="00:16:36:ff:02:03" name="kvm-pbs02-03" ip="172.16.2.3" />
+      <host mac="00:16:36:ff:02:04" name="kvm-pbs02-04" ip="172.16.2.4" />
+      <host mac="00:16:36:ff:02:05" name="kvm-pbs02-05" ip="172.16.2.5" />
+      <host mac="00:16:36:ff:02:06" name="kvm-pbs02-06" ip="172.16.2.6" />
+      <host mac="00:16:36:ff:02:07" name="kvm-pbs02-07" ip="172.16.2.7" />
+      <host mac="00:16:36:ff:02:08" name="kvm-pbs02-08" ip="172.16.2.8" />
+      <host mac="00:16:36:ff:02:09" name="kvm-pbs02-09" ip="172.16.2.9" />
+      <host mac="00:16:36:ff:02:10" name="kvm-pbs02-10" ip="172.16.2.10" />
+      <host mac="00:16:36:ff:02:11" name="kvm-pbs02-11" ip="172.16.2.11" />
+      <host mac="00:16:36:ff:02:12" name="kvm-pbs02-12" ip="172.16.2.12" />
+    </dhcp>
+  </ip>
+</network>

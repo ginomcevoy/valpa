@@ -1,0 +1,2 @@
+$pbs_server kvm-head
+$usecp *:/home/shared /home/shared

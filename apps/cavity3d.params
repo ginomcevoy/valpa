@@ -1,0 +1,18 @@
+[Application]
+# Dir for executable
+app.home=/home/shared/cavity3d
+
+# Name for executable
+app.executable=cavity3d
+
+# Timeout (assume failure)
+exec.walltime=2:00:00
+
+# Copy a file besides standard output/error? ('Y' or 'N')
+exec.needsoutputcopy=Y
+
+# if exec.needsoutputcopy is 'Y', (space-separated) filename(s) 
+exec.otheroutput=/home/shared/cavity3d/plbProfile.xml
+
+# if exec.needsoutputcopy is 'Y', possibly rename file, leave blank if multiple files
+exec.outputrename=custom.out

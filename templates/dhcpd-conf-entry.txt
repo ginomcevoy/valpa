@@ -1,0 +1,4 @@
+        host VM_NAME {
+                hardware ethernet VM_MAC;
+                fixed-address VM_IP;
+        }

@@ -1,0 +1,31 @@
+# Parameters specifig to the data generation of VALPA
+# Each application should have a section with the corresponding application name
+# Author: Giacomo Mc Evoy - giacomo@lncc.br
+# LNCC Brazil 2013
+
+[General]
+hw.cores=12
+generated.dir = /home/giacomo2/experiments/analyzed
+
+# Default names
+metrics.config.name = metrics-app.csv
+metrics.all.name = metrics-all.csv
+configs.name = configs.csv
+
+[parpac-physical]
+app.dir = /home/giacomo2/experiments/arriving/parpac-physical
+
+[parpac]
+app.dir = /home/giacomo2/experiments/arriving/parpac
+
+[npb-ep]
+app.dir = /home/giacomo2/experiments/arriving/npb-ep
+
+[cavity3d]
+app.dir = /home/giacomo2/experiments/arriving/cavity3d
+
+[npb-mg]
+app.dir = /home/giacomo2/experiments/arriving/npb-mg
+
+[spectralclustering]
+app.dir = /home/giacomo2/experiments/arriving/spectralclustering

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<experiments>
+        <deploy-group name='cn48-1'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>BALANCED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='cn48-2'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>DISTRIBUTED</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='cn48-3'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>NUMA</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='cn48-4'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>NONE</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+        <deploy-group name='cn48-5'>
+                <deploy-unit>
+                        <app-name>parpac</app-name>
+                        <dist>
+                                <np>48</np>
+                                <cpv>6</cpv>
+                                <idf>1</idf>
+                                <pstrat>GREEDY</pstrat>
+                        </dist>
+                        <runs>11</runs>
+                </deploy-unit>
+        </deploy-group>
+</experiments>
+
+

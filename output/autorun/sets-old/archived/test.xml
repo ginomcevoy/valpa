@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<experiments>
+	<deploy-group name='test1'>
+		<deploy-unit>
+			<app-name>parpac</app-name>
+			<dist>
+				<np>24</np>
+				<cpv>2</cpv>
+				<idf>6</idf>
+				<pstrat>GREEDY</pstrat>
+			</dist>
+			<runs>1</runs>
+		</deploy-unit>
+	</deploy-group>
+	<deploy-group name='test2'>
+		<deploy-unit>
+			<app-name>parpac</app-name>
+			<dist>
+				<np>12</np>
+				<cpv>1</cpv>
+				<idf>12</idf>
+				<pstrat>NONE</pstrat>
+			</dist>
+			<runs>1</runs>
+		</deploy-unit>
+	</deploy-group>
+</experiments>
+
+<!-- See example.xml -->

@@ -1,0 +1,14 @@
+	<experiment name="@expName" trials="1">
+		<clusters>
+			<cluster>
+				<app name="@appName" runs="@appRuns">
+				    <args>@appArgs</args>
+					<tuning>
+						<procpin>@procPin</procpin>
+					</tuning>
+				</app>
+				<topology nc="@nc" cpv="@cpv" />
+				<mapping idf="@idf" pstrat="@pstrat" />
+			</cluster>
+		</clusters>
+	</experiment>

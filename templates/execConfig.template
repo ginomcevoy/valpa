@@ -1,0 +1,29 @@
+# Experiment data
+app=@appInfo.name
+args=@!appInfo.args
+
+# Primary core allocation variables
+nc=@clusterInfo.topology.nc
+cpv=@clusterInfo.topology.cpv
+idf=@clusterInfo.mapping.idf
+pstrat=@clusterInfo.mapping.pinningOpt
+
+# Secondary core allocation variables
+deployedNodes=@deployedNodesText
+deployedSockets=@deployedSocketsText
+
+# VMM Technologies
+network=@clusterInfo.technology.networkOpt
+disk=@clusterInfo.technology.diskOpt
+
+# App Tuning
+knem=@!appInfo.appTuning.knem
+procpin=@!appInfo.appTuning.procpin
+
+#!#
+# Other execution vars
+runs=@appInfo.runs
+VMS=@vmCount
+HOSTS=@hostCount
+DEPLOY_DIR=@distPath
+VERBOSE=@verbose

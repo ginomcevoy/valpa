@@ -1,0 +1,997 @@
+<?xml version="1.0"?>
+<scenarios>
+	<scenario>
+		<experiment name="nc12-cpv1-idf0-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf0-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf0-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf1-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="1" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf1-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="1" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf2-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="2" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf2-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="2" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf2-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="2" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf3-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="3" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf3-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="3" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf3-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="3" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf4-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="4" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf4-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="4" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf4-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="4" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf6-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf6-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv1-idf6-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf0-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf0-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf0-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf0-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf0-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf2-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="2" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf2-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="2" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf2-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="2" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf2-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="2" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf4-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="4" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf4-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="4" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf4-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="4" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf4-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="4" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf4-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="4" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf6-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf6-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf6-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf6-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv2-idf6-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="2" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf0-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf0-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf0-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf0-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf0-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf3-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="3" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf3-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="3" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf3-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="3" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf3-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="3" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf6-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf6-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf6-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf6-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="6" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv3-idf6-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="3" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf0-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf0-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf0-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf0-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf0-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf4-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="4" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf4-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="4" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf4-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="4" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv4-idf4-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="4" />
+				<mapping idf="4" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf0-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf0-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf0-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf0-psGREEDY" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf0-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf6-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf6-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="6" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf6-psSPLIT" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="6" pstrat="SPLIT" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv6-idf6-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="6" />
+				<mapping idf="6" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psNONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_SET" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_ONE" trials="1">
+			<app name="parpac" runs="10">
+			    <args></args>
+				<tuning>
+					<procpin>NONE</procpin>
+				</tuning>
+			</app>
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+</scenarios>

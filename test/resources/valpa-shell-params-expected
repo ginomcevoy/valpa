@@ -1,0 +1,44 @@
+# Parameter Template for VALPA shell scripts (params.sh)
+# The values sourced by shell scripts are obtained on the fly with Python,
+# based on the values of the valpa.params file
+ 
+# Author: Giacomo Mc Evoy - giacomo@lncc.br
+# LNCC Brazil 2014
+
+# Physical Environment
+NODE_L=12 				# number of physical computing nodes
+PHYPROCS=2			# number of processors (sockets) per node
+PHYPROCCORES=6  	# number of cores per processor
+
+NODE_PREFIX='node'		# prefix for names of physical nodes (valpa00, valpa01)
+NODE_ZEROS='3' 		# if 2: valpa00... valpa12... valpa99
+NODE_FIRST='82' 		# suffix of first computing node
+
+# Networking
+NET_DEV='eth0'				# interface that will host bridge
+NET_CLASS='B' 			# either B or C class
+
+# DHCP for 'network', C class
+# Nodes assumed in range from 1 to NODE_L
+# IP_PREFIX.1, IP_PREFIX.2, ..., IP_PREFIX.NODE_L
+IP_PREFIX='192.168.3' 		# Class C networking for nodes and VMs
+DHCP_START='15' 		# address suffix of 1st VM of 1st node 
+DHCP_STEP='15'  		# 1st VM of 2nd node gets DHCP_START + DHCP_STEP
+
+# DHCP for 'network', B class
+# Nodes will get 172.16.X.254
+# VMs will get 172.16.X.Y, X matching node
+IP_PREFIX_B='172.16'  	# Class B networking for nodes and VMs
+DHCP_START_B='1' 	# First VM of each node will have this suffix
+
+# Other networking
+NET_BRIDGE='br0'		# desired bridge name
+MAC_BASE='00:16:36:ff'		# MAC address prefix for VMs
+
+# Virtual environment 
+VM_L=12 				# max number of VMs per node
+NAME_PREFIX='kvm-pbs'		# prefix of VM names
+
+VM_IMAGE_PATH=vms	# Path for all VM images
+VM_IMAGE_MASTER=ubuntu14.04-node 		# Specific path for master image 
+DISK_FILENAME=disk.img	# e.g. disk.img 			

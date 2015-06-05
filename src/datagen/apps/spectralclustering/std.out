@@ -1,0 +1,1195 @@
+Spectral clustering
+
+CALLING >./graph_laplacian_for_sc  --data=syn.2000 --sigma=1 --similarity-thres=0 --t-nearest=30 
+construct graph Laplacian for spectral clustering.
+
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 172.16.34.0
+Subnet Mask: 255.255.255.0
+Will find first IPv4 non-loopback address matching the subnet
+max squared distance(min similarity): 206.558(1.4013e-45)
+min squared distance(max similarity):1.35899e-05(0.999993)
+use only the 30-nearest similarities for each datapoint
+Updates: 2000
+Updates: 2000
+graph calculation time is 3 sec
+writing...
+CALLING >../collaborative_filtering/svd syn.2000.glap --rows=2001 --cols=2000 --nsv=2 --nv=102 --quiet=1 --save_vectors=1 --ortho_repeats=3 --id=1 --prediction=syn.2000. --initial_vector=syn.2000.init 
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 172.16.34.0
+Subnet Mask: 255.255.255.0
+Will find first IPv4 non-loopback address matching the subnet
+Loading graph.
+Loading graph. Finished in 0.109796
+Finalizing graph.
+Finalizing graph. Finished in 0.0226
+========== Graph statistics on proc 0 ===============
+ Num vertices: 4000
+ Num edges: 72812
+ Num replica: 4000
+ Replica to vertex ratio: 1
+ --------------------------------------------
+ Num local own vertices: 4000
+ Num local vertices: 4000
+ Replica to own ratio: 1
+ Num local edges: 72812
+ Edge balance ratio: 1
+Creating engine
+Running SVD (gklanczos)
+(C) Code by Danny Bickson, CMU 
+Please send bug reports to danny.bickson@gmail.com
+Load inital vector from filesyn.2000.init
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 1999
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+Updates: 2000
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+set status to tol
+Updates: 2000
+Updates: 1999
+ Number of computed signular values 101
+Updates: 1999
+Updates: 2000
+Singular value 0 	            2	Error estimate:           0.5
+Updates: 1999
+Updates: 2000
+Singular value 1 	      1.99939	Error estimate:    1.1247e-13
+Saving singular value triplets to files: syn.2000..U.* and syn.2000..V.*
+Saving predictions
+----------------------------------------------------------
+Final Runtime (seconds):   6.12085
+Updates executed: 2000
+Update Rate (updates/second): 326.752
+CALLING >../graph_analytics/eigen_vector_normalization --data=syn.2000 --clusters=2 --rank=102 --data-num=2000 
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 172.16.34.0
+Subnet Mask: 255.255.255.0
+Will find first IPv4 non-loopback address matching the subnet
+Updates: 2
+CALLING >./kmeans  --data syn.2000.compressed --clusters 2 --output-data syn.2000.result --id=1 
+Computes a K-means clustering of data.
+
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 172.16.34.0
+Subnet Mask: 255.255.255.0
+Will find first IPv4 non-loopback address matching the subnet
+Number of datapoints: 0
+More clusters than datapoints! Cannot proceed
+system call fails

@@ -1,0 +1,15 @@
+# Test Parameters for config/hwconfig.py
+# Author: Giacomo Mc Evoy - giacomo@lncc.br
+# LNCC Brazil 2013
+
+[Hardware]
+cores=12
+sockets=2
+mem=24
+
+[Nodes]
+nodes=12
+inferids=True
+prefix=node
+zeros=3
+first=82

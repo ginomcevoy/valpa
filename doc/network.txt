@@ -1,0 +1,122 @@
+Networks
+========
+
+valpa.params used variables in networking:
+
+network_source={external-bridge|libvirt-bridge|sriov}
+net_dev=eth0
+net_bridge=br0
+net_name_sriov=valpa-sriov
+net_name_bridge_create=valpa-libvirt-bridge
+net_name_bridge_use=valpa-external-bridge
+
+Three templates:
+
+SR-IOV (network-sriov.template)
+
+<network>
+   <name>@network-name-sriov</name>
+   <forward mode='hostdev' managed='yes'>
+     <pf dev='@network-interface'/>
+   </forward>
+ </network>
+
+Libvirt bridge (network-libvirt.template)
+
+<network>
+	<name>@network-name-bridge</name>
+	<forward mode='route' dev='@network-interface'/>
+	<bridge name='@network-bridge'/>
+	<ip address='' netmask=''> 
+		<dhcp>....</dhcp>
+	</ip>
+</network>
+
+Existing bridge (network-external.template)
+
+<network>
+	<name>@network-bridge-name</name>
+	<forward mode='bridge'/>
+	<bridge name='@network-bridge'/>
+</network>
+
+VMs
+====
+
+Single template
+
+<interface type='network'>
+    <source network='@network-name'>  
+# @network-name either @network-name-bridge or @network-name-sriov
+    <mac address='@network-mac'/>
+#? if type != sriov
+	<model type='virtio'/>
+	<driver name='@network-technology'/>
+#?
+ </interface>
+
+SR-IOV
+
+=========================================================
+
+SR-IOV
+======
+
+Network
+
+ <network>
+   <name>valpa-sriov</name>
+   <forward mode='hostdev' managed='yes'>
+     <pf dev='eth0'/>
+   </forward>
+ </network>
+
+VM
+
+  <interface type='network'>
+    <source network='valpa-sriov'>
+    <mac address='00:16:36:ff:83:02'/>
+  </interface>
+
+Bridge (Manual)
+==========
+
+Network
+
+<network>
+	<name>valpa-bridge</name>
+	<forward mode='bridge'/>
+	<bridge name='br0'/>
+</network>
+
+VM
+
+<interface type='network'>
+    <source network='valpa-bridge'>
+    <mac address='00:16:36:ff:83:02'/>
+	<model type='virtio'/>
+	<driver name='vhost'/>
+  </interface>
+
+Bridge (Libvirt)
+==========
+
+Network
+
+<network>
+	<name>valpa-bridge</name>
+	<forward mode='route' dev='eth0'/>
+	<bridge name='br0'/>
+	<ip address='' netmask=''>
+		<dhcp></dhcp>
+	</ip>
+</network>
+
+VM (same as manual)
+
+<interface type='network'>
+    <source network='valpa-bridge'>
+    <mac address='00:16:36:ff:83:02'/>
+	<model type='virtio'/>
+	<driver name='vhost'/>
+ </interface>
