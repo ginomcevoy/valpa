@@ -8,6 +8,7 @@ Prepares application execution
 from util import uuid
 from quik import FileLoader
 import os
+import io
 import hashlib
 
 class PreparesExperiment:
@@ -33,7 +34,7 @@ class PreparesExperiment:
         return (execConfig, experimentPath)
 
     def configHash(self, execConfigFile):
-        with open(execConfigFile, 'r', encoding='utf-8') as execConfig:
+        with io.open(execConfigFile, 'r', encoding='utf-8') as execConfig:
             text = execConfig.read()
             return hashlib.sha256(text.encode('utf-8')).hexdigest()
         

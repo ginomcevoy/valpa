@@ -252,9 +252,9 @@ class SimpleRules(object):
         cpv value.
         '''
         # strategies overlap on the following scenarios: 
-        # a) with cpv = 1, BAL-ONE ≡ BAL-SET ≡ SPLIT; 
-        # b) with one VM per machine or using 100% of machine, BAL-ONE ≡ GREEDY; 
-        # c) with cpv = pcores, BAL-ONE ≡ SPLIT.
+        # a) with cpv = 1, BAL-ONE == BAL-SET == SPLIT; 
+        # b) with one VM per machine or using 100% of machine, BAL-ONE === GREEDY; 
+        # c) with cpv = pcores, BAL-ONE === SPLIT.
         # SPLIT is not allowed for odd cpvs (d)  
         
         #PinningOpt = Enum(["BAL_ONE", "BAL_SET", "GREEDY", "SPLIT", "NONE"])

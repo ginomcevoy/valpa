@@ -10,7 +10,7 @@ import sys
 from bean.enum import PinningOpt  # @UnusedImport it IS used
 from bean.experiment import Application
 import quickcluster
-import bootstrap
+from start import bootstrap
 
 def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
         
@@ -21,7 +21,7 @@ def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
     appRequest = Application(appName, 1, args)
     
     # Bootstrap VALPA
-    bootstrap.bootstrap(forReal)
+    bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
     
     # need to execute application, get corresponding object

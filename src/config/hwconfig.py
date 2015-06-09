@@ -2,7 +2,7 @@
 # LNCC Brazil 2013
 
 #import pprint
-import configparser
+import ConfigParser
 
 class HardwareInfo:
 	'''
@@ -61,7 +61,7 @@ def getHardwareInfo(filename='../input/hardware.params'):
 	'''
 	# Singleton
 	if HardwareInfo.hwInfo is None:
-		config = configparser.RawConfigParser()
+		config = ConfigParser.RawConfigParser()
 		config.read(filename)
 		hwDict = dict(config.items('Hardware'))
 		nodeDict = dict(config.items('Nodes'))

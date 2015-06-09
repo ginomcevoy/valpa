@@ -5,7 +5,7 @@ Created on Oct 16, 2013
 '''
 from deploy.runner import ExperimentSetRunner
 import sys
-import bootstrap
+from start import bootstrap
 
 if __name__ == "__main__":
     # verify input
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     experimentXML = sys.argv[2]
     
     # Bootstrap VALPA with default config
-    bootstrap.bootstrap(forReal)
+    bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
     
     # execute all experiments in xml

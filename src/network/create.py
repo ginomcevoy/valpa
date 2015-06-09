@@ -5,7 +5,6 @@ Created on Oct 21, 2014
 '''
 from quik import FileLoader
 import sys
-import bootstrap
 from config import valpaconfig
 
 class BuildsNetworkXMLs:
@@ -253,6 +252,9 @@ class EnhancesXMLForCreatingBridge:
 
 
 if __name__ == '__main__':
+    
+    from start import bootstrap
+    
     # verify input
     if len(sys.argv) < 2:
         raise ValueError("call: " + sys.argv[0] + " <networkType> [outputDir]")
@@ -264,7 +266,7 @@ if __name__ == '__main__':
         outputDir = '../data-output/networks' # default location
     
     # Bootstrap VALPA with default config
-    bootstrap.bootstrap()
+    bootstrap.doBootstrap()
     bootstrapper = bootstrap.getInstance()
     
     # produce networkXML

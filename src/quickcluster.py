@@ -11,7 +11,7 @@ import sys
 from bean.enum import PinningOpt  # @UnusedImport it IS used
 from bean.cluster import Topology, Mapping, Cluster, ClusterPlacement
 from bean.experiment import Application
-import bootstrap
+from start import bootstrap
 
 def quickCluster(nc, cpv, idf, pstrat, forReal):
     
@@ -19,7 +19,7 @@ def quickCluster(nc, cpv, idf, pstrat, forReal):
     clusterRequest = createClusterRequest(nc, cpv, idf, pstrat)
     
     # Bootstrap VALPA
-    bootstrap.bootstrap(forReal)
+    bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
     
     hwSpecs = bootstrapper.getHwSpecs()

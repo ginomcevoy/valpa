@@ -6,7 +6,7 @@ Configures application (PBS if supported) for execution
 @author: giacomo
 '''
 import shutil
-import configparser
+import ConfigParser
 import datetime
 from bean.enum import MPIBindOpt
 
@@ -226,6 +226,6 @@ class ConfiguratorFactory:
         (not provided in the request), returns dict
         '''
         appParamsFile = '../apps/' + appInfo.name + '.params'
-        config = configparser.RawConfigParser()
+        config = ConfigParser.RawConfigParser()
         config.read(appParamsFile)
         return dict(config.items('Application'))

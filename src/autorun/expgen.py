@@ -101,7 +101,8 @@ class ExperimentGenerator(object):
         (default = size(NC) * 15 for each group).
         If groupCombinations() was not called, then a single XML is generated.  
         '''
-        os.makedirs(xmlPath, exist_ok=True)
+        if not os.path.exists(xmlPath):
+            os.makedirs(xmlPath)
         xmlNames = []
         
         # if groupCombinations() was not called, do one XML

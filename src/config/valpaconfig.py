@@ -2,7 +2,7 @@
 # LNCC Brazil 2013
 # Reads valpa.params to obtain VALPA preferences
 
-import configparser
+import ConfigParser
 from quik import FileLoader
 #import pprint
 
@@ -15,7 +15,7 @@ class ValpaConfig:
 	valpaConfig = None
 
 	def __init__(self, valpaFile):
-		config = configparser.RawConfigParser()
+		config = ConfigParser.RawConfigParser()
 		config.read(valpaFile)
 		self.valpaPrefs = dict(config.items('Preferences'))
 		self.valpaXMLOpts = dict(config.items('MasterXML'))
