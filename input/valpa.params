@@ -94,7 +94,7 @@ monitor_preprocess=$HOME/valpa/monitor/monitor-preprocess-pbs.sh
 monitor_do_nodes=True
 
 # comma separated list of applications that will use PBS
-pbs_supported_apps=parpac,none,npb_ep,cavity3d,graph500,uts,npb_mg,spectralclustering
+pbs_supported_apps=parpac,none,npb-ep,cavity3d,graph500,uts,npb-mg,spectralclustering
 
 [Preferences]
 xml_master=master.xml
