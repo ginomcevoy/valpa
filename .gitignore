@@ -51,5 +51,7 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
-# Python
+# Valpa
 *.pyc
+.project
+.pydevproject
