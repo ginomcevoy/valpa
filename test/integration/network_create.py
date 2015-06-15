@@ -8,8 +8,8 @@ Unit tests for network.create module
 import unittest
 from network.create import CreatesBasicNetworkXML, EnhancesXMLForCreatingBridge,\
     NetworkArgumentsForSRIOV, NetworkArgumentsForUsingBridge,\
-    NetworkArgumentsForCreatingBridge, BuildsNetworkXMLs
-from integration.bootstrap import ValpaWithBootstrapAbstractTest
+    NetworkArgumentsForCreatingBridge
+from integration.root_bootstrap import ValpaWithBootstrapAbstractTest
 
 class CreatesBasicNetworkXMLTest(ValpaWithBootstrapAbstractTest):
     '''
