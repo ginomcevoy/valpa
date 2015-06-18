@@ -1,21 +1,24 @@
-#!/bin/bash 
-# Execute a remote command for each node in the physical cluster using SSH
+#!/bin/bash
+
+# Execute a remote command for each node in the VALPA physical cluster
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
-# LNCC Brazil 2013
+# LNCC Brazil 2015
 
 # Validate input
 if [ $# -ne 1 ]; then
-	echo "Usage: $0 <command>"
-	echo "<command> will execute via SSH on all cluster nodes"
-	echo "<command> may have the '#' symbol to be replaced by node numbers"
+	>&2 echo -e 'Usage: cluster-ssh.sh "<command>"'
+	>&2 echo "<command> will execute remotely on all physical nodes"
 	exit 1
 fi
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
+VALPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $LOCAL_DIR/../params.sh
+source $VALPA_DIR/params.sh
 
-# Call multiple-nodes 
-$LOCAL_DIR/cluster-command.sh "ssh -t # '${1}'"
+# Load inventory TODO Fix this call
+VALPA_INVENTORY=$VALPA_DIR/input/valpa.inventory
+
+ansible all -f $NODE_L -i $VALPA_INVENTORY -m command -a "${1}"
