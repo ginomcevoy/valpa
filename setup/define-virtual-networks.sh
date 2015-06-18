@@ -35,7 +35,7 @@ mkdir -p $OUTPUT_DIR
 
 # call script for creating XMLs
 cd $VALPA_DIR/src
-python3 -m network.create $TYPE $OUTPUT_DIR
+python -m network.create $TYPE $OUTPUT_DIR
 
 # Iterate nodes
 INDEX=1

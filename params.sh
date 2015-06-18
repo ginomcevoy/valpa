@@ -11,7 +11,7 @@ ORIG_PATH=$PWD
 cd $VALPA_DIR/src
 
 # Get the filename TODO: handle exit code != 0
-VALPA_PARAMS=$(python3 -m config.shellparams)
+VALPA_PARAMS=$(python -m config.shellparams)
 
 # source the parameters
 source $VALPA_PARAMS

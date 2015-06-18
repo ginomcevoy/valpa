@@ -23,5 +23,5 @@ OUTPUT_LOG=$HOME/valpa-logs/$XML_NAME.log
 
 # Run experiment
 cd src
-nohup python3 experiments.py True $XML_FILE &> $OUTPUT_LOG &
+nohup python experiments.py True $XML_FILE &> $OUTPUT_LOG &
 echo "Output log at $OUTPUT_LOG"
