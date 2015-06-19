@@ -52,7 +52,7 @@ cp $PBS_NODEFILE /tmp/pbs-nodefile.txt
 #&MONITOR_START /tmp/pbs-nodefile.txt &MONITOR_APP
 
 # The actual invocation of the application
-/usr/bin/time -f '&TIME_FORMAT' -a -o $EXEC_OUTPUT_DIR/../&TIME_OUTPUT mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" --mca btl_tcp_if_include 172.16.0.0/16 &BIND_TO_CORE &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
+/usr/bin/time -f '&TIME_FORMAT' -a -o $EXEC_OUTPUT_DIR/../&TIME_OUTPUT mpirun --mca btl_tcp_if_include 172.16.0.0/16 &BIND_TO_CORE &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
 
 # Stop monitoring iteratively
 #&MONITOR_STOP /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR &MONITOR_APP

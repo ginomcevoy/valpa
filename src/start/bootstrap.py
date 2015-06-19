@@ -126,7 +126,7 @@ class ValpaBoostrapper():
     def getExperimentSetRunner(self):
         if self.experimentSetRunner is None:
             clusterFactory = self.getClusterFactory()
-            self.experimentSetRunner = ExperimentSetRunner(clusterFactory, self.hwSpecs, self.forReal)
+            self.experimentSetRunner = ExperimentSetRunner(clusterFactory, self.hwSpecs, self.valpaPrefs, self.forReal)
         return self.experimentSetRunner
     
     def getBuildsNetworkXMLs(self):
