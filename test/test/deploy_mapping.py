@@ -96,7 +96,7 @@ class MappingTest(ValpaWithNodesAbstractTest):
         vmName = deployedVMs.getVMNamesForNode('node082')[0]
         self.failUnlessEqual(vmName, 'kvm-pbs082-01')
         
-        vmTemplate = deployedVMs.vmDict[vmName]
+        vmTemplate = deployedVMs.vmTemplateDict[vmName]
         self.failUnlessEqual(vmTemplate.vmDetails.index, 0)
         self.failUnlessEqual(vmTemplate.vmDetails.suffix, '01')
         self.failUnlessEqual(vmTemplate.vmDetails.hostingNode, 'node082')

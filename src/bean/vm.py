@@ -10,7 +10,7 @@ class VMDetails:
     @ivar name: hostname of the VM
     @ivar index: zero-based index of VM in the physical node
     @ivar suffix: string representing the suffix number of the VM, e.g. 01, 12.
-    @ivar targetNode: name of the node that is hosting the VM
+    @ivar hostingNode: name of the node that is hosting the VM
     @ivar macAddress: MAC address of the VM
     @ivar ipAddress: IP address of the VM
     '''
@@ -128,44 +128,71 @@ class VMTemplate:
         if self.xml is None:
             raise ValueError('Definition XML was not added to this template: ', self.vmDetails.name)
         return self.xml
+
+    def __cmp__(self, other):
+        # Sort according to VM index, then according to  name
+        thisIndex = self.vmDetails.index
+        otherIndex = other.vmDetails.index
+        if cmp(thisIndex, otherIndex) != 0:
+            return cmp(thisIndex, otherIndex)
+        else:
+            thisVM = self.vmDetails.name
+            otherVM = other.vmDetails.name
+            return cmp(thisVM, otherVM)
     
 class VirtualClusterTemplates:
     '''
     Contains all the VMTemplate instances for a virtual cluster.
-    @ivar vmDict: dictionary {vmName : vmTemplate instance}
+    @ivar vmTemplateDict: dictionary {vmName : vmTemplate instance}
     @ivar byNode: dictionary {nodeName : vmName tuple}
     '''
-    def __init__(self, vmDict, byNode):
-        self.vmDict = vmDict
+    def __init__(self, vmTemplateDict, byNode):
+        self.vmTemplateDict = vmTemplateDict
         self.byNode = byNode
         
     def getVMIndex(self, vmName):
-        return self.vmDict[vmName].vmDetails.index
+        return self.vmTemplateDict[vmName].vmDetails.index
     
     def getVMNumber(self, vmName):
-        return self.vmDict[vmName].vmDetails.index + 1
+        return self.vmTemplateDict[vmName].vmDetails.index + 1
     
     def getVMSuffix(self, vmName):
-        return self.vmDict[vmName].vmDetails.suffix
+        return self.vmTemplateDict[vmName].vmDetails.suffix
     
     def getHostingNode(self, vmName):
-        return self.vmDict[vmName].vmDetails.hostingNode
+        return self.vmTemplateDict[vmName].vmDetails.hostingNode
     
     def getCpv(self, vmName):
-        return self.vmDict[vmName].cpv
+        return self.vmTemplateDict[vmName].cpv
     
     def getVMNamesForNode(self, nodeName):
         return self.byNode[nodeName]
     
     def getNames(self):
-        return tuple(self.vmDict.keys())
+        return tuple(self.vmTemplateDict.keys())
     
     def setDefinitions(self, definitionDict):
         for vmName in definitionDict.keys():
-            self.vmDict[vmName].setDefinition(definitionDict[vmName])
+            self.vmTemplateDict[vmName].setDefinition(definitionDict[vmName])
         
     def getDefinitionOf(self, vmName):
-        return self.vmDict[vmName].getDefinition()
+        return self.vmTemplateDict[vmName].getDefinition()
+
+    def definitionsToFile(self, filename):
+        '''
+        Creates a file with the given filename, contains the path to the
+        XML definitions of the VMs in the cluster template. Each line
+        contains one XML path. The definitions are ordered by VM index, 
+        then by node name
+        @param filename: the filename for the output file
+        '''
+        # the templates get sorted using the __cmp__ function
+        sortedTemplates = sorted(self.vmTemplateDict.values())
+
+        with open(filename, 'w') as definitionFile:
+            for vmTemplate in sortedTemplates:
+                definitionFile.write(vmTemplate.getDefinition() + '\n')
+
     
 class BuildsAllVMDetails:
     '''

@@ -195,18 +195,23 @@ class ClusterDeployer:
             vmsPerHost = int(idf / cpv)
         
         #
-        # Create VM given its XML using libvirt call
+        # Create VM given its XML using libvirt call using parallel.
+        # Need to create two files: one with the node names, the other
+        # with the VM XML definitions. The parallel-based script will 
+        # call the create operation using the files.   
         #
-        for vmName in deployedVMs.getNames():
-            # get defintion and host
-            definition = deployedVMs.getDefinitionOf(vmName)
-            node = deployedVMs.getHostingNode(vmName)
-            createShellCall = ['/bin/bash', '../mgmt/create-vm.sh', node, definition]
-            if self.forReal:
-                subprocess.call(createShellCall)
-            else:
-                print(createShellCall)
+        nodeFilename = '/tmp/valpa/' + str(cluster) + '-nodes.txt'
+        deployedNodes.toFile(nodeFilename)
         
+        definitionFilename = '/tmp/valpa/'+ str(cluster) + '-definitions.txt'
+        deployedVMs.definitionsToFile(definitionFilename) 
+        
+        createShellCall = ['/bin/bash', '../mgmt/create-vm-parallel.sh', str(hostCount), nodeFilename, definitionFilename]
+        if self.forReal:
+            subprocess.call(createShellCall)
+        else:
+            print(createShellCall)
+                        
         # Case for using PBS
         isPBS = self.configFactory.isPBS(appRequest)
         if isPBS:
@@ -241,7 +246,7 @@ class ClusterDeployer:
         else:
             print(nfsCall)
             
-        # Prepare VMS: KNEM
+        # Prepare VMs: KNEM
         if withKnem:
             knemCall = ['/bin/bash', '../mgmt/vcluster-command.sh', 'ssh root@# modprobe knem', str(vmsPerHost), str(hostCount)]
             if self.forReal:

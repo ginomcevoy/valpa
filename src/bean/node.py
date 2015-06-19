@@ -72,7 +72,16 @@ class NodeCluster:
             subsetDict[nodeName] = self.nodeDict[nodeName]
             
         return NodeCluster(subsetDict, tuple(nodeNames))
-
+    
+    def toFile(self, filename):
+        '''
+        Outputs the node names to a file, one node per line.
+        Overwrites file if exists.
+        '''
+        # open file for writing
+        with open(filename, 'w') as nodeFile:
+            for node in sorted(self.nodeTuple):
+                nodeFile.write(node + '\n')
 
 class PhysicalNodeFactory(object):
     '''

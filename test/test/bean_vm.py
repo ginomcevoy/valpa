@@ -62,6 +62,7 @@ class AllVMDetailsTest(ValpaWithNodesAbstractTest):
         self.assertEquals(len(byNodeKeys), 3)
         self.assertEquals(sorted(byNodeKeys), sorted(('node082', 'node083', 'node084')))
         self.assertEquals(sorted(subsetDetails.byNode['node084']), sorted(('kvm-pbs084-01', 'kvm-pbs084-02')))
+        
 
 class VirtualClusterFactoryTest(ValpaWithNodesAbstractTest):
 
@@ -83,7 +84,7 @@ class VirtualClusterFactoryTest(ValpaWithNodesAbstractTest):
         
         # then
         self.failIf(clusterTemplate is None)
-        self.failUnlessEqual(len(clusterTemplate.vmDict.keys()), 6, 'wrong amount of VMs')
+        self.failUnlessEqual(len(clusterTemplate.vmTemplateDict.keys()), 6, 'wrong amount of VMs')
         
         vmsInFirstNode = clusterTemplate.byNode['node082']
         self.failUnlessEqual(vmsInFirstNode[0], 'kvm-pbs082-01')
@@ -106,6 +107,35 @@ class VirtualClusterFactoryTest(ValpaWithNodesAbstractTest):
         
         aCpv = clusterTemplate.getCpv('kvm-pbs084-01')
         self.failUnlessEqual(aCpv, 2)
+
+    def testDefinitionsToFile(self):
+        # given VMs according to nc=6, cpv=2, idf=4
+        vmNames = ('kvm-pbs082-01', 'kvm-pbs082-02',
+                   'kvm-pbs083-01', 'kvm-pbs083-02',
+                   'kvm-pbs084-01', 'kvm-pbs084-02',)
+        cpv = 2
+        clusterTemplate = self.vmTemplateFactory.create(vmNames, cpv)
+
+        # given their templates with XML definitions
+        definitionDict = {
+            'kvm-pbs082-01' : '/tmp/valpa/kvm-pbs082-01.xml',
+            'kvm-pbs082-02' : '/tmp/valpa/kvm-pbs082-02.xml',
+            'kvm-pbs083-01' : '/tmp/valpa/kvm-pbs083-01.xml',
+            'kvm-pbs083-02' : '/tmp/valpa/kvm-pbs083-02.xml',
+            'kvm-pbs084-01' : '/tmp/valpa/kvm-pbs084-01.xml',
+            'kvm-pbs084-02' : '/tmp/valpa/kvm-pbs084-02.xml'}
+        clusterTemplate.setDefinitions(definitionDict)
+
+        outputFile = '/tmp/clusterTemplate-definitions.txt'
+        expectedFile = 'resources/definitions-tofile-expected.txt'
+        expectedContent = open(expectedFile, 'r').read()
+
+        # when
+        clusterTemplate.definitionsToFile(outputFile)
+
+        # then get expected file content
+        self.maxDiff = None
+        self.assertEquals(open(outputFile, 'r').read(), expectedContent)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
