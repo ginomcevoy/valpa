@@ -3,6 +3,9 @@ Created on Oct 15, 2013
 
 @author: giacomo
 '''
+
+import ansible.runner
+
 from deploy import parser
 from define.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
 import subprocess
@@ -99,12 +102,22 @@ class ExperimentSetRunner():
         deployedNodes.toFile(nodeFilename)
         hostCount = len(deployedNodes.getNames())
 
+        # call using Ansible API
+        runner = ansible.runner.Runner(
+            host_list=nodeFilename,
+            module_name='script',
+            module_args='../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix']
+            pattern='all',
+            forks=hostCount
+        )
+        
         # call example
         # ansible all -f 12 -i ../input/valpa.inventory -m script -a "stop-vms-local.sh kvm-pbs" 
         stopVMsCall = ['ansible', 'all', '-f', str(hostCount), '-i', nodeFilename, '-m', 'script', '-a', '"../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix'] + '"']
 
         if self.forReal:
-            subprocess.call(stopVMsCall)
+            datastructure = runner.run()
+            #subprocess.call(stopVMsCall)
         else:
             print(stopVMsCall)
             
