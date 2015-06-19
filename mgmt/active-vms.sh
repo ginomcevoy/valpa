@@ -11,7 +11,7 @@ echo "$FREE VMs are free"
 
 # Count down VMs and show their names if needed
 DOWN=$(qnodes | grep 'state = down' | wc -l)
-if [[ $DOWN -neq '0' ]]; then  
+if [[ $DOWN -ne '0' ]]; then  
   echo "The following VMs are down:"
   qnodes | grep -B 1 'state = down' | grep -v 'state = down' | grep -v '\-\-'
 fi

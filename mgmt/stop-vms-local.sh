@@ -15,7 +15,7 @@
 # Date: 22 May 2009
 
 # Validate input
-if [[ $# -le 2 ]]; then
+if [[ $# -lt 1 ]]; then
 	>&2 echo "Usage: $0 [vm_prefix] <'NOW'>"
 	>&2 echo "vm_prefix: from VALPA parameters"
 	>&2 echo "If 'NOW' is provided, kill VMs immediately without halting them via SSH"
@@ -25,7 +25,7 @@ fi
 VM_PREFIX=$1
 
 # Timeout parameter (10 seconds by default, immediately if NOW supplied)
-if [ $# -ge 2 ] && [ $2 == 'NOW' ]; then
+if [ $# -gt 1 ] && [ $2 == 'NOW' ]; then
 	TIMEOUT=0
 else
 	TIMEOUT=10
@@ -47,13 +47,13 @@ kvmshutdown () {
 COUNT=0
 PID=$($PS ax|$GREP $1|$GREP kvm|$CUT -c 1-6)
 
-echo kvmshutdown \: Shutting down $1 with pid $PID
+echo Shutting down $1 with pid $PID
 
 $($SSH root@$1 shutdown -P now)
 
 while [ "$COUNT" -lt "$TIMEOUT" ]
 do
- $PS --pid $PID
+ $PS --pid $PID > /dev/null
  if [ "$?" -eq "1" ]
  then
  return 0
@@ -63,7 +63,7 @@ do
  fi
 done
 
-echo kvmshutdown \: Timeout happened. Destroying VM $1
+echo Timeout happened. Destroying VM $1
 
 $VIRSH destroy $1
 
