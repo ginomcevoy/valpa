@@ -101,7 +101,7 @@ class ExperimentSetRunner():
 
         # call example
         # ansible all -f 12 -i ../input/valpa.inventory -m script -a "stop-vms-local.sh kvm-pbs" 
-        stopVMsCall = ['ansible', 'all', '-f', str(hostCount), '-i', nodeFilename, '-m', 'script', '-a', '../mgmt/stop-vms-local.sh', self.valpaPrefs['vm_prefix']]
+        stopVMsCall = ['ansible', 'all', '-f', str(hostCount), '-i', nodeFilename, '-m', 'script', '-a', '"../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix'] + '"']
 
         if self.forReal:
             subprocess.call(stopVMsCall)
