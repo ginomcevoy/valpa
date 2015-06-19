@@ -95,7 +95,7 @@ class ExperimentSetRunner():
         # current implementation uses Ansible using the deployedNodes as inventory
         # TODO: use Ansible Python API and a proper module/playbook
         deployedNodes = deploymentInfo[0]
-        nodeFilename = '/tmp/valpa/' + str(cluster) + '-nodes.txt'
+        nodeFilename = '/tmp/valpa/' + str(clusterRequest) + '-nodes.txt'
         deployedNodes.toFile(nodeFilename)
         hostCount = len(deployedNodes.getNames())
 
