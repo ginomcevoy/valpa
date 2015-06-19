@@ -128,7 +128,7 @@ xml_disk_drivertype=raw
 xml_disk_path=/home/giacomo2
 
 # _DISKFILE
-xml_disk_file=disk.img
+xml_disk_file=ubuntu14.04-infiniband.img
 
 # _DISK_DEV
 xml_disk_dev=hda
