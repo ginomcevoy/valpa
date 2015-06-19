@@ -106,7 +106,7 @@ class ExperimentSetRunner():
         runner = ansible.runner.Runner(
             host_list=nodeFilename,
             module_name='script',
-            module_args='../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix']
+            module_args='../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix'],
             pattern='all',
             forks=hostCount
         )
