@@ -17,7 +17,7 @@ class ExperimentSetRunner():
     Runs all experiments in the experiment XML.
     '''
 
-    def __init__(self, clusterFactory, hwSpecs, forReal):
+    def __init__(self, clusterFactory, hwSpecs, valpaPrefs, forReal):
         '''
         Constructor, clusterFactory should have been instantiated by bootstrap
         '''
@@ -33,6 +33,7 @@ class ExperimentSetRunner():
         self.clusterExecutor = clusterFactory.createClusterExecutor()
         
         self.hwSpecs = hwSpecs
+        self.valpaPrefs = valpaPrefs
         self.forReal = forReal
         
     def readAndExecute(self, scenarioXML):
@@ -89,10 +90,19 @@ class ExperimentSetRunner():
                             
             # wait for application execution
             self.awaitExecution(appRequest)
-                        
+
         # stop the cluster VMs (regardless whether cluster was deployed or not)
-        deployNodeCount = len(deploymentInfo[0].getNames())
-        stopVMsCall = ['/bin/bash', '../mgmt/stop-vms-all.sh', str(deployNodeCount)]
+        # current implementation uses Ansible using the deployedNodes as inventory
+        # TODO: use Ansible Python API and a proper module/playbook
+        deployedNodes = deploymentInfo[0]
+        nodeFilename = '/tmp/valpa/' + str(cluster) + '-nodes.txt'
+        deployedNodes.toFile(nodeFilename)
+        hostCount = len(deployedNodes.getNames())
+
+        # call example
+        # ansible all -f 12 -i ../input/valpa.inventory -m script -a "stop-vms-local.sh kvm-pbs" 
+        stopVMsCall = ['ansible', 'all', '-f', str(hostCount), '-i', nodeFilename, '-m', 'script', '-a', '../mgmt/stop-vms-local.sh', self.valpaPrefs['vm_prefix']]
+
         if self.forReal:
             subprocess.call(stopVMsCall)
         else:
