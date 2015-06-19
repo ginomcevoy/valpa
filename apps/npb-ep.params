@@ -1,6 +1,6 @@
 [Application]
 # Dir for executable
-app.home=/home/shared/NPB-EP
+app.home=/home/giacomo2/shared/NPB-EP
 
 # Name for executable
 app.executable=run-ep.sh
