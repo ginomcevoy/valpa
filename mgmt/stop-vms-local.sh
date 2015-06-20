@@ -1,13 +1,13 @@
 #!/bin/bash 
 
-# Stops the execution of VMs in a VALPA node matching the pattern
-# VM prefix names specified in VALPA parameters
+# Stops the execution of VALPA VMs running locally
+# VALPA VMs have names that match VM prefix names specified in VALPA parameters
 # This is meant to be executed at each node (e.g. via Ansible)
 # Assumes KVM when killing VM processes
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2015
 
-# Input parameter: VM name, used to identify VMs managed by VALPA
+# Input parameter: VM prefix, used to identify VMs managed by VALPA
 
 # Original Author :
 #    Joern http://www.linux-kvm.com/content/stop-script-running-vms-using-virsh
@@ -16,9 +16,9 @@
 
 # Validate input
 if [[ $# -lt 1 ]]; then
-	>&2 echo "Usage: $0 [vm_prefix] <'NOW'>"
+	>&2 echo "Usage: $0 <vm_prefix> ['NOW']"
 	>&2 echo "vm_prefix: from VALPA parameters"
-	>&2 echo "If 'NOW' is provided, kill VMs immediately without halting them via SSH"
+	>&2 echo "If 'NOW' is provided, kill VMs without halting via SSH"
 	exit 1
 fi
 
