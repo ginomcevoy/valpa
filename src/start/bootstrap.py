@@ -66,14 +66,6 @@ class ValpaBoostrapper():
         vmFactory = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = vmFactory.build()
         
-        # Load networking and IP addresses to physical nodes and VMs
-        self.networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        
-        ipSetter = SetsIpAddressesToPhysicalCluster(self.networkAddresses)
-        ipSetter.setIpAddresses(self.physicalCluster)
-        vmAddressing = SetsAddressesToAllPossibleVMs(self.networkAddresses, self.physicalCluster)
-        vmAddressing.setAddresses(self.allVMDetails)
-        
         self.boostrapped = True
         
     def getValpaPrefs(self):
@@ -98,14 +90,17 @@ class ValpaBoostrapper():
     
     def getPhysicalCluster(self):
         _checkBootstrap()
+        self.__loadNetworkAddresses__()
         return self.physicalCluster
     
     def getAllVMDetails(self):
         _checkBootstrap()
+        self.__loadNetworkAddresses__()
         return self.allVMDetails
     
     def getNetworkAddresses(self):
         _checkBootstrap()
+        self.__loadNetworkAddresses__()
         return self.networkAddresses
     
     def getBuildsVMDefinitionGenerator(self):
@@ -120,7 +115,7 @@ class ValpaBoostrapper():
         _checkBootstrap()
         if self.clusterFactory is None:
             vmDefinitionGenerator = self.getBuildsVMDefinitionGenerator().build()
-            self.clusterFactory = ClusterFactory(self.forReal, self.valpaConfig, self.hwSpecs, vmDefinitionGenerator, self.physicalCluster, self.allVMDetails, self.valpaXML)
+            self.clusterFactory = ClusterFactory(self.forReal, self.valpaConfig, self.hwSpecs, vmDefinitionGenerator, self.physicalCluster, self.getAllVMDetails(), self.valpaXML)
         return self.clusterFactory
     
     def getExperimentSetRunner(self):
@@ -132,10 +127,24 @@ class ValpaBoostrapper():
     def getBuildsNetworkXMLs(self):
         if self.buildsNetworkXMLs is None:
             basicCreator = CreatesBasicNetworkXML()
+            physicalCluster = self.getPhysicalCluster()
             argumentSolverFactory = ArgumentSolverFactory(self.networkingOpts, self.getNetworkAddresses())
-            enhancerForCreatingBridge = EnhancesXMLForCreatingBridge(self.physicalCluster, self.allVMDetails)
-            self.buildsNetworkXMLs = BuildsNetworkXMLs(basicCreator, argumentSolverFactory, enhancerForCreatingBridge, self.physicalCluster)
+            enhancerForCreatingBridge = EnhancesXMLForCreatingBridge(physicalCluster, self.getAllVMDetails())
+            self.buildsNetworkXMLs = BuildsNetworkXMLs(basicCreator, argumentSolverFactory, enhancerForCreatingBridge, physicalCluster)
         return self.buildsNetworkXMLs
+    
+    def __loadNetworkAddresses__(self):
+        '''
+        Loads IP addresses of physical and virtual clusters
+        '''
+        if self.networkAddresses is None:
+            # Load networking and IP addresses to physical nodes and VMs
+            self.networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
+            
+            ipSetter = SetsIpAddressesToPhysicalCluster(self.networkAddresses)
+            ipSetter.setIpAddresses(self.physicalCluster)
+            vmAddressing = SetsAddressesToAllPossibleVMs(self.networkAddresses, self.physicalCluster)
+            vmAddressing.setAddresses(self.allVMDetails)
     
 def _checkBootstrap():
     if ValpaBoostrapper.instance is None or not ValpaBoostrapper.instance.boostrapped:

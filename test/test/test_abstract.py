@@ -12,6 +12,7 @@ from bean.enum import PinningOpt, DiskOpt, NetworkOpt
 from bean.experiment import AppTuning, Application
 from bean.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates
+import difflib
 
 
 class ValpaAbstractTest(unittest.TestCase):
@@ -28,6 +29,23 @@ class ValpaAbstractTest(unittest.TestCase):
         # Valpa params
         valpaConfig = valpaconfig.readValpaConfig('resources/valpa.params')
         (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts) = valpaConfig.getAll()
+        
+    def assertMultiLineEqual(self, first, second, msg=None):
+        '''
+        Assert that two multi-line strings are equal.
+        If they aren't, show a nice diff.
+        '''
+        self.assertTrue(isinstance(first, str),
+                'First argument is not a string')
+        self.assertTrue(isinstance(second, str),
+                'Second argument is not a string')
+
+        if first != second:
+            message = ''.join(difflib.ndiff(first.splitlines(True),
+                                                second.splitlines(True)))
+            if msg:
+                message += " : " + msg
+            self.fail("Multi-line strings are unequal:\n" + message)
         
 class ValpaWithNodesAbstractTest(ValpaAbstractTest):
     '''

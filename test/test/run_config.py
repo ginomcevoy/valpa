@@ -36,6 +36,7 @@ class ConfiguratorFactoryTest(ValpaDeploymentAbstractTest):
     def testCreateValpaExecutionFile(self):
         # given
         experimentPath = '/tmp' # should exist!
+        expectedContent = open('resources/pbs-valpa-expected.pbs', 'r').read()
         
         # when
         pbsFile = self.configFactory.createValpaExecutionFile(self.appRequest, experimentPath)
@@ -43,7 +44,8 @@ class ConfiguratorFactoryTest(ValpaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-valpa-expected.pbs', 'r').read())
+        self.assertMultiLineEqual(open(pbsFile, 'r').read(), expectedContent)
+        #self.assertEquals(open(pbsFile, 'r').read(), )
         
     def testCreateApplicationConfigurator(self):
         # given

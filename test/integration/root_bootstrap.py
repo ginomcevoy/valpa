@@ -7,7 +7,7 @@ serves as a base test for other integration tests that use the bootstrap.
 @author: giacomo
 '''
 import unittest
-import bootstrap
+from start import bootstrap
 from deploy.runner import ExperimentSetRunner
 
 class ValpaWithBootstrapAbstractTest(unittest.TestCase):
@@ -17,7 +17,7 @@ class ValpaWithBootstrapAbstractTest(unittest.TestCase):
         valpaFilename = 'resources/valpa.params'
         hardwareFilename = 'resources/hardware.params'
         masterXML = 'resources/master.xml'
-        bootstrap.bootstrap(forReal, valpaFilename, hardwareFilename, masterXML)
+        bootstrap.doBootstrap(forReal, valpaFilename, hardwareFilename, masterXML)
         self.bootstrap = bootstrap.getInstance()
         
 class BootstrapNetworkingTest(ValpaWithBootstrapAbstractTest):

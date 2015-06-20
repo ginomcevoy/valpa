@@ -61,7 +61,7 @@ exp_dir=/home/giacomo2/shared/execs
 deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
 deploy_dir_pattern=&EXPDIR/&APP/&DEPLOYSUBDIR
 
-pbs_master=../input/master.pbs
+pbs_master=resources/master.pbs
 pbs_server=/var/spool/torque/server_priv
 pbs_temp_nodelist = /tmp/pbs-nodes
 

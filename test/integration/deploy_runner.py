@@ -10,7 +10,7 @@ from test.test_abstract import ValpaDeploymentAbstractTest
 from deploy.pinning import BuildsPinningWriter
 from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator
-import bootstrap
+from start import bootstrap
 from deploy.mapping import MappingResolver
 
 class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):
@@ -40,7 +40,7 @@ class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):
     
     def testRunAll(self):
         # Bootstrap VALPA
-        bootstrap.bootstrap(False) # forReal is false
+        bootstrap.doBootstrap(False) # forReal is false
         bootstrapper = bootstrap.getInstance()
      
         expSetRunner = bootstrapper.getExperimentSetRunner()
