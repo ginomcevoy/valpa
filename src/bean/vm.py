@@ -180,7 +180,7 @@ class VirtualClusterTemplates:
 
     def definitionsToFile(self, filename):
         '''
-        Creates a file with the given filename, contains the path to the
+        Creates a file with the given filename, contains the paths to the
         XML definitions of the VMs in the cluster template. Each line
         contains one XML path. The definitions are ordered by VM index, 
         then by node name
@@ -192,6 +192,20 @@ class VirtualClusterTemplates:
         with open(filename, 'w') as definitionFile:
             for vmTemplate in sortedTemplates:
                 definitionFile.write(vmTemplate.getDefinition() + '\n')
+                
+    def namesToFile(self, filename):
+        '''
+        Creates a file with the given filename, contains the names of the
+        VMs in the cluster template. Each line contains one VM name. 
+        The names are ordered by VM index, then by node name
+        @param filename: the filename for the output file
+        '''
+        # the templates get sorted using the __cmp__ function
+        sortedTemplates = sorted(self.vmTemplateDict.values())
+
+        with open(filename, 'w') as nameFile:
+            for vmTemplate in sortedTemplates:
+                nameFile.write(vmTemplate.vmDetails.name + '\n')
 
     
 class BuildsAllVMDetails:

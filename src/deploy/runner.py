@@ -5,10 +5,11 @@ Created on Oct 15, 2013
 '''
 
 import ansible.runner
+import json
+import subprocess
 
 from deploy import parser
 from define.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
-import subprocess
 from run.prepare import PreparesExperiment
 from run.config import ConfiguratorFactory
 from run.apprunner import RunnerFactory
@@ -227,7 +228,10 @@ class ClusterDeployer:
         deployedNodes.toFile(nodeFilename)
         
         definitionFilename = '/tmp/valpa/'+ str(cluster) + '-definitions.txt'
-        deployedVMs.definitionsToFile(definitionFilename) 
+        deployedVMs.definitionsToFile(definitionFilename)
+        
+        vmFilename = '/tmp/valpa/'+ str(cluster) + '-vms.txt'
+        deployedVMs.namesToFile(vmFilename) 
         
         createShellCall = ['/bin/bash', '../mgmt/create-vm-parallel.sh', str(hostCount), nodeFilename, definitionFilename]
         if self.forReal:
@@ -262,12 +266,22 @@ class ClusterDeployer:
             return "ERROR: Waiting for VMs timeout!"
         
         # Prepare VMs: NFS (does nothing if not using NFS)
-        #"Usage: $0 <#vms/host> <ACTIVE_NODES>"
-        nfsCall = ['/bin/bash', '../mgmt/vcluster-command.sh', 'ssh root@# mount -a', str(vmsPerHost), str(hostCount)]
+        # call using Ansible API
+        ansible_args = 'mount -a'
+        runner = ansible.runner.Runner(
+            host_list=vmFilename,
+            module_name='command',
+            remote_user='root',
+            module_args=ansible_args,
+            pattern='all',
+            forks=vmCount
+        )
         if self.forReal:
-            subprocess.call(nfsCall)
+            out = runner.run()
+            print json.dumps(out, sort_keys=True, indent=4, separators=(',', ':'))
         else:
-            print(nfsCall)
+            print('ansible: ' + vmFilename)
+            print('ansible: ' + ansible_args)
             
         # Prepare VMs: KNEM
         if withKnem:
