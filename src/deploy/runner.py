@@ -5,10 +5,11 @@ Created on Oct 15, 2013
 '''
 
 import ansible.runner
+import json
+import subprocess
 
 from deploy import parser
 from define.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
-import subprocess
 from run.prepare import PreparesExperiment
 from run.config import ConfiguratorFactory
 from run.apprunner import RunnerFactory
@@ -103,23 +104,23 @@ class ExperimentSetRunner():
         hostCount = len(deployedNodes.getNames())
 
         # call using Ansible API
+	ansible_args = '../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix']
         runner = ansible.runner.Runner(
             host_list=nodeFilename,
             module_name='script',
-            module_args='../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix'],
+            module_args=ansible_args,
             pattern='all',
             forks=hostCount
         )
         
         # call example
-        # ansible all -f 12 -i ../input/valpa.inventory -m script -a "stop-vms-local.sh kvm-pbs" 
-        stopVMsCall = ['ansible', 'all', '-f', str(hostCount), '-i', nodeFilename, '-m', 'script', '-a', '"../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix'] + '"']
-
         if self.forReal:
-            datastructure = runner.run()
-            #subprocess.call(stopVMsCall)
+            out = runner.run()
+            #print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))
+            print json.loads(json.dumps(out))
         else:
-            print(stopVMsCall)
+            print('ansible: ' + nodeFilename)
+            print('ansible: ' + ansible_args)
             
         # no need to undefine VMs, were not defined
                         
