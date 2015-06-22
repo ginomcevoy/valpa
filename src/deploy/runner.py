@@ -104,7 +104,7 @@ class ExperimentSetRunner():
         hostCount = len(deployedNodes.getNames())
 
         # call using Ansible API
-	ansible_args = '../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix']
+        ansible_args = '../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix']
         runner = ansible.runner.Runner(
             host_list=nodeFilename,
             module_name='script',
@@ -116,8 +116,7 @@ class ExperimentSetRunner():
         # call example
         if self.forReal:
             out = runner.run()
-            #print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))
-            print json.loads(json.dumps(out))
+            print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))            
         else:
             print('ansible: ' + nodeFilename)
             print('ansible: ' + ansible_args)
