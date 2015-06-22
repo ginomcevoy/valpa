@@ -28,4 +28,4 @@ source $VALPA_DIR/params.sh
 INVENTORY=$($VALPA_DIR/util/nodes-inventory.sh $HOSTS)
 
 # Make ansible call
-ansible all -f $HOSTS -i $INVENTORY -m script -a "$LOCAL_DIR/stop-vms-local.sh $VM_PREFIX"
+ansible all -f $HOSTS -i $INVENTORY -m script -a "$LOCAL_DIR/stop-vms-local.sh $NAME_PREFIX"
