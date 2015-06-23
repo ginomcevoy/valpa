@@ -150,7 +150,7 @@ class ClusterFactory:
     '''
     def __init__(self, forReal, valpaConfig, hwSpecs, vmDefinitionGenerator, physicalCluster, allVMDetails, valpaXML):
         # Process VALPA configuration
-        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts) = valpaConfig.getAll()
+        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = valpaConfig.getAll()
        
         self.hwSpecs = hwSpecs
         self.physicalCluster = physicalCluster

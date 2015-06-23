@@ -39,6 +39,6 @@ MAC_BASE='00:16:36:ff'		# MAC address prefix for VMs
 VM_L=12 				# max number of VMs per node
 NAME_PREFIX='kvm-pbs'		# prefix of VM names
 
-VM_IMAGE_PATH=vms	# Path for all VM images
-VM_IMAGE_MASTER=ubuntu14.04-node 		# Specific path for master image 
-DISK_FILENAME=disk.img	# e.g. disk.img 			
+# Repository
+REPO_ROOT='/home/giacomo/vms'          # Root dir for VM repository
+REPO_BASE_DIR='base'  # Dir for base images inside root dir

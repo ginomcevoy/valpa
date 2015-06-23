@@ -80,8 +80,8 @@ class VmXMLSaverTest(ValpaDeploymentAbstractTest):
         xmlNameDict = self.xmlSaver.saveXMLs(self.xmlDict, 'testExp')
         
         self.assertEqual(xmlNameDict, self.expectedOutput)
-        self.assertEqual(self.xmlDict['kvm-pbs082-01'], open(self.expectedOutput['kvm-pbs082-01'], 'r').read())
-        self.assertEqual(self.xmlDict['kvm-pbs082-02'], open(self.expectedOutput['kvm-pbs082-02'], 'r').read())
+        self.assertMultiLineEqual(self.xmlDict['kvm-pbs082-01'], open(self.expectedOutput['kvm-pbs082-01'], 'r').read())
+        self.assertMultiLineEqual(self.xmlDict['kvm-pbs082-02'], open(self.expectedOutput['kvm-pbs082-02'], 'r').read())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

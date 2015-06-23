@@ -28,9 +28,9 @@ _VALPA_POUND_end
 		</interface>
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
-			<driver name="qemu" type="@valpa_disk_type"/>
-			<source file="@valpa_path/@cluster_path/@vm_path/@valpa_disk_file"/>
-			<target dev="@valpa_disk_dev" bus="@cluster_disk_bus"/>
+			<driver name="qemu" type="@xml_disk_drivertype"/>
+			<source file="@repo_root/@vm_path/@cluster_disk"/>
+			<target dev="@xml_disk_dev" bus="@cluster_disk_bus"/>
 		</disk>
 		<console type="pty">
 			<target port="0"/>

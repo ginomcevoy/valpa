@@ -29,7 +29,7 @@
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
 			<driver name="qemu" type="raw"/>
-			<source file="/home/giacomo2/@cluster_path/@vm_path/disk.img"/>
+			<source file="/home/giacomo/vms/@vm_path/@cluster_disk"/>
 			<target dev="vda" bus="@cluster_disk_bus"/>
 		</disk>
 		<console type="pty">

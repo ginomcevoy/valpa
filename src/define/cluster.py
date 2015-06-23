@@ -10,6 +10,7 @@ from run.pbs.updater import PBSUpdater
 from bean.vm import VirtualClusterTemplates
 from bean.enum import NetworkOpt
 from quik import FileLoader
+from config import valpaconfig
  
 class ClusterDefiner:
     '''
@@ -133,7 +134,54 @@ class PhysicalClusterDefiner:
 
         # deployment tuple
         return (deployedNodes, deployedSockets, deployedVMs)
-            
+    
+class ValpaXMLGenerator:
+    '''
+    Produces VALPA XML for cluster XML generation, based on a master XML and
+    configuration parameters.
+    '''
+    def __init__(self, valpaXMLOpts, networkingOpts, repoOpts, masterXML):
+        self.valpaXMLOpts = valpaXMLOpts
+        self.networkingOpts = networkingOpts
+        self.repoOpts = repoOpts
+        self.masterXML = masterXML
+        
+    def produceValpaXML(self):
+        '''
+        Produces VALPA XML for cluster XML generation, based on a master XML and
+    configuration parameters. Returns the text of the XML.
+        '''
+        # choose network name from selected type 
+        # types: ('sriov', 'use-bridge', 'create-bridge')
+        networkType = self.networkingOpts['network_source']
+        if not networkType in valpaconfig.allowedNetworkTypes():
+            print('Allowed values = ' + str(valpaconfig.allowedNetworkTypes()))
+            raise ValueError('Network type not allowed: ', networkType)
+        
+        if networkType == 'external-bridge':
+            networkName = self.networkingOpts['net_name_bridge_use']
+        elif networkType == 'libvirt-bridge':
+            networkName = self.networkingOpts['net_name_bridge_create']
+        else: #networkType == 'sriov'
+            networkName = self.networkingOpts['net_name_sriov']
+        
+        # Prepare arguments for substitution with quik
+        args = {'network_name' : networkName,
+                'xml_disk_drivertype' : self.valpaXMLOpts['xml_disk_drivertype'],
+                'repo_root' : self.repoOpts['repo_root'],
+                'xml_disk_dev' : self.valpaXMLOpts['xml_disk_dev']
+            }
+        
+        # apply quik
+        loader = FileLoader('.')
+        template = loader.load_template(self.masterXML)
+        valpaXML = template.render(args, loader=loader)
+        
+        # quik cannot handle this change
+        valpaXML = valpaXML.replace('_VALPA_POUND_', '#')
+        
+        return valpaXML
+                
 class ClusterXMLGenerator:
     '''
     Produces Cluster XML for VM XML generation, based on VALPA XML and 
@@ -174,13 +222,13 @@ class ClusterXMLGenerator:
         memoryPerCore = int(self.valpaPrefs['vm_mem_core'])
         totalMemory = (memoryBase + memoryPerCore * cpv) * 1024
         
-        # cluster path
-        clusterPath = self.valpaPrefs['xml_cluster_path']
+        # disk path
+        diskPath = self.valpaPrefs['vm_disk']
         
         # gather all substitutions
         args = {'cluster_vcpu' : cpv, 'cluster_memory' : totalMemory,
                 'network_option' : networkOpt, 'network_driver' : networkDriver,  
-                'cluster_disk_bus' : diskOpt, 'cluster_path' : clusterPath}
+                'cluster_disk_bus' : diskOpt, 'cluster_disk' : diskPath}
 
         # obtain cluster template from VALPA template
         template = self.loader.load_template(self.valpaXMLFilename)

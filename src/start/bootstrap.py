@@ -14,6 +14,7 @@ from network.ips import SetsIpAddressesToPhysicalCluster,\
 from bean.vm import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
+from define.cluster import ValpaXMLGenerator
 
 def doBootstrap(forReal=True, masterXML='../templates/master.xml', valpaFilename='../input/valpa.params', hardwareFilename='../input/hardware.params'):
     # instantiate Bootstrapper as a Singleton
@@ -49,14 +50,15 @@ class ValpaBoostrapper():
     def bootstrap(self):
         # Read VALPA configuration file
         self.valpaConfig = valpaconfig.readValpaConfig(self.valpaFilename)
-        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts) = self.valpaConfig.getAll()
+        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.valpaConfig.getAll()
                
         # Read hardware specification
         self.hardwareInfo = hwconfig.getHardwareInfo(self.hardwareFilename)
         self.hwSpecs = self.hardwareInfo.getHwSpecs()
         
         # Produce VALPA XML from master template
-        self.valpaXML = valpaconfig.produceValpaXML(self.valpaXMLOpts, self.networkingOpts, self.masterXML)
+        valpaXMLGen = ValpaXMLGenerator(self.valpaXMLOpts, self.networkingOpts, self.repoOpts, self.masterXML)
+        self.valpaXML = valpaXMLGen.produceValpaXML()
         
         # Load physical cluster object
         nodeFactory = PhysicalNodeFactory(self.hardwareInfo)

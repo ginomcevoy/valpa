@@ -40,11 +40,10 @@ class VmRequestGeneratorIntegrationTest(ValpaDeploymentAbstractTest):
         
         # verify
         self.assertEqual(xmlNames, self.expectedOutput)
-        self.maxDiff = None
-        self.assertEqual(open(xmlNames['kvm-pbs082-01'], 'r').read(), self.expectedXMLs[0])
-        self.assertEqual(open(xmlNames['kvm-pbs082-02'], 'r').read(), self.expectedXMLs[1])
-        self.assertEqual(open(xmlNames['kvm-pbs083-01'], 'r').read(), self.expectedXMLs[2])
-        self.assertEqual(open(xmlNames['kvm-pbs083-02'], 'r').read(), self.expectedXMLs[3])
+        self.assertMultiLineEqual(open(xmlNames['kvm-pbs082-01'], 'r').read(), self.expectedXMLs[0])
+        self.assertMultiLineEqual(open(xmlNames['kvm-pbs082-02'], 'r').read(), self.expectedXMLs[1])
+        self.assertMultiLineEqual(open(xmlNames['kvm-pbs083-01'], 'r').read(), self.expectedXMLs[2])
+        self.assertMultiLineEqual(open(xmlNames['kvm-pbs083-02'], 'r').read(), self.expectedXMLs[3])
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']

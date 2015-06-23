@@ -39,6 +39,6 @@ MAC_BASE='@net_mac_prefix'		# MAC address prefix for VMs
 VM_L=@vm_pernode 				# max number of VMs per node
 NAME_PREFIX='@vm_prefix'		# prefix of VM names
 
-VM_IMAGE_PATH=@xml_cluster_path	# Path for all VM images
-VM_IMAGE_MASTER=@master_vm 		# Specific path for master image 
-DISK_FILENAME=@xml_disk_file	# e.g. disk.img 			
+# Repository
+REPO_ROOT='@repo_root'          # Root dir for VM repository
+REPO_BASE_DIR='@repo_base_dir'  # Dir for base images inside root dir

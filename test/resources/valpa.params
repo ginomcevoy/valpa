@@ -81,8 +81,6 @@ monitor_do_nodes=True
 pbs_supported_apps=parpac,none
 
 [Preferences]
-master_vm=ubuntu14.04-node
-
 vm_pernode=12
 vm_prefix=kvm-pbs
 vm_pattern=&PREFIX&NODESUFFIX-&VMSUFFIX
@@ -90,13 +88,13 @@ vm_pattern=&PREFIX&NODESUFFIX-&VMSUFFIX
 vm_mem_base=0
 vm_mem_core=1024
 
+vm_disk=disk.img
 vm_mac_base=00:16:36:ff
 
 vm_xml_output=/tmp/valpa/xmls
 
 exec_config_template=../templates/execConfig.template
 exec_config_output=/tmp/valpa/execs
-xml_cluster_path=vms
 
 general_verbose=1
 
@@ -104,11 +102,15 @@ general_verbose=1
 # _DISK_DRIVER_TYPE
 xml_disk_drivertype=raw
 
-# _VALPAPATH
-xml_disk_path=/home/giacomo2
-
-# _DISKFILE
-xml_disk_file=disk.img
-
 # _DISK_DEV
 xml_disk_dev=vda
+
+[Repository]
+# Root dir for VM repository
+repo_root=/home/giacomo/vms
+
+# Dir for base images inside root dir
+repo_base_dir=base
+
+# Available image disks, comma-separated
+repo_images=disk.img,ubuntu14.04.img,ubuntu14.04-infiniband.img

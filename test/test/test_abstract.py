@@ -3,7 +3,9 @@ Created on Nov 2, 2014
 
 @author: giacomo
 '''
+import difflib
 import unittest
+
 from config import hwconfig, valpaconfig
 from bean.cluster import Topology, Mapping, Technology, Cluster,\
     ClusterPlacement
@@ -12,8 +14,6 @@ from bean.enum import PinningOpt, DiskOpt, NetworkOpt
 from bean.experiment import AppTuning, Application
 from bean.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates
-import difflib
-
 
 class ValpaAbstractTest(unittest.TestCase):
     '''
@@ -28,7 +28,7 @@ class ValpaAbstractTest(unittest.TestCase):
         
         # Valpa params
         valpaConfig = valpaconfig.readValpaConfig('resources/valpa.params')
-        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts) = valpaConfig.getAll()
+        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = valpaConfig.getAll()
         
     def assertMultiLineEqual(self, first, second, msg=None):
         '''

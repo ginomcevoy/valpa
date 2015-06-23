@@ -17,7 +17,7 @@ class ShellParameters:
         
         # Read VALPA configuration file
         valpaConfig = valpaconfig.readValpaConfig(valpaParamFile)
-        (valpaPrefs, valpaXMLOpts, runOpts, networkingOpts) = valpaConfig.getAll()
+        (valpaPrefs, valpaXMLOpts, runOpts, networkingOpts, repoOpts) = valpaConfig.getAll()
        
         # Read hardware specification
         hwInfo = hwconfig.getHardwareInfo(hwParamFile)
@@ -30,6 +30,7 @@ class ShellParameters:
         self.allParams.update(hwDict)
         self.allParams.update(nodeDict)
         self.allParams.update(networkingOpts)
+        self.allParams.update(repoOpts)
         
         self.loaded = True
     
