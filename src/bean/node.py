@@ -82,6 +82,31 @@ class NodeCluster:
         with open(filename, 'w') as nodeFile:
             for node in sorted(self.nodeTuple):
                 nodeFile.write(node + '\n')
+                
+    def createInventory(self, inventoryFilename, allVMDetails):
+        '''
+        Creates an inventory for Ansible. Overwrites file if exists.
+        Example using 'valpa' as node name and 'kvm-pbs' as vm prefix:
+        valpa02 nodeSuffix=02 nodeIndex=0 vmNames='["kvm-pbs02-01", "kvm-pbs02-02", ...]'
+        valpa03 nodeSuffix=03 nodeIndex=1 vmNames='["kvm-pbs03-01", "kvm-pbs03-02", ...]'
+        @param inventoryFilename: the name of the file
+        @param allVMDetails: a valid instance of AllVMDetails 
+        '''
+        with open(inventoryFilename, 'w') as inventoryFile:
+            for nodeName in sorted(self.nodeTuple):
+                
+                # build list of vmNames as string
+                vmNames = allVMDetails.getVMNamesForNode(nodeName)
+                vmNamesString = ''
+                for vmName in vmNames:
+                    vmNamesString = vmNamesString + '"' + vmName + '",'
+                vmNamesString = vmNamesString[0:len(vmNamesString)-1] 
+                
+                # write name, suffix, index and vmNames for each node
+                suffix = self.getNodeSuffix(nodeName)
+                index = str(self.getNodeIndex(nodeName))
+                line = nodeName + " nodeSuffix=" +  suffix + " nodeIndex=" + index + " vmNames='[" + vmNamesString + "]'\n"
+                inventoryFile.write(line)
 
 class PhysicalNodeFactory(object):
     '''
