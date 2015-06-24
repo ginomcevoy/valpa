@@ -38,6 +38,17 @@ class VMDetails:
         if self.macAddress is None:
             raise ValueError('MAC address not set')
         return self.macAddress
+    
+    def __cmp__(self, other):
+        # Sort according to VM index, then according to  name
+        thisIndex = self.index
+        otherIndex = other.index
+        if cmp(thisIndex, otherIndex) != 0:
+            return cmp(thisIndex, otherIndex)
+        else:
+            thisVM = self.name
+            otherVM = other.name
+            return cmp(thisVM, otherVM)
      
 class AllVMDetails():
     '''
@@ -110,6 +121,24 @@ class AllVMDetails():
                 
         return AllVMDetails(vmDictSubset, byNodeSubset)
     
+    def createInventory(self, inventoryFilename, physicalCluster):
+        '''
+        Creates an inventory for Ansible. Overwrites file if exists.
+        Example using 'node' as node name and 'kvm-pbs' as vm prefix:
+        kvm-pbs082-01 vmSuffix=01 nodeSuffix=082 hostingNode=node082
+        kvm-pbs082-02 vmSuffix=02 nodeSuffix=082 hostingNode=node082
+        @param inventoryFilename: the name of the file for VM inventory
+        @param allVMDetails: a valid instance of AllVMDetails 
+        '''
+        # the templates get sorted using the __cmp__ function
+        sortedVmDetails = sorted(self.vmDict.values())
+        
+        with open(inventoryFilename, 'w') as inventoryFile:
+            for vmDetails in sortedVmDetails:
+                nodeSuffix = physicalCluster.getNodeSuffix(vmDetails.hostingNode)
+                line = vmDetails.name + " vmSuffix=" +  vmDetails.suffix + " nodeSuffix=" + nodeSuffix + " hostingNode=" + vmDetails.hostingNode + "\n"
+                inventoryFile.write(line)
+    
 class VMTemplate:
     '''
     Contains all the necessary information to instantiate a VM. Besides the
@@ -130,15 +159,8 @@ class VMTemplate:
         return self.xml
 
     def __cmp__(self, other):
-        # Sort according to VM index, then according to  name
-        thisIndex = self.vmDetails.index
-        otherIndex = other.vmDetails.index
-        if cmp(thisIndex, otherIndex) != 0:
-            return cmp(thisIndex, otherIndex)
-        else:
-            thisVM = self.vmDetails.name
-            otherVM = other.vmDetails.name
-            return cmp(thisVM, otherVM)
+        # Sort according to VM details ordering
+        return self.vmDetails.__cmp__(other.vmDetails)
     
 class VirtualClusterTemplates:
     '''
@@ -206,7 +228,6 @@ class VirtualClusterTemplates:
         with open(filename, 'w') as nameFile:
             for vmTemplate in sortedTemplates:
                 nameFile.write(vmTemplate.vmDetails.name + '\n')
-
     
 class BuildsAllVMDetails:
     '''
