@@ -109,7 +109,7 @@ xml_disk_dev=hda
 
 [Repository]
 # Root dir for VM repository
-repo_root=/home/giacomo2/test
+repo_root=/home/giacomo2/vms
 
 # Dir for base images inside root dir
 repo_base_dir=base
