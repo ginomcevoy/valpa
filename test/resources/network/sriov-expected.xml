@@ -1,5 +1,5 @@
 <network>
-   <name>valpa-sriov</name>
+   <name>vespa-sriov</name>
    <forward mode='hostdev' managed='yes'>
      <pf dev='eth0'/>
    </forward>

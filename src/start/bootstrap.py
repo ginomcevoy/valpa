@@ -3,7 +3,8 @@ Created on Nov 5, 2014
 
 @author: giacomo
 '''
-from config import valpaconfig, hwconfig
+from config import hwconfig
+from config import vespaconfig
 from bean.node import PhysicalNodeFactory
 from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator
@@ -14,28 +15,28 @@ from network.ips import SetsIpAddressesToPhysicalCluster,\
 from bean.vm import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
-from define.cluster import ValpaXMLGenerator
+from define.cluster import VespaXMLGenerator
 
-def doBootstrap(forReal=True, masterXML='../templates/master.xml', valpaFilename='../input/valpa.params', hardwareFilename='../input/hardware.params'):
+def doBootstrap(forReal=True, masterXML='../templates/master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params'):
     # instantiate Bootstrapper as a Singleton
     
-    if ValpaBoostrapper.instance is None:
-        ValpaBoostrapper.instance = ValpaBoostrapper(forReal, masterXML, valpaFilename, hardwareFilename)
-        ValpaBoostrapper.instance.bootstrap()
+    if VespaBootstrapper.instance is None:
+        VespaBootstrapper.instance = VespaBootstrapper(forReal, masterXML, vespaFilename, hardwareFilename)
+        VespaBootstrapper.instance.bootstrap()
         
 def getInstance():
     # should have been bootstrapped
     _checkBootstrap()
-    return ValpaBoostrapper.instance
+    return VespaBootstrapper.instance
 
-class ValpaBoostrapper():
+class VespaBootstrapper():   
     
     # Singleton variable
     instance = None
     
-    def __init__(self, forReal, masterXML, valpaFilename, hardwareFilename):
+    def __init__(self, forReal, masterXML, vespaFilename, hardwareFilename):
         self.forReal = forReal
-        self.valpaFilename = valpaFilename 
+        self.vespaFilename = vespaFilename 
         self.hardwareFilename= hardwareFilename
         self.masterXML = masterXML
         self.boostrapped = False
@@ -48,35 +49,35 @@ class ValpaBoostrapper():
         self.buildsNetworkXMLs = None
         
     def bootstrap(self):
-        # Read VALPA configuration file
-        self.valpaConfig = valpaconfig.readValpaConfig(self.valpaFilename)
-        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.valpaConfig.getAll()
+        # Read Vespa configuration file
+        self.vespaConfig = vespaconfig.readVespaConfig(self.vespaFilename)
+        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.vespaConfig.getAll()
                
         # Read hardware specification
         self.hardwareInfo = hwconfig.getHardwareInfo(self.hardwareFilename)
         self.hwSpecs = self.hardwareInfo.getHwSpecs()
         
-        # Produce VALPA XML from master template
-        valpaXMLGen = ValpaXMLGenerator(self.valpaXMLOpts, self.networkingOpts, self.repoOpts, self.masterXML)
-        self.valpaXML = valpaXMLGen.produceValpaXML()
+        # Produce Vespa XML from master template
+        vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, self.masterXML)
+        self.vespaXML = vespaXMLGen.produceVespaXML()
         
         # Load physical cluster object
         nodeFactory = PhysicalNodeFactory(self.hardwareInfo)
         self.physicalCluster = nodeFactory.getAllNodes()
         
         # Load details for all possible VMs
-        vmFactory = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
+        vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = vmFactory.build()
         
         self.boostrapped = True
         
-    def getValpaPrefs(self):
+    def getVespaPrefs(self):
         _checkBootstrap()
-        return self.valpaPrefs
+        return self.vespaPrefs
     
-    def getValpaXMLOpts(self):
+    def getVespaXMLOpts(self):
         _checkBootstrap()
-        return self.valpaXMLOPts
+        return self.vespaXMLOPts
         
     def getNetworkingOpts(self):
         _checkBootstrap()
@@ -108,22 +109,22 @@ class ValpaBoostrapper():
     def getBuildsVMDefinitionGenerator(self):
         _checkBootstrap()
         if self.buildsVMDefinitionGenerator is None:
-            pinningBuilder = BuildsPinningWriter(self.hwSpecs, self.valpaPrefs)
+            pinningBuilder = BuildsPinningWriter(self.hwSpecs, self.vespaPrefs)
             networkAddresses = self.getNetworkAddresses()
-            self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.valpaPrefs, pinningBuilder.build(), networkAddresses)
+            self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningBuilder.build(), networkAddresses)
         return self.buildsVMDefinitionGenerator
              
     def getClusterFactory(self):
         _checkBootstrap()
         if self.clusterFactory is None:
             vmDefinitionGenerator = self.getBuildsVMDefinitionGenerator().build()
-            self.clusterFactory = ClusterFactory(self.forReal, self.valpaConfig, self.hwSpecs, vmDefinitionGenerator, self.physicalCluster, self.getAllVMDetails(), self.valpaXML)
+            self.clusterFactory = ClusterFactory(self.forReal, self.vespaConfig, self.hwSpecs, vmDefinitionGenerator, self.physicalCluster, self.getAllVMDetails(), self.vespaXML)
         return self.clusterFactory
     
     def getExperimentSetRunner(self):
         if self.experimentSetRunner is None:
             clusterFactory = self.getClusterFactory()
-            self.experimentSetRunner = ExperimentSetRunner(clusterFactory, self.hwSpecs, self.valpaPrefs, self.forReal)
+            self.experimentSetRunner = ExperimentSetRunner(clusterFactory, self.hwSpecs, self.vespaPrefs, self.forReal)
         return self.experimentSetRunner
     
     def getBuildsNetworkXMLs(self):
@@ -149,5 +150,5 @@ class ValpaBoostrapper():
             vmAddressing.setAddresses(self.allVMDetails)
     
 def _checkBootstrap():
-    if ValpaBoostrapper.instance is None or not ValpaBoostrapper.instance.boostrapped:
+    if VespaBootstrapper.instance is None or not VespaBootstrapper.instance.boostrapped:
         raise ValueError('Need to bootstrap first!') 

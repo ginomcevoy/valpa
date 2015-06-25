@@ -1,7 +1,7 @@
 '''
 Created on Oct 30, 2013
 
-Uses VALPA to instantiate a cluster based on DIST params
+Uses Vespa to instantiate a cluster based on DIST params
 and default values
 
 @author: giacomo
@@ -18,7 +18,7 @@ def quickCluster(nc, cpv, idf, pstrat, forReal):
     # create clusterRequest based on DIST tuple
     clusterRequest = createClusterRequest(nc, cpv, idf, pstrat)
     
-    # Bootstrap VALPA
+    # Bootstrap Vespa
     bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
     

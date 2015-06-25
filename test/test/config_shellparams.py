@@ -15,17 +15,17 @@ from config.shellparams import ShellParameters
 class ShellParametersTest(unittest.TestCase):
 
     def setUp(self):
-        self.desiredFilename = '/tmp/valpa-shell-params'
-        self.expectedOutput = 'resources/valpa-shell-params-expected'
+        self.desiredFilename = '/tmp/vespa-shell-params'
+        self.expectedOutput = 'resources/vespa-shell-params-expected'
         
-        self.valpaParamFile = 'resources/valpa.params'
+        self.vespaParamFile = 'resources/vespa.params'
         self.hwParamFile = 'resources/hardware.params'
         
         self.shellParams = ShellParameters()
 
     def testCreateParamsTemplate(self):
-        # load VALPA parameters
-        self.shellParams.loadValpaParams(self.valpaParamFile, self.hwParamFile)
+        # load Vespa parameters
+        self.shellParams.loadVespaParams(self.vespaParamFile, self.hwParamFile)
         
         # call function        
         paramFilename = self.shellParams.createParamsFromTemplate(self.desiredFilename)

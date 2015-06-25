@@ -8,27 +8,27 @@ import unittest
 
 from bean.cluster import Topology, Technology
 from bean.enum import DiskOpt, NetworkOpt
-from define.cluster import ClusterXMLGenerator, ValpaXMLGenerator
-from test.test_abstract import ValpaAbstractTest
+from define.cluster import ClusterXMLGenerator, VespaXMLGenerator
+from test.test_abstract import VespaAbstractTest
 
-class VALPAXMLGeneratorTest(ValpaAbstractTest):
+class VespaXMLGeneratorTest(VespaAbstractTest):
     
     def setUp(self):
-        super(VALPAXMLGeneratorTest, self).setUp()
-        self.valpaXMLGen = ValpaXMLGenerator(self.valpaXMLOpts, self.networkingOpts, self.repoOpts, 'resources/master.xml')
+        super(VespaXMLGeneratorTest, self).setUp()
+        self.vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, 'resources/master.xml')
         
     def testMasterXML(self):
-        valpaXML = self.valpaXMLGen.produceValpaXML()
+        vespaXML = self.vespaXMLGen.produceVespaXML()
 
         # compare with expected output
-        expectedValpaXML = open('resources/valpa-expected.xml', 'r').read()
-        self.assertMultiLineEqual(valpaXML, expectedValpaXML)
+        expectedVespaXML = open('resources/vespa-expected.xml', 'r').read()
+        self.assertMultiLineEqual(vespaXML, expectedVespaXML)
         
 class ClusterXMLGeneratorTest(unittest.TestCase):
 
     def setUp(self):
-        self.valpaXML = open('resources/valpa-expected.xml', 'r').read()
-        self.valpaPrefs = {'vm_prefix' : 'kvm-pbs',
+        self.vespaXML = open('resources/vespa-expected.xml', 'r').read()
+        self.vespaPrefs = {'vm_prefix' : 'kvm-pbs',
                            'vm_pattern' : '&PREFIX&NODEINDEX-&VMINDEX',
                            'vm_mem_base' : '0',
                            'vm_mem_core' : '1024',
@@ -40,7 +40,7 @@ class ClusterXMLGeneratorTest(unittest.TestCase):
         topology = Topology(48, 4)
         technology = Technology(NetworkOpt.vhost, DiskOpt.scsi)
 
-        clusterGen = ClusterXMLGenerator(self.valpaXML, self.valpaPrefs)
+        clusterGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs)
         clusterXML = clusterGen.produceClusterXML(topology, technology)
 
         self.assertMultiLineEqual(clusterXML, self.expectedClusterXML)
@@ -51,7 +51,7 @@ class ClusterXMLGeneratorTest(unittest.TestCase):
         topology = Topology(48, 4)
         technology = Technology(NetworkOpt.virtio, DiskOpt.virtio)
 
-        clusterGen = ClusterXMLGenerator(self.valpaXML, self.valpaPrefs)
+        clusterGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs)
         clusterXML = clusterGen.produceClusterXML(topology, technology)
 
         self.assertMultiLineEqual(clusterXML, self.expectedClusterXML)

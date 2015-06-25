@@ -4,7 +4,7 @@
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 
-TEMP_FILE=/tmp/valpa-qstat.txt
+TEMP_FILE=/tmp/vespa-qstat.txt
 JOBS=1
 
 # give time to the queue

@@ -7,7 +7,7 @@ import unittest
 from deploy.pinning import PinningTextGenerator, \
     PinningVirshTextGenerator, PinningCoreMapper, PinningWriter
 from bean.enum import PinningOpt
-from test.test_abstract import ValpaDeploymentAbstractTest
+from test.test_abstract import VespaDeploymentAbstractTest
 
 
 class PinningTestBase(unittest.TestCase):
@@ -15,13 +15,13 @@ class PinningTestBase(unittest.TestCase):
     def setUp(self):
         self.hwSpecs = {'cores' : 12, 'sockets' : 2}
         
-class EnhancesXMLWithPinningsTest(ValpaDeploymentAbstractTest):
+class EnhancesXMLWithPinningsTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(EnhancesXMLWithPinningsTest, self).setUp()
         coreMapper = PinningCoreMapper(self.hwSpecs)
         pinningTextGen = PinningTextGenerator(self.hwSpecs, coreMapper)
-        self.pinningWriter = PinningWriter(self.valpaPrefs, pinningTextGen)
+        self.pinningWriter = PinningWriter(self.vespaPrefs, pinningTextGen)
         
         self.xmlDict = {'kvm-pbs082-01' : open('resources/vms/kvm-pbs082-01-basic.xml', 'r').read(),
                           'kvm-pbs082-02' : open('resources/vms/kvm-pbs082-02-basic.xml', 'r').read()}

@@ -49,13 +49,13 @@ if [ 'True' == 'True' ]; then
 fi
 
 # Start monitoring
-$HOME/valpa/monitor/monitor-start-pbs.sh /tmp/pbs-nodefile.txt sysstat
+$HOME/vespa/monitor/monitor-start-pbs.sh /tmp/pbs-nodefile.txt sysstat
 
 # The actual invocation of the application
 /usr/bin/time -f '%C\nUser\tSystem\tEllapsed\n%U\t%S\t%e' -a -o $EXEC_OUTPUT_DIR/../times.txt mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" --mca btl_tcp_if_include 172.16.0.0/16 &BIND_TO_CORE &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
 
 # Stop monitoring iteratively
-$HOME/valpa/monitor/monitor-stop-pbs.sh /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR sysstat
+$HOME/vespa/monitor/monitor-stop-pbs.sh /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR sysstat
 
 # Post-processing of output may be necessary
 if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
@@ -63,4 +63,4 @@ if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
 fi
 
 # Pre-process the monitor files, to save space
-$HOME/valpa/monitor/monitor-preprocess-pbs.sh $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt sysstat
+$HOME/vespa/monitor/monitor-preprocess-pbs.sh $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt sysstat

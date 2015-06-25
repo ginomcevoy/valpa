@@ -6,13 +6,13 @@ Integration tests for network.ips module
 @author: giacomo
 '''
 import unittest
-from test.test_abstract import ValpaWithNodesAbstractTest
+from test.test_abstract import VespaWithNodesAbstractTest
 from network.ips import SetsIpAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from network.address import NetworkAddresses
 from bean.vm import BuildsAllVMDetails
 
-class SetsIpAddressesToPhysicalClusterTest(ValpaWithNodesAbstractTest):
+class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         super(SetsIpAddressesToPhysicalClusterTest, self).setUp()
@@ -30,12 +30,12 @@ class SetsIpAddressesToPhysicalClusterTest(ValpaWithNodesAbstractTest):
         ipAddress2 = self.physicalCluster.getIpAddressOf('node083')
         self.assertEqual(ipAddress2, '172.16.83.254')
         
-class SetsAddressesToAllPossibleVMsTest(ValpaWithNodesAbstractTest):
+class SetsAddressesToAllPossibleVMsTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         super(SetsAddressesToAllPossibleVMsTest, self).setUp()
         
-        self.vmFactory = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
+        self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMs = self.vmFactory.build()
         
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)

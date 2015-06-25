@@ -1,15 +1,15 @@
 '''
 Created on Oct 22, 2014
 
-Defines VALPA parameters for testing networking
+Defines Vespa parameters for testing networking
 
 @author: giacomo
 '''
 import unittest
 from config import hwconfig
-from test.test_abstract import ValpaDeploymentAbstractTest
+from test.test_abstract import VespaDeploymentAbstractTest
 
-class NetworkAbstractTest(ValpaDeploymentAbstractTest):
+class NetworkAbstractTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
         super(NetworkAbstractTest, self).setUp()
@@ -28,9 +28,9 @@ class NetworkAbstractTest(ValpaDeploymentAbstractTest):
                             'dhcp_c_start' : '15',
                             'dhcp_c_step' : '15',
                             'net_bridge' : 'br0',
-                            'net_name_sriov' : 'valpa-sriov',
-                            'net_name_bridge_create' : 'valpa-external-bridge',
-                            'net_name_bridge_use' : 'valpa-libvirt-bridge',
+                            'net_name_sriov' : 'vespa-sriov',
+                            'net_name_bridge_create' : 'vespa-external-bridge',
+                            'net_name_bridge_use' : 'vespa-libvirt-bridge',
                             'net_mac_prefix' : '00:16:36:ff'
                             }
         

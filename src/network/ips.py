@@ -6,7 +6,7 @@ Created on Nov 7, 2014
 
 class SetsIpAddressesToPhysicalCluster(object):
     '''
-    Should be loaded by the VALPA bootstrapper. Receives the recently created
+    Should be loaded by the VESPA bootstrapper. Receives the recently created
     PhysicalCluster instance (all nodes) and fills the IP addresses. This is
     done after creating the PhysicalCluster due to dependency issues. 
     '''
@@ -26,7 +26,7 @@ class SetsIpAddressesToPhysicalCluster(object):
             
 class SetsAddressesToAllPossibleVMs():
     '''
-    Should be loaded by the VALPA bootstrapper. Receives the recently created
+    Should be loaded by the VESPA bootstrapper. Receives the recently created
     AllPossibleVMs instance and fills the IP and MAC addresses.  
     '''
     def __init__(self, networkAddresses, physicalCluster):

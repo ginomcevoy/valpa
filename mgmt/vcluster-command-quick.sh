@@ -13,10 +13,10 @@ fi
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
 # Input variables
 COMMAND=$1
@@ -27,18 +27,18 @@ else
 fi
 
 # Output file
-OUTPUT=/tmp/valpa-command.sh
+OUTPUT=/tmp/vespa-command.sh
 rm -f $OUTPUT &> /dev/null
 
 # Iterate physical machines
 NODE_INDEX=1
-while [ `$VALPA_DIR/util/iterator-nodes.sh $NODE_INDEX` ]; do
+while [ `$VESPA_DIR/util/iterator-nodes.sh $NODE_INDEX` ]; do
 
 	# Iterate VMs
 	for (( VM_INDEX=1; VM_INDEX<=$NUMVM; VM_INDEX++ )); do
 
 		# Get VM name
-		VM_NAME=`$VALPA_DIR/util/iterator-vm-names.sh $NODE_INDEX $VM_INDEX`
+		VM_NAME=`$VESPA_DIR/util/iterator-vm-names.sh $NODE_INDEX $VM_INDEX`
 		COMMANDTMP=${COMMAND//\#/$VM_NAME}
 		echo $COMMANDTMP
 		echo "$COMMANDTMP &" >> $OUTPUT
@@ -48,4 +48,4 @@ while [ `$VALPA_DIR/util/iterator-nodes.sh $NODE_INDEX` ]; do
 done
 
 chmod +x $OUTPUT
-$OUTPUT & &> /tmp/valpa-generated.log
+$OUTPUT & &> /tmp/vespa-generated.log

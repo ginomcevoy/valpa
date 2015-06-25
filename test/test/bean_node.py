@@ -45,7 +45,7 @@ class PhysicalNodeFactoryTest(unittest.TestCase):
     def testToFile(self):
         # given 
         allNodes = self.nodeFactory.getAllNodes()
-        filename = '/tmp/valpa-allnodes.txt'
+        filename = '/tmp/vespa-allnodes.txt'
         expectedContent = open('resources/nodes-tofile-expected.txt', 'r').read()
         
         # when representing as file

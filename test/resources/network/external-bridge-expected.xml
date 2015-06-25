@@ -1,5 +1,5 @@
 <network>
-	<name>valpa-external-bridge</name>
+	<name>vespa-external-bridge</name>
 	<forward mode="bridge"/>
 	<bridge name="br0"/>
 </network>

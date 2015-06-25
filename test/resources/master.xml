@@ -21,10 +21,10 @@
 		<interface type="network">
 			<source network="@network_name"/>
 			<mac address="@vm_mac"/>
-_VALPA_POUND_if (@network_option == 'vhost' || @network_option == 'virtio')
+_VESPA_POUND_if (@network_option == 'vhost' || @network_option == 'virtio')
 			<model type="virtio"/>
 			<driver name="@network_driver"/>
-_VALPA_POUND_end
+_VESPA_POUND_end
 		</interface>
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">

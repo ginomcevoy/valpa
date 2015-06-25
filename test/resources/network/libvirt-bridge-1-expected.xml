@@ -1,5 +1,5 @@
 <network>
-  <name>valpa-libvirt-bridge</name>
+  <name>vespa-libvirt-bridge</name>
   <forward mode='nat' dev='eth0'/>
   <bridge name='br0' stp='off' delay='0' />
   <ip address='172.16.83.254' netmask='255.255.0.0'>

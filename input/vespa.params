@@ -1,13 +1,13 @@
-# Test Parameters for VALPA
+# Parameters for Vespa _ Networking and Settings
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 
 [Networking]
 # Main networking option: one of {libvirt-bridge | external-bridge | sriov}
 # ALL options imply a virtual network defined in libvirt, for each physical node 
-# libvirt-bridge: 	instructs VALPA to use a bridge managed by libvirt (DHCP by libvirt)
-# external-bridge:  instructs VALPA to use a previously defined bridge (bridge and DHCP external to libvirt)
-# sriov:         	instructs VALPA to use the Virtual Functions of a SR-IOV network
+# libvirt-bridge: instructs Vespa to use a bridge managed by libvirt (DHCP by libvirt)
+# external-bridge:    instructs Vespa to use a previously defined bridge (bridge and DHCP external to libvirt)
+# sriov:         instructs Vespa to use the Virtual Functions of a SR-IOV network (defined in libvirt) 
 network_source=external-bridge
 
 # interface that will host bridge (libvirt-bridge)
@@ -29,9 +29,9 @@ dhcp_b_prefix=172.16
 # First VM of each node will have this suffix
 dhcp_b_start=1
 
-# DHCP for C class (libvirt-bridge)
+# DHCP for 'network', C class
 # Nodes assumed in range from 1 to 'nodes'
-# e.g. 192.168.3.1, 192.168.3.2, ..., 192.168.3.12
+# e.g. dhcp.c.prefix.1, dhcp.c.prefix.2, ..., dhcp.c.prefix.12
 
 # Class C networking for nodes and VMs
 dhcp_c_prefix=192.168.3 
@@ -45,13 +45,13 @@ dhcp_c_step=15
 # Other networking
 
 # network name for SR-IOV
-net_name_sriov=valpa-sriov
+net_name_sriov=vespa-sriov
 
-# network name for libvirt bridge
-net_name_bridge_create=valpa-libvirt-bridge
+# network name for created bridge
+net_name_bridge_create=vespa-created-bridge
 
-# network name for external bridge
-net_name_bridge_use=valpa-external-bridge
+# network name for existing bridge
+net_name_bridge_use=vespa-existing-bridge
 
 # MAC address prefix for VMs
 net_mac_prefix=00:16:36:ff
@@ -61,7 +61,7 @@ exp_dir=/home/giacomo2/shared/execs
 deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
 deploy_dir_pattern=&EXPDIR/&APP/&DEPLOYSUBDIR
 
-pbs_master=resources/master.pbs
+pbs_master=../input/master.pbs
 pbs_server=/var/spool/torque/server_priv
 pbs_temp_nodelist = /tmp/pbs-nodes
 
@@ -70,15 +70,15 @@ run_timeoutput=times.txt
 
 # Monitor application - monitor_app: either 'sysstat' or 'vmstat'
 monitor_app=sysstat
-monitor_start=$HOME/valpa/monitor/monitor-start-pbs.sh
-monitor_stop=$HOME/valpa/monitor/monitor-stop-pbs.sh
-monitor_preprocess=$HOME/valpa/monitor/monitor-preprocess-pbs.sh
+monitor_start=$HOME/vespa/monitor/monitor-start-pbs.sh
+monitor_stop=$HOME/vespa/monitor/monitor-stop-pbs.sh
+monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
 
 # Also monitor physical nodes? (True/False)
 monitor_do_nodes=True
 
 # comma separated list of applications that will use PBS
-pbs_supported_apps=parpac,none
+pbs_supported_apps=parpac,none,npb-ep,cavity3d,graph500,uts,npb-mg,spectralclustering
 
 [Preferences]
 vm_pernode=12
@@ -88,13 +88,13 @@ vm_pattern=&PREFIX&NODESUFFIX-&VMSUFFIX
 vm_mem_base=0
 vm_mem_core=1024
 
-vm_disk=disk.img
+vm_disk=ubuntu14.04-infibinand.img
 vm_mac_base=00:16:36:ff
 
-vm_xml_output=/tmp/valpa/xmls
+vm_xml_output=/tmp/vespa/xmls
 
 exec_config_template=../templates/execConfig.template
-exec_config_output=/tmp/valpa/execs
+exec_config_output=/tmp/vespa/execs
 
 general_verbose=1
 
@@ -103,14 +103,14 @@ general_verbose=1
 xml_disk_drivertype=raw
 
 # _DISK_DEV
-xml_disk_dev=vda
+xml_disk_dev=hda
 
 [Repository]
 # Root dir for VM repository
-repo_root=/home/giacomo/vms
+repo_root=/home/giacomo2/vms
 
 # Dir for base images inside root dir
 repo_base_dir=base
 
 # Available image disks, comma-separated
-repo_images=disk.img,ubuntu14.04.img,ubuntu14.04-infiniband.img
+repo_images=ubuntu14.04.img,ubuntu14.04-infiniband.img

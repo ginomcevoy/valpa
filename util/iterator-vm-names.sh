@@ -13,10 +13,10 @@ fi
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
 NODE_INDEX=$1
 VM_INDEX=$2

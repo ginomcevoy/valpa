@@ -1,6 +1,6 @@
-/tmp/valpa/kvm-pbs082-01.xml
-/tmp/valpa/kvm-pbs083-01.xml
-/tmp/valpa/kvm-pbs084-01.xml
-/tmp/valpa/kvm-pbs082-02.xml
-/tmp/valpa/kvm-pbs083-02.xml
-/tmp/valpa/kvm-pbs084-02.xml
+/tmp/vespa/kvm-pbs082-01.xml
+/tmp/vespa/kvm-pbs083-01.xml
+/tmp/vespa/kvm-pbs084-01.xml
+/tmp/vespa/kvm-pbs082-02.xml
+/tmp/vespa/kvm-pbs083-02.xml
+/tmp/vespa/kvm-pbs084-02.xml

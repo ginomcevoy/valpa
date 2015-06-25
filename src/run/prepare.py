@@ -13,8 +13,8 @@ import hashlib
 
 class PreparesExperiment:
     
-    def __init__(self, forReal, valpaPrefs, runOpts):
-        self.generator = ConfigFileGenerator(forReal, valpaPrefs, runOpts) 
+    def __init__(self, forReal, vespaPrefs, runOpts):
+        self.generator = ConfigFileGenerator(forReal, vespaPrefs, runOpts) 
     
     def prepare(self, clusterInfo, deploymentInfo, appInfo):
         (execConfig, distPath) = self.generator.createExecConfig(clusterInfo, deploymentInfo, appInfo)
@@ -60,15 +60,15 @@ class PreparesExperiment:
         
 class ConfigFileGenerator:
     
-    def __init__(self, forReal, valpaPrefs, runOpts):
+    def __init__(self, forReal, vespaPrefs, runOpts):
         self.forReal = forReal
-        self.valpaPrefs = valpaPrefs
+        self.vespaPrefs = vespaPrefs
         self.runOpts = runOpts
         
     def createExecConfig(self, clusterInfo, deploymentInfo, appInfo):
         '''
         Creates an execution config file based on a template. Template and output are
-        specified in valpaPrefs
+        specified in vespaPrefs
         '''
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo
         
@@ -95,11 +95,11 @@ class ConfigFileGenerator:
         distPath = distPath.replace('&DEPLOYSUBDIR', distDir) 
         
         # add verbose
-        verbose = self.valpaPrefs['general_verbose']
+        verbose = self.vespaPrefs['general_verbose']
         
         # output file = <exec.config.output>/<uuid>
         execConfigName = uuid.newUUID(self.forReal)
-        execConfigDir = self.valpaPrefs['exec_config_output']
+        execConfigDir = self.vespaPrefs['exec_config_output']
         execConfigFilename = execConfigDir + '/' + execConfigName
         print(execConfigFilename)
         if not os.path.exists(execConfigDir):
@@ -109,7 +109,7 @@ class ConfigFileGenerator:
         
         # write output using template
         loader = FileLoader('.')
-        templatePath = self.valpaPrefs['exec_config_template']
+        templatePath = self.vespaPrefs['exec_config_template']
         template = loader.load_template(templatePath)
 
         text = template.render(locals(), loader=loader)

@@ -5,13 +5,13 @@
 # (exc001.csv, exc002.csv, ...) in output dir. Also generates header.txt for that config.
 ########
 
-setwd("~/valpa")
+setwd("~/vespa")
 # Uncomment for testing
-#setwd("~/Development/Systems/valpa")
+#setwd("~/Development/Systems/vespa")
 
 # start clean
 #rm(list = ls())
-
+	
 # Load Preferences
 source("input/sargen-config.R")
 

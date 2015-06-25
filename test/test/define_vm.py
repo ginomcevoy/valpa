@@ -6,17 +6,17 @@ Unit tests for deploy.vmgen module
 @author: giacomo
 '''
 import unittest
-from test.test_abstract import ValpaDeploymentAbstractTest
+from test.test_abstract import VespaDeploymentAbstractTest
 from network.address import NetworkAddresses
 from define.vm import VMDefinitionDetails, VMDefinitionBasicGenerator,\
     VMXMLSaver
 
-class VMRequestGenerationDetailsTest(ValpaDeploymentAbstractTest):
+class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(VMRequestGenerationDetailsTest, self).setUp()
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        self.generationDetails = VMDefinitionDetails(self.valpaPrefs, networkAddresses) 
+        self.generationDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
         self.generationDetails.setDeploymentContext(self.deploymentInfo)
 
     def testGetUUID(self):
@@ -38,14 +38,14 @@ class VMRequestGenerationDetailsTest(ValpaDeploymentAbstractTest):
         path = self.generationDetails.getVmPath('kvm-pbs083-02')
         self.failUnlessEqual(path, 'node083/kvm-pbs083-02')
         
-class BasicVMGenTest(ValpaDeploymentAbstractTest):
+class BasicVMGenTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(BasicVMGenTest, self).setUp()
         (deployedNodes, deployedSockets, deployedVMs) = self.deploymentInfo  # @UnusedVariable
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        generationDetails = VMDefinitionDetails(self.valpaPrefs, networkAddresses)
-        self.basicGen = VMDefinitionBasicGenerator(self.valpaPrefs, generationDetails)
+        generationDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses)
+        self.basicGen = VMDefinitionBasicGenerator(self.vespaPrefs, generationDetails)
         self.basicGen.setDeploymentContext(self.deploymentInfo, False)
 
     def testProduceXMLs(self):
@@ -60,7 +60,7 @@ class BasicVMGenTest(ValpaDeploymentAbstractTest):
         xml08302 = open('resources/vms/kvm-pbs083-02-basic.xml').read() 
         self.failUnlessEqual(xmls['kvm-pbs083-02'], xml08302)
         
-class VmXMLSaverTest(ValpaDeploymentAbstractTest):
+class VmXMLSaverTest(VespaDeploymentAbstractTest):
     '''
     Unit tests for VmXMLSaver
     '''
@@ -70,11 +70,11 @@ class VmXMLSaverTest(ValpaDeploymentAbstractTest):
         self.xmlDict = {'kvm-pbs082-01' : open('resources/vms/kvm-pbs082-01-balone.xml', 'r').read(),
                           'kvm-pbs082-02' : open('resources/vms/kvm-pbs082-02-balone.xml', 'r').read()}
         
-        self.expectedOutput = {'kvm-pbs082-01' : '/tmp/valpa/xmls/testExp/kvm-pbs082-01.xml',
-                               'kvm-pbs082-02' : '/tmp/valpa/xmls/testExp/kvm-pbs082-02.xml'}
+        self.expectedOutput = {'kvm-pbs082-01' : '/tmp/vespa/xmls/testExp/kvm-pbs082-01.xml',
+                               'kvm-pbs082-02' : '/tmp/vespa/xmls/testExp/kvm-pbs082-02.xml'}
         
         (deployedNodes, deployedSockets, deployedVMs) = self.deploymentInfo  # @UnusedVariable
-        self.xmlSaver = VMXMLSaver(self.valpaPrefs)
+        self.xmlSaver = VMXMLSaver(self.vespaPrefs)
         
     def testSaveXMLs(self):
         xmlNameDict = self.xmlSaver.saveXMLs(self.xmlDict, 'testExp')
