@@ -10,9 +10,10 @@ from start import bootstrap
 
 if __name__ == "__main__":
     # verify input
-    if len(sys.argv) < 2:
-        raise ValueError("call: node <inventoryFilename>")
-    inventoryFilename = sys.argv[1]
+    if len(sys.argv) < 3:
+        raise ValueError("call: node <hostCount> <inventoryFilename>")
+    hostCount = int(sys.argv[1])
+    inventoryFilename = sys.argv[2]
     
     # Bootstrap Vespa with default config, get dependencies
     bootstrap.doBootstrap()
@@ -22,5 +23,5 @@ if __name__ == "__main__":
     allVMDetails = bootstrapper.getAllVMDetails()
     
     # produce inventory file and output filename
-    physicalCluster.createInventory(inventoryFilename, allVMDetails)
+    physicalCluster.createInventory(inventoryFilename, allVMDetails, hostCount)
     print(inventoryFilename)

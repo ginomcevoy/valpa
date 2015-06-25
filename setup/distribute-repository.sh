@@ -16,7 +16,7 @@ source $VESPA_DIR/params.sh
 INVENTORY=$($VESPA_DIR/util/nodes-inventory.sh $NODE_L)
 
 # Create repository in nodes if it does not exist
-ansible all -f $NODE_L -i $INVENTORY -m command -a "mkdir -p $REPO_ROOT/$REPO_BASE"
+ansible all -f $NODE_L -i $INVENTORY -m file -a "dest=$REPO_ROOT/$REPO_BASE_DIR state=directory"
 
 # Update VM images using rsync, one node at a time
-ansible all -f 1 -i $INVENTORY -m synchronize -a "src=$REPO_ROOT/$REPO_BASE/ dest=$REPO_ROOT/$REPO_BASE/"
+ansible all -f 1 -i $INVENTORY -m synchronize -a "src=$REPO_ROOT/$REPO_BASE_DIR/ dest=$REPO_ROOT/$REPO_BASE_DIR/"
