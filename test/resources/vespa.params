@@ -97,6 +97,7 @@ exec_config_template=../templates/execConfig.template
 exec_config_output=/tmp/vespa/execs
 
 out_node_inventory=/tmp/vespa-node-inventory
+out_vm_inventory=/tmp/vespa-vm-inventory
 
 general_verbose=1
 

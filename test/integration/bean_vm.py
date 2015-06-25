@@ -16,14 +16,27 @@ class TestVirtualClusterTemplates(VespaWithNodesAbstractTest):
         super(TestVirtualClusterTemplates, self).setUp()
         self.inventoryFilename = '/tmp/vespa-vm-inventory.test'
     
-    def testCreateInventory(self):
+    def testCreateVirtualInventory(self):
         # when
-        self.allVMDetails.createInventory(self.inventoryFilename, self.physicalCluster)
+        hostCount = len(self.physicalCluster.getNames())
+        vmsPerHost = self.allVMDetails.getVMNamesForNode(self.physicalCluster.getNames()[0])
+        self.allVMDetails.createVirtualInventory(self.inventoryFilename, self.physicalCluster, hostCount, vmsPerHost)
         
         # then get expected content in the inventory file
         actualContent = open(self.inventoryFilename, 'r').read()
         expectedContent = open('resources/inventory-vm-expected.txt', 'r').read()
-        self.assertMultiLineEqual(actualContent, expectedContent, 'VM inventory')
+        self.assertMultiLineEqual(actualContent, expectedContent)
+        
+    def testCreateVirtualPartialInventory(self):
+        # when
+        hostCount = 3
+        vmsPerHost = 2
+        self.allVMDetails.createVirtualInventory(self.inventoryFilename, self.physicalCluster, hostCount, vmsPerHost)
+        
+        # then get expected content in the inventory file
+        actualContent = open(self.inventoryFilename, 'r').read()
+        expectedContent = open('resources/inventory-vm-partial-expected.txt', 'r').read()
+        self.assertMultiLineEqual(actualContent, expectedContent)
 
 if __name__ == "__main__":
     unittest.main()
