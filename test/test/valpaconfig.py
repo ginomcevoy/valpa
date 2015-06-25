@@ -5,21 +5,21 @@ Created on Oct 13, 2013
 '''
 import unittest
 
-from config import valpaconfig
+from config import vespaconfig
 
-class ValpaConfigBase (unittest.TestCase):
+class VespaConfigBase (unittest.TestCase):
 
     def setUp(self):
-        self.expectedValpaPrefs = {'master_vm' : 'ubuntu14.04-node',
+        self.expectedVespaPrefs = {'master_vm' : 'ubuntu14.04-node',
                                    'vm_pernode' : '12', 
                                    'vm_prefix' : 'kvm-pbs',
                                    'vm_pattern' : '&PREFIX&NODESUFFIX-&VMSUFFIX',
                                    'vm_mem_base' : '0', 
                                    'vm_mem_core' : '1024', 
                                    'vm_mac_base' : '00:16:36:ff',
-                                   'vm_xml_output' : '/tmp/valpa/xmls',
+                                   'vm_xml_output' : '/tmp/vespa/xmls',
                                    'exec_config_template' : '../templates/execConfig.template',
-                                   'exec_config_output' : '/tmp/valpa/execs',
+                                   'exec_config_output' : '/tmp/vespa/execs',
                                    'general_verbose' : '1',
                                    'xml_cluster_path' : 'vms'}
 
@@ -29,37 +29,37 @@ class ValpaConfigBase (unittest.TestCase):
                                 'xml_disk_dev' : 'vda'}
         
         self.networkingOpts = {'network_source' : 'external-bridge',
-                               'net_name_bridge_use' : 'valpa-external-bridge',
-                               'net_name_bridge_create' : 'valpa-libvirt-bridge',
-                               'net_name_sriov' : 'valpa-sriov'}
+                               'net_name_bridge_use' : 'vespa-external-bridge',
+                               'net_name_bridge_create' : 'vespa-libvirt-bridge',
+                               'net_name_sriov' : 'vespa-sriov'}
 
-    def testValpaConfig(self):
-        valpaFile = 'resources/valpa.params'
-        valpaCfg = valpaconfig.readValpaConfig(valpaFile)
+    def testVespaConfig(self):
+        vespaFile = 'resources/vespa.params'
+        vespaCfg = vespaconfig.readVespaConfig(vespaFile)
 
-        # valpaPrefs
-        valpaPrefs = valpaCfg.getValpaPrefs()
-        self.failIf(type(valpaPrefs) != type({}))
+        # vespaPrefs
+        vespaPrefs = vespaCfg.getVespaPrefs()
+        self.failIf(type(vespaPrefs) != type({}))
         self.maxDiff = None
-        self.failUnlessEqual(valpaPrefs, self.expectedValpaPrefs)
+        self.failUnlessEqual(vespaPrefs, self.expectedVespaPrefs)
 
-        # valpaXMLOpts
-        valpaXMLOpts = valpaCfg.getValpaXMLOpts()
-        self.failIf(type(valpaXMLOpts) != type({}))
-        self.failUnlessEqual(valpaXMLOpts, self.expectedXMLOpts)
+        # vespaXMLOpts
+        vespaXMLOpts = vespaCfg.getVespaXMLOpts()
+        self.failIf(type(vespaXMLOpts) != type({}))
+        self.failUnlessEqual(vespaXMLOpts, self.expectedXMLOpts)
 
     def testMasterXML(self):
-        valpaXML = valpaconfig.produceValpaXML(self.expectedXMLOpts, self.networkingOpts, 'resources/master.xml')
+        vespaXML = vespaconfig.produceVespaXML(self.expectedXMLOpts, self.networkingOpts, 'resources/master.xml')
 
         # compare with expected output
         self.maxDiff = None
-        expectedValpaXML = open('resources/valpa-expected.xml', 'r').read()
-        self.failUnlessEqual(valpaXML, expectedValpaXML)
+        expectedVespaXML = open('resources/vespa-expected.xml', 'r').read()
+        self.failUnlessEqual(vespaXML, expectedVespaXML)
     
 # def suite():
 #     suite = unittest.TestSuite()
-#     suite.addTest(ValpaConfigTest())
-#     suite.addTest(ValpaMasterXMLTest())
+#     suite.addTest(VespaConfigTest())
+#     suite.addTest(VespaMasterXMLTest())
 #     return suite
 # 
 if __name__ == '__main__':

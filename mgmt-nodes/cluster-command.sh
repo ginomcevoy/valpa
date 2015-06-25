@@ -14,19 +14,19 @@ COMMAND=$1
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
 # Output file
-OUTPUT=/tmp/valpa-command.sh
+OUTPUT=/tmp/vespa-command.sh
 rm -f $OUTPUT
 
 # Node loop to create commands
 INDEX=1
-while [ `$VALPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
-	NODE_NAME=`$VALPA_DIR/util/iterator-node-names.sh $INDEX`
+while [ `$VESPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
+	NODE_NAME=`$VESPA_DIR/util/iterator-node-names.sh $INDEX`
 	COMMANDTMP=${COMMAND//\#/$NODE_NAME}
 	echo $COMMANDTMP
 	echo $COMMANDTMP >> $OUTPUT

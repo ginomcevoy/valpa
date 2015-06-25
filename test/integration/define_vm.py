@@ -4,22 +4,22 @@ Created on Oct 15, 2013
 @author: giacomo
 '''
 import unittest
-from test.test_abstract import ValpaDeploymentAbstractTest
+from test.test_abstract import VespaDeploymentAbstractTest
 from deploy.pinning import BuildsPinningWriter
 from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator
 
-class VmRequestGeneratorIntegrationTest(ValpaDeploymentAbstractTest):
+class VmRequestGeneratorIntegrationTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
         super(VmRequestGeneratorIntegrationTest, self).setUp()
         (self.deployedNodes, self.deployedSockets, self.deployedVMs) = self.deploymentInfo
         
         # expected
-        self.expectedOutput = {'kvm-pbs082-01' : '/tmp/valpa/xmls/testExp/kvm-pbs082-01.xml',
-                               'kvm-pbs082-02' : '/tmp/valpa/xmls/testExp/kvm-pbs082-02.xml',
-                               'kvm-pbs083-01' : '/tmp/valpa/xmls/testExp/kvm-pbs083-01.xml',
-                               'kvm-pbs083-02' : '/tmp/valpa/xmls/testExp/kvm-pbs083-02.xml'}
+        self.expectedOutput = {'kvm-pbs082-01' : '/tmp/vespa/xmls/testExp/kvm-pbs082-01.xml',
+                               'kvm-pbs082-02' : '/tmp/vespa/xmls/testExp/kvm-pbs082-02.xml',
+                               'kvm-pbs083-01' : '/tmp/vespa/xmls/testExp/kvm-pbs083-01.xml',
+                               'kvm-pbs083-02' : '/tmp/vespa/xmls/testExp/kvm-pbs083-02.xml'}
         
         self.expectedXMLs = (open('resources/integration/kvm-pbs082-01-expected.xml').read(),
                              open('resources/integration/kvm-pbs082-02-expected.xml').read(),
@@ -28,10 +28,10 @@ class VmRequestGeneratorIntegrationTest(ValpaDeploymentAbstractTest):
 
     def testGeneration(self):
         # instantiate
-        pinningWriterBuilder = BuildsPinningWriter(self.hwSpecs, self.valpaPrefs)
+        pinningWriterBuilder = BuildsPinningWriter(self.hwSpecs, self.vespaPrefs)
         pinningWriter = pinningWriterBuilder.build()
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        buildsVMGenerator = BuildsVMDefinitionGenerator(self.valpaPrefs, pinningWriter, networkAddresses)
+        buildsVMGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningWriter, networkAddresses)
         vmDefinitionGenerator = buildsVMGenerator.build()
         
         # call under test

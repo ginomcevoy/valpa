@@ -9,9 +9,9 @@ import unittest
 from network.create import CreatesBasicNetworkXML, EnhancesXMLForCreatingBridge,\
     NetworkArgumentsForSRIOV, NetworkArgumentsForUsingBridge,\
     NetworkArgumentsForCreatingBridge
-from integration.root_bootstrap import ValpaWithBootstrapAbstractTest
+from integration.root_bootstrap import VespaWithBootstrapAbstractTest
 
-class CreatesBasicNetworkXMLTest(ValpaWithBootstrapAbstractTest):
+class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
     '''
     Integration tests for CreatesBasicNetworkXMLFromTemplate.
     '''
@@ -76,7 +76,7 @@ class CreatesBasicNetworkXMLTest(ValpaWithBootstrapAbstractTest):
         self.maxDiff = None
         self.assertEquals(text, open(expectedFilename, 'r').read())
 
-class EnhancesXMLForCreatingBridgeTest(ValpaWithBootstrapAbstractTest):
+class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
     
     def setUp(self):
         super(EnhancesXMLForCreatingBridgeTest, self).setUp()
@@ -131,7 +131,7 @@ class EnhancesXMLForCreatingBridgeTest(ValpaWithBootstrapAbstractTest):
         self.maxDiff = None
         self.assertEqual(ammendedXML, expectedText)
         
-class BuildsNetworkXMLsTest(ValpaWithBootstrapAbstractTest):
+class BuildsNetworkXMLsTest(VespaWithBootstrapAbstractTest):
     '''
     Integration test for BuildsNetworkXMLs, tests each networking strategy.
     '''

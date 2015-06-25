@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Execute a remote command for each node in the VALPA physical cluster
+# Execute a remote command for each node in the Vespa physical cluster
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2015
 
@@ -13,12 +13,12 @@ fi
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
 # Load inventory TODO Fix this call
-VALPA_INVENTORY=$VALPA_DIR/input/valpa.inventory
+VESPA_INVENTORY=$VESPA_DIR/input/vespa.inventory
 
-ansible all -f $NODE_L -i $VALPA_INVENTORY -m command -a "${1}"
+ansible all -f $NODE_L -i $VESPA_INVENTORY -m command -a "${1}"

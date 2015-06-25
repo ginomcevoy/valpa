@@ -1,4 +1,4 @@
-# Parameters specifig to the data generation of VALPA
+# Parameters specific to the data generation of Vespa
 # Each application should have a section with the corresponding application name
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013

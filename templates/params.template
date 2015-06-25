@@ -1,6 +1,6 @@
-# Parameter Template for VALPA shell scripts (params.sh)
+# Parameter Template for Vespa shell scripts (params.sh)
 # The values sourced by shell scripts are obtained on the fly with Python,
-# based on the values of the valpa.params file
+# based on the values of the vespa.params file
  
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2014
@@ -10,8 +10,8 @@ NODE_L=@nodes 				# number of physical computing nodes
 PHYPROCS=@sockets			# number of processors (sockets) per node
 PHYPROCCORES=@coresPerSocket  	# number of cores per processor
 
-NODE_PREFIX='@prefix'		# prefix for names of physical nodes (valpa00, valpa01)
-NODE_ZEROS='@zeros' 		# if 2: valpa00... valpa12... valpa99
+NODE_PREFIX='@prefix'		# prefix for names of physical nodes (vespa00, vespa01)
+NODE_ZEROS='@zeros' 		# if 2: vespa00... vespa12... vespa99
 NODE_FIRST='@first' 		# suffix of first computing node
 
 # Networking

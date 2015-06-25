@@ -20,7 +20,7 @@ LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # Files
 PBS_NODEFILE=$1
-NODES_FILE='/tmp/valpa-monitor-nodenames.txt'
+NODES_FILE='/tmp/vespa-monitor-nodenames.txt'
 
 # Call Python script to find nodes (unique names)
 python $LOCAL_DIR/nodenames.py $PBS_NODEFILE $NODES_FILE

@@ -7,14 +7,14 @@
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
 # delete output dir
 echo "Deleting output!"
-OUTPUT_DIR=$VALPA_DIR/data-output/interfaces
+OUTPUT_DIR=$VESPA_DIR/data-output/interfaces
 rm -rf $OUTPUT_DIR
 
 # create ouptut dir
@@ -22,14 +22,14 @@ mkdir -p $OUTPUT_DIR
 
 # iterate over nodes
 INDEX=1
-while [ `$VALPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
+while [ `$VESPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
 	
 	# get name for node
-	NODE_NAME=`$VALPA_DIR/util/iterator-node-names.sh $INDEX`
+	NODE_NAME=`$VESPA_DIR/util/iterator-node-names.sh $INDEX`
 
 	# create a copy of the master file, filename is the node name
 	OUTPUT_FILE=$OUTPUT_DIR/$NODE_NAME
-	cp $VALPA_DIR/data-input/interfaces-template.txt $OUTPUT_FILE
+	cp $VESPA_DIR/data-input/interfaces-template.txt $OUTPUT_FILE
 
 	# update ip suffix on file
 	NODE_NUMBER=`expr $INDEX + $NODE_FIRST`

@@ -15,9 +15,9 @@ class ClusterDefiner:
     '''
     Defines the VMs in a cluster.
     '''
-    def __init__(self, mappingResolver, clusterXMLGen, vmDefinitionGenerator):#valpaPrefs, valpaXML, hwSpecs, allNodes, vmRequestGenerator):
-        self.mappingResolver = mappingResolver#MappingResolver(hwSpecs, allNodes, valpaPrefs)
-        self.clusterXMLGen = clusterXMLGen #ClusterXMLGenerator(valpaXML, valpaPrefs)
+    def __init__(self, mappingResolver, clusterXMLGen, vmDefinitionGenerator):#vespaPrefs, vespaXML, hwSpecs, allNodes, vmRequestGenerator):
+        self.mappingResolver = mappingResolver#MappingResolver(hwSpecs, allNodes, vespaPrefs)
+        self.clusterXMLGen = clusterXMLGen #ClusterXMLGenerator(vespaXML, vespaPrefs)
         self.vmDefinitionGenerator = vmDefinitionGenerator
     
     def defineCluster(self, cluster, experimentName, forReal):
@@ -71,9 +71,9 @@ class PhysicalClusterDefiner:
     TODO: use patterns to create variations Physical/Virtual + PBS/NoPBS
     '''
     
-    def __init__(self, hwSpecs, valpaPrefs, runOpts, allNodes, allVMDetails):
+    def __init__(self, hwSpecs, vespaPrefs, runOpts, allNodes, allVMDetails):
         # reuse some mapping functionality
-        self.mapper = MappingResolver(hwSpecs, valpaPrefs, allNodes, allVMDetails) 
+        self.mapper = MappingResolver(hwSpecs, vespaPrefs, allNodes, allVMDetails) 
         self.allNodes = allNodes
         self.runOpts = runOpts
 
@@ -136,25 +136,25 @@ class PhysicalClusterDefiner:
             
 class ClusterXMLGenerator:
     '''
-    Produces Cluster XML for VM XML generation, based on VALPA XML and 
+    Produces Cluster XML for VM XML generation, based on Vespa XML and 
     cluster info. Returns the text of the xml.
     '''
 
-    def __init__(self, valpaXML, valpaPrefs):
-        self.valpaXML = valpaXML
-        self.valpaPrefs = valpaPrefs
+    def __init__(self, vespaXML, vespaPrefs):
+        self.vespaXML = vespaXML
+        self.vespaPrefs = vespaPrefs
         self.loader = FileLoader('.')
-        self.valpaXMLFilename = '/tmp/valpa-definition.xml'
+        self.vespaXMLFilename = '/tmp/vespa-definition.xml'
 
     def produceClusterXML(self, topology, technology):
         '''
-        Produces Cluster XML for VM XML generation, based on VALPA XML and 
+        Produces Cluster XML for VM XML generation, based on Vespa XML and 
         cluster info. Returns the text of the xml.
         '''
         
         # save clusterXML temporarily
-        with open(self.valpaXMLFilename, 'w') as valpaXMLFile:
-            valpaXMLFile.write(self.valpaXML)
+        with open(self.vespaXMLFilename, 'w') as vespaXMLFile:
+            vespaXMLFile.write(self.vespaXML)
 
         # need cpv and disk technology
         cpv = topology.cpv
@@ -170,24 +170,24 @@ class ClusterXMLGenerator:
             networkDriver = ''         # SR-IOV has no such line
             
         # memory
-        memoryBase = int(self.valpaPrefs['vm_mem_base'])
-        memoryPerCore = int(self.valpaPrefs['vm_mem_core'])
+        memoryBase = int(self.vespaPrefs['vm_mem_base'])
+        memoryPerCore = int(self.vespaPrefs['vm_mem_core'])
         totalMemory = (memoryBase + memoryPerCore * cpv) * 1024
         
         # cluster path
-        clusterPath = self.valpaPrefs['xml_cluster_path']
+        clusterPath = self.vespaPrefs['xml_cluster_path']
         
         # gather all substitutions
         args = {'cluster_vcpu' : cpv, 'cluster_memory' : totalMemory,
                 'network_option' : networkOpt, 'network_driver' : networkDriver,  
                 'cluster_disk_bus' : diskOpt, 'cluster_path' : clusterPath}
 
-        # obtain cluster template from VALPA template
-        template = self.loader.load_template(self.valpaXMLFilename)
+        # obtain cluster template from Vespa template
+        template = self.loader.load_template(self.vespaXMLFilename)
         clusterXML = template.render(args, loader=self.loader)
 
         # cores
-        #clusterXML = self.valpaXML.replace('_CORE', str(cpv))
+        #clusterXML = self.vespaXML.replace('_CORE', str(cpv))
 
         
         #clusterXML = clusterXML.replace('_MEMORY', str(totalMemory))

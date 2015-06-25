@@ -10,13 +10,10 @@ class MappingResolver:
 	be used to deploy virtual cluster.
 	'''
 
-	def __init__(self, hwSpecs, valpaPrefs, allNodes, allVMDetails):
-		'''
-		Takes data form HardwareInfo and ValpaPreferences
-		'''
+	def __init__(self, hwSpecs, vespaPrefs, allNodes, allVMDetails):
 		self.hwSpecs = hwSpecs
 		self.allNodes = allNodes
-		self.valpaPrefs = valpaPrefs
+		self.vespaPrefs = vespaPrefs
 		self.allVMDetails = allVMDetails
 
 	def processMappings(self, clusterRequest):
@@ -72,7 +69,7 @@ class MappingResolver:
 	def getDeployedVMs(self):
 		'''
 		Returns VMs for cluster as VirtualClusterTemplates object, using 
-		ValpaPreferences and virtual cluster request. The number of VMs
+		VespaPreferences and virtual cluster request. The number of VMs
 		and the number of VMs per host are obtained from cluster definition.
 		'''
 		vmCount = int(self.topology.nc / self.topology.cpv)

@@ -11,8 +11,8 @@ from define.cluster import ClusterXMLGenerator
 class ClusterXMLGeneratorTest(unittest.TestCase):
 
     def setUp(self):
-        self.valpaXML = open('resources/valpa-expected.xml', 'r').read()
-        self.valpaPrefs = {'xml_master' : 'master.xml', 
+        self.vespaXML = open('resources/vespa-expected.xml', 'r').read()
+        self.vespaPrefs = {'xml_master' : 'master.xml', 
                            'vm_prefix' : 'kvm-pbs',
                            'vm_pattern' : '&PREFIX&NODEINDEX-&VMINDEX',
                            'vm_mem_base' : '0',
@@ -25,7 +25,7 @@ class ClusterXMLGeneratorTest(unittest.TestCase):
         topology = Topology(48, 4)
         technology = Technology(NetworkOpt.vhost, DiskOpt.scsi)
 
-        clusterGen = ClusterXMLGenerator(self.valpaXML, self.valpaPrefs)
+        clusterGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs)
         clusterXML = clusterGen.produceClusterXML(topology, technology)
 
         self.maxDiff = None
@@ -37,7 +37,7 @@ class ClusterXMLGeneratorTest(unittest.TestCase):
         topology = Topology(48, 4)
         technology = Technology(NetworkOpt.virtio, DiskOpt.virtio)
 
-        clusterGen = ClusterXMLGenerator(self.valpaXML, self.valpaPrefs)
+        clusterGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs)
         clusterXML = clusterGen.produceClusterXML(topology, technology)
 
         self.maxDiff = None

@@ -4,17 +4,17 @@ Created on Jun 23, 2015
 @author: giacomo
 '''
 import unittest
-from test.test_abstract import ValpaWithNodesAbstractTest
+from test.test_abstract import VespaWithNodesAbstractTest
 
 
-class TestNodeCluster(ValpaWithNodesAbstractTest):
+class TestNodeCluster(VespaWithNodesAbstractTest):
     '''
     Integration test for NodeCluster that uses the bootstrapper 
     to create an Ansible inventory for the physical nodes.
     '''
     def setUp(self):
         super(TestNodeCluster, self).setUp()
-        self.inventoryFilename = '/tmp/valpa-node-inventory.test'
+        self.inventoryFilename = '/tmp/vespa-node-inventory.test'
     
     def testCreateInventory(self):
         # when

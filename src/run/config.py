@@ -31,13 +31,13 @@ class ExecutionConfigurator(Configurator):
     def enhanceExecutionFile(self, executionFile, execConfig):
         return executionFile
     
-class ValpaConfigurator(Configurator):
+class VespaConfigurator(Configurator):
     
     def __init__(self, runOpts):
         self.runOpts = runOpts
         
     def enhanceExecutionFile(self, executionFile, execConfig=None):
-        # Get values from Valpa run options
+        # Get values from Vespa run options
         timeFormat = self.runOpts['run_timeformat']
         timeOutput = self.runOpts['run_timeoutput']
         
@@ -102,7 +102,7 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
             appExecName = self.appInfo.name + '-' + dateString
             executionText = executionText.replace('&APP_EXEC_NAME', appExecName)
             
-            # From registration in VALPA
+            # From registration in Vespa
             executionText = executionText.replace('&APP_HOME', self.appParams['app.home'])
             executionText = executionText.replace('&APP_EXECUTABLE', self.appParams['app.executable'])
             executionText = executionText.replace('&WALLTIME', self.appParams['exec.walltime'])
@@ -175,7 +175,7 @@ class ConfiguratorFactory:
     
     def createBasicExecutionFile(self, appInfo, experimentPath):
         '''
-        If using PBS, returns a copy of the VALPA PBS file (master version)
+        If using PBS, returns a copy of the Vespa PBS file (master version)
         in the provided experimentPath 
         '''
         if self.isPBS(appInfo):
@@ -190,14 +190,14 @@ class ConfiguratorFactory:
         
         return pbsFile
     
-    def createValpaExecutionFile(self, appInfo, experimentPath):
+    def createVespaExecutionFile(self, appInfo, experimentPath):
         '''
-        If using PBS, returns a copy of the VALPA PBS file (adapted version)
+        If using PBS, returns a copy of the Vespa PBS file (adapted version)
         in the provided experimentPath 
         '''
         executionFile = self.createBasicExecutionFile(appInfo, experimentPath)
-        valpaConfigurator = ValpaConfigurator(self.runOpts)
-        return valpaConfigurator.enhanceExecutionFile(executionFile)
+        vespaConfigurator = VespaConfigurator(self.runOpts)
+        return vespaConfigurator.enhanceExecutionFile(executionFile)
         
     def createApplicationConfigurator(self, appInfo, experimentPath, appParams, forReal=True):
         '''
@@ -222,7 +222,7 @@ class ConfiguratorFactory:
     
     def readAppParams(self, appInfo):
         '''
-        Reads application params that are registered with VALPA
+        Reads application params that are registered with Vespa
         (not provided in the request), returns dict
         '''
         appParamsFile = '../apps/' + appInfo.name + '.params'

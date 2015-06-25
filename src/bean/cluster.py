@@ -138,7 +138,7 @@ class Technology:
 	def __init__(self, networkOpt = None, diskOpt = None):
 		
 		# default technology values
-		# TODO: if valpa is using sriov, use sriov by default
+		# TODO: if Vespa is using sriov, use sriov by default
 		self.defaultNetworkOpt = NetworkOpt.vhost
 		self.defaultDiskOpt = DiskOpt.virtio
 		if networkOpt is None:

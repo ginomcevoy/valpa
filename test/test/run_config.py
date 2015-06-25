@@ -7,9 +7,9 @@ import unittest
 from run.config import ConfiguratorFactory, ApplicationConfiguratorPBS,\
     ExecutionConfiguratorPBS
 import shutil
-from test.test_abstract import ValpaDeploymentAbstractTest
+from test.test_abstract import VespaDeploymentAbstractTest
 
-class ConfiguratorFactoryTest(ValpaDeploymentAbstractTest):
+class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
         super(ConfiguratorFactoryTest, self).setUp()
@@ -33,13 +33,13 @@ class ConfiguratorFactoryTest(ValpaDeploymentAbstractTest):
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
         self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-copy-expected.pbs', 'r').read())
         
-    def testCreateValpaExecutionFile(self):
+    def testCreateVespaExecutionFile(self):
         # given
         experimentPath = '/tmp' # should exist!
-        expectedContent = open('resources/pbs-valpa-expected.pbs', 'r').read()
+        expectedContent = open('resources/pbs-vespa-expected.pbs', 'r').read()
         
         # when
-        pbsFile = self.configFactory.createValpaExecutionFile(self.appRequest, experimentPath)
+        pbsFile = self.configFactory.createVespaExecutionFile(self.appRequest, experimentPath)
         
         # then
         self.maxDiff = None
@@ -73,7 +73,7 @@ class ConfiguratorFactoryTest(ValpaDeploymentAbstractTest):
         self.assertEquals(gotAppParams, self.appParams)
 
         
-class ApplicationConfiguratorPBSTest(ValpaDeploymentAbstractTest):
+class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(ApplicationConfiguratorPBSTest, self).setUp()
@@ -89,7 +89,7 @@ class ApplicationConfiguratorPBSTest(ValpaDeploymentAbstractTest):
     def testEnhanceExecutionFile(self):
         # given
         executionFile = '/tmp/submit.pbs'
-        shutil.copyfile('resources/pbs-valpa-expected.pbs', executionFile)
+        shutil.copyfile('resources/pbs-vespa-expected.pbs', executionFile)
         
         # when
         pbsFile = self.appConfigurator.enhanceExecutionFile(executionFile)
@@ -99,7 +99,7 @@ class ApplicationConfiguratorPBSTest(ValpaDeploymentAbstractTest):
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
         self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-app-expected.pbs', 'r').read())
         
-class ExecutionConfiguratorPBSTest(ValpaDeploymentAbstractTest):
+class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(ExecutionConfiguratorPBSTest, self).setUp()

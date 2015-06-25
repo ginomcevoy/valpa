@@ -234,8 +234,8 @@ class BuildsAllVMDetails:
     Creates all the possible VM templates as VMDetails instances
     and returns an instance of AllPossibleVMs.
     '''
-    def __init__(self, valpaPrefs, hwSpecs, physicalCluster):
-        self.valpaPrefs = valpaPrefs
+    def __init__(self, vespaPrefs, hwSpecs, physicalCluster):
+        self.vespaPrefs = vespaPrefs
         self.hwSpecs = hwSpecs
         self.physicalCluster = physicalCluster
         
@@ -248,8 +248,8 @@ class BuildsAllVMDetails:
         vmsPerHost = self.hwSpecs['cores']
         
         # name is built with pattern
-        vmNameTemplate = self.valpaPrefs['vm_pattern']
-        vmNameTemplate = vmNameTemplate.replace('&PREFIX', self.valpaPrefs['vm_prefix'])
+        vmNameTemplate = self.vespaPrefs['vm_pattern']
+        vmNameTemplate = vmNameTemplate.replace('&PREFIX', self.vespaPrefs['vm_prefix'])
         
         # iterate over physical nodes
         for nodeName in self.physicalCluster.getNames():

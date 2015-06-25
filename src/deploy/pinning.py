@@ -10,11 +10,11 @@ class PinningWriter:
     '''
     Modifies Vm XMLs and adds pinning strategy
     '''
-    def __init__(self, valpaPrefs, pinningTextGen):
+    def __init__(self, vespaPrefs, pinningTextGen):
         '''
         @type pinningTextGen: PinningTextGenerator, strategy to creating pinning text
         '''
-        self.valpaPrefs = valpaPrefs
+        self.vespaPrefs = vespaPrefs
         self.pinningTextGen = pinningTextGen
         
     def setDeploymentContext(self, deploymentInfo):
@@ -245,13 +245,13 @@ class BuildsPinningWriter:
     Creates an instance of EnhancesXMLWithPinnings   
     '''
     
-    def __init__(self, hwSpecs, valpaPrefs):
-        self.valpaPrefs = valpaPrefs
+    def __init__(self, hwSpecs, vespaPrefs):
+        self.vespaPrefs = vespaPrefs
         self.coreMapper = PinningCoreMapper(hwSpecs)
         self.pinningTextGen = PinningTextGenerator(hwSpecs, self.coreMapper)
         
     def build(self):
-        return PinningWriter(self.valpaPrefs, self.pinningTextGen)
+        return PinningWriter(self.vespaPrefs, self.pinningTextGen)
     
 class PinningVirshTextGenFactory:
     '''

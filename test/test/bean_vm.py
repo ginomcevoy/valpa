@@ -4,14 +4,14 @@ Created on Nov 2, 2014
 @author: giacomo
 '''
 import unittest
-from test.test_abstract import ValpaWithNodesAbstractTest
+from test.test_abstract import VespaWithNodesAbstractTest
 from bean.vm import BuildsAllVMDetails, VirtualClusterFactory
 
-class BuildsAllVMDetailsTest(ValpaWithNodesAbstractTest):
+class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         super(BuildsAllVMDetailsTest, self).setUp()
-        self.vmFactory = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
+        self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
 
     def testGetAllNodes(self):
         allVMDetails = self.vmFactory.build()
@@ -38,11 +38,11 @@ class BuildsAllVMDetailsTest(ValpaWithNodesAbstractTest):
         aVMSuffix = allVMDetails.getVMSuffix('kvm-pbs086-08')
         self.failUnlessEqual(aVMSuffix, '08')
         
-class AllVMDetailsTest(ValpaWithNodesAbstractTest):
+class AllVMDetailsTest(VespaWithNodesAbstractTest):
     
     def setUp(self):
         super(AllVMDetailsTest, self).setUp()
-        self.vmFactory = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
+        self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = self.vmFactory.build()
         
     def testGetSubset(self):
@@ -64,11 +64,11 @@ class AllVMDetailsTest(ValpaWithNodesAbstractTest):
         self.assertEquals(sorted(subsetDetails.byNode['node084']), sorted(('kvm-pbs084-01', 'kvm-pbs084-02')))
         
 
-class VirtualClusterFactoryTest(ValpaWithNodesAbstractTest):
+class VirtualClusterFactoryTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         super(VirtualClusterFactoryTest, self).setUp()
-        vmDetailsFactory = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
+        vmDetailsFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         allVMDetails = vmDetailsFactory.build()
         self.vmTemplateFactory = VirtualClusterFactory(allVMDetails)
         
@@ -118,12 +118,12 @@ class VirtualClusterFactoryTest(ValpaWithNodesAbstractTest):
 
         # given their templates with XML definitions
         definitionDict = {
-            'kvm-pbs082-01' : '/tmp/valpa/kvm-pbs082-01.xml',
-            'kvm-pbs082-02' : '/tmp/valpa/kvm-pbs082-02.xml',
-            'kvm-pbs083-01' : '/tmp/valpa/kvm-pbs083-01.xml',
-            'kvm-pbs083-02' : '/tmp/valpa/kvm-pbs083-02.xml',
-            'kvm-pbs084-01' : '/tmp/valpa/kvm-pbs084-01.xml',
-            'kvm-pbs084-02' : '/tmp/valpa/kvm-pbs084-02.xml'}
+            'kvm-pbs082-01' : '/tmp/vespa/kvm-pbs082-01.xml',
+            'kvm-pbs082-02' : '/tmp/vespa/kvm-pbs082-02.xml',
+            'kvm-pbs083-01' : '/tmp/vespa/kvm-pbs083-01.xml',
+            'kvm-pbs083-02' : '/tmp/vespa/kvm-pbs083-02.xml',
+            'kvm-pbs084-01' : '/tmp/vespa/kvm-pbs084-01.xml',
+            'kvm-pbs084-02' : '/tmp/vespa/kvm-pbs084-02.xml'}
         clusterTemplate.setDefinitions(definitionDict)
 
         outputFile = '/tmp/clusterTemplate-definitions.txt'

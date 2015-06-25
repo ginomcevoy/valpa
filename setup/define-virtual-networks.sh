@@ -24,34 +24,34 @@ fi
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Read parameters
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
 # Output dir
-OUTPUT_DIR=$VALPA_DIR/data-output/networks
+OUTPUT_DIR=$VESPA_DIR/data-output/networks
 mkdir -p $OUTPUT_DIR
 
 # call script for creating XMLs
-cd $VALPA_DIR/src
+cd $VESPA_DIR/src
 python -m network.create $TYPE $OUTPUT_DIR
 
 # Iterate nodes
 INDEX=1
-while [ `$VALPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
+while [ `$VESPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
 
   if [ $TYPE == 'libvirt-bridge' ]; then
     # each node gets a different XML with DHCP information
     # example output file: libvirt-bridge-node082.xml
-    NODE_NAME=`$VALPA_DIR/util/iterator-node-names.sh $INDEX`
+    NODE_NAME=`$VESPA_DIR/util/iterator-node-names.sh $INDEX`
     XML_NAME=libvirt-bridge-${NODE_NAME}.xml
   elif [ $TYPE == 'external-bridge' ]; then
-    # each node gets the same XML with the same bridge name (valpa.params)
+    # each node gets the same XML with the same bridge name (vespa.params)
     # bridge should already exist in each node
     XML_NAME=external-bridge.xml
   elif [ $TYPE == 'sriov' ]; then
-    # each node gets the same XML with the same network interface (valpa.params)
+    # each node gets the same XML with the same network interface (vespa.params)
     # SR-IOV should already be configured for that interface
     XML_NAME=sriov.xml
   fi

@@ -7,15 +7,15 @@ import unittest
 from deploy.mapping import MappingResolver
 from bean.cluster import Topology, Cluster, Mapping, \
     ClusterPlacement
-from test.test_abstract import ValpaWithNodesAbstractTest
+from test.test_abstract import VespaWithNodesAbstractTest
 from bean.vm import VirtualClusterTemplates
 
-class MappingTest(ValpaWithNodesAbstractTest):
+class MappingTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        # load fixed VALPA settings and physical nodes
+        # load fixed Vespa settings and physical nodes
         super(MappingTest, self).setUp()
-        self.mappingResolver = MappingResolver(self.hwSpecs, self.valpaPrefs, self.physicalCluster, self.allVMDetails)
+        self.mappingResolver = MappingResolver(self.hwSpecs, self.vespaPrefs, self.physicalCluster, self.allVMDetails)
 
     def testSpecified(self):
         '''

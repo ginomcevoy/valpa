@@ -40,11 +40,11 @@ class VMDefinitionBasicGenerator:
 	'''
 	Creates a Vm XML with basic characteristics (vm name, UUID, diskFile, MAC)
 	'''
-	def __init__(self, valpaPrefs, definitionDetails):
-		self.valpaPrefs = valpaPrefs
+	def __init__(self, vespaPrefs, definitionDetails):
+		self.vespaPrefs = vespaPrefs
 		self.definitionDetails = definitionDetails
 		self.loader = FileLoader('.')
-		self.clusterXMLFilename = '/tmp/valpa-definition-cluster.xml'
+		self.clusterXMLFilename = '/tmp/vespa-definition-cluster.xml'
 		
 	def setDeploymentContext(self, deploymentInfo, forReal = True):
 		self.deployedNodes = deploymentInfo[0]
@@ -81,16 +81,16 @@ class VMDefinitionBasicGenerator:
 	
 class VMXMLSaver:
 	'''
-	Saves all the VM XMLs into a path specified by valpaPrefs
+	Saves all the VM XMLs into a path specified by vespaPrefs
 	'''
 	
-	def __init__(self, valpaPrefs):
-		self.valpaPrefs = valpaPrefs
+	def __init__(self, vespaPrefs):
+		self.vespaPrefs = vespaPrefs
 		
 	def saveXMLs(self, xmlDict, experimentName):
 		
 		# create target dir - will delete it if non-empty!
-		outputDir = self.valpaPrefs['vm_xml_output'] + '/' + experimentName
+		outputDir = self.vespaPrefs['vm_xml_output'] + '/' + experimentName
 		if os.path.exists(outputDir):
 			shutil.rmtree(outputDir)
 		os.makedirs(outputDir)
@@ -114,8 +114,8 @@ class VMDefinitionDetails:
 	'''
 	Provides functions to create uuidgen and MAC address.
 	'''
-	def __init__(self, valpaPrefs, networkAddresses):
-		self.valpaPrefs = valpaPrefs
+	def __init__(self, vespaPrefs, networkAddresses):
+		self.vespaPrefs = vespaPrefs
 		self.networkAddresses = networkAddresses
 		
 	def setDeploymentContext(self, deploymentInfo, forReal = True):
@@ -151,13 +151,13 @@ class BuildsVMDefinitionGenerator:
 	Creates an instance of VMDefinitionGenerator 
 	'''
 	
-	def __init__(self, valpaPrefs, pinningWriter, networkAddresses):
-		self.valpaPrefs = valpaPrefs
+	def __init__(self, vespaPrefs, pinningWriter, networkAddresses):
+		self.vespaPrefs = vespaPrefs
 		self.pinningWriter = pinningWriter
 		self.networkAddresses = networkAddresses
 		
 	def build(self):
-		definitionDetails = VMDefinitionDetails(self.valpaPrefs, self.networkAddresses)
-		basicGenerator = VMDefinitionBasicGenerator(self.valpaPrefs, definitionDetails)
-		xmlSaver = VMXMLSaver(self.valpaPrefs)
+		definitionDetails = VMDefinitionDetails(self.vespaPrefs, self.networkAddresses)
+		basicGenerator = VMDefinitionBasicGenerator(self.vespaPrefs, definitionDetails)
+		xmlSaver = VMXMLSaver(self.vespaPrefs)
 		return VMDefinitionGenerator(basicGenerator, self.pinningWriter, xmlSaver)

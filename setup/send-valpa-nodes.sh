@@ -9,19 +9,19 @@ LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 # Import params
 source $LOCAL_DIR/../params.sh
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
-$VALPA_DIR/mgmt-nodes/cluster-ssh.sh "mkdir -p $VALPA_DIR"
-$VALPA_DIR/mgmt-nodes/cluster-ssh.sh "mkdir -p $VALPA_DIR/src"
+$VESPA_DIR/mgmt-nodes/cluster-ssh.sh "mkdir -p $VESPA_DIR"
+$VESPA_DIR/mgmt-nodes/cluster-ssh.sh "mkdir -p $VESPA_DIR/src"
 
 # copy critical files to each host
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/setup $VALPA_DIR
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/params.sh $VALPA_DIR
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/src/config $VALPA_DIR/src
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/setup $VESPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/params.sh $VESPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/src/config $VESPA_DIR/src
 
 # Copy additional files to each host
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/networking $VALPA_DIR
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/data-output $VALPA_DIR
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/input $VALPA_DIR
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/monitor $VALPA_DIR
-$VALPA_DIR/mgmt-nodes/cluster-scp.sh $VALPA_DIR/util $VALPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/networking $VESPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/data-output $VESPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/input $VESPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/monitor $VESPA_DIR
+$VESPA_DIR/mgmt-nodes/cluster-scp.sh $VESPA_DIR/util $VESPA_DIR

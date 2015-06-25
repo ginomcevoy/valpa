@@ -1,13 +1,13 @@
-# Test Parameters for VALPA
+# Test Parameters for Vespa
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 
 [Networking]
 # Main networking option: one of {libvirt-bridge | external-bridge | sriov}
 # ALL options imply a virtual network defined in libvirt, for each physical node 
-# libvirt-bridge: 	instructs VALPA to use a bridge managed by libvirt (DHCP by libvirt)
-# external-bridge:  instructs VALPA to use a previously defined bridge (bridge and DHCP external to libvirt)
-# sriov:         	instructs VALPA to use the Virtual Functions of a SR-IOV network
+# libvirt-bridge: 	instructs Vespa to use a bridge managed by libvirt (DHCP by libvirt)
+# external-bridge:  instructs Vespa to use a previously defined bridge (bridge and DHCP external to libvirt)
+# sriov:         	instructs Vespa to use the Virtual Functions of a SR-IOV network
 network_source=external-bridge
 
 # interface that will host bridge (libvirt-bridge)
@@ -45,13 +45,13 @@ dhcp_c_step=15
 # Other networking
 
 # network name for SR-IOV
-net_name_sriov=valpa-sriov
+net_name_sriov=vespa-sriov
 
 # network name for libvirt bridge
-net_name_bridge_create=valpa-libvirt-bridge
+net_name_bridge_create=vespa-libvirt-bridge
 
 # network name for external bridge
-net_name_bridge_use=valpa-external-bridge
+net_name_bridge_use=vespa-external-bridge
 
 # MAC address prefix for VMs
 net_mac_prefix=00:16:36:ff
@@ -70,9 +70,9 @@ run_timeoutput=times.txt
 
 # Monitor application - monitor_app: either 'sysstat' or 'vmstat'
 monitor_app=sysstat
-monitor_start=$HOME/valpa/monitor/monitor-start-pbs.sh
-monitor_stop=$HOME/valpa/monitor/monitor-stop-pbs.sh
-monitor_preprocess=$HOME/valpa/monitor/monitor-preprocess-pbs.sh
+monitor_start=$HOME/vespa/monitor/monitor-start-pbs.sh
+monitor_stop=$HOME/vespa/monitor/monitor-stop-pbs.sh
+monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
 
 # Also monitor physical nodes? (True/False)
 monitor_do_nodes=True
@@ -92,10 +92,10 @@ vm_mem_core=1024
 
 vm_mac_base=00:16:36:ff
 
-vm_xml_output=/tmp/valpa/xmls
+vm_xml_output=/tmp/vespa/xmls
 
 exec_config_template=../templates/execConfig.template
-exec_config_output=/tmp/valpa/execs
+exec_config_output=/tmp/vespa/execs
 xml_cluster_path=vms
 
 general_verbose=1
@@ -104,7 +104,7 @@ general_verbose=1
 # _DISK_DRIVER_TYPE
 xml_disk_drivertype=raw
 
-# _VALPAPATH
+# _VESPAPATH
 xml_disk_path=/home/giacomo2
 
 # _DISKFILE

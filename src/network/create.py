@@ -5,7 +5,7 @@ Created on Oct 21, 2014
 '''
 from quik import FileLoader
 import sys
-from config import valpaconfig
+from config import vespaconfig
 
 class BuildsNetworkXMLs:
     '''
@@ -31,8 +31,8 @@ class BuildsNetworkXMLs:
         self.argumentsCreateBridge = argumentSolverFactory.createForCreatingBridge()
         
     def createNetworkXMLs(self, networkType, outputDir):
-        if not networkType in valpaconfig.allowedNetworkTypes():
-            print('Allowed values = ' + str(valpaconfig.allowedNetworkTypes()))
+        if not networkType in vespaconfig.allowedNetworkTypes():
+            print('Allowed values = ' + str(vespaconfig.allowedNetworkTypes()))
             raise ValueError('Network type not allowed: ', networkType)
         
         if networkType == 'sriov':
@@ -265,7 +265,7 @@ if __name__ == '__main__':
     else:
         outputDir = '../data-output/networks' # default location
     
-    # Bootstrap VALPA with default config
+    # Bootstrap VESPA with default config
     bootstrap.doBootstrap()
     bootstrapper = bootstrap.getInstance()
     

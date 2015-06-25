@@ -8,13 +8,13 @@ Unit tests for run.prepare
 
 import unittest
 from run.prepare import ConfigFileGenerator, PreparesExperiment
-from test.test_abstract import ValpaDeploymentAbstractTest
+from test.test_abstract import VespaDeploymentAbstractTest
 
-class ConfigFileGeneratorTest(ValpaDeploymentAbstractTest):
+class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(ConfigFileGeneratorTest, self).setUp()
-        self.excConfigGen = ConfigFileGenerator(False, self.valpaPrefs, self.runOpts)
+        self.excConfigGen = ConfigFileGenerator(False, self.vespaPrefs, self.runOpts)
     
     def testCreateExecConfig(self):
         # when
@@ -22,7 +22,7 @@ class ConfigFileGeneratorTest(ValpaDeploymentAbstractTest):
         
         # then
         self.maxDiff = None
-        self.assertEquals(excConfig, '/tmp/valpa/execs/446bf85f-b4ba-459b-8e04-60394fc00d5c')
+        self.assertEquals(excConfig, '/tmp/vespa/execs/446bf85f-b4ba-459b-8e04-60394fc00d5c')
         self.assertEquals(open(excConfig, 'r').read(), open('resources/execConfig-expected.output', 'r').read())
         
         self.assertEquals(deployDir, '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE')
@@ -31,7 +31,7 @@ class ConfigFileGeneratorTest(ValpaDeploymentAbstractTest):
         # given
         configFile = 'resources/execConfig-expected.output'
         outputPath = '/tmp'
-        excConfigGen = ConfigFileGenerator(False, self.valpaPrefs, self.runOpts)
+        excConfigGen = ConfigFileGenerator(False, self.vespaPrefs, self.runOpts)
         
         # when
         trimmedConfigFile = excConfigGen.saveTrimmedExecConfig(configFile, outputPath)
@@ -41,11 +41,11 @@ class ConfigFileGeneratorTest(ValpaDeploymentAbstractTest):
         self.assertEquals(trimmedConfigFile, '/tmp/config.txt')
         self.assertEquals(open(trimmedConfigFile, 'r').read(), open('resources/trimmedConfig-expected.output', 'r').read())
         
-class PreparesExperimentTest(ValpaDeploymentAbstractTest):
+class PreparesExperimentTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(PreparesExperimentTest, self).setUp()
-        self.prepsExperiment = PreparesExperiment(False, self.valpaPrefs, self.runOpts)
+        self.prepsExperiment = PreparesExperiment(False, self.vespaPrefs, self.runOpts)
     
     def testSaveTopology(self):
         # given

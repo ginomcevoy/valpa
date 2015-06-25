@@ -14,12 +14,12 @@ NODE_INDEX=$1
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VALPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $VALPA_DIR/params.sh
+source $VESPA_DIR/params.sh
 
-if [ `$VALPA_DIR/util/iterator-nodes.sh $1` ]; then
+if [ `$VESPA_DIR/util/iterator-nodes.sh $1` ]; then
 
 	# Zero-based index
 	NODE_ZERO_INDEX=`expr $NODE_INDEX - 1`
@@ -32,7 +32,7 @@ if [ `$VALPA_DIR/util/iterator-nodes.sh $1` ]; then
 		RANGE_START="${IP_PREFIX}.${RANGE_START_SUFFIX}"
  	elif [ $NET_CLASS == 'B' ]; then
  		# e.g. 172.16.82.1
- 		NODE_NUMBER=`$VALPA_DIR/util/iterator-node-numbers.sh $1 NONZERO`
+ 		NODE_NUMBER=`$VESPA_DIR/util/iterator-node-numbers.sh $1 NONZERO`
  		RANGE_START="${IP_PREFIX_B}.${NODE_NUMBER}.${DHCP_START_B}"
  	fi
  	echo $RANGE_START

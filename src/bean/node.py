@@ -86,9 +86,9 @@ class NodeCluster:
     def createInventory(self, inventoryFilename, allVMDetails):
         '''
         Creates an inventory for Ansible. Overwrites file if exists.
-        Example using 'valpa' as node name and 'kvm-pbs' as vm prefix:
-        valpa02 nodeSuffix=02 nodeIndex=0 vmNames='["kvm-pbs02-01", "kvm-pbs02-02", ...]'
-        valpa03 nodeSuffix=03 nodeIndex=1 vmNames='["kvm-pbs03-01", "kvm-pbs03-02", ...]'
+        Example using 'vespa' as node name and 'kvm-pbs' as vm prefix:
+        vespa02 nodeSuffix=02 nodeIndex=0 vmNames='["kvm-pbs02-01", "kvm-pbs02-02", ...]'
+        vespa03 nodeSuffix=03 nodeIndex=1 vmNames='["kvm-pbs03-01", "kvm-pbs03-02", ...]'
         @param inventoryFilename: the name of the file
         @param allVMDetails: a valid instance of AllVMDetails 
         '''

@@ -7,7 +7,7 @@ Routines for newtork addresses
 '''
 
 class NetworkAddresses:
-    
+        
     def __init__(self, networkingOpts, physicalCluster, hwSpecs):
         self.networkingOpts = networkingOpts
         self.physicalCluster = physicalCluster
@@ -134,7 +134,7 @@ class NetworkAddresses:
             # contingency for 3 digits, use hexadecimal
             nodePart = '%02x' % nodeNumber
         else:
-            raise ValueError('VALPA limitation: cannot issue MAC addresses for nodeNumber > 255!') 
+            raise ValueError('Vespa limitation: cannot issue MAC addresses for nodeNumber > 255!') 
         
         # apply same strategy for vm suffix
         if vmIndex < 100:
@@ -142,7 +142,7 @@ class NetworkAddresses:
         elif vmIndex  < 256:
             vmPart = '%02x' % (vmIndex + 1)
         else:
-            raise ValueError('VALPA limitation: cannot issue MAC addresses for vmIndex > 255!')
+            raise ValueError('Vespa limitation: cannot issue MAC addresses for vmIndex > 255!')
         
         macSuffix = self.networkingOpts['net_mac_prefix']
         
@@ -202,7 +202,7 @@ class NetworkAddresses:
         return self.networkingOpts['net_class'] == 'C'
     
     def __invalidClass__(self):
-        raise ValueError('Invalid net_class parameter in valpa.params: ', self.networkingOpts['net_class'])
+        raise ValueError('Invalid net_class parameter in vespa.params: ', self.networkingOpts['net_class'])
 
 if __name__ == '__main__':
     pass

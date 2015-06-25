@@ -4,7 +4,8 @@ Created on Nov 2, 2014
 @author: giacomo
 '''
 import unittest
-from config import hwconfig, valpaconfig
+from config import hwconfig
+from config import vespaconfig
 from bean.cluster import Topology, Mapping, Technology, Cluster,\
     ClusterPlacement
 from bean.node import PhysicalNode, NodeCluster
@@ -15,10 +16,10 @@ from bean.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
 import difflib
 
 
-class ValpaAbstractTest(unittest.TestCase):
+class VespaAbstractTest(unittest.TestCase):
     '''
-    Basic template for most unit tests in VALPA, fixes default configuration using 
-    resources/valpa.params and resources/hardware.params.
+    Basic template for most unit tests in Vespa, fixes default configuration using 
+    resources/vespa.params and resources/hardware.params.
     '''
 
     def setUp(self):
@@ -26,9 +27,9 @@ class ValpaAbstractTest(unittest.TestCase):
         self.hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
         self.hwSpecs = self.hwInfo.getHwSpecs()
         
-        # Valpa params
-        valpaConfig = valpaconfig.readValpaConfig('resources/valpa.params')
-        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts) = valpaConfig.getAll()
+        # Vespa params
+        vespaConfig = vespaconfig.readVespaConfig('resources/vespa.params')
+        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts) = vespaConfig.getAll()
         
     def assertMultiLineEqual(self, first, second, msg=None):
         '''
@@ -47,14 +48,14 @@ class ValpaAbstractTest(unittest.TestCase):
                 message += " : " + msg
             self.fail("Multi-line strings are unequal:\n" + message)
         
-class ValpaWithNodesAbstractTest(ValpaAbstractTest):
+class VespaWithNodesAbstractTest(VespaAbstractTest):
     '''
-    Template for unit tests in VALPA that assume a fixed physical cluster.
+    Template for unit tests in Vespa that assume a fixed physical cluster.
     '''
     
     def setUp(self):
-        # load fixed VALPA settings
-        super(ValpaWithNodesAbstractTest, self).setUp()
+        # load fixed Vespa settings
+        super(VespaWithNodesAbstractTest, self).setUp()
         
         # assume cluster architecture: 3 physical nodes
         node1 = PhysicalNode('node082', 0, 82, '082')
@@ -72,19 +73,19 @@ class ValpaWithNodesAbstractTest(ValpaAbstractTest):
         nodeTuple = ('node082', 'node083', 'node084', 'node085', 'node086', 'node087')
         self.physicalCluster = NodeCluster(nodeDict, nodeTuple)
         
-        buildsVMDetails = BuildsAllVMDetails(self.valpaPrefs, self.hwSpecs, self.physicalCluster)
+        buildsVMDetails = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = buildsVMDetails.build()
         
-class ValpaDeploymentAbstractTest(ValpaWithNodesAbstractTest):
+class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
     '''
-    Template for unit tests in VALPA used for testing virtual cluster deployments.
-    Inherits the physical cluster from ValpaWithNodesAbstractTest, and assumes
+    Template for unit tests in Vespa used for testing virtual cluster deployments.
+    Inherits the physical cluster from VespaWithNodesAbstractTest, and assumes
     a virtual cluster request.
     '''
     
     def setUp(self):
-        # load fixed VALPA settings and physical nodes
-        super(ValpaDeploymentAbstractTest, self).setUp()
+        # load fixed Vespa settings and physical nodes
+        super(VespaDeploymentAbstractTest, self).setUp()
     
         # Cluster with 2 PMs, 2 VMs each, cpv=4, all sockets
         topo = Topology(16, 4)

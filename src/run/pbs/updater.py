@@ -29,7 +29,7 @@ class PBSUpdater:
         
     def createFile(self, deployedVMs, clusterInfo):
         '''
-        Creates the nodes file for PBS. Temporary location is given by valpa.params,
+        Creates the nodes file for PBS. Temporary location is given by vespa.params,
         default is /tmp/pbs-nodes
         Format:
         node1 np=#

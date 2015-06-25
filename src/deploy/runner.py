@@ -21,7 +21,7 @@ class ExperimentSetRunner():
     Runs all experiments in the experiment XML.
     '''
 
-    def __init__(self, clusterFactory, hwSpecs, valpaPrefs, forReal):
+    def __init__(self, clusterFactory, hwSpecs, vespaPrefs, forReal):
         '''
         Constructor, clusterFactory should have been instantiated by bootstrap
         '''
@@ -37,7 +37,7 @@ class ExperimentSetRunner():
         self.clusterExecutor = clusterFactory.createClusterExecutor()
         
         self.hwSpecs = hwSpecs
-        self.valpaPrefs = valpaPrefs
+        self.vespaPrefs = vespaPrefs
         self.forReal = forReal
         
     def readAndExecute(self, scenarioXML):
@@ -99,12 +99,12 @@ class ExperimentSetRunner():
         # current implementation uses Ansible using the deployedNodes as inventory
         # TODO: use Ansible Python API and a proper module/playbook
         deployedNodes = deploymentInfo[0]
-        nodeFilename = '/tmp/valpa/' + str(clusterRequest) + '-nodes.txt'
+        nodeFilename = '/tmp/vespa/' + str(clusterRequest) + '-nodes.txt'
         deployedNodes.toFile(nodeFilename)
         hostCount = len(deployedNodes.getNames())
 
         # call using Ansible API
-        ansible_args = '../mgmt/stop-vms-local.sh ' + self.valpaPrefs['vm_prefix']
+        ansible_args = '../mgmt/stop-vms-local.sh ' + self.vespaPrefs['vm_prefix']
         runner = ansible.runner.Runner(
             host_list=nodeFilename,
             module_name='script',
@@ -148,35 +148,35 @@ class ClusterFactory:
     '''
     Instantiates the ClusterDefiner, ClusterDeployer and ClusterExecutor.
     '''
-    def __init__(self, forReal, valpaConfig, hwSpecs, vmDefinitionGenerator, physicalCluster, allVMDetails, valpaXML):
-        # Process VALPA configuration
-        (self.valpaPrefs, self.valpaXMLOpts, self.runOpts, self.networkingOpts) = valpaConfig.getAll()
+    def __init__(self, forReal, vespaConfig, hwSpecs, vmDefinitionGenerator, physicalCluster, allVMDetails, vespaXML):
+        # Process Vespa configuration
+        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts) = vespaConfig.getAll()
        
         self.hwSpecs = hwSpecs
         self.physicalCluster = physicalCluster
         self.allVMDetails = allVMDetails
         
-        self.valpaXML = valpaXML
+        self.vespaXML = vespaXML
         self.forReal = forReal
         self.vmDefinitionGenerator = vmDefinitionGenerator
         
     def createClusterDefiner(self):
         
-        mappingResolver = MappingResolver(self.hwSpecs, self.valpaPrefs, self.physicalCluster, self.allVMDetails)
-        clusterXMLGen = ClusterXMLGenerator(self.valpaXML, self.valpaPrefs)
+        mappingResolver = MappingResolver(self.hwSpecs, self.vespaPrefs, self.physicalCluster, self.allVMDetails)
+        clusterXMLGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs)
         
         clusterDefiner = ClusterDefiner(mappingResolver, clusterXMLGen, self.vmDefinitionGenerator)
         return clusterDefiner
     
     def createPhysicalClusterDefiner(self):
-        clusterDefiner = PhysicalClusterDefiner(self.hwSpecs, self.valpaPrefs, self.runOpts, self.physicalCluster, self.allVMDetails)
+        clusterDefiner = PhysicalClusterDefiner(self.hwSpecs, self.vespaPrefs, self.runOpts, self.physicalCluster, self.allVMDetails)
         return clusterDefiner
     
     def createClusterDeployer(self):
         return ClusterDeployer(self.forReal, self.hwSpecs, self.runOpts)
         
     def createClusterExecutor(self):
-        clusterExecutor = ClusterExecutor(self.forReal, self.valpaPrefs, self.runOpts)
+        clusterExecutor = ClusterExecutor(self.forReal, self.vespaPrefs, self.runOpts)
         return clusterExecutor 
                     
 class ClusterDeployer:
@@ -223,13 +223,13 @@ class ClusterDeployer:
         # with the VM XML definitions. The parallel-based script will 
         # call the create operation using the files.   
         #
-        nodeFilename = '/tmp/valpa/' + str(cluster) + '-nodes.txt'
+        nodeFilename = '/tmp/vespa/' + str(cluster) + '-nodes.txt'
         deployedNodes.toFile(nodeFilename)
         
-        definitionFilename = '/tmp/valpa/'+ str(cluster) + '-definitions.txt'
+        definitionFilename = '/tmp/vespa/'+ str(cluster) + '-definitions.txt'
         deployedVMs.definitionsToFile(definitionFilename)
         
-        vmFilename = '/tmp/valpa/'+ str(cluster) + '-vms.txt'
+        vmFilename = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
         deployedVMs.namesToFile(vmFilename) 
         
         createShellCall = ['/bin/bash', '../mgmt/create-vm-parallel.sh', str(hostCount), nodeFilename, definitionFilename]
@@ -317,12 +317,12 @@ class ClusterExecutor:
     Executes an application on a previously deployed cluster.
     '''
     
-    def __init__(self, forReal, valpaPrefs, runOpts):
+    def __init__(self, forReal, vespaPrefs, runOpts):
         self.forReal = forReal
         self.runOpts = runOpts
 
         # need these as strategy
-        self.prepsExperiment = PreparesExperiment(forReal, valpaPrefs, runOpts)
+        self.prepsExperiment = PreparesExperiment(forReal, vespaPrefs, runOpts)
         self.configFactory = ConfiguratorFactory(runOpts)
         self.runnerFactory = RunnerFactory(self.configFactory, forReal)
     
@@ -340,7 +340,7 @@ class ClusterExecutor:
         appRunner = self.runnerFactory.createAppRunner(appRequest)
         
         # get basic execution file
-        executionFile = self.configFactory.createValpaExecutionFile(appRequest, experimentPath)
+        executionFile = self.configFactory.createVespaExecutionFile(appRequest, experimentPath)
         
         # apply configuration
         executionFile = appConfigurator.enhanceExecutionFile(executionFile, execConfig)

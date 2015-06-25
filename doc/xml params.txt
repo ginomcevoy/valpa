@@ -1,7 +1,7 @@
-Valpa params
+Vespa params
 _NET_VALUE
 _DISK_DRIVER_TYPE
-_VALPAPATH
+_VESPAPATH
 _DISKFILE
 _DISK_DEV
 

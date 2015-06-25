@@ -21,16 +21,16 @@
 		<interface type="network">
 			<source network="@network_name"/>
 			<mac address="@vm_mac"/>
-_VALPA_POUND_if (@network_option == 'vhost' || @network_option == 'virtio')
+_VESPA_POUND_if (@network_option == 'vhost' || @network_option == 'virtio')
 			<model type="virtio"/>
 			<driver name="@network_driver"/>
-_VALPA_POUND_end
+_VESPA_POUND_end
 		</interface>
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
-			<driver name="qemu" type="@valpa_disk_type"/>
-			<source file="@valpa_path/@cluster_path/@vm_path/@valpa_disk_file"/>
-			<target dev="@valpa_disk_dev" bus="@cluster_disk_bus"/>
+			<driver name="qemu" type="@vespa_disk_type"/>
+			<source file="@vespa_path/@cluster_path/@vm_path/@vespa_disk_file"/>
+			<target dev="@vespa_disk_dev" bus="@cluster_disk_bus"/>
 		</disk>
 		<console type="pty">
 			<target port="0"/>

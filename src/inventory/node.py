@@ -14,7 +14,7 @@ if __name__ == "__main__":
         raise ValueError("call: node <inventoryFilename>")
     inventoryFilename = sys.argv[1]
     
-    # Bootstrap VALPA with default config
+    # Bootstrap Vespa with default config
     bootstrap.doBootstrap()
     bootstrapper = bootstrap.getInstance()
     
