@@ -83,7 +83,7 @@ class NodeCluster:
             for node in sorted(self.nodeTuple):
                 nodeFile.write(node + '\n')
                 
-    def createInventory(self, inventoryFilename, allVMDetails):
+    def createInventory(self, inventoryFilename, allVMDetails, hostCount):
         '''
         Creates an inventory for Ansible. Overwrites file if exists.
         Example using 'vespa' as node name and 'kvm-pbs' as vm prefix:

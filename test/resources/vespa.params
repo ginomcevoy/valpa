@@ -111,6 +111,3 @@ repo_root=/home/giacomo/vms
 
 # Dir for base images inside root dir
 repo_base_dir=base
-
-# Available image disks, comma-separated
-repo_images=disk.img,ubuntu14.04.img,ubuntu14.04-infiniband.img
