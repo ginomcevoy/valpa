@@ -1,46 +1,19 @@
-#!/bin/bash
-# Copy disk.img from master image (in each node)
+#!/bin/bash 
+# Replicates Vespa VM images from repository base to each VM folder
+# This process is performed on Vespa nodes, need to distribute repository first
+# Requires sudo pass on Vespa nodes (libvirt changes image ownership to root)
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
-# LNCC Brazil 2014
+# LNCC Brazil 2015
 
-# Directory local to script
+# calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
-VESPA_DIR=$LOCAL_DIR/..
+VESPA_DIR=$LOCAL_DIR/../
 
-# Load global params
+# Import params
 source $VESPA_DIR/params.sh
 
-# Validate input
-if [ $# -lt 1 ]; then
-	echo "Copy disk.img from master image (in each node)"
-	echo "Usage: $0 <node_index>"
-	exit 1
-fi
+# Generate inventory for whole cluster
+INVENTORY=$($VESPA_DIR/util/nodes-inventory.sh $NODE_L)
 
-
-# Input = node index
-NODE_INDEX=$1
-
-# Node name
-NODE_NAME=`$VESPA_DIR/util/iterator-node-names.sh $NODE_INDEX`
-
-# Master image location in nodes
-MASTER_IMAGE=$VM_IMAGE_PATH/$VM_IMAGE_MASTER/$DISK_FILENAME
-
-# Output
-OUTPUT_LOG=/tmp/vespa-replicate-image.log
-rm -f $OUTPUT_LOG
-echo "Log at $OUTPUT_LOG"
-
-#VM loop
-for (( i=1; i<=VM_L; i++ )); do
-  VM_NAME=$($VESPA_DIR/util/iterator-vm-names.sh $NODE_INDEX $i)
- 
-  # destination dir
-  DEST_DIR=$VM_IMAGE_PATH/$NODE_NAME/$VM_NAME
-  mkdir -p $DEST_DIR
-
-  # copy sequentially
-  echo "Copying to $DEST_DIR ..."
-  cp $MASTER_IMAGE $DEST_DIR &>> $OUTPUT_LOG
-done
+# Execute replicate-vm playbook, will perform required actions
+ansible-playbook replicate-vms.yml --inventory=$INVENTORY --forks=$NODE_L --ask-sudo-pass --extra-vars="repo_root=$REPO_ROOT repo_base=$REPO_BASE_DIR" 
