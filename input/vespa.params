@@ -114,5 +114,3 @@ repo_root=/home/giacomo2/test
 # Dir for base images inside root dir
 repo_base_dir=base
 
-# Available image disks, comma-separated
-repo_images=ubuntu14.04.img,ubuntu14.04-infiniband.img
