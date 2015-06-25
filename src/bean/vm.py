@@ -121,7 +121,7 @@ class AllVMDetails():
                 
         return AllVMDetails(vmDictSubset, byNodeSubset)
     
-    def createInventory(self, inventoryFilename, physicalCluster):
+    def createVirtualInventory(self, inventoryFilename, physicalCluster, hostCount, vmsPerHost):
         '''
         Creates an inventory for Ansible. Overwrites file if exists.
         Example using 'node' as node name and 'kvm-pbs' as vm prefix:
@@ -129,15 +129,20 @@ class AllVMDetails():
         kvm-pbs082-02 vmSuffix=02 nodeSuffix=082 hostingNode=node082
         @param inventoryFilename: the name of the file for VM inventory
         @param allVMDetails: a valid instance of AllVMDetails 
+        @param hostCount: number of corresponding nodes, starting from the first
+        @param cpv: number of VMs per node 
         '''
         # the templates get sorted using the __cmp__ function
         sortedVmDetails = sorted(self.vmDict.values())
         
         with open(inventoryFilename, 'w') as inventoryFile:
             for vmDetails in sortedVmDetails:
-                nodeSuffix = physicalCluster.getNodeSuffix(vmDetails.hostingNode)
-                line = vmDetails.name + " vmSuffix=" +  vmDetails.suffix + " nodeSuffix=" + nodeSuffix + " hostingNode=" + vmDetails.hostingNode + "\n"
-                inventoryFile.write(line)
+                nodeIndex = physicalCluster.getNodeIndex(vmDetails.hostingNode)
+                vmIndex = vmDetails.index
+                if nodeIndex < hostCount and vmIndex < vmsPerHost:
+                    nodeSuffix = physicalCluster.getNodeSuffix(vmDetails.hostingNode)
+                    line = vmDetails.name + " vmSuffix=" +  vmDetails.suffix + " nodeSuffix=" + nodeSuffix + " hostingNode=" + vmDetails.hostingNode + "\n"
+                    inventoryFile.write(line)
     
 class VMTemplate:
     '''

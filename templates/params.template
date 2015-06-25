@@ -45,3 +45,4 @@ REPO_BASE_DIR='@repo_base_dir'  # Dir for base images inside root dir
 
 # Inventory
 DEFAULT_NODE_INVENTORY='@out_node_inventory'
+DEFAULT_VM_INVENTORY='@out_vm_inventory'

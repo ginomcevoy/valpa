@@ -45,3 +45,4 @@ REPO_BASE_DIR='base'  # Dir for base images inside root dir
 
 # Inventory
 DEFAULT_NODE_INVENTORY='/tmp/vespa-node-inventory'
+DEFAULT_VM_INVENTORY='/tmp/vespa-vm-inventory'
