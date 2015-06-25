@@ -1,7 +1,7 @@
 '''
 Created on Oct 30, 2013
 
-Uses VALPA to run an application on a previously deployed cluster.
+Uses Vespa to run an application on a previously deployed cluster.
 
 @author: giacomo
 '''
@@ -20,7 +20,7 @@ def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
     # create application object
     appRequest = Application(appName, 1, args)
     
-    # Bootstrap VALPA
+    # Bootstrap Vespa
     bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
     

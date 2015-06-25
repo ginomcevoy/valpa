@@ -14,7 +14,7 @@ if __name__ == "__main__":
     forReal = sys.argv[1] == "True" 
     experimentXML = sys.argv[2]
     
-    # Bootstrap VALPA with default config
+    # Bootstrap Vespa with default config
     bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
     
