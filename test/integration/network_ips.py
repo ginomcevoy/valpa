@@ -7,7 +7,7 @@ Integration tests for network.ips module
 '''
 import unittest
 from test.test_abstract import VespaWithNodesAbstractTest
-from network.ips import SetsIpAddressesToPhysicalCluster,\
+from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from network.address import NetworkAddresses
 from bean.vm import BuildsAllVMDetails
@@ -17,11 +17,11 @@ class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
     def setUp(self):
         super(SetsIpAddressesToPhysicalClusterTest, self).setUp()
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        self.ipSetter = SetsIpAddressesToPhysicalCluster(networkAddresses)
+        self.ipSetter = SetsAddressesToPhysicalCluster(networkAddresses)
 
     def testSetIpAddresses(self):
         # when
-        self.ipSetter.setIpAddresses(self.physicalCluster)
+        self.ipSetter.setAddresses(self.physicalCluster)
         
         # test ip addresses in physical cluster
         ipAddress1 = self.physicalCluster.getIpAddressOf('node082')
