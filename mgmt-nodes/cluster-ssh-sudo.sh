@@ -18,7 +18,7 @@ VESPA_DIR=$LOCAL_DIR/..
 # Import params
 source $VESPA_DIR/params.sh
 
-# Load node inventory 
+# Load node inventory
 VESPA_INVENTORY=$($VESPA_DIR/util/nodes-inventory.sh $NODE_L)
 
-ansible all -f $NODE_L -i $VESPA_INVENTORY -m shell -a "${1}"
+ansible all -f $NODE_L -i $VESPA_INVENTORY -m shell --sudo --ask-sudo-pass -a "${1}"
