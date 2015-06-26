@@ -36,4 +36,4 @@ fi
 VM_INVENTORY=$($VESPA_DIR/util/vms-inventory.sh $HOST_COUNT $VMS_PER_HOST)
 
 # Use ansible for call
-ansible all -f $NODE_L -i $VM_INVENTORY -m shell -a "${1}"
+ansible all -f $NODE_L -i $VM_INVENTORY -m shell -u root -a "${1}"
