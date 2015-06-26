@@ -4,7 +4,7 @@ Created on Nov 7, 2014
 @author: giacomo
 '''
 
-class SetsIpAddressesToPhysicalCluster(object):
+class SetsAddressesToPhysicalCluster(object):
     '''
     Should be loaded by the VESPA bootstrapper. Receives the recently created
     PhysicalCluster instance (all nodes) and fills the IP addresses. This is
@@ -17,7 +17,7 @@ class SetsIpAddressesToPhysicalCluster(object):
         '''
         self.networkAddresses = networkAddresses
         
-    def setIpAddresses(self, physicalCluster):
+    def setAddresses(self, physicalCluster):
         for nodeName in physicalCluster.getNames():
             # get each node and delegate ip address resolution
             nodeIndex = physicalCluster.getNodeIndex(nodeName)

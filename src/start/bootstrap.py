@@ -10,7 +10,7 @@ from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator
 from deploy.pinning import BuildsPinningWriter
 from deploy.runner import ClusterFactory, ExperimentSetRunner
-from network.ips import SetsIpAddressesToPhysicalCluster,\
+from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from bean.vm import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
@@ -144,10 +144,10 @@ class VespaBootstrapper():
             # Load networking and IP addresses to physical nodes and VMs
             self.networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
             
-            ipSetter = SetsIpAddressesToPhysicalCluster(self.networkAddresses)
-            ipSetter.setIpAddresses(self.physicalCluster)
-            vmAddressing = SetsAddressesToAllPossibleVMs(self.networkAddresses, self.physicalCluster)
-            vmAddressing.setAddresses(self.allVMDetails)
+            ipSetterPhysical = SetsAddressesToPhysicalCluster(self.networkAddresses)
+            ipSetterPhysical.setAddresses(self.physicalCluster)
+            ipSetterVirtual = SetsAddressesToAllPossibleVMs(self.networkAddresses, self.physicalCluster)
+            ipSetterVirtual.setAddresses(self.allVMDetails)
     
 def _checkBootstrap():
     if VespaBootstrapper.instance is None or not VespaBootstrapper.instance.boostrapped:
