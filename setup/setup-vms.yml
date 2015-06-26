@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Set VM hostnames 
+      hostname: name={{ inventory_hostname_short }}
+      remote_user: root
+
+    - name: Update /etc/hosts 
+      copy: src={{ etc_hosts }} dest=/etc/hosts
+      remote_user: root
+
+    - name: Create Vespa directory
+      file: dest={{ vespa_dir }} state=directory
+    
+    - name: Copy necessary files to VMs
+      synchronize: src={{ vespa_dir }}/monitor dest={{ vespa_dir }}
