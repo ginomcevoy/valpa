@@ -93,7 +93,7 @@ vm_mac_base=00:16:36:ff
 
 vm_xml_output=/tmp/vespa/xmls
 
-exec_config_template=../templates/execConfig.template
+exec_config_template=execConfig.template
 exec_config_output=/tmp/vespa/execs
 
 out_node_inventory=/tmp/vespa-node-inventory

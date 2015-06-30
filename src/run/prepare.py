@@ -5,11 +5,12 @@ Prepares application execution
 
 @author: giacomo
 '''
-from util import uuid
-from quik import FileLoader
-import os
+
 import io
 import hashlib
+import jinja2
+import os
+from util import uuid
 
 class PreparesExperiment:
     
@@ -65,6 +66,11 @@ class ConfigFileGenerator:
         self.vespaPrefs = vespaPrefs
         self.runOpts = runOpts
         
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates")
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
+        self.template = templateEnv.get_template(self.vespaPrefs['exec_config_template'])
+        
     def createExecConfig(self, clusterInfo, deploymentInfo, appInfo):
         '''
         Creates an execution config file based on a template. Template and output are
@@ -108,11 +114,7 @@ class ConfigFileGenerator:
         execConfigFile = open(execConfigFilename, 'w')
         
         # write output using template
-        loader = FileLoader('.')
-        templatePath = self.vespaPrefs['exec_config_template']
-        template = loader.load_template(templatePath)
-
-        text = template.render(locals(), loader=loader)
+        text = self.template.render(locals())
     
         execConfigFile.write(text)
         execConfigFile.close()

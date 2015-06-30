@@ -85,7 +85,7 @@ class CreatesBasicNetworkXML:
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")
-        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True, keep_trailing_newline=True)
         
     def setArgumentSolver(self, argumentSolver):
         '''

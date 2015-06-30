@@ -3,8 +3,10 @@ Created on May 2, 2014
 
 @author: giacomo
 '''
+
+import jinja2
 import os
-from quik import FileLoader
+
 from bean.enum import MPIBindOpt
 
 class PhysicalExperimentGenerator(object):
@@ -18,6 +20,11 @@ class PhysicalExperimentGenerator(object):
         '''
         self.allNodes = allNodes
         self.nodeCount = len(allNodes.getNames())
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
+        self.template = templateEnv.get_template('builder-physical.template')
         
     def withCPVs(self, cpvs):
         '''
@@ -126,9 +133,7 @@ class PhysicalExperimentGenerator(object):
                 appArgs = self.setSpecialArguments(appName, appArgs, nc, cpv)
                     
                 # Use template, with all local variables set
-                loader = FileLoader('.')
-                template = loader.load_template('../templates/builder-physical.template')
-                text = template.render(locals(), loader=loader)#.decode('utf-8')
+                text = self.template.render(locals())
                 xmlText += text
                     
         # close XML file now

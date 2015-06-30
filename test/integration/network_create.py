@@ -74,7 +74,7 @@ class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
         
     def assertTextEqualsContent(self, text, expectedFilename):
         self.maxDiff = None
-        self.assertEquals(text, open(expectedFilename, 'r').read())
+        self.assertMultiLineEqual(text, open(expectedFilename, 'r').read())
 
 class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
     

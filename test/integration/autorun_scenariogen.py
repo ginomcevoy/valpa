@@ -4,15 +4,15 @@ Created on Sep 30, 2014
 @author: giacomo
 '''
 import unittest
+
 from autorun.scenariogen import SimpleScenarioGenerator
-from config import hwconfig
 from autorun.constraint import SimpleClusterConstraint,\
     SimpleClusterGenerationSpecification
 from autorun.appgen import ApplicationGenerationSpecification
 from bean.enum import MPIBindOpt, PinningOpt
+from test.test_abstract import VespaAbstractTest
 
-
-class SimpleScenarioGeneratorTest(unittest.TestCase):
+class SimpleScenarioGeneratorTest(VespaAbstractTest):
     '''
     Integration test for SimpleScenarioGenerator, tests every step of
     generating the XML for 4 experiments (2 variations of cpv, 2 variations
@@ -20,12 +20,10 @@ class SimpleScenarioGeneratorTest(unittest.TestCase):
     '''
 
     def setUp(self):
-        # get stub hardware
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
+        super(SimpleScenarioGeneratorTest, self).setUp()
         
-        self.scenarioGenerator = SimpleScenarioGenerator(hwSpecs)
-        self.clusterSpecification = SimpleClusterGenerationSpecification(hwSpecs)
+        self.scenarioGenerator = SimpleScenarioGenerator(self.hwSpecs)
+        self.clusterSpecification = SimpleClusterGenerationSpecification(self.hwSpecs)
 
     def testXMLExport(self):
         
@@ -57,7 +55,7 @@ class SimpleScenarioGeneratorTest(unittest.TestCase):
         # verify name and contents
         self.assertEquals(xmlFilename, 'resources/integration/scenariogen-generated.xml')
         self.maxDiff = None
-        self.assertEqual(open(xmlFilename, 'r').read(), open('resources/integration/scenariogen-expected.xml', 'r').read())
+        self.assertMultiLineEqual(open(xmlFilename, 'r').read(), open('resources/integration/scenariogen-expected.xml', 'r').read())
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

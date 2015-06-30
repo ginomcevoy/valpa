@@ -7,8 +7,8 @@
 						<procpin>{{ procPin }}</procpin>
 					</tuning>
 				</app>
-				<topology nc="@nc" cpv="@cpv" />
-				<mapping idf="@idf" pstrat="@pstrat" />
+				<topology nc="{{ nc }}" cpv="{{ cpv }}" />
+				<mapping idf="{{ idf }}" pstrat="{{ pstrat }}" />
 			</cluster>
 		</clusters>
 	</experiment>

@@ -104,8 +104,8 @@ class ClusterExecutorTest(VespaDeploymentAbstractTest):
         (execConfig, executionFile) = self.executor.prepareAndExecute(self.clusterRequest, self.deploymentInfo, self.appRequest)
         
         self.maxDiff = None
-        self.assertEquals(open(execConfig, 'r').read(), open('resources/execConfig-expected.output' , 'r').read())
-        self.assertEquals(open(executionFile, 'r').read(), open('resources/pbs-exec-expected.pbs', 'r').read())
+        self.assertMultiLineEqual(open(execConfig, 'r').read(), open('resources/execConfig-expected.output' , 'r').read())
+        self.assertMultiLineEqual(open(executionFile, 'r').read(), open('resources/pbs-exec-expected.pbs', 'r').read())
 
     
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ class ShellParameters:
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="../templates")
-        templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
         self.template = templateEnv.get_template('params.template')
         
     def createParamsFromTemplate(self, outputFilename='/tmp/vespa-shell-params'):
