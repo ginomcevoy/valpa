@@ -1,6 +1,6 @@
 <network>
-   <name>@network_name</name>
+   <name>{{ network_name }}</name>
    <forward mode='hostdev' managed='yes'>
-     <pf dev='@network_interface'/>
+     <pf dev='{{ network_interface }}'/>
    </forward>
 </network>

@@ -55,10 +55,10 @@ class BasicVMGenTest(VespaDeploymentAbstractTest):
         self.failUnlessEqual(type(xmls), type({}))
         
         xml08201 = open('resources/vms/kvm-pbs082-01-basic.xml').read() 
-        self.failUnlessEqual(xmls['kvm-pbs082-01'], xml08201)
+        self.assertMultiLineEqual(xmls['kvm-pbs082-01'], xml08201)
         
         xml08302 = open('resources/vms/kvm-pbs083-02-basic.xml').read() 
-        self.failUnlessEqual(xmls['kvm-pbs083-02'], xml08302)
+        self.assertMultiLineEqual(xmls['kvm-pbs083-02'], xml08302)
         
 class VmXMLSaverTest(VespaDeploymentAbstractTest):
     '''

@@ -1,10 +1,10 @@
-	<experiment name="@expName" trials="1">
+	<experiment name="{{ expName }}" trials="1">
 		<clusters>
 			<cluster>
-				<app name="@appName" runs="@appRuns">
-				    <args>@appArgs</args>
+				<app name="{{ appName }}" runs="{{ appRuns }}">
+				    <args>{{ appArgs }}</args>
 					<tuning>
-						<procpin>@procPin</procpin>
+						<procpin>{{ procPin }}</procpin>
 					</tuning>
 				</app>
 				<topology nc="@nc" cpv="@cpv" />

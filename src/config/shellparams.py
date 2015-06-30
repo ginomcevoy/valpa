@@ -8,9 +8,12 @@ Outputs the filename of the created instance of the template.
 
 @author: giacomo
 '''
-from quik import FileLoader
+
+import jinja2
 import os
+
 from start import bootstrap
+
 class ShellParameters:
     
     def __init__(self, bootstrapper):
@@ -25,12 +28,20 @@ class ShellParameters:
         self.allParams.update(hwSpecs)
         self.allParams.update(nodeDict)
         
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates")
+        templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        self.template = templateEnv.get_template('params.template')
+        
     def createParamsFromTemplate(self, outputFilename='/tmp/vespa-shell-params'):
         
         # Create instance of the template with parameters
-        loader = FileLoader('../templates')
-        template = loader.load_template('params.template')
-        templateText = template.render(self.allParams, loader=loader)
+        #loader = FileLoader('../templates')
+        #template = loader.load_template('params.template')
+        #templateText = template.render(self.allParams, loader=loader)
+        
+        # apply jinja substitution
+        templateText = self.template.render(self.allParams)
         
         # Save to file
         if os.path.exists(outputFilename):

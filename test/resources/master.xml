@@ -1,11 +1,11 @@
 <domain type="kvm">
-	<name>@vm_name</name>
-	<uuid>@vm_uuid</uuid>
-	<memory>@cluster_memory</memory>
+	<name>_VM_VAR_{ vm_name }}</name>
+	<uuid>_VM_VAR_{ vm_uuid }}</uuid>
+	<memory>_CLUSTER_VAR_{ cluster_memory }}</memory>
 	<memoryBacking>
 		<nosharepages/>
 	</memoryBacking>
-	<vcpu>@cluster_vcpu</vcpu>
+	<vcpu>_CLUSTER_VAR_{ cluster_vcpu }}</vcpu>
 	<os>
 		<type arch="x86_64" machine="pc">hvm</type>
 		<boot dev="hd"/>
@@ -19,18 +19,18 @@
 	<on_crash>destroy</on_crash>
 	<devices>
 		<interface type="network">
-			<source network="@network_name"/>
-			<mac address="@vm_mac"/>
-_VESPA_POUND_if (@network_option == 'vhost' || @network_option == 'virtio')
+			<source network="{{ network_name }}"/>
+			<mac address="_VM_VAR_{ vm_mac }}"/>
+_CLUSTER_VAR_% if network_option == 'vhost' or network_option == 'virtio' %}
 			<model type="virtio"/>
-			<driver name="@network_driver"/>
-_VESPA_POUND_end
+			<driver name="_CLUSTER_VAR_{ network_driver }}"/>
+_CLUSTER_VAR_% endif %}
 		</interface>
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
-			<driver name="qemu" type="@xml_disk_drivertype"/>
-			<source file="@repo_root/@vm_path/@cluster_disk"/>
-			<target dev="@xml_disk_dev" bus="@cluster_disk_bus"/>
+			<driver name="qemu" type="{{ xml_disk_drivertype }}"/>
+			<source file="{{ repo_root }}/_VM_VAR_{ vm_path }}/_CLUSTER_VAR_{ cluster_disk }}"/>
+			<target dev="{{ xml_disk_dev }}" bus="_CLUSTER_VAR_{ cluster_disk_bus }}"/>
 		</disk>
 		<console type="pty">
 			<target port="0"/>

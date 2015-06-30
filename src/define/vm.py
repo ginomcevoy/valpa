@@ -1,10 +1,11 @@
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 # VM XML Generator component
-import subprocess
+
+import jinja2
 import os
 import shutil
-from quik import FileLoader
+import subprocess
 
 class VMDefinitionGenerator:
 	'''
@@ -43,8 +44,11 @@ class VMDefinitionBasicGenerator:
 	def __init__(self, vespaPrefs, definitionDetails):
 		self.vespaPrefs = vespaPrefs
 		self.definitionDetails = definitionDetails
-		self.loader = FileLoader('.')
 		self.clusterXMLFilename = '/tmp/vespa-definition-cluster.xml'
+		
+		# setup jinja template
+		templateLoader = jinja2.FileSystemLoader(searchpath="/")
+		self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
 		
 	def setDeploymentContext(self, deploymentInfo, forReal = True):
 		self.deployedNodes = deploymentInfo[0]
@@ -57,22 +61,24 @@ class VMDefinitionBasicGenerator:
 		''' 
 		output = {}
 		
-		# save clusterXML temporarily
+		# prepare jinja template for VM arguments
+		clusterXML = clusterXML.replace('_VM_VAR_', '{')
 		with open(self.clusterXMLFilename, 'w') as clusterXMLFile:
 			clusterXMLFile.write(clusterXML)
+		template = self.templateEnv.get_template(self.clusterXMLFilename)
 		
 		# iterate all vms
 		for nodeName in self.deployedNodes.getNames():
 			for vmName in self.deployedVMs.getVMNamesForNode(nodeName):
 				
-				# replace VM name, UUID, MAC address and disk path using quik
+				# replace VM name, UUID, MAC address and disk path
 				uuid = self.definitionDetails.getUUID(vmName)
 				mac = self.definitionDetails.getMAC(vmName)
 				vmPath = self.definitionDetails.getVmPath(vmName)
 				args = {'vm_name' : vmName, 'vm_uuid' : uuid, 'vm_mac' : mac, 'vm_path' : vmPath}
 				
-				template = self.loader.load_template(self.clusterXMLFilename)
-				vmXML = template.render(args, loader=self.loader)
+				# apply jinja substitution
+				vmXML = template.render(args)
 				
 				# add text to output
 				output[vmName] = vmXML

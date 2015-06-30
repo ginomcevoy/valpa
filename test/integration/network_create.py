@@ -182,7 +182,7 @@ class BuildsNetworkXMLsTest(VespaWithBootstrapAbstractTest):
         
     def assertEqualsContent(self, outputFilename, expectedFilename):
         self.maxDiff = None
-        self.assertEquals(open(outputFilename, 'r').read(), open(expectedFilename, 'r').read())
+        self.assertMultiLineEqual(open(outputFilename, 'r').read(), open(expectedFilename, 'r').read())
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
