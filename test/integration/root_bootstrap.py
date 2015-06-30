@@ -18,8 +18,9 @@ class VespaWithBootstrapAbstractTest(unittest.TestCase):
         forReal = False # only simulate VM definitions/instantiations
         vespaFilename = 'resources/vespa.params'
         hardwareFilename = 'resources/hardware.params'
-        masterXML = 'resources/master.xml'
-        bootstrap.doBootstrap(forReal, vespaFilename, hardwareFilename, masterXML)
+        templateDir = 'resources'
+        masterTemplate = 'master.xml'
+        bootstrap.doBootstrap(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename)
         self.bootstrap = bootstrap.getInstance()
         
     def assertMultiLineEqual(self, first, second, msg=None):

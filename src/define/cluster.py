@@ -142,15 +142,15 @@ class VespaXMLGenerator:
     Produces Vespa XML for cluster XML generation, based on a master XML and
     configuration parameters.
     '''
-    def __init__(self, vespaXMLOpts, networkingOpts, repoOpts, masterXML):
+    def __init__(self, vespaXMLOpts, networkingOpts, repoOpts, templateDir, masterTemplate):
         self.vespaXMLOpts = vespaXMLOpts
         self.networkingOpts = networkingOpts
         self.repoOpts = repoOpts
         
         # setup jinja template
-        templateLoader = jinja2.FileSystemLoader(searchpath=".")
+        templateLoader = jinja2.FileSystemLoader(searchpath=templateDir)
         templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
-        self.template = templateEnv.get_template(masterXML)
+        self.template = templateEnv.get_template(masterTemplate)
         
     def produceVespaXML(self):
         '''

@@ -17,11 +17,11 @@ from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from define.cluster import VespaXMLGenerator
 
-def doBootstrap(forReal=True, masterXML='../templates/master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params'):
+def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params'):
     # instantiate Bootstrapper as a Singleton
     
     if VespaBootstrapper.instance is None:
-        VespaBootstrapper.instance = VespaBootstrapper(forReal, masterXML, vespaFilename, hardwareFilename)
+        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename)
         VespaBootstrapper.instance.bootstrap()
         
 def getInstance():
@@ -34,11 +34,12 @@ class VespaBootstrapper():
     # Singleton variable
     instance = None
     
-    def __init__(self, forReal, masterXML, vespaFilename, hardwareFilename):
+    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename):
         self.forReal = forReal
         self.vespaFilename = vespaFilename 
         self.hardwareFilename= hardwareFilename
-        self.masterXML = masterXML
+        self.templateDir = templateDir
+        self.masterTemplate = masterTemplate
         self.boostrapped = False
         
         # lazy loading of these
@@ -58,7 +59,7 @@ class VespaBootstrapper():
         (self.hwSpecs, self.nodeDict) = self.hardwareInfo.getHwAndNodeDicts()
         
         # Produce Vespa XML from master template
-        vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, self.masterXML)
+        vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, self.templateDir, self.masterTemplate)
         self.vespaXML = vespaXMLGen.produceVespaXML()
         
         # Load physical cluster object
