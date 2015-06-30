@@ -90,12 +90,12 @@ class PhysicalClusterDefiner:
         # cpv = number of processes per host
         # hosts = nc / cpv
         
-        # try to read from definition
         deployNodes = None
-        if cluster.mapping is not None:
-            deployNodes = cluster.mapping.deployNodes
         
-        if (deployNodes is None):
+        if cluster.mapping.deployNodes is not None:
+            # read from definition
+            deployNodeNames = cluster.mapping.deployNodes
+        else:
             # infer deployNodes
             topology = cluster.topology
             deployNodeCount = int(topology.nc / topology.cpv)
@@ -111,10 +111,10 @@ class PhysicalClusterDefiner:
         
         # attributes of VirtualClusterTemplates    
         vmDict = {}
-        byNode = []
+        byNode = {}
         
         # iterate over nodes
-        for nodeName in deployNodes.getNames():
+        for nodeName in deployedNodes.getNames():
             # build vmDict and byNode using node data
             vmDict[nodeName] = deployedNodes.getNode(nodeName)
             byNode[nodeName] = nodeName

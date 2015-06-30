@@ -9,6 +9,7 @@ from bean.cluster import Cluster, Topology, Mapping, Technology, \
     Tuning, ClusterPlacement
 from bean.enum import PinningOpt
 from config import hwconfig
+from bean import cluster
 
 class ConsistencyTest(unittest.TestCase):
         
@@ -16,6 +17,7 @@ class ConsistencyTest(unittest.TestCase):
         # hardware info for consistency
         hwInfo = hwconfig.getHardwareInfo("resources/hardware.params")
         self.hwSpecs = hwInfo.getHwSpecs()
+        self.technology = cluster.getDefaultTechnology() 
         
     def testConsistent1(self):
         '''
@@ -23,7 +25,7 @@ class ConsistencyTest(unittest.TestCase):
         '''
         topology = Topology(24, 2)
         mapping = Mapping(4, PinningOpt.BAL_SET)
-        cluster = Cluster(ClusterPlacement(topology, mapping), Technology(), Tuning(), False)
+        cluster = Cluster(ClusterPlacement(topology, mapping), self.technology, Tuning(), False)
         self.failUnless(cluster.isConsistentWith(self.hwSpecs))
         
     def testConsistent2(self):
@@ -32,7 +34,7 @@ class ConsistencyTest(unittest.TestCase):
         '''
         topology = Topology(144, 2)
         mapping = Mapping(12, PinningOpt.BAL_SET)
-        cluster = Cluster(ClusterPlacement(topology, mapping), Technology(), Tuning(), False)
+        cluster = Cluster(ClusterPlacement(topology, mapping), self.technology, Tuning(), False)
         self.failUnless(cluster.isConsistentWith(self.hwSpecs))
         
     def testConsistentNot1(self):
@@ -42,7 +44,7 @@ class ConsistencyTest(unittest.TestCase):
         '''
         topology = Topology(156, 2)
         mapping = Mapping(12, PinningOpt.BAL_SET)
-        cluster = Cluster(ClusterPlacement(topology, mapping), Technology(), Tuning(), False)
+        cluster = Cluster(ClusterPlacement(topology, mapping), self.technology, Tuning(), False)
         self.failIf(cluster.isConsistentWith(self.hwSpecs))
         
     def testConsistentNot2(self):
@@ -52,7 +54,7 @@ class ConsistencyTest(unittest.TestCase):
         '''
         topology = Topology(24, 2)
         mapping = Mapping(0, PinningOpt.BAL_SET)
-        cluster = Cluster(ClusterPlacement(topology, mapping), Technology(), Tuning(), False)
+        cluster = Cluster(ClusterPlacement(topology, mapping), self.technology, Tuning(), False)
         self.failIf(cluster.isConsistentWith(self.hwSpecs))
         
     def testCanBeDeployedWithin1(self):
