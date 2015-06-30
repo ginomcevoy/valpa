@@ -34,12 +34,7 @@ class ShellParameters:
         self.template = templateEnv.get_template('params.template')
         
     def createParamsFromTemplate(self, outputFilename='/tmp/vespa-shell-params'):
-        
-        # Create instance of the template with parameters
-        #loader = FileLoader('../templates')
-        #template = loader.load_template('params.template')
-        #templateText = template.render(self.allParams, loader=loader)
-        
+                
         # apply jinja substitution
         templateText = self.template.render(self.allParams)
         
