@@ -35,11 +35,11 @@ CpuMetrics <- function(execDir, nodeName, coreCount, coreIndex, is.vm) {
   
   # Read from preferences
   colNames = input.cpu.headers 
-  header = c('user','system')
-  cpuFile = getCpuFilename(nodeName) # e.g. "metrics-kvm-pbs083-01-cpu.txt"
+  header = c('usr','sys')
+  cpuFile = getCpuFilename(nodeName) # e.g. "metrics-kvm-pbs083-01-cpu.txt" 
   
   # open data file
-  cpu.data = read.table(paste(execDir, cpuFile, sep='/'), col.names=(colNames))
+  cpu.data = read.table(paste(execDir, cpuFile, sep='/'), col.names=(colNames), header=TRUE)
   cpu.data = cpu.data[header]
   
   node.frame = NULL
@@ -84,7 +84,7 @@ MemoryMetrics <- function(execDir, nodeName, nodeIndex, is.vm) {
   header = getMemoryHeaders(nodeIndex, is.vm)
   memoryFile = getMemoryFilename(nodeName) # e.g. "metrics-kvm-pbs083-01-memory.txt"
   
-  memory.data = read.table(paste(execDir, memoryFile, sep='/'), col.names=(header))
+  memory.data = read.table(paste(execDir, memoryFile, sep='/'), col.names=(header), header=TRUE)
   
   # Output
   memMetrics = MonitoredMetrics(memory.data, nodeName)
@@ -99,7 +99,7 @@ NetworkMetrics <- function(execDir, nodeName, nodeIndex, is.vm) {
   header = getNetworkHeaders(nodeIndex, is.vm)
   networkFile = getNetworkFilename(nodeName) # e.g. "metrics-kvm-pbs083-01-network.txt"
   
-  network.data = read.table(paste(execDir, networkFile, sep='/'), col.names=(header))
+  network.data = read.table(paste(execDir, networkFile, sep='/'), col.names=(header), header=TRUE)
   
   # Output
   networkMetrics = MonitoredMetrics(network.data, nodeName)
@@ -505,9 +505,9 @@ generateExecutionMetrics <- function(configDir, phycores, configOutputDir) {
 
 # Uncomment for testing
 #argv = vector()
-#argv[1] = 'nosvn/datagen/cavity3d-2/nc2-cpv1-idf1-psNONE/96736acc5ecfbb073be81d2ec500dcb17fb3029aae1879f74e429f16e09e288c/'
+#argv[1] = '/home/giacomo2/experiments/arriving/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980'
 #argv[2] = '12'
-#argv[3] = 'nosvn/datagen/output/'
+#argv[3] = '/home/giacomo2/experiments/analyzed/parpac/cfg1'
   
 # Read arguments from stdin
 if (exists("argv")) {
