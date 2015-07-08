@@ -3,8 +3,10 @@ Created on May 2, 2014
 
 @author: giacomo
 '''
+
+import jinja2
 import os
-from quik import FileLoader
+
 from bean.enum import MPIBindOpt
 
 class PhysicalExperimentGenerator(object):
@@ -18,6 +20,11 @@ class PhysicalExperimentGenerator(object):
         '''
         self.allNodes = allNodes
         self.nodeCount = len(allNodes.getNames())
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
+        self.template = templateEnv.get_template('builder-physical.template')
         
     def withCPVs(self, cpvs):
         '''
@@ -80,6 +87,7 @@ class PhysicalExperimentGenerator(object):
         '''
         if not os.path.exists(xmlPath):
             os.makedirs(xmlPath)
+            
         xmlNames = []
         for experimentList in self.groups.values():
             #print(experimentList)
@@ -92,7 +100,7 @@ class PhysicalExperimentGenerator(object):
         Generates one XML for a group of experiments.
         '''
         # text base for template building
-        xmlText = '<?xml version="1.0"?>\n<experiments>\n'
+        xmlText = '<?xml version="1.0"?>\n<scenarios>\n'
         
         # use these variables for all experiments
         #expNameBase = 'nc' + str(groupTuple[0]) + '-cpv' + str(groupTuple[1]) + '-idf' + str(groupTuple[2])
@@ -108,6 +116,7 @@ class PhysicalExperimentGenerator(object):
         else:
             nameSuffix = '-all.xml'
         xmlName = xmlPath + '/' + appName + nameSuffix
+        print(xmlName)
         xmlFile = open(xmlName, 'w')    
         
         # iterate experiment items in group
@@ -126,13 +135,11 @@ class PhysicalExperimentGenerator(object):
                 appArgs = self.setSpecialArguments(appName, appArgs, nc, cpv)
                     
                 # Use template, with all local variables set
-                loader = FileLoader('.')
-                template = loader.load_template('../templates/builder-physical.template')
-                text = template.render(locals(), loader=loader)#.decode('utf-8')
+                text = self.template.render(locals())
                 xmlText += text
                     
         # close XML file now
-        xmlText += '</experiments>\n'
+        xmlText += '</scenarios>\n'
         xmlFile.write(xmlText)
         xmlFile.close()
         return xmlName    

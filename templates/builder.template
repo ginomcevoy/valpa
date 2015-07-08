@@ -1,14 +1,14 @@
 	<scenario>
-		<experiment name="@experiment.name" trials="@experiment.trials">
-			<app name="@app.name" runs="@app.runs">
-			    <args>@app.args</args>
+		<experiment name="{{ experiment.name }}" trials="{{ experiment.trials }}">
+			<app name="{{ app.name }}" runs="{{ app.runs }}">
+			    <args>{{ app.args }}</args>
 				<tuning>
-					<procpin>@app.appTuning.procpin</procpin>
+					<procpin>{{ app.appTuning.procpin }}</procpin>
 				</tuning>
 			</app>
 			<cluster>
-				<topology nc="@cluster.topology.nc" cpv="@cluster.topology.cpv" />
-				<mapping idf="@cluster.mapping.idf" pstrat="@cluster.mapping.pinningOpt" />
+				<topology nc="{{ cluster.topology.nc }}" cpv="{{ cluster.topology.cpv }}" />
+				<mapping idf="{{ cluster.mapping.idf }}" pstrat="{{ cluster.mapping.pinningOpt }}" />
 			</cluster>
 		</experiment>
 	</scenario>

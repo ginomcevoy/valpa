@@ -5,18 +5,21 @@ from bean.specs import SimpleClusterPlacementSpecification,\
 class Cluster:
 
 	def __init__(self, clusterPlacement, technology=None, tuning=None, physicalMachinesOnly=False):
+		
+		if physicalMachinesOnly:
+			# physical cluster has no mappings, use idf=-1 to refer to PC
+			clusterPlacement.mapping = Mapping(-1, PinningOpt.NONE)
+			technology = getEmptyTechnology()
+		else:
+			self.tuning = tuning
+			if technology is None:
+				technology = getDefaultTechnology()
+		
 		self.clusterPlacement = clusterPlacement
 		self.topology = clusterPlacement.topology
 		self.mapping = clusterPlacement.mapping
 		self.physicalMachinesOnly = physicalMachinesOnly
-		if not physicalMachinesOnly:
-			if technology is None:
-				technology = Technology()
-			self.technology = technology
-			self.tuning = tuning
-		else: 
-			# physical cluster has no mappings, use idf=-1 to refer to PC
-			self.mapping = Mapping(-1, PinningOpt.NONE)
+		self.technology = technology
 	
 	def isConsistentWith(self, hwSpecs):
 		'''
@@ -51,11 +54,17 @@ class ClusterPlacement:
 			
 	def isConsistentWith(self, hwSpecs):
 		'''
-		Validates consistency of virtual cluster placement with
-		physical cluster topology, uses simple specification.
+		Validates consistency of cluster placement against available 
+		physical cluster topology. For virtual clusters, uses simple specification.
+		For physical clusters, verifies machine count.
 		'''
-		simplePlacementSpec = SimpleClusterPlacementSpecification(hwSpecs)
-		return self.isConsistentWithSpec(hwSpecs, simplePlacementSpec)
+		if self.isForVirtualCluster():
+			# use simple specification
+			simplePlacementSpec = SimpleClusterPlacementSpecification(hwSpecs)
+			return self.isConsistentWithSpec(hwSpecs, simplePlacementSpec)
+		else:
+			# just count physical machines
+			return self.canBeDeployedWithin(hwSpecs['nodes'])
 	
 	def isConsistentWithSpec(self, hwSpecs, clusterSpecification):
 		return clusterSpecification.isSatisfiedBy(self.topology, self.mapping)
@@ -135,17 +144,7 @@ class Mapping:
 
 class Technology:
 
-	def __init__(self, networkOpt = None, diskOpt = None):
-		
-		# default technology values
-		# TODO: if Vespa is using sriov, use sriov by default
-		self.defaultNetworkOpt = NetworkOpt.vhost
-		self.defaultDiskOpt = DiskOpt.virtio
-		if networkOpt is None:
-			networkOpt = self.defaultNetworkOpt
-		if diskOpt is None:
-			diskOpt = self.defaultDiskOpt 
-		
+	def __init__(self, networkOpt, diskOpt):
 		self.networkOpt = networkOpt
 		self.diskOpt = diskOpt
 		
@@ -155,10 +154,26 @@ class Technology:
 		return validNetwork and validDisk
 	
 	def isDefault(self):
-		return self.networkOpt == self.defaultNetworkOpt and self.diskOpt == self.defaultDiskOpt
+		defaultTech = getDefaultTechnology()
+		return self.networkOpt == defaultTech.networkOpt and self.diskOpt == defaultTech.diskOpt
 
 	def __str__(self):
 		return "disk" + str(self.diskOpt) + "-net" + str(self.networkOpt)
+
+def getDefaultTechnology():
+	'''
+	To be used when cluster does not specify technology values.
+	TODO: Make this configurable
+	TODO: if Vespa is using sriov, use sriov by default
+	'''
+	return Technology(NetworkOpt.vhost, DiskOpt.virtio)
+
+def getEmptyTechnology():
+	'''
+	To be used for deployments on physical cluster (technology is
+	inapplicable).
+	'''
+	return Technology(networkOpt=None, diskOpt=None)
 
 class Tuning:
 	

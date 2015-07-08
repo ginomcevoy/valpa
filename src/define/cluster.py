@@ -3,15 +3,17 @@ Created on Oct 16, 2013
 
 @author: giacomo
 '''
-from deploy.mapping import MappingResolver
+
+import jinja2
 import subprocess
+
+from config import vespaconfig
+from deploy.mapping import MappingResolver
 from run.config import ConfiguratorFactory
 from run.pbs.updater import PBSUpdater
 from bean.vm import VirtualClusterTemplates
 from bean.enum import NetworkOpt
-from quik import FileLoader
-from config import vespaconfig
- 
+
 class ClusterDefiner:
     '''
     Defines the VMs in a cluster.
@@ -88,12 +90,12 @@ class PhysicalClusterDefiner:
         # cpv = number of processes per host
         # hosts = nc / cpv
         
-        # try to read from definition
         deployNodes = None
-        if cluster.mapping is not None:
-            deployNodes = cluster.mapping.deployNodes
         
-        if (deployNodes is None):
+        if cluster.mapping.deployNodes is not None:
+            # read from definition
+            deployNodeNames = cluster.mapping.deployNodes
+        else:
             # infer deployNodes
             topology = cluster.topology
             deployNodeCount = int(topology.nc / topology.cpv)
@@ -109,10 +111,10 @@ class PhysicalClusterDefiner:
         
         # attributes of VirtualClusterTemplates    
         vmDict = {}
-        byNode = []
+        byNode = {}
         
         # iterate over nodes
-        for nodeName in deployNodes.getNames():
+        for nodeName in deployedNodes.getNames():
             # build vmDict and byNode using node data
             vmDict[nodeName] = deployedNodes.getNode(nodeName)
             byNode[nodeName] = nodeName
@@ -140,11 +142,15 @@ class VespaXMLGenerator:
     Produces Vespa XML for cluster XML generation, based on a master XML and
     configuration parameters.
     '''
-    def __init__(self, vespaXMLOpts, networkingOpts, repoOpts, masterXML):
+    def __init__(self, vespaXMLOpts, networkingOpts, repoOpts, templateDir, masterTemplate):
         self.vespaXMLOpts = vespaXMLOpts
         self.networkingOpts = networkingOpts
         self.repoOpts = repoOpts
-        self.masterXML = masterXML
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath=templateDir)
+        templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        self.template = templateEnv.get_template(masterTemplate)
         
     def produceVespaXML(self):
         '''
@@ -165,20 +171,15 @@ class VespaXMLGenerator:
         else: #networkType == 'sriov'
             networkName = self.networkingOpts['net_name_sriov']
         
-        # Prepare arguments for substitution with quik
+        # Prepare arguments for substitution 
         args = {'network_name' : networkName,
                 'xml_disk_drivertype' : self.vespaXMLOpts['xml_disk_drivertype'],
                 'repo_root' : self.repoOpts['repo_root'],
                 'xml_disk_dev' : self.vespaXMLOpts['xml_disk_dev']
             }
         
-        # apply quik
-        loader = FileLoader('.')
-        template = loader.load_template(self.masterXML)
-        vespaXML = template.render(args, loader=loader)
-        
-        # quik cannot handle this change
-        vespaXML = vespaXML.replace('_VESPA_POUND_', '#')
+        # apply jinja substitution
+        vespaXML = self.template.render(args)
         
         return vespaXML
                 
@@ -191,19 +192,19 @@ class ClusterXMLGenerator:
     def __init__(self, vespaXML, vespaPrefs):
         self.vespaXML = vespaXML
         self.vespaPrefs = vespaPrefs
-        self.loader = FileLoader('.')
+        
         self.vespaXMLFilename = '/tmp/vespa-definition.xml'
-
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="/")
+        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+                
     def produceClusterXML(self, topology, technology):
         '''
         Produces Cluster XML for VM XML generation, based on Vespa XML and 
         cluster info. Returns the text of the xml.
         '''
         
-        # save clusterXML temporarily
-        with open(self.vespaXMLFilename, 'w') as vespaXMLFile:
-            vespaXMLFile.write(self.vespaXML)
-
         # need cpv and disk technology
         cpv = topology.cpv
         networkOpt = technology.networkOpt
@@ -229,22 +230,14 @@ class ClusterXMLGenerator:
         args = {'cluster_vcpu' : cpv, 'cluster_memory' : totalMemory,
                 'network_option' : networkOpt, 'network_driver' : networkDriver,  
                 'cluster_disk_bus' : diskOpt, 'cluster_disk' : diskPath}
-
-        # obtain cluster template from Vespa template
-        template = self.loader.load_template(self.vespaXMLFilename)
-        clusterXML = template.render(args, loader=self.loader)
-
-        # cores
-        #clusterXML = self.vespaXML.replace('_CORE', str(cpv))
-
         
-        #clusterXML = clusterXML.replace('_MEMORY', str(totalMemory))
-
-        # technologies
-        #clusterXML = clusterXML.replace('_NET_DRIVER', networkOpt)
-        #clusterXML = clusterXML.replace('_DISK_BUS', diskOpt)
-
+        # prepare jinja template for cluster arguments
+        self.vespaXML = self.vespaXML.replace('_CLUSTER_VAR_', '{')
+        with open(self.vespaXMLFilename, 'w') as vespaXMLFile:
+            vespaXMLFile.write(self.vespaXML)
+        template = self.templateEnv.get_template(self.vespaXMLFilename)
         
-        #clusterXML = clusterXML.replace('_CLUSTER_PATH', clusterPath)
+        # apply jinja substitution
+        clusterXML = template.render(args)
         
         return clusterXML    

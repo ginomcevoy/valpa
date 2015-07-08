@@ -3,9 +3,11 @@ Created on Nov 10, 2013
 
 @author: giacomo
 '''
-from bean.enum import PinningOpt, MPIBindOpt
-from quik import FileLoader
+
 import os
+import jinja2
+
+from bean.enum import PinningOpt, MPIBindOpt
 
 class ExperimentGenerator(object):
     '''    
@@ -19,6 +21,11 @@ class ExperimentGenerator(object):
         '''
         self.hwSpecs = hwSpecs
         self.groups = {}
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
+        self.template = templateEnv.get_template('builder-exponly.template')
         
     def withCpvValues(self, cpvs):
         '''
@@ -120,7 +127,7 @@ class ExperimentGenerator(object):
         Generates one XML for a group of experiments.
         '''
         # text base for template building
-        xmlText = '<?xml version="1.0"?>\n<experiments>\n'
+        xmlText = '<?xml version="1.0"?>\n<scenarios>\n'
         
         # use these variables for all experiments
         #expNameBase = 'nc' + str(groupTuple[0]) + '-cpv' + str(groupTuple[1]) + '-idf' + str(groupTuple[2])
@@ -153,13 +160,11 @@ class ExperimentGenerator(object):
                     appArgs = self.setSpecialArguments(appName, appArgs, nc, cpv)
                     
                     # Use template, with all local variables set
-                    loader = FileLoader('.')
-                    template = loader.load_template('../templates/builder-exponly.template')
-                    text = template.render(locals(), loader=loader)#.decode('utf-8')
+                    text = self.template.render(locals())
                     xmlText += text
                     
         # close XML file now
-        xmlText += '</experiments>\n'
+        xmlText += '</scenarios>\n'
         xmlFile.write(xmlText)
         xmlFile.close()
         return xmlName

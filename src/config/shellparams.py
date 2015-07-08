@@ -8,41 +8,35 @@ Outputs the filename of the created instance of the template.
 
 @author: giacomo
 '''
-from config import vespaconfig, hwconfig
-from quik import FileLoader
-import os
-class ShellParameters:
 
-    def loadVespaParams(self, vespaParamFile='../input/vespa.params', hwParamFile='../input/hardware.params'):
-        
-        # Read Vespa configuration file
-        vespaConfig = vespaconfig.readVespaConfig(vespaParamFile)
-        (vespaPrefs, vespaXMLOpts, runOpts, networkingOpts, repoOpts) = vespaConfig.getAll()
-       
-        # Read hardware specification
-        hwInfo = hwconfig.getHardwareInfo(hwParamFile)
-        (hwDict, nodeDict) = hwInfo.getHwAndNodeDicts()
-                
-        # Build a single dictionary of parameters
-        self.allParams = dict(vespaPrefs)
-        self.allParams.update(vespaXMLOpts)
-        self.allParams.update(runOpts)
-        self.allParams.update(hwDict)
-        self.allParams.update(nodeDict)
-        self.allParams.update(networkingOpts)
-        self.allParams.update(repoOpts)
-        
-        self.loaded = True
+import jinja2
+import os
+
+from start import bootstrap
+
+class ShellParameters:
     
-    def createParamsFromTemplate(self, outputFilename='/tmp/vespa-shell-params'):
-        if not self.loaded:
-            # Error: return -1 to alert the calling shell script
-            raise ValueError('loadVespaParams not called')
+    def __init__(self, bootstrapper):
         
-        # Create instance of the template with parameters
-        loader = FileLoader('../templates')
-        template = loader.load_template('params.template')
-        templateText = template.render(self.allParams, loader=loader)
+        # Need hwconfig dicts, valpaPrefs, networkingOpts, repoOpts
+        # Build a single dictionary of parameters
+        self.allParams = dict(bootstrapper.getVespaPrefs())
+        self.allParams.update(bootstrapper.getNetworkingOpts())
+        self.allParams.update(bootstrapper.getRepoOpts())
+        
+        (hwSpecs, nodeDict) = bootstrapper.getHwAndNodeDicts()
+        self.allParams.update(hwSpecs)
+        self.allParams.update(nodeDict)
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates")
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
+        self.template = templateEnv.get_template('params.template')
+        
+    def createParamsFromTemplate(self, outputFilename='/tmp/vespa-shell-params'):
+                
+        # apply jinja substitution
+        templateText = self.template.render(self.allParams)
         
         # Save to file
         if os.path.exists(outputFilename):
@@ -56,8 +50,10 @@ class ShellParameters:
         return outputFilename
         
 if __name__ == '__main__':
-    shellParams = ShellParameters()
     
-    # call with default values
-    shellParams.loadVespaParams() 
-    shellParams.createParamsFromTemplate() 
+    # Bootstrap Vespa with default config
+    bootstrap.doBootstrap()
+    bootstrapper = bootstrap.getInstance()
+    
+    shellParams = ShellParameters(bootstrapper)
+    shellParams.createParamsFromTemplate()

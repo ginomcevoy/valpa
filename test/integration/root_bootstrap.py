@@ -6,7 +6,9 @@ serves as a base test for other integration tests that use the bootstrap.
 
 @author: giacomo
 '''
+import difflib
 import unittest
+
 from start import bootstrap
 from deploy.runner import ExperimentSetRunner
 
@@ -16,9 +18,29 @@ class VespaWithBootstrapAbstractTest(unittest.TestCase):
         forReal = False # only simulate VM definitions/instantiations
         vespaFilename = 'resources/vespa.params'
         hardwareFilename = 'resources/hardware.params'
-        masterXML = 'resources/master.xml'
-        bootstrap.doBootstrap(forReal, vespaFilename, hardwareFilename, masterXML)
+        templateDir = 'resources'
+        masterTemplate = 'master.xml'
+        bootstrap.doBootstrap(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename)
         self.bootstrap = bootstrap.getInstance()
+        
+    def assertMultiLineEqual(self, first, second, msg=None):
+        '''
+        Assert that two multi-line strings are equal.
+        If they aren't, show a nice diff.
+        '''
+        isStringFirst = isinstance(first, str) or isinstance(first, unicode)
+        isStringSecond = isinstance(second, str) or isinstance(second, unicode)
+        self.assertTrue(isStringFirst,
+                'First argument is not a string')
+        self.assertTrue(isStringSecond,
+                'Second argument is not a string')
+
+        if first != second:
+            message = ''.join(difflib.ndiff(first.splitlines(True),
+                                                second.splitlines(True)))
+            if msg:
+                message += " : " + msg
+            self.fail("Multi-line strings are unequal:\n" + message)
         
 class BootstrapNetworkingTest(VespaWithBootstrapAbstractTest):
     

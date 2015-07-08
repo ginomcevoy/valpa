@@ -3,8 +3,10 @@ Created on Oct 21, 2014
 
 @author: giacomo
 '''
-from quik import FileLoader
+
+import jinja2
 import sys
+
 from config import vespaconfig
 
 class BuildsNetworkXMLs:
@@ -80,7 +82,10 @@ class CreatesBasicNetworkXML:
     '''
     
     def __init__(self):
-        self.loader = FileLoader('.')
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")
+        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True, keep_trailing_newline=True)
         
     def setArgumentSolver(self, argumentSolver):
         '''
@@ -95,9 +100,9 @@ class CreatesBasicNetworkXML:
         args = self.argumentSolver.getArguments(nodeIndex)
          
         # Use template with variables from the args dictionary
-        # name of the template is in the 'network_template' entry 
-        template = self.loader.load_template(args['network_template'])
-        networkXML = template.render(args, loader=self.loader)
+        # name of the template is in the 'network_template' entry
+        template = self.templateEnv.get_template(args['network_template'])
+        networkXML = template.render(args)
         
         return networkXML
 
@@ -111,7 +116,7 @@ class NetworkArgumentsForSRIOV:
     
     def getArguments(self, nodeIndex = 0):
         # select template
-        args = {'network_template' : '../templates/network-sriov.template'}
+        args = {'network_template' : 'network-sriov.template'}
         
         #  <network>
         #    <name>@network_name</name>
@@ -133,7 +138,7 @@ class NetworkArgumentsForUsingBridge:
     
     def getArguments(self, nodeIndex = 0):
         # select template
-        args = {'network_template' : '../templates/network-external.template'}
+        args = {'network_template' : 'network-external.template'}
         
         # <network>
         #     <name>@network_name</name>
@@ -158,7 +163,7 @@ class NetworkArgumentsForCreatingBridge:
 
     def getArguments(self, nodeIndex):
         # select template
-        args = {'network_template' : '../templates/network-libvirt.template'}
+        args = {'network_template' : 'network-libvirt.template'}
         
         # <network>
         #   <name>@network_name</name>
@@ -265,7 +270,7 @@ if __name__ == '__main__':
     else:
         outputDir = '../data-output/networks' # default location
     
-    # Bootstrap VESPA with default config
+    # Bootstrap Vespa with default config
     bootstrap.doBootstrap()
     bootstrapper = bootstrap.getInstance()
     

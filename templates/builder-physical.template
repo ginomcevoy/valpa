@@ -1,12 +1,12 @@
-	<experiment name="@expName" trials="1">
-		<clusters>
+	<scenario>
+		<experiment name="{{ expName }}" trials="1">
 			<cluster virtual="False">
-				<app name="@appName" runs="@appRuns">
-					<tuning>
-						<procpin>@mpiBind</procpin>
-					</tuning>
-				</app>
-				<topology nc="@nc" cpv="@cpv" />
+				<topology nc="{{ nc }}" cpv="{{ cpv }}" />
 			</cluster>
-		</clusters>
-	</experiment>
+			<app name="{{ appName }}" runs="{{ appRuns }}">
+				<tuning>
+					<procpin>{{ mpiBind }}</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>

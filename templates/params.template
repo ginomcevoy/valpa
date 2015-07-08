@@ -6,43 +6,41 @@
 # LNCC Brazil 2014
 
 # Physical Environment
-NODE_L=@nodes 				# number of physical computing nodes
-PHYPROCS=@sockets			# number of processors (sockets) per node
-PHYPROCCORES=@coresPerSocket  	# number of cores per processor
+NODE_L={{ nodes }} 				# number of physical computing nodes
 
-NODE_PREFIX='@prefix'		# prefix for names of physical nodes (vespa00, vespa01)
-NODE_ZEROS='@zeros' 		# if 2: vespa00... vespa12... vespa99
-NODE_FIRST='@first' 		# suffix of first computing node
+NODE_PREFIX='{{ prefix }}'		# prefix for names of physical nodes (vespa00, vespa01)
+NODE_ZEROS='{{ zeros }}' 		# if 2: vespa00... vespa12... vespa99
+NODE_FIRST='{{ first }}' 		# suffix of first computing node
 
 # Networking
-NET_DEV='@net_dev'				# interface that will host bridge
-NET_CLASS='@net_class' 			# either B or C class
+NET_DEV='{{ net_dev }}'				# interface that will host bridge
+NET_CLASS='{{ net_class }}' 			# either B or C class
 
 # DHCP for 'network', C class
 # Nodes assumed in range from 1 to NODE_L
 # IP_PREFIX.1, IP_PREFIX.2, ..., IP_PREFIX.NODE_L
-IP_PREFIX='@dhcp_c_prefix' 		# Class C networking for nodes and VMs
-DHCP_START='@dhcp_c_start' 		# address suffix of 1st VM of 1st node 
-DHCP_STEP='@dhcp_c_step'  		# 1st VM of 2nd node gets DHCP_START + DHCP_STEP
+IP_PREFIX='{{ dhcp_c_prefix }}' 		# Class C networking for nodes and VMs
+DHCP_START='{{ dhcp_c_start }}' 		# address suffix of 1st VM of 1st node 
+DHCP_STEP='{{ dhcp_c_step }}'  		# 1st VM of 2nd node gets DHCP_START + DHCP_STEP
 
 # DHCP for 'network', B class
 # Nodes will get 172.16.X.254
 # VMs will get 172.16.X.Y, X matching node
-IP_PREFIX_B='@dhcp_b_prefix'  	# Class B networking for nodes and VMs
-DHCP_START_B='@dhcp_b_start' 	# First VM of each node will have this suffix
+IP_PREFIX_B='{{ dhcp_b_prefix }}'  	# Class B networking for nodes and VMs
+DHCP_START_B='{{ dhcp_b_start }}' 	# First VM of each node will have this suffix
 
 # Other networking
-NET_BRIDGE='@net_bridge'		# desired bridge name
-MAC_BASE='@net_mac_prefix'		# MAC address prefix for VMs
+NET_BRIDGE='{{ net_bridge }}'		# desired bridge name
+MAC_BASE='{{ net_mac_prefix }}'		# MAC address prefix for VMs
 
 # Virtual environment 
-VM_L=@vm_pernode 				# max number of VMs per node
-NAME_PREFIX='@vm_prefix'		# prefix of VM names
+VM_L={{ vm_pernode }} 				# max number of VMs per node
+NAME_PREFIX='{{ vm_prefix }}'		# prefix of VM names
 
 # Repository
-REPO_ROOT='@repo_root'          # Root dir for VM repository
-REPO_BASE_DIR='@repo_base_dir'  # Dir for base images inside root dir
+REPO_ROOT='{{ repo_root }}'          # Root dir for VM repository
+REPO_BASE_DIR='{{ repo_base_dir }}'  # Dir for base images inside root dir
 
 # Inventory
-DEFAULT_NODE_INVENTORY='@out_node_inventory'
-DEFAULT_VM_INVENTORY='@out_vm_inventory'
+DEFAULT_NODE_INVENTORY='{{ out_node_inventory }}'
+DEFAULT_VM_INVENTORY='{{ out_vm_inventory }}'

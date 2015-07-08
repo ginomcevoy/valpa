@@ -18,9 +18,11 @@ class VespaConfigBase (unittest.TestCase):
                                    'vm_mem_core' : '1024', 
                                    'vm_mac_base' : '00:16:36:ff',
                                    'vm_xml_output' : '/tmp/vespa/xmls',
-                                   'exec_config_template' : '../templates/execConfig.template',
+                                   'exec_config_template' : 'execConfig.template',
                                    'exec_config_output' : '/tmp/vespa/execs',
-                                   'general_verbose' : '1'
+                                   'general_verbose' : '1',
+                                   'out_node_inventory': '/tmp/vespa-node-inventory',
+                                   'out_vm_inventory': '/tmp/vespa-vm-inventory'
                                    }
 
         self.expectedXMLOpts = {'xml_disk_drivertype' : 'raw',

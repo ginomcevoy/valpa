@@ -8,17 +8,16 @@
 # TODO: time between groups
 # TODO: time to wait for application within group
 
+import jinja2
 import os
-import sys
 import shutil
+import sys
 import xml.etree.ElementTree as ET
 
 from bean.experiment import *  # @UnusedWildImport
 from bean.cluster import Cluster, Topology, Mapping, Technology ,\
 	ClusterPlacement
 from bean.enum import CpuTopoOpt, DiskOpt, NetworkOpt, PinningOpt  # @UnusedImport they ARE used
-
-from quik import FileLoader
 
 def parseScenarios(xmlFile):
 
@@ -160,33 +159,36 @@ def writeScenarios(scenarios, baseDir, helperFilename):
 		if not os.path.exists(expPath):
 			os.makedirs(expPath)
 
-		# write each cluster to a file in experiment dir
+		# write each experiment to a file in experiment dir
 		cluster = exp.cluster
 		app = exp.app
-		writeCluster(cluster, app, expPath)
+		writeExperiment(cluster, app, expPath)
 		
 		# write experiment name in helper file
 		output.write(exp.name + "\n")
 
 	output.close()
 
-def writeCluster(cluster, app, expDir):
+def writeExperiment(cluster, app, expDir):
 
-	# create cluster file inside expDir
+	# create experiment file inside expDir
 	filename = expDir + '/' + app.name
-	clusterFile = open(filename, 'w')
+	experimentFile = open(filename, 'w')
 
 	# write output using template
-	text = createClusterText(cluster, app)
-	clusterFile.write(text)
-	clusterFile.close()
+	text = createExperimentText(cluster, app)
+	experimentFile.write(text)
+	experimentFile.close()
 	
-def createClusterText(cluster, app):
+def createExperimentText(cluster, app):
 	
-	# use template
-	loader = FileLoader('../templates')
-	template = loader.load_template('cluster.template')
-	text = template.render(locals(), loader=loader)
+	# setup jinja template
+	templateLoader = jinja2.FileSystemLoader(searchpath="../templates")
+	templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+	template = templateEnv.get_template('experiment.template')
+
+	# apply jinja substitution
+	text = template.render(locals())
 	return text
 
 # Do this when attempting to run module

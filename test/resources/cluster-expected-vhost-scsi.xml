@@ -1,6 +1,6 @@
 <domain type="kvm">
-	<name>@vm_name</name>
-	<uuid>@vm_uuid</uuid>
+	<name>_VM_VAR_{ vm_name }}</name>
+	<uuid>_VM_VAR_{ vm_uuid }}</uuid>
 	<memory>4194304</memory>
 	<memoryBacking>
 		<nosharepages/>
@@ -20,14 +20,14 @@
 	<devices>
 		<interface type="network">
 			<source network="vespa-external-bridge"/>
-			<mac address="@vm_mac"/>
+			<mac address="_VM_VAR_{ vm_mac }}"/>
 			<model type="virtio"/>
 			<driver name="vhost"/>
 		</interface>
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
 			<driver name="qemu" type="raw"/>
-			<source file="/home/giacomo/vms/@vm_path/disk.img"/>
+			<source file="/home/giacomo/vms/_VM_VAR_{ vm_path }}/disk.img"/>
 			<target dev="vda" bus="scsi"/>
 		</disk>
 		<console type="pty">

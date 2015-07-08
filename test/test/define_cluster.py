@@ -15,7 +15,7 @@ class VespaXMLGeneratorTest(VespaAbstractTest):
     
     def setUp(self):
         super(VespaXMLGeneratorTest, self).setUp()
-        self.vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, 'resources/master.xml')
+        self.vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, 'resources', 'master.xml')
         
     def testMasterXML(self):
         vespaXML = self.vespaXMLGen.produceVespaXML()
@@ -61,9 +61,11 @@ class ClusterXMLGeneratorTest(unittest.TestCase):
         Assert that two multi-line strings are equal.
         If they aren't, show a nice diff.
         '''
-        self.assertTrue(isinstance(first, str),
+        isStringFirst = isinstance(first, str) or isinstance(first, unicode)
+        isStringSecond = isinstance(second, str) or isinstance(second, unicode)
+        self.assertTrue(isStringFirst,
                 'First argument is not a string')
-        self.assertTrue(isinstance(second, str),
+        self.assertTrue(isStringSecond,
                 'Second argument is not a string')
 
         if first != second:

@@ -3,8 +3,10 @@ Created on Sep 29, 2014
 
 @author: giacomo
 '''
+
+import jinja2
+
 from bean.experiment import Experiment, Scenario
-from quik import FileLoader
 from autorun.clustergen import SimpleClusterGenerator
 from autorun.appgen import AppRequestGenerator
 
@@ -61,8 +63,12 @@ class SimpleScenariosToXMLExporter():
     stand-alone (no concurrent experiments) and that the cluster requests
     use the simple characterization (DIST tuple)
     '''
-    def __init__(self, templateFile = '../templates/builder.template'):
-        self.templateFile = templateFile
+    def __init__(self, templateFile = 'builder.template'):
+        
+        # setup jinja template
+        templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")
+        templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
+        self.template = templateEnv.get_template(templateFile)
         
     def exportScenarios(self, scenarios, xmlPath, xmlName):
         
@@ -76,10 +82,8 @@ class SimpleScenariosToXMLExporter():
             app = experiment.app
             cluster = experiment.cluster
             
-            # Use template, with all local variables set
-            loader = FileLoader('.')
-            template = loader.load_template(self.templateFile)
-            text = template.render(locals(), loader=loader)#.decode('utf-8')
+            # Use template with local variables
+            text = self.template.render(locals())
             xmlText += text
         
         # close XML file now
@@ -96,7 +100,7 @@ class SimpleScenarioGenerator():
     so that it is ready to use.
     '''
     
-    def __init__(self, hwSpecs, defaultTechnology=None, defaultTuning=None, templateFile = '../templates/builder.template'):
+    def __init__(self, hwSpecs, defaultTechnology=None, defaultTuning=None, templateFile = 'builder.template'):
         
         # prepare clusterRequest and applicationRequest generators
         clusterGenerator = SimpleClusterGenerator(hwSpecs, defaultTechnology, defaultTuning)

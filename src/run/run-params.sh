@@ -5,13 +5,6 @@
 # Verbosity
 VERBOSE=0
 
-# Output dir for all experiments
-EXP_DIR='/home/shared/execs'
-
-# Output dir for an experiment
-DEPLOY_SUBDIR="nc${nc}-cpv${cpv}-idf${idf}-ps${pstrat}"
-DEPLOY_DIR="$EXP_DIR/$app/$DEPLOY_SUBDIR"
-
 # Output dir for execution configuration
 EXEC_CONFIG_DIR='/tmp/execs'
 
@@ -26,9 +19,6 @@ DEPLOY_TIME=1
 
 # Supported PBS applications - will look here to see if PBS scripts will be used
 PBS_APPS='parpac,none'
-
-# PBS parameters
-PBS_PARAMS='pbs-params.sh'
 
 # Date format used to stamp output files
 DATE_FORMAT='%Y-%m-%d-%H:%M'

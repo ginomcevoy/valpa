@@ -7,6 +7,7 @@ import unittest
 from autorun.expgen import NPBExecutableGenerator, ExperimentGenerator
 from bean.experiment import Application, AppTuning  # @UnusedImport
 from bean.enum import PinningOpt
+import difflib
 
 class ExperimentGeneratorTest(unittest.TestCase):
 
@@ -96,7 +97,7 @@ class ExperimentGeneratorTest(unittest.TestCase):
         # then
         self.maxDiff = None
         self.assertEquals(xmlName, '../output/autorun/generated/npb-ep-cpv1-idf0.xml')
-        self.assertEquals(open(xmlName, 'r').read(), open('resources/generated1.xml', 'r').read())
+        self.assertMultiLineEqual(open(xmlName, 'r').read(), open('resources/generated1.xml', 'r').read())
         
     def testGenerateXMLs(self):
         
@@ -114,6 +115,25 @@ class ExperimentGeneratorTest(unittest.TestCase):
         # then
         if False:
             print(xmlNames)
+            
+    def assertMultiLineEqual(self, first, second, msg=None):
+        '''
+        Assert that two multi-line strings are equal.
+        If they aren't, show a nice diff.
+        '''
+        isStringFirst = isinstance(first, str) or isinstance(first, unicode)
+        isStringSecond = isinstance(second, str) or isinstance(second, unicode)
+        self.assertTrue(isStringFirst,
+                'First argument is not a string')
+        self.assertTrue(isStringSecond,
+                'Second argument is not a string')
+
+        if first != second:
+            message = ''.join(difflib.ndiff(first.splitlines(True),
+                                                second.splitlines(True)))
+            if msg:
+                message += " : " + msg
+            self.fail("Multi-line strings are unequal:\n" + message)
         
 class NPBExecutableGeneratorTest(unittest.TestCase):
 
