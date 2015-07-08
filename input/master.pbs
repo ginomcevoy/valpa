@@ -44,18 +44,18 @@ cd &APP_HOME
 cp $PBS_NODEFILE /tmp/pbs-nodefile.txt
 
 # Also monitor nodes?
-#if [ '&MONITOR_DO_NODES' == 'True' ]; then
-#	echo -e '&NODE_LIST' >> /tmp/pbs-nodefile.txt
-#fi
+if [ '&MONITOR_DO_NODES' == 'True' ]; then
+	echo -e '&NODE_LIST' >> /tmp/pbs-nodefile.txt
+fi
 
 # Start monitoring
-#&MONITOR_START /tmp/pbs-nodefile.txt &MONITOR_APP
+&MONITOR_START /tmp/pbs-nodefile.txt &MONITOR_APP
 
 # The actual invocation of the application
 /usr/bin/time -f '&TIME_FORMAT' -a -o $EXEC_OUTPUT_DIR/../&TIME_OUTPUT mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" --mca btl_tcp_if_include 172.16.0.0/16 &BIND_TO_CORE &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
 
 # Stop monitoring iteratively
-#&MONITOR_STOP /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR &MONITOR_APP
+&MONITOR_STOP /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR &MONITOR_APP
 
 # Post-processing of output may be necessary
 if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
@@ -63,4 +63,4 @@ if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
 fi
 
 # Pre-process the monitor files, to save space
-#&MONITOR_PREPROCESS $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt &MONITOR_APP
+&MONITOR_PREPROCESS $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt &MONITOR_APP
