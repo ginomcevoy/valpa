@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<scenarios>
+	<scenario>
+		<experiment name="nc12-cpv1-idf6-psNONE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="1" />
+				<mapping idf="6" pstrat="NONE" />
+			</cluster>
+			<app name="parpac" runs="3">
+				<tuning>
+					<procpin>BIND_CORE</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+</scenarios>
