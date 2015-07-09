@@ -31,12 +31,12 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertFileContentEqual(pbsFile, 'resources/pbs-copy-expected.pbs')
+        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-copy-expected.pbs')
         
     def testCreateVespaExecutionFile(self):
         # given
         experimentPath = '/tmp' # should exist!
-        expectedContentFile = 'resources/pbs-vespa-expected.pbs'
+        expectedContentFile = 'resources/torque/pbs-vespa-expected.pbs'
         
         # when
         pbsFile = self.configFactory.createVespaExecutionFile(self.appRequest, experimentPath)
@@ -88,15 +88,14 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
     def testEnhanceExecutionFile(self):
         # given
         executionFile = '/tmp/submit.pbs'
-        shutil.copyfile('resources/pbs-vespa-expected.pbs', executionFile)
+        shutil.copyfile('resources/torque/pbs-vespa-expected.pbs', executionFile)
         
         # when
         pbsFile = self.appConfigurator.enhanceExecutionFile(executionFile)
         
         # then
-        self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-app-expected.pbs', 'r').read())
+        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-app-expected.pbs')
         
 class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     
@@ -107,15 +106,14 @@ class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     def testEnhanceExecutionFile(self):
         # given
         executionFile = '/tmp/submit.pbs'
-        shutil.copyfile('resources/pbs-app-expected.pbs', executionFile)
+        shutil.copyfile('resources/torque/pbs-app-expected.pbs', executionFile)
         
         # when
         pbsFile = self.execConfigurator.enhanceExecutionFile(executionFile)
         
         # then
-        self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertFileContentEqual(pbsFile, 'resources/pbs-exec-expected.pbs')
+        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-exec-expected.pbs')
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
