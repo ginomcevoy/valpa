@@ -1,0 +1,14 @@
+Running PBS application: PARPACBench
+Execution number: 2
+sar started at kvm-pbs03-01
+sar started at valpa03
+sar started at valpa02
+sar started at kvm-pbs02-01
+sar stopped at kvm-pbs02-01
+Performance data in kvm-pbs02-01:/home/giacomo2/shared/execs/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980/parpac-2015-07-07-19:05-002
+sar stopped at kvm-pbs03-01
+Performance data in kvm-pbs03-01:/home/giacomo2/shared/execs/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980/parpac-2015-07-07-19:05-002
+sar stopped at valpa02
+Performance data in valpa02:/home/giacomo2/shared/execs/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980/parpac-2015-07-07-19:05-002
+sar stopped at valpa03
+Performance data in valpa03:/home/giacomo2/shared/execs/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980/parpac-2015-07-07-19:05-002

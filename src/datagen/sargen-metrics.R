@@ -5,16 +5,6 @@
 # (exc001.csv, exc002.csv, ...) in output dir. Also generates header.txt for that config.
 ########
 
-setwd("~/vespa")
-# Uncomment for testing
-#setwd("~/Development/Systems/vespa")
-
-# start clean
-#rm(list = ls())
-	
-# Load Preferences
-source("input/sargen-config.R")
-
 ##########
 # Entities:  objects with monitored metrics
 ##########
@@ -505,15 +495,22 @@ generateExecutionMetrics <- function(configDir, phycores, configOutputDir) {
 
 # Uncomment for testing
 #argv = vector()
-#argv[1] = '/home/giacomo2/experiments/arriving/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980'
-#argv[2] = '12'
-#argv[3] = '/home/giacomo2/experiments/analyzed/parpac/cfg1'
-  
+#argv[1] = '/home/giacomo2/vespa'
+#argv[2] = '/home/giacomo2/experiments/arriving/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980'
+#argv[3] = '12'
+#argv[4] = '/home/giacomo2/experiments/analyzed/parpac/cfg1'
+ 
 # Read arguments from stdin
 if (exists("argv")) {
-  configDir = argv[1]
-  phycores = as.numeric(argv[2])
-  configOutputDir = argv[3]
+  vespaDir = argv[1]
+  configDir = argv[2]
+  phycores = as.numeric(argv[3])
+  configOutputDir = argv[4]
+
+  # Load Preferences
+  setwd(vespaDir)
+  source("input/sargen-config.R")
+
   generateExecutionMetrics(configDir, phycores, configOutputDir)
 }
 

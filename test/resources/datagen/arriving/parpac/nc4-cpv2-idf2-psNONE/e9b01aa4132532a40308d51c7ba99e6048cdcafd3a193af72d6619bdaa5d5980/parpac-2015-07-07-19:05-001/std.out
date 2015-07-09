@@ -1,0 +1,12 @@
+--------------------------------------------------------------------------
+[[40492,1],1]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: kvm-pbs03-01
+
+Another transport will be used instead, although this may result in
+lower performance.
+--------------------------------------------------------------------------
+
+Benchmark results will be written to "results/parpacbench_4cpu_32lbu.out"
