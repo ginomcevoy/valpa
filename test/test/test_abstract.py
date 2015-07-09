@@ -49,6 +49,11 @@ class VespaAbstractTest(unittest.TestCase):
                 message += " : " + msg
             self.fail("Multi-line strings are unequal:\n" + message)
 
+    def assertTextEqualsContent(self, text, expectedFilename):
+        self.assertMultiLineEqual(text, open(expectedFilename, 'r').read())
+        
+    def assertFileContentEqual(self, testFilename, expectedFilename):
+        self.assertMultiLineEqual(open(testFilename, 'r').read(), open(expectedFilename, 'r').read())
         
 class VespaWithNodesAbstractTest(VespaAbstractTest):
     '''

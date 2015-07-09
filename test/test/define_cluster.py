@@ -21,8 +21,7 @@ class VespaXMLGeneratorTest(VespaAbstractTest):
         vespaXML = self.vespaXMLGen.produceVespaXML()
 
         # compare with expected output
-        expectedVespaXML = open('resources/vespa-expected.xml', 'r').read()
-        self.assertMultiLineEqual(vespaXML, expectedVespaXML)
+        self.assertTextEqualsContent(vespaXML, 'resources/vespa-expected.xml')
         
 class ClusterXMLGeneratorTest(unittest.TestCase):
 

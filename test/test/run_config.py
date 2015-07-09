@@ -31,12 +31,12 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-copy-expected.pbs', 'r').read())
+        self.assertFileContentEqual(pbsFile, 'resources/pbs-copy-expected.pbs')
         
     def testCreateVespaExecutionFile(self):
         # given
         experimentPath = '/tmp' # should exist!
-        expectedContent = open('resources/pbs-vespa-expected.pbs', 'r').read()
+        expectedContentFile = 'resources/pbs-vespa-expected.pbs'
         
         # when
         pbsFile = self.configFactory.createVespaExecutionFile(self.appRequest, experimentPath)
@@ -44,8 +44,7 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertMultiLineEqual(open(pbsFile, 'r').read(), expectedContent)
-        #self.assertEquals(open(pbsFile, 'r').read(), )
+        self.assertFileContentEqual(pbsFile, expectedContentFile)
         
     def testCreateApplicationConfigurator(self):
         # given
@@ -116,7 +115,7 @@ class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-exec-expected.pbs', 'r').read())
+        self.assertFileContentEqual(pbsFile, 'resources/pbs-exec-expected.pbs')
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
