@@ -98,10 +98,22 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
         self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-app-expected.pbs')
         
 class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
+    '''
+    Unit test for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
+    string, as well as the enhancement of the PBS file.
+    '''
     
     def setUp(self):
         super(ExecutionConfiguratorPBSTest, self).setUp()
         self.execConfigurator = ExecutionConfiguratorPBS(self.clusterRequest, self.deploymentInfo)
+    
+    def testCreateTopologyString(self):
+        # when
+        topologyLine = self.execConfigurator.createTopologyString()
+        
+        # then
+        self.assertEqual(topologyLine, 'kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4')
+        
         
     def testEnhanceExecutionFile(self):
         # given

@@ -6,7 +6,7 @@
 # christian.simmendinger@t-systems.com
 #
 #PBS -l walltime=60:00
-#PBS -l nodes=4:ppn=4
+#PBS -l nodes=kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4
 #PBS -N PARPACBench
 #PBS -t 1-11
 #PBS -o /home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/f2f8b46e1b3decd0735b9247756f92e8e451a4a46b489f66852b2ddd78a68c52/pbs.out

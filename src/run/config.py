@@ -142,24 +142,40 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
         with open(executionFile, 'r') as execution:
             executionText = execution.read()
             
+            # Replace #processes (= #cores in cluster)
             nc = self.clusterInfo.topology.nc
-            cpv = self.clusterInfo.topology.cpv
-            vms = int(nc/cpv)
+            executionText = executionText.replace('&NC', str(nc))
             
+            # Replace VM list (for specifying PBS nodes and their ppn)
+            topologyString = self.createTopologyString()
+            executionText = executionText.replace('&PBS_TOPOLOGY', topologyString)
+            
+            # Replace node list (for monitoring nodes)
             nodeList = self.deploymentInfo[0].getNames()
             nodeText = ''
             for node in nodeList:
                 nodeText += node + '\\n'
-            
-            executionText = executionText.replace('&NC', str(nc))
-            executionText = executionText.replace('&CPV', str(cpv))
-            executionText = executionText.replace('&VMS', str(vms))
-            executionText = executionText.replace('&NODE_LIST', nodeText)
+            executionText = executionText.replace('&PHYSICAL_NODE_LIST', nodeText)
             
         with open(executionFile, 'w') as execution:
             execution.write(executionText)
         
         return executionFile
+    
+    def createTopologyString(self):
+        '''
+        Returns a string appropriate for the #PBS -l nodes= statement.
+        Example of a string:
+        kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4
+        '''
+        vmList = self.deploymentInfo[2].getNames()
+        cpv = self.clusterInfo.topology.cpv
+        topologyString = ''
+         
+        for vmName in vmList:
+            topologyString = topologyString + vmName + ':ppn=' + str(cpv) + '+'
+        topologyString = topologyString[0 : len(topologyString)-1]
+        return topologyString
     
 class ConfiguratorFactory:
     '''

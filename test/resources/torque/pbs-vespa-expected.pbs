@@ -6,7 +6,7 @@
 # christian.simmendinger@t-systems.com
 #
 #PBS -l walltime=&WALLTIME
-#PBS -l nodes=&VMS:ppn=&CPV
+#PBS -l nodes=&PBS_TOPOLOGY
 #PBS -N &APP_EXECUTABLE
 #PBS -t 1-&EXEC_TIMES
 #PBS -o &EXPERIMENT_PATH/pbs.out
@@ -45,7 +45,7 @@ cp $PBS_NODEFILE /tmp/pbs-nodefile.txt
 
 # Also monitor nodes?
 if [ 'True' == 'True' ]; then
-	echo -e '&NODE_LIST' >> /tmp/pbs-nodefile.txt
+	echo -e '&PHYSICAL_NODE_LIST' >> /tmp/pbs-nodefile.txt
 fi
 
 # Start monitoring
