@@ -73,12 +73,12 @@ class EtcHostsFileBuilder():
             # write entry for head (local) node
             hostname = localHostnameAndIp[0]
             ipAddress = localHostnameAndIp[1]
-            etcHostsFile.write(hostname + '\t' + ipAddress + '\n')
+            etcHostsFile.write(ipAddress + '\t' + hostname + '\n')
             
             # write each line
             for nodeName in self.physicalCluster.getNames():
                 ipAddress = self.physicalCluster.getIpAddressOf(nodeName)
-                etcHostsFile.write(nodeName + '\t' + ipAddress + '\n')
+                etcHostsFile.write(ipAddress + '\t' + nodeName + '\n')
                 
             etcHostsFile.write('\n')
             
@@ -95,7 +95,7 @@ class EtcHostsFileBuilder():
             vmNames = sorted(self.allVMDetails.getNames())
             for vmName in vmNames:
                 ipAddress = self.allVMDetails.getIpAddressOf(vmName)
-                etcHostsFile.write(vmName + '\t' + ipAddress + '\n')
+                etcHostsFile.write(ipAddress + '\t' + vmName + '\n')
             
 def getLocalHostnameAndIp(neighbor):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

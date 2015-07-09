@@ -2,7 +2,7 @@
 # LNCC Brazil 2013
 # Reads datagen.params to obtain data generation preferences
 
-import configparser
+import ConfigParser
 
 class DataGenSettings:
 	'''
@@ -15,7 +15,7 @@ class DataGenSettings:
 	settings = None
 
 	def __init__(self, settingsFile):
-		config = configparser.RawConfigParser()
+		config = ConfigParser.RawConfigParser()
 		config.read(settingsFile)
 		
 		self.apps = {} # app-specific sections are stored here
