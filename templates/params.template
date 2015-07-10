@@ -8,10 +8,6 @@
 # Physical Environment
 NODE_L={{ nodes }} 				# number of physical computing nodes
 
-NODE_PREFIX='{{ prefix }}'		# prefix for names of physical nodes (vespa00, vespa01)
-NODE_ZEROS='{{ zeros }}' 		# if 2: vespa00... vespa12... vespa99
-NODE_FIRST='{{ first }}' 		# suffix of first computing node
-
 # Networking
 NET_DEV='{{ net_dev }}'				# interface that will host bridge
 NET_CLASS='{{ net_class }}' 			# either B or C class

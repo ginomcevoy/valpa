@@ -16,13 +16,13 @@ LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
 # Import params
 source $LOCAL_DIR/../params.sh
 
-if [ `$LOCAL_DIR/iterator-nodes.sh $1` ]; then
-	# build node name
-	NUMBER=`expr $1 + $NODE_FIRST - 1`
-	if [ $2 -a $2 != 'NONZERO' ]; then
-		NUMBER=$(printf "%0${NODE_ZEROS}d\n" ${NUMBER})
-	fi
-	echo "${NUMBER}"
+# Use the Vespa generated inventory, first column has the node names
+VESPA_INVENTORY=$($LOCAL_DIR/nodes-inventory.sh $NODE_L)
+ZERO_INDEX=$(expr $1 - 1)
+if [ $2 -a $2 != 'NONZERO' ]; then
+	# use node suffix
+	cat $VESPA_INVENTORY | cut -d ' ' -f 2 | cut -d '=' -f 2 | { mapfile -t nodeSuffixes; echo "${nodeSuffixes[$ZERO_INDEX]}"; }
+else 
+	# use node number
+	cat $VESPA_INVENTORY | cut -d ' ' -f 4 | cut -d '=' -f 2 | { mapfile -t nodeNumbers; echo "${nodeNumbers[$ZERO_INDEX]}"; }
 fi
-
-

@@ -4,15 +4,16 @@ Created on Nov 2, 2014
 @author: giacomo
 '''
 import unittest
+
 from bean.node import PhysicalNodeFactory
-from config import hwconfig
+from test.test_abstract import VespaAbstractTest
 
 
-class PhysicalNodeFactoryTest(unittest.TestCase):
+class PhysicalNodeFactoryTest(VespaAbstractTest):
 
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        self.nodeFactory = PhysicalNodeFactory(hwInfo)
+        super(PhysicalNodeFactoryTest, self).setUp()
+        self.nodeFactory = PhysicalNodeFactory(self.hwInfo)
         self.subsetNames = ('node084', 'node086', 'node088') 
 
     def testGetAllNodes(self):
@@ -46,15 +47,18 @@ class PhysicalNodeFactoryTest(unittest.TestCase):
         # given 
         allNodes = self.nodeFactory.getAllNodes()
         filename = '/tmp/vespa-allnodes.txt'
-        expectedContent = open('resources/nodes-tofile-expected.txt', 'r').read()
         
         # when representing as file
         allNodes.toFile(filename)
         
         # verify content
-        self.maxDiff = None
-        self.assertEquals(open(filename, 'r').read(), expectedContent)
-
+        self.assertFileContentEqual(filename, 'resources/nodes-tofile-expected.txt')
+        
+    def testFindNumberSuffix(self):
+        nodeName = 'node083'
+        suffix = self.nodeFactory.findNumberSuffix(nodeName)
+        self.assertEqual(suffix, '083')
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

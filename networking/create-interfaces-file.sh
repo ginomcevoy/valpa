@@ -32,7 +32,7 @@ while [ `$VESPA_DIR/util/iterator-nodes.sh $INDEX` ]; do
 	cp $VESPA_DIR/data-input/interfaces-template.txt $OUTPUT_FILE
 
 	# update ip suffix on file
-	NODE_NUMBER=`expr $INDEX + $NODE_FIRST`
+	NODE_NUMBER=$(VESPA_DIR/util/iterator-node-numbers.sh $INDEX NONZERO)
 	sed "s/\_NODE\_NUMBER/${NODE_NUMBER}/g" ${OUTPUT_FILE} > /tmp/$NODE_NAME
 	mv /tmp/$NODE_NAME $OUTPUT_FILE
 

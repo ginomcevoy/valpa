@@ -23,8 +23,9 @@ class VespaAbstractTest(unittest.TestCase):
 
     def setUp(self):
         # Hardware
-        self.hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
+        self.hwInfo = hwconfig.getHardwareInfo(specsFile='resources/hardware.params', inventoryFilename='resources/vespa.nodes')
         self.hwSpecs = self.hwInfo.getHwSpecs()
+        self.nodeNames = self.hwInfo.getNodeNames()
         
         # Vespa params
         vespaConfig = vespaconfig.readVespaConfig('resources/vespa.params')
