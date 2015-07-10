@@ -59,10 +59,10 @@ def readInventoryFile(inventoryFilename):
 			nodeNames.append(nodeName)
 	return tuple(nodeNames)
 
-def getHardwareInfo(specsFile='../input/hardware.params', inventoryFilename='../input/vespa.inventory'):
+def getHardwareInfo(specsFile='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
 	'''
 	Reads hardware info from specsFile (default: input/hardware.params)
-	and node identities from inventoryFile (default: input/vespa.inventory)
+	and node identities from inventoryFile (default: input/vespa.nodes)
 	'''
 	# Singleton
 	if HardwareInfo.hwInfo is None:
