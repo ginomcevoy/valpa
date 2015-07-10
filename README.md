@@ -22,3 +22,6 @@ Since Vespa is meant to be deployed on a physical cluster and support virtual cl
 - KVM
 - Torque Node Manager (torque-mom package)
 - Sysstat monitoring (sysstat package)
+
+## Acknowledgments
+This work is supported by the Brazilian National Research Council (CNPq), grant no. 150724/2015-2.
