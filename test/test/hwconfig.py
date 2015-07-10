@@ -26,6 +26,12 @@ class GetHardwareInfoTest(VespaAbstractTest):
         self.failUnlessEqual(hwInfo.nodeZeros, 3, 'nodeZeros wrong')
         self.failUnlessEqual(hwInfo.nodeFirst, 82, 'nodeFirst wrong')
         
+    def testReadInventoryFile(self):
+        nodeNames = self.nodeNames
+        self.assertEqual(12, len(nodeNames))
+        self.assertEqual('node082', nodeNames[0])
+        self.assertEqual('node093', nodeNames[11])
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

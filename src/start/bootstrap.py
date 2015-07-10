@@ -17,11 +17,11 @@ from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from define.cluster import VespaXMLGenerator
 
-def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params'):
+def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.inventory'):
     # instantiate Bootstrapper as a Singleton
     
     if VespaBootstrapper.instance is None:
-        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename)
+        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename)
         VespaBootstrapper.instance.bootstrap()
         
 def getInstance():
@@ -34,10 +34,11 @@ class VespaBootstrapper():
     # Singleton variable
     instance = None
     
-    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename):
+    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename):
         self.forReal = forReal
         self.vespaFilename = vespaFilename 
         self.hardwareFilename= hardwareFilename
+        self.inventoryFilename = inventoryFilename
         self.templateDir = templateDir
         self.masterTemplate = masterTemplate
         self.boostrapped = False
@@ -55,7 +56,7 @@ class VespaBootstrapper():
         (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.vespaConfig.getAll()
                
         # Read hardware specification
-        self.hardwareInfo = hwconfig.getHardwareInfo(self.hardwareFilename)
+        self.hardwareInfo = hwconfig.getHardwareInfo(self.hardwareFilename, self.inventoryFilename)
         (self.hwSpecs, self.nodeDict) = self.hardwareInfo.getHwAndNodeDicts()
         
         # Produce Vespa XML from master template

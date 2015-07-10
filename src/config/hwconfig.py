@@ -12,10 +12,11 @@ class HardwareInfo:
 	# Singleton variable
 	hwInfo = None
 
-	def __init__(self, hwDict, nodeDict):
+	def __init__(self, hwDict, nodeDict, nodeNames):
 		# save dicts
 		self.hwDict = hwDict
 		self.nodeDict = nodeDict
+		self.nodeNames = nodeNames
 		
 		# hardware
 		cores = int(hwDict['cores'])
@@ -53,18 +54,43 @@ class HardwareInfo:
 		Returns hardware specs as a dict.
 		'''
 		return dict(self.specs)
-
-def getHardwareInfo(filename='../input/hardware.params'):
+	
+	def getNodeNames(self):
+		return self.nodeNames
+	
+def readInventoryFile(inventoryFilename):
 	'''
-	Reads hardware info from param file
-	(default: input/hardware.params)
+	Reads Vespa main inventory file and returns a list of hostnames of
+	the physical nodes.
+	'''
+	nodeNames = []
+	for line in open(inventoryFilename, 'r'):
+		li = line.strip()
+		
+		# ignore lines with comments
+		if not li.startswith("#"):
+			nodeName = line.rstrip()
+			nodeNames.append(nodeName)
+	return tuple(nodeNames)
+
+def getHardwareInfo(specsFile='../input/hardware.params', inventoryFilename='../input/vespa.inventory'):
+	'''
+	Reads hardware info from specsFile (default: input/hardware.params)
+	and node identities from inventoryFile (default: input/vespa.inventory)
 	'''
 	# Singleton
 	if HardwareInfo.hwInfo is None:
+		
+		# read specs
 		config = ConfigParser.RawConfigParser()
-		config.read(filename)
+		config.read(specsFile)
 		hwDict = dict(config.items('Hardware'))
 		nodeDict = dict(config.items('Nodes'))
-		HardwareInfo.hwInfo = HardwareInfo(hwDict, nodeDict)
+		
+		# read inventory
+		nodeNames = readInventoryFile(inventoryFilename)
+		
+		# initialize singleton
+		HardwareInfo.hwInfo = HardwareInfo(hwDict, nodeDict, nodeNames)
 
 	return HardwareInfo.hwInfo

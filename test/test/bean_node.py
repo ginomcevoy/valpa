@@ -47,15 +47,18 @@ class PhysicalNodeFactoryTest(VespaAbstractTest):
         # given 
         allNodes = self.nodeFactory.getAllNodes()
         filename = '/tmp/vespa-allnodes.txt'
-        expectedContent = open('resources/nodes-tofile-expected.txt', 'r').read()
         
         # when representing as file
         allNodes.toFile(filename)
         
         # verify content
-        self.maxDiff = None
-        self.assertEquals(open(filename, 'r').read(), expectedContent)
-
+        self.assertFileContentEqual(filename, 'resources/nodes-tofile-expected.txt')
+        
+    def testFindNumberSuffix(self):
+        nodeName = 'node083'
+        suffix = self.nodeFactory.findNumberSuffix(nodeName)
+        self.assertEqual(suffix, '083')
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

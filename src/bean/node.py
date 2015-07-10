@@ -125,36 +125,44 @@ class PhysicalNodeFactory(object):
         self.allNodes = None
         
     def getAllNodes(self):
-        '''
-        Returns a NodeCluster object of all nodes in physical cluster.
-        Nodes are inferred from sequence, it is calculated only once
-        '''
+        """Return a NodeCluster object of all nodes in physical cluster.
+        """
         if self.allNodes is None:
             
-            # build node list from sequence
-            nodeNamesList = []
-            
+            nodeNames = self.hwInfo.getNodeNames()
             nodeDict = {}
             nodeIndex = 0 # zero-based index
 
-            # ex. '%03d' for 083, 084...
-            formatString = '%0' + str(self.hwInfo.nodeZeros) + 'd'
-
             # node loop
-            while (nodeIndex < self.hwInfo.nodeCount):
-                nodeNumber = self.hwInfo.nodeFirst + nodeIndex
+            for nodeName in nodeNames:
+                nodeSuffix = self.findNumberSuffix(nodeName)
+                nodeNumber = int(nodeSuffix)
 
-                # ex. node083
-                nodeSuffix = formatString % nodeNumber 
-                nodeName = self.hwInfo.nodePrefix + nodeSuffix
-
-                # grow dict and list
-                nodeNamesList.append(nodeName)
+                # add node object to dict
                 physicalNode = PhysicalNode(nodeName, nodeIndex, nodeNumber, nodeSuffix)
                 nodeDict[nodeName] = physicalNode
                 
                 nodeIndex += 1
             
-            self.allNodes = NodeCluster(nodeDict, tuple(nodeNamesList))
+            self.allNodes = NodeCluster(nodeDict, nodeNames)
                 
-        return self.allNodes 
+        return self.allNodes
+    
+    def findNumberSuffix(self, nodeName):
+        """Find the longest final substring of the nodeName that is a number.                 
+        """
+        pos = len(nodeName) - 1
+        while pos > 0:
+            char = nodeName[pos]
+            
+            # check if this is a number
+            try:
+                int(char)
+            except ValueError:
+                # here pos points to a non-numerical character, stop    
+                break
+            
+            # pos still points to a number, increase pos
+            pos = pos - 1
+            
+        return nodeName[pos+1:len(nodeName)] 
