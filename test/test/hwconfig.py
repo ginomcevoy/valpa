@@ -20,12 +20,6 @@ class GetHardwareInfoTest(VespaAbstractTest):
         self.failUnlessEqual(specs['sockets'], 2, 'sockets wrong')
         self.failUnlessEqual(specs['mem'], 24, 'mem wrong')
 
-        # nodes
-        hwInfo = self.hwInfo
-        self.failUnlessEqual(hwInfo.nodePrefix, 'node', 'prefix wrong')
-        self.failUnlessEqual(hwInfo.nodeZeros, 3, 'nodeZeros wrong')
-        self.failUnlessEqual(hwInfo.nodeFirst, 82, 'nodeFirst wrong')
-        
     def testReadInventoryFile(self):
         nodeNames = self.nodeNames
         self.assertEqual(12, len(nodeNames))

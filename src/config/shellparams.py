@@ -24,9 +24,8 @@ class ShellParameters:
         self.allParams.update(bootstrapper.getNetworkingOpts())
         self.allParams.update(bootstrapper.getRepoOpts())
         
-        (hwSpecs, nodeDict) = bootstrapper.getHwAndNodeDicts()
+        hwSpecs = bootstrapper.getHwSpecs()
         self.allParams.update(hwSpecs)
-        self.allParams.update(nodeDict)
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="../templates")

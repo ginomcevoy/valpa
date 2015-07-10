@@ -57,7 +57,7 @@ class VespaBootstrapper():
                
         # Read hardware specification
         self.hardwareInfo = hwconfig.getHardwareInfo(self.hardwareFilename, self.inventoryFilename)
-        (self.hwSpecs, self.nodeDict) = self.hardwareInfo.getHwAndNodeDicts()
+        self.hwSpecs = self.hardwareInfo.getHwSpecs()
         
         # Produce Vespa XML from master template
         vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, self.templateDir, self.masterTemplate)
@@ -96,10 +96,6 @@ class VespaBootstrapper():
     def getHwSpecs(self):
         _checkBootstrap()
         return self.hwSpecs
-    
-    def getHwAndNodeDicts(self):
-        _checkBootstrap()
-        return (self.hwSpecs, self.nodeDict)
     
     def getPhysicalCluster(self):
         _checkBootstrap()

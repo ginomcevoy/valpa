@@ -12,11 +12,11 @@ class HardwareInfo:
 	# Singleton variable
 	hwInfo = None
 
-	def __init__(self, hwDict, nodeDict, nodeNames):
+	def __init__(self, hwDict, nodeNames):
 		# save dicts
 		self.hwDict = hwDict
-		self.nodeDict = nodeDict
 		self.nodeNames = nodeNames
+		self.nodeCount = len(nodeNames)
 		
 		# hardware
 		cores = int(hwDict['cores'])
@@ -25,7 +25,7 @@ class HardwareInfo:
 		
 		# derived harware specs
 		coresPerSocket = int(cores / sockets)
-		coresInCluster = int(nodeDict['nodes']) * cores
+		coresInCluster = self.nodeCount * cores
 		
 		# all specs
 		self.specs = {'cores' : cores, 
@@ -33,21 +33,7 @@ class HardwareInfo:
 					'coresPerSocket' : coresPerSocket,
 					'coresInCluster' : coresInCluster, 
 					'mem' : mem,
-					'nodes' : int(nodeDict['nodes'])}
-
-		# nodes
-		#pprint.pprint(nodeDict)
-		self.nodeCount = int(nodeDict['nodes'])
-		if (nodeDict['inferids'] == 'True'):
-			self.nodePrefix = nodeDict['prefix']
-			self.nodeZeros = int(nodeDict['zeros'])
-			self.nodeFirst = int(nodeDict['first'])
-
-			# lazy load of node list
-			self.allNodes = None
-
-	def getHwAndNodeDicts(self):
-		return (self.specs, self.nodeDict)
+					'nodes' : self.nodeCount}
 
 	def getHwSpecs(self):
 		'''
@@ -85,12 +71,11 @@ def getHardwareInfo(specsFile='../input/hardware.params', inventoryFilename='../
 		config = ConfigParser.RawConfigParser()
 		config.read(specsFile)
 		hwDict = dict(config.items('Hardware'))
-		nodeDict = dict(config.items('Nodes'))
 		
 		# read inventory
 		nodeNames = readInventoryFile(inventoryFilename)
 		
 		# initialize singleton
-		HardwareInfo.hwInfo = HardwareInfo(hwDict, nodeDict, nodeNames)
+		HardwareInfo.hwInfo = HardwareInfo(hwDict, nodeNames)
 
 	return HardwareInfo.hwInfo
