@@ -6,17 +6,12 @@ Defines Vespa parameters for testing networking
 @author: giacomo
 '''
 import unittest
-from config import hwconfig
 from test.test_abstract import VespaDeploymentAbstractTest
 
 class NetworkAbstractTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
         super(NetworkAbstractTest, self).setUp()
-        
-        # hardware info VM size
-        hwInfo = hwconfig.getHardwareInfo("resources/hardware.params")
-        self.hwSpecs = hwInfo.getHwSpecs()
         
         self.networkingOpts = {
                             'network_source' : 'external-bridge',

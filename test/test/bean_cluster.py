@@ -5,18 +5,16 @@ Created on Oct 13, 2013
 '''
 import unittest
 
-from bean.cluster import Cluster, Topology, Mapping, Technology, \
+from bean.cluster import Cluster, Topology, Mapping, \
     Tuning, ClusterPlacement
 from bean.enum import PinningOpt
-from config import hwconfig
 from bean import cluster
+from test.test_abstract import VespaAbstractTest
 
-class ConsistencyTest(unittest.TestCase):
+class ConsistencyTest(VespaAbstractTest):
         
     def setUp(self):
-        # hardware info for consistency
-        hwInfo = hwconfig.getHardwareInfo("resources/hardware.params")
-        self.hwSpecs = hwInfo.getHwSpecs()
+        super(ConsistencyTest, self).setUp()
         self.technology = cluster.getDefaultTechnology() 
         
     def testConsistent1(self):

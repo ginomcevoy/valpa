@@ -4,25 +4,24 @@ Created on Sep 21, 2014
 @author: giacomo
 '''
 import unittest
-from config import hwconfig
 from bean import simple
 from bean.enum import PinningOpt
 from bean.cluster import Topology, Mapping
 from bean.simple import SimpleRules
 from bean.specs import SimpleMappingSpecification,\
     SimpleClusterPlacementSpecification, SimpleTopologySpecification
+from test.test_abstract import VespaAbstractTest
 
 #  copy.deepcopy(x)
 
-class SimpleRulesTest(unittest.TestCase):
+class SimpleRulesTest(VespaAbstractTest):
     '''
     Unit test for bean.SimpleRules
     '''
     
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.simpleRules = SimpleRules(hwSpecs)
+        super(SimpleRulesTest, self).setUp()
+        self.simpleRules = SimpleRules(self.hwSpecs)
         
     def testDivisorsOf1(self):
         divisors = simple.divisorsOf(12)
@@ -258,15 +257,14 @@ class SimpleRulesTest(unittest.TestCase):
         self.assertFalse(self.simpleRules.canBeDeployedInAny(4, 0, physicalMachinesTuple))
 
                  
-class SimpleTopologySpecificationTest(unittest.TestCase):
+class SimpleTopologySpecificationTest(VespaAbstractTest):
     '''
     Unit test for bean.SimpleTopologySpecification
     '''
     
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.topologySpec = SimpleTopologySpecification(hwSpecs)
+        super(SimpleTopologySpecificationTest, self).setUp()
+        self.topologySpec = SimpleTopologySpecification(self.hwSpecs)
         
     def testIsSatisfiedBy1(self):
         topologyRequest = Topology(24, 6)
@@ -280,15 +278,14 @@ class SimpleTopologySpecificationTest(unittest.TestCase):
         topologyRequest = Topology(48, 24)
         self.assertFalse(self.topologySpec.isSatisfiedBy(topologyRequest))
         
-class SimpleMappingSpecificationTest(unittest.TestCase):
+class SimpleMappingSpecificationTest(VespaAbstractTest):
     '''
     Unit test for bean.SimpleMappingSpecification
     '''
     
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.mappingSpec = SimpleMappingSpecification(hwSpecs)
+        super(SimpleMappingSpecificationTest, self).setUp()
+        self.mappingSpec = SimpleMappingSpecification(self.hwSpecs)
         
     def testIsSatisfiedBy1(self):
         mappingRequest = Mapping(6, PinningOpt.BAL_SET)
@@ -306,15 +303,14 @@ class SimpleMappingSpecificationTest(unittest.TestCase):
         mappingRequest = Mapping(13, PinningOpt.BAL_SET)
         self.assertFalse(self.mappingSpec.isSatisfiedBy(mappingRequest))
 
-class SimpleClusterSpecificationTest(unittest.TestCase):
+class SimpleClusterSpecificationTest(VespaAbstractTest):
     '''
     Unit test for bean.SimpleClusterSpecification
     '''
     
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.clusterSpec = SimpleClusterPlacementSpecification(hwSpecs)
+        super(SimpleClusterSpecificationTest, self).setUp()
+        self.clusterSpec = SimpleClusterPlacementSpecification(self.hwSpecs)
         
     def testIsSatisfiedBy1(self):
         topologyRequest = Topology(18, 3)

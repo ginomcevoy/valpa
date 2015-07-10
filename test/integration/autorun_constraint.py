@@ -4,22 +4,21 @@ Created on Sep 29, 2014
 @author: giacomo
 '''
 import unittest
-from config import hwconfig
 from autorun.constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from bean.enum import PinningOpt
 import pprint
+from test.test_abstract import VespaAbstractTest
 
-class ClusterGenerationSpecificationTest(unittest.TestCase):
+class ClusterGenerationSpecificationTest(VespaAbstractTest):
     '''
     Integration test for SimpleClusterConstraint and SimpleClusterGenerationSpecification.
     Tests the generated space for virtual clusters after aggregating some constraints.
     '''
 
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.simpleGenSpec = SimpleClusterGenerationSpecification(hwSpecs)
+        super(ClusterGenerationSpecificationTest, self).setUp()
+        self.simpleGenSpec = SimpleClusterGenerationSpecification(self.hwSpecs)
 
     def testSingleVM1(self):
         '''

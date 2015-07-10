@@ -4,15 +4,16 @@ Created on Nov 2, 2014
 @author: giacomo
 '''
 import unittest
+
 from bean.node import PhysicalNodeFactory
-from config import hwconfig
+from test.test_abstract import VespaAbstractTest
 
 
-class PhysicalNodeFactoryTest(unittest.TestCase):
+class PhysicalNodeFactoryTest(VespaAbstractTest):
 
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        self.nodeFactory = PhysicalNodeFactory(hwInfo)
+        super(PhysicalNodeFactoryTest, self).setUp()
+        self.nodeFactory = PhysicalNodeFactory(self.hwInfo)
         self.subsetNames = ('node084', 'node086', 'node088') 
 
     def testGetAllNodes(self):
