@@ -5,9 +5,8 @@
 
 # Validate input
 if [ $# -lt 1 ]; then
-	echo "Remotely execute a command over VMs in virtual cluster"
+	echo "Remotely execute a command via SSH on VMs in virtual cluster"
 	echo "Usage: $0 \"<command>\" [hostCount (default is NODE_L)] [#vms/node (default is VM_L)]"
-	echo "<command> should have the # simbol, it will replaced by the VM *name*."
 	exit 1
 fi
 
