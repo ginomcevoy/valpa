@@ -13,9 +13,13 @@ fi
 
 # calculate directory local to script
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
+VESPA_DIR=$LOCAL_DIR/..
 
 # Import params
-source $LOCAL_DIR/../params.sh
+source $VESPA_DIR/params.sh
 
-# Call cluster-command
-$LOCAL_DIR/cluster-command.sh "scp -r ${1} #:${2}"
+# Load node inventory 
+VESPA_INVENTORY=$($VESPA_DIR/util/nodes-inventory.sh $NODE_L)
+
+# Use ansible copy, use 1 thread
+ansible all -f 1 -i $VESPA_INVENTORY -m copy -a "src=${1} dest=${2}" 
