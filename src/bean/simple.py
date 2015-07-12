@@ -41,12 +41,17 @@ class SimpleRules(object):
     
     def isIdfPermitted(self, idf):
         '''
-        Returns True iff the idf value is fit for the hardware,
+        Returns True iff the idf value is fit for the hardware:
+        idf = 0 (single PM) and idf = -1 (physical cluster) are always
+        allowed; other values require multiple available PMs and 
+        idf <= the physical cores in a PM.
         idf -1 for physical cluster, idf 0 for 1 PM, idf less than / 
         equal to physical cores in a PM
         '''
-        multiplePMs = idf > 0 and idf <= self.hwSpecs['cores']
-        includesPermitted = idf == -1 or idf == 0 or multiplePMs
+        multiplePMs = self.hwSpecs['nodes'] > 1
+        idfForMultipleAllowed = (idf > 0 and idf <= self.hwSpecs['cores'] and
+                                 multiplePMs)
+        includesPermitted = idf == -1 or idf == 0 or idfForMultipleAllowed
         return type(idf) == type(1) and includesPermitted
     
     def isPstratPermitted(self, pstrat):
@@ -105,18 +110,22 @@ class SimpleRules(object):
         # rule 3: For idf to be small (spread VMs), there should be enough PMs        
         # rule 4: if nc fits in a PM, add idf = 0
         
-        # find divisors of nc (rule 1) constrained to rule 2, filter in the low end
-        # according to rule 3, then add idf = 0 if possible (rule 4)
+        # find divisors of nc (rule 1) constrained to rule 2
         idfCandidates = divisorsOf(nc, self.hwSpecs['cores'])
         if nc in idfCandidates:
             idfCandidates.remove(nc)
         
+        # filter the low end according to rule 3
         minIdf = nc * 1.0 / self.hwSpecs['nodes']
         if minIdf > 1:
             idfs = removeLowerEqualsThan(idfCandidates, minIdf)
         else:
             idfs = idfCandidates
-            idfs.insert(0, 0)                
+            
+        # add idf = 0 if possible (rule 4)
+        if nc <= self.hwSpecs['cores']:
+            idfs.insert(0, 0)
+                            
         return idfs
     
     def allIdfGivenCpv(self, cpv):
@@ -128,9 +137,13 @@ class SimpleRules(object):
         if not self.isCpvPermitted(cpv):
             return []
         
-        # rule 1: idf is a multiple of cpv up to the number of physical cores
+        # rule 1: idf is a multiple of cpv up to the number of physical 
+        # cores, if there is more than one PM
         # rule 2: always consider idf = 0 for this evaluation
-        idfs = multiplesOf(cpv, self.hwSpecs['cores'])
+        if self.hwSpecs['nodes'] > 1:
+            idfs = multiplesOf(cpv, self.hwSpecs['cores'])
+        else:
+            idfs = []
         idfs.insert(0, 0)
         return idfs
     
