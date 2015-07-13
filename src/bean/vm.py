@@ -121,7 +121,8 @@ class AllVMDetails():
                 
         return AllVMDetails(vmDictSubset, byNodeSubset)
     
-    def createVirtualInventory(self, inventoryFilename, physicalCluster, hostCount, vmsPerHost):
+    def createVirtualInventory(self, inventoryFilename, physicalCluster, 
+                               hostCount, vmsPerHost, inventoryVars=None):
         '''
         Creates an inventory for Ansible. Overwrites file if exists.
         Example using 'node' as node name and 'kvm-pbs' as vm prefix:
@@ -130,12 +131,14 @@ class AllVMDetails():
         @param inventoryFilename: the name of the file for VM inventory
         @param allVMDetails: a valid instance of AllVMDetails 
         @param hostCount: number of corresponding nodes, starting from the first
-        @param cpv: number of VMs per node 
+        @param cpv: number of VMs per node
+        @param inventoryVars (optional): dictionary of variables
         '''
         # the templates get sorted using the __cmp__ function
         sortedVmDetails = sorted(self.vmDict.values())
         
         with open(inventoryFilename, 'w') as inventoryFile:
+            # write VM lines
             for vmDetails in sortedVmDetails:
                 nodeIndex = physicalCluster.getNodeIndex(vmDetails.hostingNode)
                 vmIndex = vmDetails.index
@@ -143,6 +146,12 @@ class AllVMDetails():
                     nodeSuffix = physicalCluster.getNodeSuffix(vmDetails.hostingNode)
                     line = vmDetails.name + " vmSuffix=" +  vmDetails.suffix + " nodeSuffix=" + nodeSuffix + " hostingNode=" + vmDetails.hostingNode + "\n"
                     inventoryFile.write(line)
+                    
+            # write variables if present
+            if inventoryVars is not None:
+                inventoryFile.write('\n[all:vars]\n')
+                for key in sorted(inventoryVars.keys()):
+                    inventoryFile.write(key + '=' + inventoryVars[key] + '\n')
     
 class VMTemplate:
     '''
@@ -173,9 +182,10 @@ class VirtualClusterTemplates:
     @ivar vmTemplateDict: dictionary {vmName : vmTemplate instance}
     @ivar byNode: dictionary {nodeName : vmName tuple}
     '''
-    def __init__(self, vmTemplateDict, byNode):
+    def __init__(self, vmTemplateDict, byNode, allVMDetails):
         self.vmTemplateDict = vmTemplateDict
         self.byNode = byNode
+        self.allVMDetails = allVMDetails
         
     def getVMIndex(self, vmName):
         return self.vmTemplateDict[vmName].vmDetails.index
@@ -233,6 +243,9 @@ class VirtualClusterTemplates:
         with open(filename, 'w') as nameFile:
             for vmTemplate in sortedTemplates:
                 nameFile.write(vmTemplate.vmDetails.name + '\n')
+                
+    def createVirtualInventory(self, inventoryFilename, physicalCluster, hostCount, vmsPerHost):
+        self.allVMDetails.createVirtualInventory(inventoryFilename, physicalCluster, hostCount, vmsPerHost)
     
 class BuildsAllVMDetails:
     '''
@@ -306,4 +319,4 @@ class VirtualClusterFactory:
         for nodeName in byNode.keys():
             byNode[nodeName] = tuple(byNode[nodeName])
             
-        return VirtualClusterTemplates(vmDict, byNode)
+        return VirtualClusterTemplates(vmDict, byNode, self.allVMDetails)

@@ -37,6 +37,22 @@ class TestVirtualClusterTemplates(VespaWithNodesAbstractTest):
         actualContent = open(self.inventoryFilename, 'r').read()
         expectedContent = open('resources/inventory-vm-partial-expected.txt', 'r').read()
         self.assertMultiLineEqual(actualContent, expectedContent)
+        
+    def testCreateVirtualInventoryWithVariables(self):
+        # given
+        hostCount = 3
+        vmsPerHost = 2
+        inventoryVars = {'vmCount' : '6', 'deploymentType' : 'Torque'}
+        
+        # when
+        self.allVMDetails.createVirtualInventory(self.inventoryFilename, 
+                                                 self.physicalCluster, hostCount, 
+                                                 vmsPerHost, inventoryVars)
+        
+        # then get expected content in the inventory file
+        actualContent = open(self.inventoryFilename, 'r').read()
+        expectedContent = open('resources/inventory-vm-vars-expected.txt', 'r').read()
+        self.assertMultiLineEqual(actualContent, expectedContent)
 
 if __name__ == "__main__":
     unittest.main()

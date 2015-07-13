@@ -1,0 +1,10 @@
+kvm-pbs082-01 vmSuffix=01 nodeSuffix=082 hostingNode=node082
+kvm-pbs083-01 vmSuffix=01 nodeSuffix=083 hostingNode=node083
+kvm-pbs084-01 vmSuffix=01 nodeSuffix=084 hostingNode=node084
+kvm-pbs082-02 vmSuffix=02 nodeSuffix=082 hostingNode=node082
+kvm-pbs083-02 vmSuffix=02 nodeSuffix=083 hostingNode=node083
+kvm-pbs084-02 vmSuffix=02 nodeSuffix=084 hostingNode=node084
+
+[all:vars]
+deploymentType=Torque
+vmCount=6
