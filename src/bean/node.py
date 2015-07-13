@@ -30,6 +30,12 @@ class PhysicalNode(object):
         if self.ipAddress is None:
             raise ValueError('IP address not set')
         return self.ipAddress
+    
+    def __hash__(self):
+        return hash(self.name)
+    
+    def __eq__(self, other):
+        return self.name == other.name
         
 class NodeCluster:
     '''
@@ -98,10 +104,11 @@ class NodeCluster:
             sortedNames = sorted(self.nodeTuple)
             counter = 0
             while counter < hostCount and counter < len(sortedNames):
-                nodeName = sortedNames[counter] 
+                nodeName = sortedNames[counter]
+                nodeObj = self.nodeDict[nodeName] 
                 
                 # build list of vmNames as string
-                vmNames = allVMDetails.getVMNamesForNode(nodeName)
+                vmNames = allVMDetails.getVMNamesForNode(nodeObj)
                 vmNamesString = ''
                 for vmName in vmNames:
                     vmNamesString = vmNamesString + '"' + vmName + '",'

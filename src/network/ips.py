@@ -37,11 +37,10 @@ class SetsAddressesToAllPossibleVMs():
         for vmName in allPossibleVMs.getNames():
             # get each vm and delegate ip address resolution
             vmIndex = allPossibleVMs.getVMIndex(vmName)
-            nodeName = allPossibleVMs.getHostingNode(vmName)
-            nodeIndex = self.physicalCluster.getNodeIndex(nodeName)
+            node = allPossibleVMs.getHostingNode(vmName)
             
-            ipAddress = self.networkAddresses.getVMAddress(nodeIndex, vmIndex)
-            macAddress = self.networkAddresses.getVMMAC(nodeIndex, vmIndex)
+            ipAddress = self.networkAddresses.getVMAddress(node.index, vmIndex)
+            macAddress = self.networkAddresses.getVMMAC(node.index, vmIndex)
             
             allPossibleVMs.setIpAddressTo(vmName, ipAddress)
             allPossibleVMs.setMacAddressTo(vmName, macAddress)

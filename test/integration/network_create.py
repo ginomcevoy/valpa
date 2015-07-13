@@ -10,6 +10,7 @@ from network.create import CreatesBasicNetworkXML, EnhancesXMLForCreatingBridge,
     NetworkArgumentsForSRIOV, NetworkArgumentsForUsingBridge,\
     NetworkArgumentsForCreatingBridge
 from integration.root_bootstrap import VespaWithBootstrapAbstractTest
+from bean.node import PhysicalNode
 
 class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
     '''
@@ -97,10 +98,10 @@ class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
         
     def testBuildLinesForNode(self):
         # given
-        nodeName = 'node084'
+        node = PhysicalNode('node084', 2, 3, '084')
         
         # when
-        lines = self.xmlEnhancer._buildLinesForNode(nodeName)
+        lines = self.xmlEnhancer._buildLinesForNode(node)
         
         # then
         expectedLines = ['<host mac="00:16:36:ff:84:01" name="kvm-pbs084-01" ip="172.16.84.1" />\n',
@@ -120,11 +121,11 @@ class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
         
     def testAddDHCPLines(self):
         # given
-        nodeName = 'node082'
+        node = PhysicalNode('node082', 0, 1, '082')
         networkXML = open('resources/network/libvirt-bridge-0-expected.xml').read()
         
         # when
-        ammendedXML = self.xmlEnhancer.addDHCPLines(networkXML, nodeName)
+        ammendedXML = self.xmlEnhancer.addDHCPLines(networkXML, node)
         
         # then
         expectedText = open('resources/network/libvirt-bridge-dhcp-expected.xml').read()

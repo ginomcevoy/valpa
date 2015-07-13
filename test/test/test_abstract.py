@@ -105,15 +105,15 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         deployedNodes = self.physicalCluster.getSubset(nodeNames)
 
         # build virtual cluster deployment manually        
-        vm1 = VMDetails('kvm-pbs082-01', 0, '01', 'node082')
-        vm2 = VMDetails('kvm-pbs082-02', 1, '02', 'node082')
-        vm3 = VMDetails('kvm-pbs083-01', 0, '01', 'node083')
-        vm4 = VMDetails('kvm-pbs083-02', 1, '02', 'node083')
+        vm1 = VMDetails('kvm-pbs082-01', 0, '01', deployedNodes.getNode('node082'))
+        vm2 = VMDetails('kvm-pbs082-02', 1, '02', deployedNodes.getNode('node082'))
+        vm3 = VMDetails('kvm-pbs083-01', 0, '01', deployedNodes.getNode('node083'))
+        vm4 = VMDetails('kvm-pbs083-02', 1, '02', deployedNodes.getNode('node083'))
         
         vmDict = {'kvm-pbs082-01' : vm1, 'kvm-pbs082-02' : vm2, 
                   'kvm-pbs083-01' : vm3, 'kvm-pbs083-02' : vm4}
-        byNode = {'node082' : ('kvm-pbs082-01', 'kvm-pbs082-02'), 
-                  'node083' : ('kvm-pbs083-01', 'kvm-pbs083-02')}
+        byNode = {deployedNodes.getNode('node082') : ('kvm-pbs082-01', 'kvm-pbs082-02'), 
+                  deployedNodes.getNode('node083') : ('kvm-pbs083-01', 'kvm-pbs083-02')}
         
         allVMDetails = AllVMDetails(vmDict, byNode)
         

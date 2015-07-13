@@ -19,11 +19,13 @@ class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
         self.failIf(allVMDetails is None)
         self.failUnlessEqual(len(allVMDetails.vmDict.keys()), 72, 'wrong amount of VMs')
         
-        vmsInFirstNode = allVMDetails.byNode['node082']
+        firstNode = self.physicalCluster.getNode('node082')
+        vmsInFirstNode = allVMDetails.byNode[firstNode]
         self.failUnlessEqual(vmsInFirstNode[0], 'kvm-pbs082-01')
         self.failUnlessEqual(vmsInFirstNode[11], 'kvm-pbs082-12')
 
-        vmsInLastNode = allVMDetails.byNode['node087']
+        node087 = self.physicalCluster.getNode('node087')
+        vmsInLastNode = allVMDetails.byNode[node087]
         self.failUnlessEqual(vmsInLastNode[5], 'kvm-pbs087-06')
                 
         allNames = allVMDetails.getNames()
@@ -56,12 +58,19 @@ class AllVMDetailsTest(VespaWithNodesAbstractTest):
         vmDictKeys = subsetDetails.vmDict.keys()
         self.assertEquals(len(vmDictKeys), 6)
         self.assertEquals(sorted(vmDictKeys), sorted(vmNames))
-        self.assertEquals(subsetDetails.getHostingNode('kvm-pbs082-02'), 'node082')
+        self.assertEquals(subsetDetails.getHostingNode('kvm-pbs082-02').name, 'node082')
         
         byNodeKeys = subsetDetails.byNode.keys()
         self.assertEquals(len(byNodeKeys), 3)
-        self.assertEquals(sorted(byNodeKeys), sorted(('node082', 'node083', 'node084')))
-        self.assertEquals(sorted(subsetDetails.byNode['node084']), sorted(('kvm-pbs084-01', 'kvm-pbs084-02')))
+        
+        node082 = self.physicalCluster.getNode('node082')
+        node083 = self.physicalCluster.getNode('node083')
+        node084 = self.physicalCluster.getNode('node084')
+        
+        self.assertTrue(node082 in byNodeKeys)
+        self.assertTrue(node083 in byNodeKeys)
+        self.assertTrue(node084 in byNodeKeys)
+        self.assertEquals(sorted(subsetDetails.byNode[node084]), sorted(('kvm-pbs084-01', 'kvm-pbs084-02')))
         
 
 class VirtualClusterFactoryTest(VespaWithNodesAbstractTest):
@@ -86,11 +95,13 @@ class VirtualClusterFactoryTest(VespaWithNodesAbstractTest):
         self.failIf(clusterTemplate is None)
         self.failUnlessEqual(len(clusterTemplate.vmTemplateDict.keys()), 6, 'wrong amount of VMs')
         
-        vmsInFirstNode = clusterTemplate.byNode['node082']
+        node082 = self.physicalCluster.getNode('node082')
+        vmsInFirstNode = clusterTemplate.byNode[node082]
         self.failUnlessEqual(vmsInFirstNode[0], 'kvm-pbs082-01')
         self.failUnlessEqual(vmsInFirstNode[1], 'kvm-pbs082-02')
 
-        vmsInLastNode = clusterTemplate.byNode['node084']
+        node084 = self.physicalCluster.getNode('node084')
+        vmsInLastNode = clusterTemplate.byNode[node084]
         self.failUnlessEqual(vmsInLastNode[1], 'kvm-pbs084-02')
                 
         allNames = clusterTemplate.getNames()

@@ -69,7 +69,8 @@ class VMDefinitionBasicGenerator:
 		
 		# iterate all vms
 		for nodeName in self.deployedNodes.getNames():
-			for vmName in self.deployedVMs.getVMNamesForNode(nodeName):
+			node = self.deployedNodes.getNode(nodeName)
+			for vmName in self.deployedVMs.getVMNamesForNode(node):
 				
 				# replace VM name, UUID, MAC address and disk path
 				uuid = self.definitionDetails.getUUID(vmName)
@@ -142,13 +143,13 @@ class VMDefinitionDetails:
 		return uuid
 	
 	def getVmPath(self, vmName):
-		nodeName = self.deployedVMs.getHostingNode(vmName)
-		return nodeName + '/' + vmName
+		hostingNode = self.deployedVMs.getHostingNode(vmName)
+		return hostingNode.name + '/' + vmName
 	
 	def getMAC(self, vmName):
 		# delegate MAC definition
-		nodeName = self.deployedVMs.getHostingNode(vmName)
-		nodeIndex = self.deployedNodes.getNodeIndex(nodeName)
+		node = self.deployedVMs.getHostingNode(vmName)
+		nodeIndex = node.index
 		vmIndex = self.deployedVMs.getVMIndex(vmName)
 		return self.networkAddresses.getVMMAC(nodeIndex, vmIndex)
 	

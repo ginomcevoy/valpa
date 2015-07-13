@@ -36,7 +36,7 @@ class MappingResolver:
 		
 	def getDeployedNodes(self):
 		'''
-		Returns physical nodes as DeployedNodes object, either read from 
+		Returns physical nodes as NodeCluster object, either read from 
 		virtual cluster definition or inferred from specs and prefs. 
 		TODO: add support for initial node
 		'''
@@ -82,7 +82,8 @@ class MappingResolver:
 		
 		# get VM names that should correspond to cluster request
 		for nodeName in self.deployedNodes.getNames():
-			allVMsForNode = self.allVMDetails.getVMNamesForNode(nodeName)
+			node = self.deployedNodes.getNode(nodeName)
+			allVMsForNode = self.allVMDetails.getVMNamesForNode(node)
 			# current policy: select the first vms up to vmsPerHost
 			vmsForNode = allVMsForNode[0:vmsPerHost]
 			clusterVMs.extend(vmsForNode)
