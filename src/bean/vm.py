@@ -320,5 +320,7 @@ class VirtualClusterFactory:
         
         for node in byNode.keys():
             byNode[node] = tuple(byNode[node])
-            
-        return VirtualClusterTemplates(vmDict, byNode, self.allVMDetails)
+
+        vmDetailsSubset = self.allVMDetails.getSubset(vmNames)
+         
+        return VirtualClusterTemplates(vmDict, byNode, vmDetailsSubset)
