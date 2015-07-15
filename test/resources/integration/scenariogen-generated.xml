@@ -5,7 +5,7 @@
 			<app name="parpac" runs="6">
 			    <args></args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 			<cluster>
@@ -19,7 +19,7 @@
 			<app name="parpac" runs="6">
 			    <args></args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 			<cluster>
@@ -33,7 +33,7 @@
 			<app name="parpac" runs="6">
 			    <args></args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 			<cluster>
@@ -47,7 +47,7 @@
 			<app name="parpac" runs="6">
 			    <args></args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 			<cluster>

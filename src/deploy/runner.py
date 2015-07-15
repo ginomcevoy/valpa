@@ -5,7 +5,7 @@ Created on Oct 15, 2013
 '''
 
 from ansible.playbook import PlayBook
-from ansible import callbacks, utils
+from ansible import callbacks, utils, runner
 import json
 import subprocess
 
@@ -65,7 +65,7 @@ class ExperimentSetRunner():
                 continue
             
             # trials in experiment
-            for trial in experiment.trials:  # @UnusedVariable
+            for trial in range(0, experiment.trials):  # @UnusedVariable
                     
                 # get the request objects
                 clusterRequest = experiment.cluster
@@ -104,18 +104,18 @@ class ExperimentSetRunner():
         deployedNodes.toFile(nodeFilename)
         hostCount = len(deployedNodes.getNames())
 
-        # call using Ansible API
+        # call meant for Ansible API
         ansible_args = '../mgmt/stop-vms-local.sh ' + self.vespaPrefs['vm_prefix']
-        runner = runner.Runner(
-            host_list=nodeFilename,
-            module_name='script',
-            module_args=ansible_args,
-            pattern='all',
-            forks=hostCount
-        )
         
-        # call example
         if self.forReal:
+            # Call Ansible runner programmatically
+            runner = runner.Runner(
+                                   host_list=nodeFilename,
+                                   module_name='script',
+                                   module_args=ansible_args,
+                                   pattern='all',
+                                   forks=hostCount
+                                )
             out = runner.run()
             print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))            
         else:
@@ -199,24 +199,17 @@ class ClusterDeployer:
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo  # @UnusedVariable
         print(repr(deployedVMs)) 
         print(cluster)
-        #print(deployedVMs.getXMLDict())
         print(appRequest)
         print('\n')
         
         # Get relevant values
         nc = cluster.topology.nc
         cpv = cluster.topology.cpv
-        idf = cluster.mapping.idf
-        #pinningOpt = cluster.mapping.pinningOpt
-        #appName = appRequest.name
         withKnem = appRequest.appTuning.knem
         
         hosts = deployedNodes.getNames()
         hostCount = len(hosts)
         vmCount = int(nc / cpv)
-        vmsPerHost = vmCount # if idf == 0
-        if idf > 0:
-            vmsPerHost = int(idf / cpv)
         
         # Create VM given its XML using libvirt call using parallel.
         # Need to create two files: one with the node names, the other
@@ -260,27 +253,26 @@ class ClusterDeployer:
                         }
         deployedVMs.createVirtualInventory(vmFilename, inventoryVars) 
         
-        # Setup playbook
-        stats = callbacks.AggregateStats()
-        playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
-        runner_cb = callbacks.PlaybookRunnerCallbacks(
-            stats, verbose=utils.VERBOSITY)
         playbookName = 'run/prepare-vms.yml'
-        pb = PlayBook(
-            playbook = playbookName,
-            stats = stats,
-            callbacks = playbook_cb,
-            runner_callbacks = runner_cb,
-            host_list=vmFilename,
-            forks=vmCount
-        )
         if self.forReal:
-            # Execute the playbook and analyze return codes 
+            # Setup the playbook, execute it and analyze return codes
+            stats = callbacks.AggregateStats()
+            playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
+            runner_cb = callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
+            pb = PlayBook(
+                          playbook = playbookName,
+                          stats = stats,
+                          callbacks = playbook_cb,
+                          runner_callbacks = runner_cb,
+                          host_list=vmFilename,
+                          forks=vmCount
+                          ) 
             results = pb.run()
             for hostname in results.keys():
-              if results[hostname]['failures'] != 0:
-                # Found an error, report deployment failure
-                return "ERROR: Deployment of VMs failed: " + hostname
+                if results[hostname]['failures'] != 0:
+                    # Found an error during playbook execution, 
+                    # report deployment failure to the caller
+                    return "ERROR: Deployment of VMs failed: " + hostname
              
             # Playbook succeeded, inform output
             print json.dumps(results, sort_keys=True, indent=4, separators=(',', ':'))

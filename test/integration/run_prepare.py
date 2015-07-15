@@ -25,7 +25,7 @@ class PreparesExperimentTest(VespaDeploymentAbstractTest):
         self.assertEquals(execConfig, '/tmp/vespa/execs/446bf85f-b4ba-459b-8e04-60394fc00d5c')
         self.assertEquals(open(execConfig, 'r').read(), open('resources/execConfig-expected.output', 'r').read())
         
-        self.assertEquals(experimentPath, '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/f2f8b46e1b3decd0735b9247756f92e8e451a4a46b489f66852b2ddd78a68c52')
+        self.assertEquals(experimentPath, '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/a8adc50779f75c6b36fa9c95ddb7fa8a5033df6791235f727a20b0e3e6780e93')
         
 if __name__ == '__main__':
     unittest.main()

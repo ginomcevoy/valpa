@@ -41,7 +41,7 @@ class SimpleScenarioGeneratorTest(VespaAbstractTest):
         clusterSpec = clusterSpec.constrainWith(pstratConstraint)
         
         # application can be deployed with two MPI options
-        applicationSpec = ApplicationGenerationSpecification('parpac', 6, [MPIBindOpt.NONE, MPIBindOpt.BIND_CORE])
+        applicationSpec = ApplicationGenerationSpecification('parpac', 6, [MPIBindOpt.none, MPIBindOpt.core])
         
         self.scenarioGenerator.withClusterSpecification(clusterSpec)
         self.scenarioGenerator.withApplicationSpecification(applicationSpec)
@@ -55,7 +55,7 @@ class SimpleScenarioGeneratorTest(VespaAbstractTest):
         # verify name and contents
         self.assertEquals(xmlFilename, 'resources/integration/scenariogen-generated.xml')
         self.maxDiff = None
-        self.assertMultiLineEqual(open(xmlFilename, 'r').read(), open('resources/integration/scenariogen-expected.xml', 'r').read())
+        self.assertFileContentEqual(xmlFilename, 'resources/integration/scenariogen-expected.xml')
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

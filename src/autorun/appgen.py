@@ -19,7 +19,7 @@ class AppRequestGenerator():
         
 class ApplicationGenerationSpecification():
     
-    def __init__(self, name, runs, defaultProcpinTuple = [MPIBindOpt.NONE, ], defaultKnemTuple = [False, ]):
+    def __init__(self, name, runs, defaultProcpinTuple = [MPIBindOpt.none, ], defaultKnemTuple = [False, ]):
         self.name = name
         self.runs = runs
         

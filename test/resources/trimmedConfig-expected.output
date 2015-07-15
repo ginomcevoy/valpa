@@ -18,5 +18,5 @@ disk=scsi
 
 # App Tuning
 knem=False
-procpin=BIND_CORE
+procpin=socket
 

@@ -40,7 +40,7 @@ class PhysicalExperimentGenerator(object):
         self.ncs = ncs
         return self
     
-    def withMPIBinds(self, binds = [MPIBindOpt.BIND_CORE, MPIBindOpt.BIND_SOCKET, MPIBindOpt.NONE]):
+    def withMPIBinds(self, binds = [MPIBindOpt.core, MPIBindOpt.socket, MPIBindOpt.none, MPIBindOpt.numa]):
         '''
         Indicates tuple with possible MPIBindOpt values
         '''

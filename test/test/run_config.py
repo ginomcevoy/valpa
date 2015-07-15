@@ -28,10 +28,9 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         # when
         pbsFile = self.configFactory.createBasicExecutionFile(self.appRequest, experimentPath)
         
-        # then
-        self.maxDiff = None
+        # then it should be a copy of the master file
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-copy-expected.pbs')
+        self.assertFileContentEqual(pbsFile, 'resources/torque/master.pbs') 
         
     def testCreateVespaExecutionFile(self):
         # given
@@ -82,7 +81,7 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
                     'exec.needsoutputcopy' : 'Y',
                     'exec.otheroutput' : '/home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out',
                     'exec.outputrename' : 'custom.out'}
-        experimentPath = '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/f2f8b46e1b3decd0735b9247756f92e8e451a4a46b489f66852b2ddd78a68c52'
+        experimentPath = '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/a8adc50779f75c6b36fa9c95ddb7fa8a5033df6791235f727a20b0e3e6780e93'
         self.appConfigurator = ApplicationConfiguratorPBS(self.appRequest, experimentPath, appParams, False)
                  
     def testEnhanceExecutionFile(self):

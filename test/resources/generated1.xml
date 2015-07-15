@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <scenarios>
 	<scenario>
-		<experiment name="nc1-cpv1-idf0-psBAL_ONE-ppBIND_CORE" trials="1">
+		<experiment name="nc1-cpv1-idf0-psBAL_ONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="1" cpv="1" />
 				<mapping idf="0" pstrat="BAL_ONE" />
@@ -9,13 +9,13 @@
 			<app name="npb-ep" runs="10">
 				<args>1 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc1-cpv1-idf0-psBAL_ONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc1-cpv1-idf0-psBAL_ONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="1" cpv="1" />
 				<mapping idf="0" pstrat="BAL_ONE" />
@@ -23,7 +23,7 @@
 			<app name="npb-ep" runs="10">
 				<args>1 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -37,13 +37,13 @@
 			<app name="npb-ep" runs="10">
 				<args>1 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc1-cpv1-idf0-psNONE-ppBIND_CORE" trials="1">
+		<experiment name="nc1-cpv1-idf0-psNONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="1" cpv="1" />
 				<mapping idf="0" pstrat="NONE" />
@@ -51,13 +51,13 @@
 			<app name="npb-ep" runs="10">
 				<args>1 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc1-cpv1-idf0-psNONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc1-cpv1-idf0-psNONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="1" cpv="1" />
 				<mapping idf="0" pstrat="NONE" />
@@ -65,7 +65,7 @@
 			<app name="npb-ep" runs="10">
 				<args>1 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -79,13 +79,13 @@
 			<app name="npb-ep" runs="10">
 				<args>1 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc2-cpv1-idf0-psBAL_ONE-ppBIND_CORE" trials="1">
+		<experiment name="nc2-cpv1-idf0-psBAL_ONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="2" cpv="1" />
 				<mapping idf="0" pstrat="BAL_ONE" />
@@ -93,13 +93,13 @@
 			<app name="npb-ep" runs="10">
 				<args>2 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc2-cpv1-idf0-psBAL_ONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc2-cpv1-idf0-psBAL_ONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="2" cpv="1" />
 				<mapping idf="0" pstrat="BAL_ONE" />
@@ -107,7 +107,7 @@
 			<app name="npb-ep" runs="10">
 				<args>2 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -121,13 +121,13 @@
 			<app name="npb-ep" runs="10">
 				<args>2 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc2-cpv1-idf0-psNONE-ppBIND_CORE" trials="1">
+		<experiment name="nc2-cpv1-idf0-psNONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="2" cpv="1" />
 				<mapping idf="0" pstrat="NONE" />
@@ -135,13 +135,13 @@
 			<app name="npb-ep" runs="10">
 				<args>2 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc2-cpv1-idf0-psNONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc2-cpv1-idf0-psNONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="2" cpv="1" />
 				<mapping idf="0" pstrat="NONE" />
@@ -149,7 +149,7 @@
 			<app name="npb-ep" runs="10">
 				<args>2 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -163,7 +163,7 @@
 			<app name="npb-ep" runs="10">
 				<args>2 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>

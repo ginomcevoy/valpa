@@ -26,7 +26,7 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(app.runs, 2)
         
         appTuning = app.appTuning
-        self.assertEqual(appTuning.procpin, MPIBindOpt.BIND_CORE)
+        self.assertEqual(appTuning.procpin, MPIBindOpt.core)
         
         cluster = experiment.cluster
         self.assertFalse(cluster.physicalMachinesOnly)
@@ -58,7 +58,7 @@ class ParserTest(unittest.TestCase):
         
         # <procpin>NONE</procpin>
         appTuning = experiment.app.appTuning
-        self.assertEqual(appTuning.procpin, MPIBindOpt.NONE)
+        self.assertEqual(appTuning.procpin, MPIBindOpt.none)
         
 
 if __name__ == "__main__":
