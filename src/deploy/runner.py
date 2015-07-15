@@ -109,14 +109,14 @@ class ExperimentSetRunner():
         
         if self.forReal:
             # Call Ansible runner programmatically
-            runner = runner.Runner(
+            theRunner = runner.Runner(
                                    host_list=nodeFilename,
                                    module_name='script',
                                    module_args=ansible_args,
                                    pattern='all',
                                    forks=hostCount
                                 )
-            out = runner.run()
+            out = theRunner.run()
             print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))            
         else:
             print('ansible: ' + nodeFilename)
