@@ -6,7 +6,7 @@ Created on Nov 10, 2013
 import unittest
 from autorun.expgen import NPBExecutableGenerator, ExperimentGenerator
 from bean.experiment import Application, AppTuning  # @UnusedImport
-from bean.enum import PinningOpt
+from bean.enum import PinningOpt, MPIBindOpt
 import difflib
 
 class ExperimentGeneratorTest(unittest.TestCase):
@@ -86,7 +86,7 @@ class ExperimentGeneratorTest(unittest.TestCase):
         appInfo = Application('npb-ep', 10, '')
         experimentList = [(1, 1, 0), (2, 1, 0)]
         self.expGen.withPstratValues((PinningOpt.BAL_ONE, PinningOpt.NONE))
-        self.expGen.withPinCores()
+        self.expGen.withPinCores(pinCoreTuple=(MPIBindOpt.core, MPIBindOpt.socket, MPIBindOpt.none))
         xmlPath = '../output/autorun/generated' 
         
         #print(os.path.abspath(os.path.curdir))
@@ -95,7 +95,6 @@ class ExperimentGeneratorTest(unittest.TestCase):
         xmlName = self.expGen.generateXML(experimentList, appInfo, xmlPath)
         
         # then
-        self.maxDiff = None
         self.assertEquals(xmlName, '../output/autorun/generated/npb-ep-cpv1-idf0.xml')
         self.assertMultiLineEqual(open(xmlName, 'r').read(), open('resources/generated1.xml', 'r').read())
         

@@ -8,8 +8,11 @@ CpuTopoOpt = Enum(["DEFAULT", "CORRECT", "ONE_CORE", "ONE_PROC"])
 DiskOpt = Enum(["ide", "scsi", "virtio"])
 NetworkOpt = Enum(["virtio", "vhost", "sr-iov"])
 PinningOpt = Enum(["BAL_ONE", "BAL_SET", "GREEDY", "SPLIT", "NONE"])
-MPIBindOpt = Enum(["BIND_CORE", "BIND_SOCKET", "NONE"])
 
-if __name__ == '__main__':
-    networkOpt = NetworkOpt.virtio
-    print(networkOpt)
+# From the OpenMPI 1.8.4 mpirun man page:
+# --bind-to <foo> 
+# Bind processes to the specified object, defaults to core. 
+# Supported options include slot, hwthread, core, l1cache, 
+# l2cache, l3cache, socket, numa, board, and none.
+MPIBindOpt = Enum(["slot", "hwthread", "core", "l1cache", "l2cache", "l3cache",
+                   "socket", "numa", "board", "none"])

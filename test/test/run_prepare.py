@@ -21,9 +21,8 @@ class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
         (excConfig, deployDir) = self.excConfigGen.createExecConfig(self.clusterRequest, self.deploymentInfo, self.appRequest)
         
         # then
-        self.maxDiff = None
         self.assertEquals(excConfig, '/tmp/vespa/execs/446bf85f-b4ba-459b-8e04-60394fc00d5c')
-        self.assertEquals(open(excConfig, 'r').read(), open('resources/execConfig-expected.output', 'r').read())
+        self.assertFileContentEqual(excConfig, 'resources/execConfig-expected.output')
         
         self.assertEquals(deployDir, '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE')
         
@@ -37,9 +36,8 @@ class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
         trimmedConfigFile = excConfigGen.saveTrimmedExecConfig(configFile, outputPath)
         
         # then
-        self.maxDiff = None
         self.assertEquals(trimmedConfigFile, '/tmp/config.txt')
-        self.assertEquals(open(trimmedConfigFile, 'r').read(), open('resources/trimmedConfig-expected.output', 'r').read())
+        self.assertFileContentEqual(trimmedConfigFile, 'resources/trimmedConfig-expected.output')
         
 class PreparesExperimentTest(VespaDeploymentAbstractTest):
     

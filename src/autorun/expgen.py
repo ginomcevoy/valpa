@@ -95,9 +95,9 @@ class ExperimentGenerator(object):
         self.pstratTuple = pstratTuple
         return self
     
-    def withPinCores(self, pinCoreTuple=(MPIBindOpt.BIND_CORE, MPIBindOpt.BIND_SOCKET, MPIBindOpt.NONE)):
+    def withPinCores(self, pinCoreTuple=(MPIBindOpt.core, MPIBindOpt.socket, MPIBindOpt.numa, MPIBindOpt.none)):
         '''
-        Bind-to-core options (default = (BIND_CORE, BIND_SOCKET, NONE) tuple)
+        Bind-to-core options (default = (core, socket, numa, none) tuple)
         '''
         self.pinCoreTuple = pinCoreTuple
         return self
@@ -154,7 +154,7 @@ class ExperimentGenerator(object):
                 for procPin in self.pinCoreTuple: 
             
                     # This is specific to experiment
-                    expName =  'nc' + str(nc) + '-cpv' + str(cpv) + '-idf' + str(idf) + '-ps' + str(pstrat) + '-pp' + str(procPin)
+                    expName =  'nc' + str(nc) + '-cpv' + str(cpv) + '-idf' + str(idf) + '-ps' + str(pstrat) + '-pp' + str(procPin).upper()
                     
                     # special case for arguments 
                     appArgs = self.setSpecialArguments(appName, appArgs, nc, cpv)

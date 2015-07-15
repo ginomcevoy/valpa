@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
-<experiments>
-	<experiment name="exp1" trials="1">
-		<clusters>
+<scenarios>
+	<scenario>
+		<experiment name="exp1" trials="1">
 			<cluster>
-				<app name="parpac" runs="2">
-					<tuning>
-						<procpin>True</procpin>
-					</tuning>
-				</app>
 				<topology nc="16" cpv="4" />
 				<mapping idf="8" pstrat="BAL_ONE" />
 				<technology network="vhost" disk="scsi" />
@@ -18,26 +13,31 @@
 					<ballooning>False</ballooning>
 				</tuning>
 			</cluster>
-		</clusters>
-	</experiment>
-	<experiment name="exp2" trials="1">
-		<clusters>
+			<app name="parpac" runs="2">
+				<tuning>
+					<procpin>core</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="exp2" trials="1">
 			<cluster>
-				<app name="parpac" runs="3">
-					<tuning>
-						<procpin>False</procpin>
-					</tuning>
-				</app>
 				<topology nc="12" cpv="12" />
 				<mapping idf="0" pstrat="BAL_SET" />
 				<technology network="virtio" disk="virtio" />
-				<tuning>
-					<hugepages>True</hugepages>
-					<cpuTopology type="DEFAULT" guestNuma="False" />
-					<numatune>False</numatune>
-					<ballooning>True</ballooning>
-				</tuning>
+					<tuning>
+						<hugepages>True</hugepages>
+						<cpuTopology type="DEFAULT" guestNuma="False" />
+						<numatune>False</numatune>
+						<ballooning>True</ballooning>
+					</tuning>
 			</cluster>
-		</clusters>
-	</experiment>
-</experiments>
+			<app name="parpac" runs="3">
+				<tuning>
+					<procpin>none</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+</scenarios>

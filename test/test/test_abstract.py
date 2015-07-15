@@ -10,7 +10,7 @@ from config import hwconfig, vespaconfig
 from bean.cluster import Topology, Mapping, Technology, Cluster,\
     ClusterPlacement
 from bean.node import PhysicalNode, NodeCluster
-from bean.enum import PinningOpt, DiskOpt, NetworkOpt
+from bean.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
 from bean.experiment import AppTuning, Application
 from bean.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates, AllVMDetails
@@ -131,7 +131,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         self.deploymentInfo = (deployedNodes, deployedSockets, deployedVMs)
         
         # Application under test
-        appTuning = AppTuning(True)
+        appTuning = AppTuning(MPIBindOpt.socket)
         self.appRequest = Application('parpac', 11, 'firstarg secondarg', appTuning)
         
         # assume constructed XML

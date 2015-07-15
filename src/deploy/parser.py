@@ -47,7 +47,7 @@ def parseExperiment(experimentNode):
 
 	# parse experiment info
 	name = experimentNode.get('name')
-	trials = experimentNode.get('trials')   
+	trials = int(experimentNode.get('trials'))   
 	
 	# parse single cluster
 	clusterNode = experimentNode.find('cluster')
@@ -112,10 +112,26 @@ def parseApplication(appNode):
 	else:
 		args = ''
 
-	# parse app tuning details
+	# parse app tuning details, it is optional
 	tuningNode = appNode.find('tuning')
-	procpin = tuningNode.find('procpin').text
-	appTuning = AppTuning(procpin)
+	procpin = None
+	knem = None
+	if tuningNode is not None:
+		# if tuning is present, procpin is mandatory
+		procpin = tuningNode.find('procpin').text
+		
+		knemNode = tuningNode.find('knem')
+		if knemNode is not None:
+			knem = knemNode.text
+			
+			# create appTuning with specific procpin
+			# knem may still have default value (else condition)
+			appTuning = AppTuning(procpin, knem)
+		else:
+			appTuning = AppTuning(procpin)
+		 
+	else:
+		appTuning = AppTuning() # default values for tuning
 
 	app = Application(name, runs, args, appTuning)
 	return app

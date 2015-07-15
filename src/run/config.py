@@ -84,14 +84,10 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
             executionText = executionText.replace('&EXEC_TIMES', str(self.appInfo.runs))
             executionText = executionText.replace('&EXPERIMENT_PATH', self.experimentPath)
             executionText = executionText.replace('&APP_ARGS', self.appInfo.args)
-            
-            if self.appInfo.appTuning.procpin == MPIBindOpt.BIND_CORE:
-                bindToCore = '--bind-to-core --bysocket'
-            elif self.appInfo.appTuning.procpin == MPIBindOpt.BIND_SOCKET:
-                bindToCore = '--bind-to-socket --bysocket'
-            else:
-                bindToCore = ''
-            executionText = executionText.replace('&BIND_TO_CORE', bindToCore)
+
+            # OpenMPI 1.8.x has simplified the binding syntax            
+            bindToCore = '--bind-to ' + self.appInfo.appTuning.procpin
+            executionText = executionText.replace('&MPI_PROC_BIND', bindToCore)
             
             # Inferred from name/date
             if self.forReal:

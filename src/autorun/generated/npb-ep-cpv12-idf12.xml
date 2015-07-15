@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <scenarios>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psBAL_ONE-ppBIND_CORE" trials="1">
+		<experiment name="nc24-cpv12-idf12-psBAL_ONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="BAL_ONE" />
@@ -9,13 +9,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psBAL_ONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc24-cpv12-idf12-psBAL_ONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="BAL_ONE" />
@@ -23,7 +23,21 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc24-cpv12-idf12-psBAL_ONE-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="24" cpv="12" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>24 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -37,13 +51,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psBAL_SET-ppBIND_CORE" trials="1">
+		<experiment name="nc24-cpv12-idf12-psBAL_SET-ppCORE" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="BAL_SET" />
@@ -51,13 +65,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psBAL_SET-ppBIND_SOCKET" trials="1">
+		<experiment name="nc24-cpv12-idf12-psBAL_SET-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="BAL_SET" />
@@ -65,7 +79,21 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc24-cpv12-idf12-psBAL_SET-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="24" cpv="12" />
+				<mapping idf="12" pstrat="BAL_SET" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>24 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -79,13 +107,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psGREEDY-ppBIND_CORE" trials="1">
+		<experiment name="nc24-cpv12-idf12-psGREEDY-ppCORE" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="GREEDY" />
@@ -93,13 +121,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psGREEDY-ppBIND_SOCKET" trials="1">
+		<experiment name="nc24-cpv12-idf12-psGREEDY-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="GREEDY" />
@@ -107,7 +135,21 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc24-cpv12-idf12-psGREEDY-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="24" cpv="12" />
+				<mapping idf="12" pstrat="GREEDY" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>24 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -121,13 +163,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psSPLIT-ppBIND_CORE" trials="1">
+		<experiment name="nc24-cpv12-idf12-psSPLIT-ppCORE" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="SPLIT" />
@@ -135,13 +177,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psSPLIT-ppBIND_SOCKET" trials="1">
+		<experiment name="nc24-cpv12-idf12-psSPLIT-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="SPLIT" />
@@ -149,7 +191,21 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc24-cpv12-idf12-psSPLIT-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="24" cpv="12" />
+				<mapping idf="12" pstrat="SPLIT" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>24 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -163,13 +219,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psNONE-ppBIND_CORE" trials="1">
+		<experiment name="nc24-cpv12-idf12-psNONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="NONE" />
@@ -177,13 +233,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc24-cpv12-idf12-psNONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc24-cpv12-idf12-psNONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="24" cpv="12" />
 				<mapping idf="12" pstrat="NONE" />
@@ -191,7 +247,21 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc24-cpv12-idf12-psNONE-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="24" cpv="12" />
+				<mapping idf="12" pstrat="NONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>24 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -205,13 +275,13 @@
 			<app name="npb-ep" runs="10">
 				<args>24 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psBAL_ONE-ppBIND_CORE" trials="1">
+		<experiment name="nc36-cpv12-idf12-psBAL_ONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="BAL_ONE" />
@@ -219,13 +289,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psBAL_ONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc36-cpv12-idf12-psBAL_ONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="BAL_ONE" />
@@ -233,7 +303,21 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc36-cpv12-idf12-psBAL_ONE-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="36" cpv="12" />
+				<mapping idf="12" pstrat="BAL_ONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>36 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -247,13 +331,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psBAL_SET-ppBIND_CORE" trials="1">
+		<experiment name="nc36-cpv12-idf12-psBAL_SET-ppCORE" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="BAL_SET" />
@@ -261,13 +345,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psBAL_SET-ppBIND_SOCKET" trials="1">
+		<experiment name="nc36-cpv12-idf12-psBAL_SET-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="BAL_SET" />
@@ -275,7 +359,21 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc36-cpv12-idf12-psBAL_SET-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="36" cpv="12" />
+				<mapping idf="12" pstrat="BAL_SET" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>36 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -289,13 +387,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psGREEDY-ppBIND_CORE" trials="1">
+		<experiment name="nc36-cpv12-idf12-psGREEDY-ppCORE" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="GREEDY" />
@@ -303,13 +401,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psGREEDY-ppBIND_SOCKET" trials="1">
+		<experiment name="nc36-cpv12-idf12-psGREEDY-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="GREEDY" />
@@ -317,7 +415,21 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc36-cpv12-idf12-psGREEDY-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="36" cpv="12" />
+				<mapping idf="12" pstrat="GREEDY" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>36 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -331,13 +443,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psSPLIT-ppBIND_CORE" trials="1">
+		<experiment name="nc36-cpv12-idf12-psSPLIT-ppCORE" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="SPLIT" />
@@ -345,13 +457,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psSPLIT-ppBIND_SOCKET" trials="1">
+		<experiment name="nc36-cpv12-idf12-psSPLIT-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="SPLIT" />
@@ -359,7 +471,21 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc36-cpv12-idf12-psSPLIT-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="36" cpv="12" />
+				<mapping idf="12" pstrat="SPLIT" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>36 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -373,13 +499,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psNONE-ppBIND_CORE" trials="1">
+		<experiment name="nc36-cpv12-idf12-psNONE-ppCORE" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="NONE" />
@@ -387,13 +513,13 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_CORE</procpin>
+					<procpin>core</procpin>
 				</tuning>
 			</app>
 		</experiment>
 	</scenario>
 	<scenario>
-		<experiment name="nc36-cpv12-idf12-psNONE-ppBIND_SOCKET" trials="1">
+		<experiment name="nc36-cpv12-idf12-psNONE-ppSOCKET" trials="1">
 			<cluster>
 				<topology nc="36" cpv="12" />
 				<mapping idf="12" pstrat="NONE" />
@@ -401,7 +527,21 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>BIND_SOCKET</procpin>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc36-cpv12-idf12-psNONE-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="36" cpv="12" />
+				<mapping idf="12" pstrat="NONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>36 C</args>
+				<tuning>
+					<procpin>numa</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -415,7 +555,7 @@
 			<app name="npb-ep" runs="10">
 				<args>36 C</args>
 				<tuning>
-					<procpin>NONE</procpin>
+					<procpin>none</procpin>
 				</tuning>
 			</app>
 		</experiment>

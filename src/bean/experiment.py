@@ -29,15 +29,13 @@ class AppTuning:
 	knem - True/False, indicates if the KNEM module should be used.   
 	'''
 
-	def __init__(self, procpin=False, knem=False):
-		# compatibility: now supporting three options
-		# True / BIND_CORE means --bind-to-core --bysocket
-		# False / NONE means do nothing
-		# BIND_SOCKET means --bind-to-socket --bysocket
-		if procpin is True:
-			procpin = MPIBindOpt.BIND_CORE
-		if procpin is False:
-			procpin = MPIBindOpt.NONE
+	def __init__(self, procpin=MPIBindOpt.none, knem=False):
+		# From the OpenMPI 1.8.4 mpirun man page:
+		# --bind-to <foo> 
+		# Bind processes to the specified object, defaults to core. 
+		# Supported options include slot, hwthread, core, l1cache, 
+		# l2cache, l3cache, socket, numa, board, and none.
+		# All of these options are currently supported by Vespa.
 		self.procpin = procpin
 		self.knem = knem
 
