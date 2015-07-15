@@ -47,7 +47,7 @@ def parseExperiment(experimentNode):
 
 	# parse experiment info
 	name = experimentNode.get('name')
-	trials = experimentNode.get('trials')   
+	trials = int(experimentNode.get('trials'))   
 	
 	# parse single cluster
 	clusterNode = experimentNode.find('cluster')

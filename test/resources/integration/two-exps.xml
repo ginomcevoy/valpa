@@ -15,7 +15,7 @@
 			</cluster>
 			<app name="parpac" runs="2">
 				<tuning>
-					<procpin>True</procpin>
+					<procpin>BIND_CORE</procpin>
 				</tuning>
 			</app>
 		</experiment>
@@ -35,7 +35,7 @@
 			</cluster>
 			<app name="parpac" runs="3">
 				<tuning>
-					<procpin>False</procpin>
+					<procpin>NONE</procpin>
 				</tuning>
 			</app>
 		</experiment>
