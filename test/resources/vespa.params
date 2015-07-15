@@ -5,6 +5,7 @@
 [Networking]
 
 # Main networking option: one of {libvirt-bridge | external-bridge | sriov}
+# Vespa will use this value when creating the VM definitions.
 # ALL options imply a virtual network created in libvirt, for each physical node
 # The setup/define-virtual-networks.sh script can be used to generate the XML
 # definitions for these networks
@@ -71,6 +72,19 @@ net_name_bridge_create=vespa-libvirt-bridge
 # configuration of the network in the physical cluster.
 net_name_bridge_use=vespa-external-bridge
 
+###
+# Infiniband SR-IOV parameters. Vespa assumes the following:
+# - SR-IOV Infiniband is properly installed/configured
+# - all physical nodes share the same device addresses, as obtained by lspci.
+# - the number of specified Virtual Functions are available.
+#
+# To use Infiniband, use default_infiniband=True or override infiniband="True"
+# in the technology node of the experiment XML.
+###
+net_infiniband_bus=0x03
+net_infiniband_slot=0x00
+net_infiniband_vfs=8
+
 # Miscellaneous networking
 
 # MAC address prefix for VMs
@@ -120,6 +134,23 @@ out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory
 
 general_verbose=1
+
+###
+# Default values for virtualization technologies.
+# These can be overridden by the user when defining experiments.
+###
+
+# Technology for disk virtualization, { ide | scsi | virtio } 
+default_tech_disk=virtio
+
+# Technology for network virtualization, { virtio | vhost | sriov }
+# If using sriov (by default or by override), also set network_source=sriov
+# TODO: validate this constraint 
+default_tech_network=vhost
+
+# Use Infiniband? (assumes it is configured correctly)
+# True = use Infiniband, do not use otherwise
+default_infiniband=False
 
 [MasterXML]
 # _DISK_DRIVER_TYPE
