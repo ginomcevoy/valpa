@@ -93,13 +93,14 @@ class MappingTest(VespaWithNodesAbstractTest):
         deployedVMs = self.mappingResolver.getDeployedVMs()
         self.failUnless(isinstance(deployedVMs, VirtualClusterTemplates))
         
-        vmName = deployedVMs.getVMNamesForNode('node082')[0]
+        node082 = self.physicalCluster.getNode('node082')
+        vmName = deployedVMs.getVMNamesForNode(node082)[0]
         self.failUnlessEqual(vmName, 'kvm-pbs082-01')
         
         vmTemplate = deployedVMs.vmTemplateDict[vmName]
         self.failUnlessEqual(vmTemplate.vmDetails.index, 0)
         self.failUnlessEqual(vmTemplate.vmDetails.suffix, '01')
-        self.failUnlessEqual(vmTemplate.vmDetails.hostingNode, 'node082')
+        self.failUnlessEqual(vmTemplate.vmDetails.hostingNode, node082)
         
     def testMultipleVMsMultipleHosts(self):
         
@@ -113,8 +114,9 @@ class MappingTest(VespaWithNodesAbstractTest):
         # deployedVMs
         deployedVMs = self.mappingResolver.getDeployedVMs()
         self.failUnless(isinstance(deployedVMs, VirtualClusterTemplates))
-    
-        vmsSecondHost = deployedVMs.getVMNamesForNode('node083')
+
+        node083 = self.physicalCluster.getNode('node083')    
+        vmsSecondHost = deployedVMs.getVMNamesForNode(node083)
         self.failUnlessEqual(vmsSecondHost, ('kvm-pbs083-01', 'kvm-pbs083-02'))
         
 if __name__ == "__main__":

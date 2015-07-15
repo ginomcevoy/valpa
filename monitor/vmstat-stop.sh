@@ -25,13 +25,10 @@ VMSTAT_PID=$(cat /tmp/vmstat.pid)
 kill $VMSTAT_PID
 echo "vmstat stopped"
 
-# Copy to output dir
-if [ ! -z $OUTPUTDIR ]; then
-	mkdir -p $OUTPUTDIR
-	cp $TARGETDIR/vmstat.dat $OUTPUTDIR/$OUTPUTFILE
- 	THEDIR=$OUTPUTDIR
+if [ -d $OUTPUTDIR ]; then
+	mv $TARGETDIR/sar_data.dat $OUTPUTDIR/$OUTPUTFILE
+	echo "Performance data in $(hostname):$OUTPUTFILE"
 else
-	THEDIR=$TARGETDIR
+	>&2 echo "Monitor - output dir does not exist: $(hostname):$OUTPUTDIR"
+	exit 1
 fi
-
-echo "Performance data in $(hostname):$THEDIR"

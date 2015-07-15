@@ -45,13 +45,12 @@ echo "sar stopped at $(hostname)"
 #    done
 #fi
 
-# Copy to output dir
-if [ ! -z $OUTPUTDIR ]; then
-	mkdir -p $OUTPUTDIR
+# Verify that the output path exists (if NFS is not mounted, test should fail)
+if [ -d $OUTPUTDIR ]; then
 	mv $TARGETDIR/sar_data.dat $OUTPUTDIR/$OUTPUTFILE
- 	THEDIR=$OUTPUTDIR
+	echo "Performance data in $(hostname):$OUTPUTFILE"
 else
-	THEDIR=$TARGETDIR
+	>&2 echo "Monitor - output dir does not exist: $(hostname):$OUTPUTDIR"
+	exit 1
 fi
 
-echo "Performance data in $(hostname):$THEDIR"

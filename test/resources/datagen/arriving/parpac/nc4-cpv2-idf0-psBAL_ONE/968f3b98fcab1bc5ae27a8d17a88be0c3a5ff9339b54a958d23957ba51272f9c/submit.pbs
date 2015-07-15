@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+# Giacomo Mc Evoy - giacomo@lncc.br
+# LNCC Brazil 2013
+# Adapted from job.PARPARBench
+# christian.simmendinger@t-systems.com
+#
+#PBS -l walltime=60:00
+#PBS -l nodes=2:ppn=2
+#PBS -N PARPACBench
+#PBS -t 1-2
+#PBS -o /home/giacomo2/shared/execs/parpac/nc4-cpv2-idf0-psBAL_ONE/968f3b98fcab1bc5ae27a8d17a88be0c3a5ff9339b54a958d23957ba51272f9c/pbs.out
+#PBS -e /home/giacomo2/shared/execs/parpac/nc4-cpv2-idf0-psBAL_ONE/968f3b98fcab1bc5ae27a8d17a88be0c3a5ff9339b54a958d23957ba51272f9c/pbs.err
+
+# Var PBS_NODEFILE contains the node names (repeated)
+
+# Execution parameters 
+rnum=$PBS_ARRAYID		# Iteration of experiment (PBS)
+
+# Deployment parameters
+np=4
+
+# Application parameters
+name=parpac-2015-07-07-18:56
+
+echo "Running PBS application: PARPACBench"
+echo "Execution number: $rnum"
+
+# Sort (don't copy) file with node names, to ensure uniqueness
+EXEC_PROCS=/tmp/pbs-$name-procs.txt
+sort $PBS_NODEFILE > $EXEC_PROCS
+
+# Output dir for this execution set 
+rnum=$(printf "%03d\n" $rnum)
+EXEC_OUTPUT_DIR=/home/giacomo2/shared/execs/parpac/nc4-cpv2-idf0-psBAL_ONE/968f3b98fcab1bc5ae27a8d17a88be0c3a5ff9339b54a958d23957ba51272f9c/${name}-${rnum}
+STDOUT=std.out
+STDERR=std.err
+
+# Prepare execution
+export PATH=$PATH:/usr/local/bin
+mkdir -p $EXEC_OUTPUT_DIR
+cd /home/giacomo2/shared/PARPACBench-1.4
+
+cp $PBS_NODEFILE /tmp/pbs-nodefile.txt
+
+# Also monitor nodes?
+if [ 'True' == 'True' ]; then
+	echo -e 'valpa02\n' >> /tmp/pbs-nodefile.txt
+fi
+
+# Start monitoring
+$HOME/vespa/monitor/monitor-start-pbs.sh /tmp/pbs-nodefile.txt sysstat
+
+# The actual invocation of the application
+/usr/bin/time -f '%C\nUser\tSystem\tEllapsed\n%U\t%S\t%e' -a -o $EXEC_OUTPUT_DIR/../times.txt mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" --mca btl_tcp_if_include 172.16.0.0/16 --bind-to-core --map-by socket PARPACBench  > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
+
+# Stop monitoring iteratively
+$HOME/vespa/monitor/monitor-stop-pbs.sh /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR sysstat
+
+# Post-processing of output may be necessary
+if [ 'Y' == 'Y' ]; then
+	cp /home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out $EXEC_OUTPUT_DIR/custom.out
+fi
+
+# Pre-process the monitor files, to save space
+$HOME/vespa/monitor/monitor-preprocess-pbs.sh $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt sysstat

@@ -4,7 +4,8 @@ Created on Oct 15, 2013
 @author: giacomo
 '''
 
-import ansible.runner
+from ansible.playbook import PlayBook
+from ansible import callbacks, utils
 import json
 import subprocess
 
@@ -105,7 +106,7 @@ class ExperimentSetRunner():
 
         # call using Ansible API
         ansible_args = '../mgmt/stop-vms-local.sh ' + self.vespaPrefs['vm_prefix']
-        runner = ansible.runner.Runner(
+        runner = runner.Runner(
             host_list=nodeFilename,
             module_name='script',
             module_args=ansible_args,
@@ -196,7 +197,7 @@ class ClusterDeployer:
     def deploy(self, cluster, deploymentInfo, appRequest):
         
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo  # @UnusedVariable
-        
+        print(repr(deployedVMs)) 
         print(cluster)
         #print(deployedVMs.getXMLDict())
         print(appRequest)
@@ -217,20 +218,14 @@ class ClusterDeployer:
         if idf > 0:
             vmsPerHost = int(idf / cpv)
         
-        #
         # Create VM given its XML using libvirt call using parallel.
         # Need to create two files: one with the node names, the other
         # with the VM XML definitions. The parallel-based script will 
         # call the create operation using the files.   
-        #
         nodeFilename = '/tmp/vespa/' + str(cluster) + '-nodes.txt'
         deployedNodes.toFile(nodeFilename)
-        
         definitionFilename = '/tmp/vespa/'+ str(cluster) + '-definitions.txt'
         deployedVMs.definitionsToFile(definitionFilename)
-        
-        vmFilename = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
-        deployedVMs.namesToFile(vmFilename) 
         
         createShellCall = ['/bin/bash', '../mgmt/create-vm-parallel.sh', str(hostCount), nodeFilename, definitionFilename]
         if self.forReal:
@@ -238,58 +233,61 @@ class ClusterDeployer:
         else:
             print(createShellCall)
                         
-        # Case for using PBS
+        # Deployment over Torque requires special treatment
         isPBS = self.configFactory.isPBS(appRequest)
         if isPBS:
-            deploymentType = 'PBS'
+            deploymentType = 'Torque'
             
-            # need to update PBS configuration
+            # need to update Torque configuration
             pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
             pbsUpdater.updatePBS(deployedVMs, cluster)
             
         else:
-            deploymentType = 'NONE'
-            
-        # Wait for VMs to load
-        # "Usage: $0 <deploymentType> <#vms>"
-        waitShellCall = ['/bin/bash', 'run/wait-start-vms.sh', deploymentType, str(vmCount)]
-        if self.forReal:
-            # Waiting for VMs may timeout due to bad instantiation
-            waitReturnValue = subprocess.call(waitShellCall)
-        else:
-            print(waitShellCall)
-            waitReturnValue = 0
+            # indicates non-Torque deployment
+            deploymentType = 'Simple'
         
-        if waitReturnValue != 0:
-            # report deployment failure
-            return "ERROR: Waiting for VMs timeout!"
+        # Preparation of the VMs is made with the Ansible playbook
+        # run/prepare-vms.yml. The steps are:
+        # 1) wait for VMs (use Torque if available, wait for SSH otherwise)    
+        # 2) mount the NFS
+        # 3) activate KNEM module (if withKnem is True) 
+        # The variables are passed in the Ansible inventory, represented
+        # by the vmFilename variable.
+        vmFilename = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
+        inventoryVars = { "vmCount" : str(vmCount), 
+                          "deploymentType" : deploymentType,
+                          "withKnem" : str(withKnem)
+                        }
+        deployedVMs.createVirtualInventory(vmFilename, inventoryVars) 
         
-        # Prepare VMs: NFS (does nothing if not using NFS)
-        # call using Ansible API
-        ansible_args = 'mount -a'
-        runner = ansible.runner.Runner(
+        # Setup playbook
+        stats = callbacks.AggregateStats()
+        playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
+        runner_cb = callbacks.PlaybookRunnerCallbacks(
+            stats, verbose=utils.VERBOSITY)
+        playbookName = 'run/prepare-vms.yml'
+        pb = PlayBook(
+            playbook = playbookName,
+            stats = stats,
+            callbacks = playbook_cb,
+            runner_callbacks = runner_cb,
             host_list=vmFilename,
-            module_name='command',
-            remote_user='root',
-            module_args=ansible_args,
-            pattern='all',
             forks=vmCount
         )
         if self.forReal:
-            out = runner.run()
-            print json.dumps(out, sort_keys=True, indent=4, separators=(',', ':'))
+            # Execute the playbook and analyze return codes 
+            results = pb.run()
+            for hostname in results.keys():
+              if results[hostname]['failures'] != 0:
+                # Found an error, report deployment failure
+                return "ERROR: Deployment of VMs failed: " + hostname
+             
+            # Playbook succeeded, inform output
+            print json.dumps(results, sort_keys=True, indent=4, separators=(',', ':'))
         else:
             print('ansible: ' + vmFilename)
-            print('ansible: ' + ansible_args)
-            
-        # Prepare VMs: KNEM
-        if withKnem:
-            knemCall = ['/bin/bash', '../mgmt/vcluster-command.sh', 'ssh root@# modprobe knem', str(vmsPerHost), str(hostCount)]
-            if self.forReal:
-                subprocess.call(knemCall)
-            else:
-                print(knemCall)
-                
+            print('ansible: ' + playbookName)
+        
         # no error in deploying cluster
         return None
                 

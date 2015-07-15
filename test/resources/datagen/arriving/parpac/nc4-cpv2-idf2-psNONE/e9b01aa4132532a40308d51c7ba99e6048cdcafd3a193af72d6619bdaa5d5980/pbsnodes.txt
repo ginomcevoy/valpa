@@ -1,0 +1,4 @@
+kvm-pbs02-01
+kvm-pbs03-01
+valpa02
+valpa03

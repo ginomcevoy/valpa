@@ -24,13 +24,10 @@ if [ `$VESPA_DIR/util/iterator-nodes.sh $1` ]; then
 		IP_SUFFIX=`expr ${DHCP_START} + \( $1 \* ${DHCP_STEP} \) + $2 - 1`
 		VM_ADDRESS="$IP_PREFIX.$IP_SUFFIX"
  	elif [ $NET_CLASS == 'B' ]; then
- 		NODE_ADDRESS_PART=`expr $1 + $NODE_FIRST - 1`
+ 		NODE_ADDRESS_PART=$($VESPA_DIR/util/iterator-node-numbers.sh $1 NONZERO)
  		VM_ADDRESS_PART=`expr $2`
  		VM_ADDRESS=${IP_PREFIX_B}.${NODE_ADDRESS_PART}.${VM_ADDRESS_PART}
  	fi
  
  	echo $VM_ADDRESS
 fi
-
-
-

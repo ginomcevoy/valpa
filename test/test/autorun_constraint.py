@@ -6,18 +6,17 @@ Created on Sep 26, 2014
 import unittest
 from autorun.constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
-from config import hwconfig
+from test.test_abstract import VespaAbstractTest
 
 
-class SimpleClusterGenerationSpecificationTest(unittest.TestCase):
+class SimpleClusterGenerationSpecificationTest(VespaAbstractTest):
     '''
     Unit test for SimpleClusterGenerationSpecification.
     '''
 
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.simpleGenSpec = SimpleClusterGenerationSpecification(hwSpecs)
+        super(SimpleClusterGenerationSpecificationTest, self).setUp()
+        self.simpleGenSpec = SimpleClusterGenerationSpecification(self.hwSpecs)
 
     def testBuildInternalSpace(self):
         internalSpace = self.simpleGenSpec.internalSpace

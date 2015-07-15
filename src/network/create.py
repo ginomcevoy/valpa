@@ -61,11 +61,12 @@ class BuildsNetworkXMLs:
         
         # Creating bridge gets a file per physical node
         for nodeName in self.physicalCluster.getNames():
+            node = self.physicalCluster.getNode(nodeName)
             nodeIndex = self.physicalCluster.getNodeIndex(nodeName)
             xmlText = self.basicCreator.createXML(nodeIndex)
             
             # add DHCP lines
-            xmlText = self.enhancerForCreatingBridge.addDHCPLines(xmlText, nodeName)
+            xmlText = self.enhancerForCreatingBridge.addDHCPLines(xmlText, node)
             
             outputFilename = 'libvirt-bridge-' + nodeName + '.xml'
             self._writeXMLText(xmlText, outputDir, outputFilename)
@@ -216,7 +217,7 @@ class EnhancesXMLForCreatingBridge:
         self.physicalCluster = physicalCluster
         self.allVMDetails = allVMDetails
     
-    def addDHCPLines(self, networkXML, nodeName):
+    def addDHCPLines(self, networkXML, node):
         '''
         @param networkXML: text of the network XML
         '''
@@ -228,7 +229,7 @@ class EnhancesXMLForCreatingBridge:
         endOfRangeLine = rangeIndex + endOfRangeLine + 1
         
         # get the lines and format into single paragraph with indent
-        lines = self._buildLinesForNode(nodeName)
+        lines = self._buildLinesForNode(node)
         paragraph = '\t' + '\t'.join(lines)
         
         # append DHCP lines after end of range line
@@ -237,12 +238,12 @@ class EnhancesXMLForCreatingBridge:
         ammendedNetworkXML = textBeforePoint + paragraph + textAfterPoint 
         return ammendedNetworkXML
     
-    def _buildLinesForNode(self, nodeName):
+    def _buildLinesForNode(self, node):
         
         lines = []
         
         # get all possible VMs for this node
-        for vmName in self.allVMDetails.getVMNamesForNode(nodeName):
+        for vmName in self.allVMDetails.getVMNamesForNode(node):
             # get each line
             line = self._buildLineForVM(vmName)
             lines.append(line)

@@ -1,0 +1,6 @@
+mpirun --mca plm_rsh_agent ssh -q -o StrictHostKeyChecking=no --mca btl_tcp_if_include 172.16.0.0/16 PARPACBench
+User	System	Ellapsed
+272.32	58.39	165.91
+mpirun --mca plm_rsh_agent ssh -q -o StrictHostKeyChecking=no --mca btl_tcp_if_include 172.16.0.0/16 PARPACBench
+User	System	Ellapsed
+273.03	52.68	163.35

@@ -2,7 +2,7 @@
 Created on Dec 3, 2013
 
 Deals with the temporal data of an application (SAR)
-For this, calls sargen.R for each configuration
+For this, calls sargen-metrics.R for each configuration
 
 @author: giacomo
 '''
@@ -17,21 +17,29 @@ def sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsF
     configDict = configlist.enumerateConfigs(configNames)
     
     for configDir in configDirs:
-        # Usage: sargen.R configDir phycores configOutputDir
+        # Usage: sargen-metrics.R configDir phycores configOutputDir
         
         # config is one of cfg001, cfg002, ...
         (basepath, configName) = os.path.split(configDir)  # @UnusedVariable
         configOutputName = configtree.getConfigOutputName(configName, configDict)
         configOutputDir = appOutputDir + '/' + configOutputName
         
-        # create call list
-        sargenArgs = [configDir, phycores, configOutputDir]
+        analyzeSingleConfig(configDir, phycores, configOutputDir)
         
-        sargenCall = ['r', 'datagen/sargen-metrics.R']
-        sargenCall.extend(sargenArgs)
-        
-        # make call
-        subprocess.call(sargenCall)
+def analyzeSingleConfig(configDir, phycores, configOutputDir):
+    
+    # get full path of this Python script, the R script is in the same directory
+    pathOfThisScript = os.path.dirname(os.path.abspath(__file__))
+    rScript = pathOfThisScript + '/sargen-metrics.R'
+    vespaPath = pathOfThisScript + '/../../'
+    
+    # create call list
+    sargenArgs = [vespaPath, configDir, phycores, configOutputDir]
+    sargenCall = ['r', rScript]
+    sargenCall.extend(sargenArgs)
+    
+    # make call
+    subprocess.call(sargenCall)
 
 if __name__ == '__main__':
     # Validate input

@@ -8,10 +8,6 @@
 # Physical Environment
 NODE_L=12 				# number of physical computing nodes
 
-NODE_PREFIX='node'		# prefix for names of physical nodes (vespa00, vespa01)
-NODE_ZEROS='3' 		# if 2: vespa00... vespa12... vespa99
-NODE_FIRST='82' 		# suffix of first computing node
-
 # Networking
 NET_DEV='eth0'				# interface that will host bridge
 NET_CLASS='B' 			# either B or C class

@@ -11,19 +11,3 @@ sockets=2
 
 # memory per node (GB)
 mem=24
-
-[Nodes]
-# number of physical computing nodes
-nodes=12
-
-# prefix for naming nodes (node name = prefix+number)
-prefix=valpa
-
-# number of positions for indexing nodes (e.g for 2, node01..node99)
-zeros=2
-
-# first number for indexing nodes
-first=2
-
-# True: deduce node names in the form prefix+number
-inferids=True

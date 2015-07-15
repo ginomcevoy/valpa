@@ -54,11 +54,11 @@ class BasicVMGenTest(VespaDeploymentAbstractTest):
         xmls = self.basicGen.createDefinitions(self.clusterXML)
         self.failUnlessEqual(type(xmls), type({}))
         
-        xml08201 = open('resources/vms/kvm-pbs082-01-basic.xml').read() 
-        self.assertMultiLineEqual(xmls['kvm-pbs082-01'], xml08201)
+        xml08201 = 'resources/vms/kvm-pbs082-01-basic.xml' 
+        self.assertTextEqualsContent(xmls['kvm-pbs082-01'], xml08201)
         
-        xml08302 = open('resources/vms/kvm-pbs083-02-basic.xml').read() 
-        self.assertMultiLineEqual(xmls['kvm-pbs083-02'], xml08302)
+        xml08302 = 'resources/vms/kvm-pbs083-02-basic.xml' 
+        self.assertTextEqualsContent(xmls['kvm-pbs083-02'], xml08302)
         
 class VmXMLSaverTest(VespaDeploymentAbstractTest):
     '''
@@ -80,8 +80,8 @@ class VmXMLSaverTest(VespaDeploymentAbstractTest):
         xmlNameDict = self.xmlSaver.saveXMLs(self.xmlDict, 'testExp')
         
         self.assertEqual(xmlNameDict, self.expectedOutput)
-        self.assertMultiLineEqual(self.xmlDict['kvm-pbs082-01'], open(self.expectedOutput['kvm-pbs082-01'], 'r').read())
-        self.assertMultiLineEqual(self.xmlDict['kvm-pbs082-02'], open(self.expectedOutput['kvm-pbs082-02'], 'r').read())
+        self.assertTextEqualsContent(self.xmlDict['kvm-pbs082-01'], self.expectedOutput['kvm-pbs082-01'])
+        self.assertTextEqualsContent(self.xmlDict['kvm-pbs082-02'], self.expectedOutput['kvm-pbs082-02'])
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

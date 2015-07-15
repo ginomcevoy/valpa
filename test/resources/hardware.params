@@ -6,10 +6,3 @@
 cores=12
 sockets=2
 mem=24
-
-[Nodes]
-nodes=12
-inferids=True
-prefix=node
-zeros=3
-first=82

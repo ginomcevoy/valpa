@@ -1,0 +1,15 @@
+# This file is the initial inventory file in INI format.
+# It is read by Vespa to find define the computing nodes.
+# Write the hostnames of each computing node here, one per line.
+node082
+node083
+node084
+node085
+node086
+node087
+node088
+node089
+node090
+node091
+node092
+node093

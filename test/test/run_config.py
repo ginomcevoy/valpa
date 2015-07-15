@@ -31,12 +31,12 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-copy-expected.pbs', 'r').read())
+        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-copy-expected.pbs')
         
     def testCreateVespaExecutionFile(self):
         # given
         experimentPath = '/tmp' # should exist!
-        expectedContent = open('resources/pbs-vespa-expected.pbs', 'r').read()
+        expectedContentFile = 'resources/torque/pbs-vespa-expected.pbs'
         
         # when
         pbsFile = self.configFactory.createVespaExecutionFile(self.appRequest, experimentPath)
@@ -44,8 +44,7 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         # then
         self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertMultiLineEqual(open(pbsFile, 'r').read(), expectedContent)
-        #self.assertEquals(open(pbsFile, 'r').read(), )
+        self.assertFileContentEqual(pbsFile, expectedContentFile)
         
     def testCreateApplicationConfigurator(self):
         # given
@@ -89,34 +88,44 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
     def testEnhanceExecutionFile(self):
         # given
         executionFile = '/tmp/submit.pbs'
-        shutil.copyfile('resources/pbs-vespa-expected.pbs', executionFile)
+        shutil.copyfile('resources/torque/pbs-vespa-expected.pbs', executionFile)
         
         # when
         pbsFile = self.appConfigurator.enhanceExecutionFile(executionFile)
         
         # then
-        self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-app-expected.pbs', 'r').read())
+        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-app-expected.pbs')
         
 class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
+    '''
+    Unit test for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
+    string, as well as the enhancement of the PBS file.
+    '''
     
     def setUp(self):
         super(ExecutionConfiguratorPBSTest, self).setUp()
         self.execConfigurator = ExecutionConfiguratorPBS(self.clusterRequest, self.deploymentInfo)
+    
+    def testCreateTopologyString(self):
+        # when
+        topologyLine = self.execConfigurator.createTopologyString()
+        
+        # then
+        self.assertEqual(topologyLine, 'kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4')
+        
         
     def testEnhanceExecutionFile(self):
         # given
         executionFile = '/tmp/submit.pbs'
-        shutil.copyfile('resources/pbs-app-expected.pbs', executionFile)
+        shutil.copyfile('resources/torque/pbs-app-expected.pbs', executionFile)
         
         # when
         pbsFile = self.execConfigurator.enhanceExecutionFile(executionFile)
         
         # then
-        self.maxDiff = None
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
-        self.assertEquals(open(pbsFile, 'r').read(), open('resources/pbs-exec-expected.pbs', 'r').read())
+        self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-exec-expected.pbs')
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+# Giacomo Mc Evoy - giacomo@lncc.br
+# LNCC Brazil 2013
+# Adapted from job.PARPARBench
+# christian.simmendinger@t-systems.com
+#
+#PBS -l walltime=&WALLTIME
+#PBS -l nodes=&PBS_TOPOLOGY
+#PBS -N &APP_EXECUTABLE
+#PBS -t 1-&EXEC_TIMES
+#PBS -o &EXPERIMENT_PATH/pbs.out
+#PBS -e &EXPERIMENT_PATH/pbs.err
+
+# Var PBS_NODEFILE contains the node names (repeated)
+
+# Execution parameters 
+rnum=$PBS_ARRAYID		# Iteration of experiment (PBS)
+
+# Deployment parameters
+np=&NC
+
+# Application parameters
+name=&APP_EXEC_NAME
+
+echo "Running PBS application: &APP_EXECUTABLE"
+echo "Execution number: $rnum"
+
+# Sort (don't copy) file with node names, to ensure uniqueness
+EXEC_PROCS=/tmp/pbs-$name-procs.txt
+sort $PBS_NODEFILE > $EXEC_PROCS
+
+# Output dir for this execution set 
+rnum=$(printf "%03d\n" $rnum)
+EXEC_OUTPUT_DIR=&EXPERIMENT_PATH/${name}-${rnum}
+STDOUT=std.out
+STDERR=std.err
+
+# Prepare execution
+export PATH=$PATH:/usr/local/bin
+mkdir -p $EXEC_OUTPUT_DIR
+cd &APP_HOME
+
+cp $PBS_NODEFILE /tmp/pbs-nodefile.txt
+
+# Also monitor nodes?
+if [ '&MONITOR_DO_NODES' == 'True' ]; then
+	echo -e '&PHYSICAL_NODE_LIST' >> /tmp/pbs-nodefile.txt
+fi
+
+# Start monitoring
+&MONITOR_START /tmp/pbs-nodefile.txt &MONITOR_APP
+
+# The actual invocation of the application
+/usr/bin/time -f '&TIME_FORMAT' -a -o $EXEC_OUTPUT_DIR/../&TIME_OUTPUT mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" --mca btl_tcp_if_include 172.16.0.0/16 &BIND_TO_CORE &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
+
+# Stop monitoring iteratively
+&MONITOR_STOP /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR &MONITOR_APP
+
+# Post-processing of output may be necessary
+if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
+	cp &APP_OTHER_OUTPUT $EXEC_OUTPUT_DIR/&APP_OUTPUT_RENAME
+fi
+
+# Pre-process the monitor files, to save space
+&MONITOR_PREPROCESS $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt &MONITOR_APP

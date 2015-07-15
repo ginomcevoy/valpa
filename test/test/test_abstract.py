@@ -13,7 +13,7 @@ from bean.node import PhysicalNode, NodeCluster
 from bean.enum import PinningOpt, DiskOpt, NetworkOpt
 from bean.experiment import AppTuning, Application
 from bean.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
-    VirtualClusterTemplates
+    VirtualClusterTemplates, AllVMDetails
 
 class VespaAbstractTest(unittest.TestCase):
     '''
@@ -23,8 +23,9 @@ class VespaAbstractTest(unittest.TestCase):
 
     def setUp(self):
         # Hardware
-        self.hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
+        self.hwInfo = hwconfig.getHardwareInfo(specsFile='resources/hardware.params', inventoryFilename='resources/vespa.nodes')
         self.hwSpecs = self.hwInfo.getHwSpecs()
+        self.nodeNames = self.hwInfo.getNodeNames()
         
         # Vespa params
         vespaConfig = vespaconfig.readVespaConfig('resources/vespa.params')
@@ -49,6 +50,11 @@ class VespaAbstractTest(unittest.TestCase):
                 message += " : " + msg
             self.fail("Multi-line strings are unequal:\n" + message)
 
+    def assertTextEqualsContent(self, text, expectedFilename):
+        self.assertMultiLineEqual(text, open(expectedFilename, 'r').read())
+        
+    def assertFileContentEqual(self, testFilename, expectedFilename):
+        self.assertMultiLineEqual(open(testFilename, 'r').read(), open(expectedFilename, 'r').read())
         
 class VespaWithNodesAbstractTest(VespaAbstractTest):
     '''
@@ -99,20 +105,27 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         deployedNodes = self.physicalCluster.getSubset(nodeNames)
 
         # build virtual cluster deployment manually        
-        vm1 = VMDetails('kvm-pbs082-01', 0, '01', 'node082')
-        vm2 = VMDetails('kvm-pbs082-02', 1, '02', 'node082')
-        vm3 = VMDetails('kvm-pbs083-01', 0, '01', 'node083')
-        vm4 = VMDetails('kvm-pbs083-02', 1, '02', 'node083')
+        vm1 = VMDetails('kvm-pbs082-01', 0, '01', deployedNodes.getNode('node082'))
+        vm2 = VMDetails('kvm-pbs082-02', 1, '02', deployedNodes.getNode('node082'))
+        vm3 = VMDetails('kvm-pbs083-01', 0, '01', deployedNodes.getNode('node083'))
+        vm4 = VMDetails('kvm-pbs083-02', 1, '02', deployedNodes.getNode('node083'))
+        
+        vmDict = {'kvm-pbs082-01' : vm1, 'kvm-pbs082-02' : vm2, 
+                  'kvm-pbs083-01' : vm3, 'kvm-pbs083-02' : vm4}
+        byNode = {deployedNodes.getNode('node082') : ('kvm-pbs082-01', 'kvm-pbs082-02'), 
+                  deployedNodes.getNode('node083') : ('kvm-pbs083-01', 'kvm-pbs083-02')}
+        
+        allVMDetails = AllVMDetails(vmDict, byNode)
         
         vmTemplate1 = VMTemplate(vm1, 2)
         vmTemplate2 = VMTemplate(vm2, 2)
         vmTemplate3 = VMTemplate(vm3, 2)
         vmTemplate4 = VMTemplate(vm4, 2)
         
-        vmDict = {'kvm-pbs082-01' : vmTemplate1, 'kvm-pbs082-02' : vmTemplate2, 
+        templateDict = {'kvm-pbs082-01' : vmTemplate1, 'kvm-pbs082-02' : vmTemplate2, 
                   'kvm-pbs083-01' : vmTemplate3, 'kvm-pbs083-02' : vmTemplate4}
-        byNode = {'node082' : ('kvm-pbs082-01', 'kvm-pbs082-02'), 'node083' : ('kvm-pbs083-01', 'kvm-pbs083-02')}
-        deployedVMs = VirtualClusterTemplates(vmDict, byNode)
+        
+        deployedVMs = VirtualClusterTemplates(templateDict, byNode, allVMDetails)
         
         deployedSockets = (0, 1)
         self.deploymentInfo = (deployedNodes, deployedSockets, deployedVMs)

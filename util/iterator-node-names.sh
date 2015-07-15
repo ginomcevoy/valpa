@@ -16,11 +16,7 @@ LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
 # Import params
 source $LOCAL_DIR/../params.sh
 
-if [ `$LOCAL_DIR/iterator-nodes.sh $1` ]; then
-	# build node name
-	NUMBER=`expr $1 + $NODE_FIRST - 1`
-	NUMBER=$(printf "%0${NODE_ZEROS}d\n" ${NUMBER})
-	echo "${NODE_PREFIX}${NUMBER}"
-fi
-
-
+# Use the Vespa generated inventory, first column has the node names
+VESPA_INVENTORY=$($LOCAL_DIR/nodes-inventory.sh $NODE_L)
+ZERO_INDEX=$(expr $1 - 1)
+cat $VESPA_INVENTORY | cut -d ' ' -f 1 | { mapfile -t nodeNames; echo "${nodeNames[$ZERO_INDEX]}"; }

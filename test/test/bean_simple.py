@@ -4,25 +4,19 @@ Created on Sep 21, 2014
 @author: giacomo
 '''
 import unittest
-from config import hwconfig
+
 from bean import simple
 from bean.enum import PinningOpt
-from bean.cluster import Topology, Mapping
 from bean.simple import SimpleRules
-from bean.specs import SimpleMappingSpecification,\
-    SimpleClusterPlacementSpecification, SimpleTopologySpecification
+from test.test_abstract import VespaAbstractTest
 
-#  copy.deepcopy(x)
 
-class SimpleRulesTest(unittest.TestCase):
-    '''
-    Unit test for bean.SimpleRules
-    '''
+class SimpleRulesTest(VespaAbstractTest):
+    """Unit test for bean.simple.SimpleRules. """
     
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.simpleRules = SimpleRules(hwSpecs)
+        super(SimpleRulesTest, self).setUp()
+        self.simpleRules = SimpleRules(self.hwSpecs)
         
     def testDivisorsOf1(self):
         divisors = simple.divisorsOf(12)
@@ -111,10 +105,6 @@ class SimpleRulesTest(unittest.TestCase):
     def testIsIdfPermitted7(self):
         self.assertFalse(self.simpleRules.isIdfPermitted(1.5))
         
-    def testAllNcGivenCpv3(self):
-        result = self.simpleRules.allNcGivenCpv(24)
-        self.assertEqual(result, [])
-
     def testAllCpvGivenNc1(self):
         result = self.simpleRules.allCpvGivenNc(1)
         self.assertEqual(result, [1, ])
@@ -195,6 +185,10 @@ class SimpleRulesTest(unittest.TestCase):
         result = self.simpleRules.allNcGivenCpv(6)
         # 78, 90 .. are not possible because there is no idf that satisfies
         self.assertEqual(result, [6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 84, 96, 108, 120, 132, 144])
+        
+    def testAllNcGivenCpv3(self):
+        result = self.simpleRules.allNcGivenCpv(24)
+        self.assertEqual(result, [])
 
     def testAllNcGivenIdf1(self):
         result = self.simpleRules.allNcGivenIdf(12)
@@ -256,80 +250,86 @@ class SimpleRulesTest(unittest.TestCase):
     def testCanBeDeployedInAny4(self):
         physicalMachinesTuple = [2, 3]
         self.assertFalse(self.simpleRules.canBeDeployedInAny(4, 0, physicalMachinesTuple))
-
-                 
-class SimpleTopologySpecificationTest(unittest.TestCase):
-    '''
-    Unit test for bean.SimpleTopologySpecification
-    '''
+                
+class SimpleRulesSingleNodeTest(VespaAbstractTest):
+    """Unit test for bean.simple.SimpleRules, where the physical 
+    architecture has been restricted to a single node. 
+    
+    """
     
     def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.topologySpec = SimpleTopologySpecification(hwSpecs)
+        # This call to super will initialize self.hwSpecs,
+        # modify it before instantiating SimpleRules object. 
+        super(SimpleRulesSingleNodeTest, self).setUp()
+        self.hwSpecs['nodes'] = 1
+        self.hwSpecs['coresInCluster'] = 12
+        self.simpleRules = SimpleRules(self.hwSpecs)
         
-    def testIsSatisfiedBy1(self):
-        topologyRequest = Topology(24, 6)
-        self.assertTrue(self.topologySpec.isSatisfiedBy(topologyRequest))
+    def testIsNcPermitted(self):
+        self.assertTrue(self.simpleRules.isNcPermitted(1))
+        self.assertTrue(self.simpleRules.isNcPermitted(2))
+        self.assertTrue(self.simpleRules.isNcPermitted(4))
+        self.assertTrue(self.simpleRules.isNcPermitted(6))
+        self.assertTrue(self.simpleRules.isNcPermitted(12))
         
-    def testIsSatisfiedBy2(self):
-        topologyRequest = Topology(25, 6)
-        self.assertFalse(self.topologySpec.isSatisfiedBy(topologyRequest))
+        self.assertFalse(self.simpleRules.isNcPermitted(0))
+        self.assertFalse(self.simpleRules.isNcPermitted(13))
+        self.assertFalse(self.simpleRules.isNcPermitted(24))
         
-    def testIsSatisfiedBy3(self):
-        topologyRequest = Topology(48, 24)
-        self.assertFalse(self.topologySpec.isSatisfiedBy(topologyRequest))
+    def testIsCpvPermitted(self):
+        self.assertTrue(self.simpleRules.isCpvPermitted(1))
+        self.assertTrue(self.simpleRules.isCpvPermitted(2))
+        self.assertTrue(self.simpleRules.isCpvPermitted(4))
+        self.assertTrue(self.simpleRules.isCpvPermitted(6))
+        self.assertTrue(self.simpleRules.isCpvPermitted(12))
         
-class SimpleMappingSpecificationTest(unittest.TestCase):
-    '''
-    Unit test for bean.SimpleMappingSpecification
-    '''
-    
-    def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.mappingSpec = SimpleMappingSpecification(hwSpecs)
+        self.assertFalse(self.simpleRules.isCpvPermitted(0))
+        self.assertFalse(self.simpleRules.isCpvPermitted(13))
         
-    def testIsSatisfiedBy1(self):
-        mappingRequest = Mapping(6, PinningOpt.BAL_SET)
-        self.assertTrue(self.mappingSpec.isSatisfiedBy(mappingRequest))
+    def testIsIdfPermitted1(self):
+        self.assertTrue(self.simpleRules.isIdfPermitted(-1))
+        self.assertTrue(self.simpleRules.isIdfPermitted(0))
         
-    def testIsSatisfiedBy2(self):
-        mappingRequest = Mapping(6, "BAL_SET")
-        self.assertTrue(self.mappingSpec.isSatisfiedBy(mappingRequest))
+        self.assertFalse(self.simpleRules.isIdfPermitted(1))
+        self.assertFalse(self.simpleRules.isIdfPermitted(2))
+        self.assertFalse(self.simpleRules.isIdfPermitted(6))
+        self.assertFalse(self.simpleRules.isIdfPermitted(12))
         
-    def testIsSatisfiedBy3(self):
-        mappingRequest = Mapping(6, "BAL_SAT")
-        self.assertFalse(self.mappingSpec.isSatisfiedBy(mappingRequest))
+    def testAllCpvGivenNc1(self):
+        result = self.simpleRules.allCpvGivenNc(1)
+        self.assertEqual(result, [1, ])
         
-    def testIsSatisfiedBy4(self):
-        mappingRequest = Mapping(13, PinningOpt.BAL_SET)
-        self.assertFalse(self.mappingSpec.isSatisfiedBy(mappingRequest))
-
-class SimpleClusterSpecificationTest(unittest.TestCase):
-    '''
-    Unit test for bean.SimpleClusterSpecification
-    '''
-    
-    def setUp(self):
-        hwInfo = hwconfig.getHardwareInfo('resources/hardware.params')
-        hwSpecs = hwInfo.getHwSpecs()
-        self.clusterSpec = SimpleClusterPlacementSpecification(hwSpecs)
+    def testAllCpvGivenNc12(self):
+        result = self.simpleRules.allCpvGivenNc(12)
+        self.assertEqual(result, [1, 2, 3, 4, 6, 12])
         
-    def testIsSatisfiedBy1(self):
-        topologyRequest = Topology(18, 3)
-        mappingRequest = Mapping(6, PinningOpt.BAL_SET)
-        self.assertTrue(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
+    def testAllNcGivenCpv1(self):
+        result = self.simpleRules.allNcGivenCpv(1)
+        self.assertEqual(result, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
         
-    def testIsSatisfiedBy2(self):
-        topologyRequest = Topology(18, 1)
-        mappingRequest = Mapping(6, PinningOpt.BAL_SET) # BAL_SET not valid (equals BAL_ONE)
-        self.assertFalse(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
+    def testAllNcGivenCpv2(self):
+        result = self.simpleRules.allNcGivenCpv(2)
+        self.assertEqual(result, [2, 4, 6, 8, 10, 12])
         
-    def testIsSatisfiedBy3(self):
-        topologyRequest = Topology(24, 12)
-        mappingRequest = Mapping(6, PinningOpt.BAL_SET) # idf not valid with topology
-        self.assertFalse(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
+    def testAllNcGivenCpv12(self):
+        result = self.simpleRules.allNcGivenCpv(12)
+        self.assertEqual(result, [12, ])
+        
+    def testAllIdfGivenNc6(self):
+        result = self.simpleRules.allIdfGivenNc(6)
+        self.assertEqual(result, [0, ])
+        
+    def testAllIdfGivenNc12(self):
+        result = self.simpleRules.allIdfGivenNc(12)
+        self.assertEqual(result, [0, ])
+        
+    def testAllIdfGivenCpv1(self):
+        result = self.simpleRules.allIdfGivenCpv(1)
+        self.assertEqual(result, [0, ])
+        
+    def testAllNcGivenIdf0(self):
+        result = self.simpleRules.allNcGivenIdf(0)
+        self.assertEqual(result, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
                 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

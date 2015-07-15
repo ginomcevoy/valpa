@@ -10,7 +10,7 @@ class VMDetails:
     @ivar name: hostname of the VM
     @ivar index: zero-based index of VM in the physical node
     @ivar suffix: string representing the suffix number of the VM, e.g. 01, 12.
-    @ivar hostingNode: name of the node that is hosting the VM
+    @ivar hostingNode: node that is hosting the VM (PhysicalNode instance)
     @ivar macAddress: MAC address of the VM
     @ivar ipAddress: IP address of the VM
     '''
@@ -53,7 +53,7 @@ class VMDetails:
 class AllVMDetails():
     '''
     @ivar vmDict: dictionary {vmName : vmDetails instance}
-    @ivar byNode: dictionary {nodeName : vmName tuple}
+    @ivar byNode: dictionary {node obj : vmName tuple}
     '''
 
     def __init__(self, vmDict, byNode):
@@ -72,8 +72,8 @@ class AllVMDetails():
     def getHostingNode(self, vmName):
         return self.vmDict[vmName].hostingNode
     
-    def getVMNamesForNode(self, nodeName):
-        return self.byNode[nodeName]
+    def getVMNamesForNode(self, node):
+        return self.byNode[node]
     
     def getNames(self):
         return tuple(self.vmDict.keys())
@@ -105,44 +105,54 @@ class AllVMDetails():
             vmDictSubset[vmName] = vmDetails
             
             # find the node that hosts this VM
-            for nodeName in self.byNode.keys():
+            for node in self.byNode.keys():
                 # if node is not hosting this VM, skip
-                if self.getHostingNode(vmName) == nodeName:
-                    if nodeName not in byNodeSubset.keys():
+                if self.getHostingNode(vmName) == node:
+                    if node not in byNodeSubset.keys():
                         # initial case: node has not been added yet
-                        byNodeSubset[nodeName] = [vmName]
+                        byNodeSubset[node] = [vmName]
                     else:
                         # node has other VMs, add to list
-                        byNodeSubset[nodeName].append(vmName)
+                        byNodeSubset[node].append(vmName)
                         
         # convert node dictionary elements to tuples
-        for nodeName in byNodeSubset.keys():
-            byNodeSubset[nodeName] = tuple(byNodeSubset[nodeName])
+        for node in byNodeSubset.keys():
+            byNodeSubset[node] = tuple(byNodeSubset[node])
                 
         return AllVMDetails(vmDictSubset, byNodeSubset)
     
-    def createVirtualInventory(self, inventoryFilename, physicalCluster, hostCount, vmsPerHost):
+    def createVirtualInventory(self, inventoryFilename, inventoryVars=None):
         '''
         Creates an inventory for Ansible. Overwrites file if exists.
         Example using 'node' as node name and 'kvm-pbs' as vm prefix:
         kvm-pbs082-01 vmSuffix=01 nodeSuffix=082 hostingNode=node082
         kvm-pbs082-02 vmSuffix=02 nodeSuffix=082 hostingNode=node082
         @param inventoryFilename: the name of the file for VM inventory
-        @param allVMDetails: a valid instance of AllVMDetails 
-        @param hostCount: number of corresponding nodes, starting from the first
-        @param cpv: number of VMs per node 
+        @param inventoryVars (optional): dictionary of variables
         '''
         # the templates get sorted using the __cmp__ function
         sortedVmDetails = sorted(self.vmDict.values())
         
+        # infer hostCount and vmsPerHost from current state
+        hostCount = len(self.byNode.keys())
+        vmsPerHost = len(self.byNode[self.byNode.keys()[0]])
+         
         with open(inventoryFilename, 'w') as inventoryFile:
+            # write VM lines
             for vmDetails in sortedVmDetails:
-                nodeIndex = physicalCluster.getNodeIndex(vmDetails.hostingNode)
+                hostingNode = vmDetails.hostingNode
                 vmIndex = vmDetails.index
-                if nodeIndex < hostCount and vmIndex < vmsPerHost:
-                    nodeSuffix = physicalCluster.getNodeSuffix(vmDetails.hostingNode)
-                    line = vmDetails.name + " vmSuffix=" +  vmDetails.suffix + " nodeSuffix=" + nodeSuffix + " hostingNode=" + vmDetails.hostingNode + "\n"
+                if hostingNode.index < hostCount and vmIndex < vmsPerHost:
+                    nodeSuffix = hostingNode.suffix
+                    nodeName = hostingNode.name
+                    line = vmDetails.name + " vmSuffix=" +  vmDetails.suffix + " nodeSuffix=" + nodeSuffix + " hostingNode=" + nodeName + "\n"
                     inventoryFile.write(line)
+                    
+            # write variables if present
+            if inventoryVars is not None:
+                inventoryFile.write('\n[all:vars]\n')
+                for key in sorted(inventoryVars.keys()):
+                    inventoryFile.write(key + '=' + inventoryVars[key] + '\n')
     
 class VMTemplate:
     '''
@@ -171,11 +181,12 @@ class VirtualClusterTemplates:
     '''
     Contains all the VMTemplate instances for a virtual cluster.
     @ivar vmTemplateDict: dictionary {vmName : vmTemplate instance}
-    @ivar byNode: dictionary {nodeName : vmName tuple}
+    @ivar byNode: dictionary {node : vmName tuple}
     '''
-    def __init__(self, vmTemplateDict, byNode):
+    def __init__(self, vmTemplateDict, byNode, allVMDetails):
         self.vmTemplateDict = vmTemplateDict
         self.byNode = byNode
+        self.allVMDetails = allVMDetails
         
     def getVMIndex(self, vmName):
         return self.vmTemplateDict[vmName].vmDetails.index
@@ -192,8 +203,8 @@ class VirtualClusterTemplates:
     def getCpv(self, vmName):
         return self.vmTemplateDict[vmName].cpv
     
-    def getVMNamesForNode(self, nodeName):
-        return self.byNode[nodeName]
+    def getVMNamesForNode(self, node):
+        return self.byNode[node]
     
     def getNames(self):
         return tuple(self.vmTemplateDict.keys())
@@ -233,6 +244,9 @@ class VirtualClusterTemplates:
         with open(filename, 'w') as nameFile:
             for vmTemplate in sortedTemplates:
                 nameFile.write(vmTemplate.vmDetails.name + '\n')
+                
+    def createVirtualInventory(self, inventoryFilename, inventoryVars=None):
+        self.allVMDetails.createVirtualInventory(inventoryFilename, inventoryVars)
     
 class BuildsAllVMDetails:
     '''
@@ -258,7 +272,8 @@ class BuildsAllVMDetails:
         
         # iterate over physical nodes
         for nodeName in self.physicalCluster.getNames():
-            nodeSuffix = self.physicalCluster.getNodeSuffix(nodeName)
+            node = self.physicalCluster.getNode(nodeName)
+            nodeSuffix = node.suffix
             vmNameHost = vmNameTemplate.replace('&NODESUFFIX', nodeSuffix)
             byNodeList = [] 
 
@@ -270,10 +285,10 @@ class BuildsAllVMDetails:
                 vmName = vmNameHost.replace('&VMSUFFIX', vmSuffix)
                 
                 # (index, number, suffix, nodeName)
-                vmDict[vmName] = VMDetails(vmName, vmIndex, vmSuffix, nodeName)                 
+                vmDict[vmName] = VMDetails(vmName, vmIndex, vmSuffix, node)                 
                 byNodeList.append(vmName)
-                
-            byNode[nodeName] = tuple(byNodeList)
+            
+            byNode[node] = tuple(byNodeList)
 
         return AllVMDetails(vmDict, byNode)
 
@@ -298,12 +313,14 @@ class VirtualClusterFactory:
             vmTemplate = VMTemplate(vmDetails, cpv)
             vmDict[vmName] = vmTemplate
             
-            nodeName = self.allVMDetails.getHostingNode(vmName)
-            if nodeName not in byNode.keys():
-                byNode[nodeName] = []
-            byNode[nodeName].append(vmName)
+            node = self.allVMDetails.getHostingNode(vmName)
+            if node not in byNode.keys():
+                byNode[node] = []
+            byNode[node].append(vmName)
         
-        for nodeName in byNode.keys():
-            byNode[nodeName] = tuple(byNode[nodeName])
-            
-        return VirtualClusterTemplates(vmDict, byNode)
+        for node in byNode.keys():
+            byNode[node] = tuple(byNode[node])
+
+        vmDetailsSubset = self.allVMDetails.getSubset(vmNames)
+         
+        return VirtualClusterTemplates(vmDict, byNode, vmDetailsSubset)

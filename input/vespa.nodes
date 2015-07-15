@@ -1,0 +1,15 @@
+# This file is the initial inventory file in INI format.
+# It is read by Vespa to find define the computing nodes.
+# Write the hostnames of each computing node here, one per line.
+valpa02
+valpa03
+valpa04
+valpa05
+valpa06
+valpa07
+valpa08
+valpa09
+valpa10
+valpa11
+valpa12
+valpa13
