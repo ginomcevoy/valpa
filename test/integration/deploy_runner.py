@@ -47,6 +47,7 @@ class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):
         experimentXML = 'resources/integration/two-exps.xml'
         
         # when
+        print(experimentXML)
         expSetRunner.readAndExecute(experimentXML)
         
 class ClusterDefinerIntegrationTest(VespaDeploymentAbstractTest):
