@@ -18,7 +18,7 @@ network_source=external-bridge
 
 # Name of interface that will host bridge (libvirt-bridge)
 # It is also used by setup/define-virtual-networks.sh script to generate
-# the libvirt network definition for SR-IOV. 
+# the libvirt network definition for SR-IOV.
 net_dev=eth0
 
 # Desired bridge name (libvirt-bridge) or name of external bridge (external-bridge)
@@ -29,7 +29,7 @@ net_bridge=br0
 # to generate the libvirt network definition for (libvirt-bridge) option.
 ####
 
-# either B or C network class 
+# either B or C network class
 net_class=B
 
 # DHCP for B class 

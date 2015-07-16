@@ -18,6 +18,13 @@
 	<on_reboot>restart</on_reboot>
 	<on_crash>destroy</on_crash>
 	<devices>
+_CLUSTER_VAR_% if infiniband_flag %}
+		<hostdev mode="subsystem" type="pci" managed="yes">
+			<source>
+				<address type="pci" domain="0x0000" bus="_CLUSTER_VAR_{ infiniband_bus }}" slot="_CLUSTER_VAR_{ infiniband_slot }}" function="_VM_VAR_{ infiniband_function }}"/>
+			</source>
+		</hostdev>
+_CLUSTER_VAR_% endif %}
 		<interface type="network">
 			<source network="{{ network_name }}"/>
 			<mac address="_VM_VAR_{ vm_mac }}"/>
