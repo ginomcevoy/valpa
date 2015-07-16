@@ -72,19 +72,6 @@ net_name_bridge_create=vespa-libvirt-bridge
 # configuration of the network in the physical cluster.
 net_name_bridge_use=vespa-external-bridge
 
-###
-# Infiniband SR-IOV parameters. Vespa assumes the following:
-# - SR-IOV Infiniband is properly installed/configured
-# - all physical nodes share the same device addresses, as obtained by lspci.
-# - the number of specified Virtual Functions are available.
-#
-# To use Infiniband, use default_infiniband=True or override infiniband="True"
-# in the technology node of the experiment XML.
-###
-net_infiniband_bus=0x03
-net_infiniband_slot=0x00
-net_infiniband_vfs=8
-
 # Miscellaneous networking
 
 # MAC address prefix for VMs
