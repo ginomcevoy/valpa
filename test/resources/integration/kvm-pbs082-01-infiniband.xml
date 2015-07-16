@@ -1,11 +1,17 @@
 <domain type="kvm">
-	<name>_VM_VAR_{ vm_name }}</name>
-	<uuid>_VM_VAR_{ vm_uuid }}</uuid>
-	<memory>_CLUSTER_VAR_{ cluster_memory }}</memory>
+	<name>kvm-pbs082-01</name>
+	<uuid>446bf85f-b4ba-459b-8e04-60394fc00d5c</uuid>
+	<memory>4194304</memory>
 	<memoryBacking>
 		<nosharepages/>
 	</memoryBacking>
-	<vcpu>_CLUSTER_VAR_{ cluster_vcpu }}</vcpu>
+	<vcpu>4</vcpu>
+<cputune>
+<vcpupin vcpu="0" cpuset="0"/>
+<vcpupin vcpu="1" cpuset="1"/>
+<vcpupin vcpu="2" cpuset="2"/>
+<vcpupin vcpu="3" cpuset="3"/>
+</cputune>
 	<os>
 		<type arch="x86_64" machine="pc">hvm</type>
 		<boot dev="hd"/>
@@ -18,26 +24,22 @@
 	<on_reboot>restart</on_reboot>
 	<on_crash>destroy</on_crash>
 	<devices>
-_CLUSTER_VAR_% if infiniband_flag %}
 		<hostdev mode="subsystem" type="pci" managed="yes">
 			<source>
-				<address type="pci" domain="0x0000" bus="_CLUSTER_VAR_{ infiniband_bus }}" slot="_CLUSTER_VAR_{ infiniband_slot }}" function="_VM_VAR_{ infiniband_function }}"/>
+				<address type="pci" domain="0x0000" bus="0x03" slot="0x00" function="0x1"/>
 			</source>
 		</hostdev>
-_CLUSTER_VAR_% endif %}
 		<interface type="network">
 			<source network="vespa-external-bridge"/>
-			<mac address="_VM_VAR_{ vm_mac }}"/>
-_CLUSTER_VAR_% if network_option == 'vhost' or network_option == 'virtio' %}
+			<mac address="00:16:36:ff:82:01"/>
 			<model type="virtio"/>
-			<driver name="_CLUSTER_VAR_{ network_driver }}"/>
-_CLUSTER_VAR_% endif %}
+			<driver name="qemu"/>
 		</interface>
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
 			<driver name="qemu" type="raw"/>
-			<source file="/home/giacomo/vms/_VM_VAR_{ vm_path }}/_CLUSTER_VAR_{ cluster_disk }}"/>
-			<target dev="vda" bus="_CLUSTER_VAR_{ cluster_disk_bus }}"/>
+			<source file="/home/giacomo/vms/node082/kvm-pbs082-01/disk.img"/>
+			<target dev="vda" bus="virtio"/>
 		</disk>
 		<console type="pty">
 			<target port="0"/>

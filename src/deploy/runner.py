@@ -172,7 +172,7 @@ class ClusterFactory:
     def createClusterDefiner(self):
         
         mappingResolver = MappingResolver(self.hwSpecs, self.vespaPrefs, self.physicalCluster, self.allVMDetails)
-        clusterXMLGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs)
+        clusterXMLGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs, self.hwSpecs)
         
         clusterDefiner = ClusterDefiner(mappingResolver, clusterXMLGen, self.vmDefinitionGenerator)
         return clusterDefiner
@@ -208,7 +208,6 @@ class ClusterDeployer:
     def deploy(self, cluster, deploymentInfo, appRequest):
         
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo  # @UnusedVariable
-        print(repr(deployedVMs)) 
         print(cluster)
         print(appRequest)
         print('\n')

@@ -72,11 +72,23 @@ class VMDefinitionBasicGenerator:
 			node = self.deployedNodes.getNode(nodeName)
 			for vmName in self.deployedVMs.getVMNamesForNode(node):
 				
-				# replace VM name, UUID, MAC address and disk path
+				# VMs have the following unique parameters:
+				# name: already available in the deploymentInfo
+				# uuid: calculated with a UUID generator in VMDefinitionDetails
+				# mac: calculated with networking util in VMDefinitionDetails
+				# path: the disk path, relative to the cluster path,
+				#       calculated in VMDefinitionDetails
+				# function: the Virtual Function for Infiniband, calculated from
+				# the VM number in VMDefinitionDetails
 				uuid = self.definitionDetails.getUUID(vmName)
 				mac = self.definitionDetails.getMAC(vmName)
 				vmPath = self.definitionDetails.getVmPath(vmName)
-				args = {'vm_name' : vmName, 'vm_uuid' : uuid, 'vm_mac' : mac, 'vm_path' : vmPath}
+				vf = self.definitionDetails.getVirtualFunction(vmName)
+				args = {'vm_name' : vmName, 
+						'vm_uuid' : uuid, 
+						'vm_mac' : mac, 
+						'vm_path' : vmPath,
+						'infiniband_function' : vf}
 				
 				# apply jinja substitution
 				vmXML = template.render(args)
@@ -152,6 +164,10 @@ class VMDefinitionDetails:
 		nodeIndex = node.index
 		vmIndex = self.deployedVMs.getVMIndex(vmName)
 		return self.networkAddresses.getVMMAC(nodeIndex, vmIndex)
+	
+	def getVirtualFunction(self, vmName):
+		vmNumber = self.deployedVMs.getVMNumber(vmName) # starts at 1
+		return '0x' + str(vmNumber)
 	
 class BuildsVMDefinitionGenerator:
 	'''
