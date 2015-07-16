@@ -9,6 +9,7 @@ from ansible import callbacks, utils, runner
 import json
 import subprocess
 
+from bean.enum import NetworkOpt, DiskOpt  # @UnusedImport they ARE used
 from deploy import parser
 from define.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
 from run.prepare import PreparesExperiment
@@ -16,6 +17,8 @@ from run.config import ConfiguratorFactory
 from run.apprunner import RunnerFactory
 from run.pbs.updater import PBSUpdater
 from deploy.mapping import MappingResolver
+from bean.cluster import SetsTechnologyDefaults
+
 
 class ExperimentSetRunner():
     '''
@@ -36,6 +39,9 @@ class ExperimentSetRunner():
         
         # Get an clusterExecutor instance ready
         self.clusterExecutor = clusterFactory.createClusterExecutor()
+        
+        # Strategy to set default Technology values
+        self.technologySetter = SetsTechnologyDefaults(vespaPrefs)
         
         self.hwSpecs = hwSpecs
         self.vespaPrefs = vespaPrefs
@@ -58,6 +64,12 @@ class ExperimentSetRunner():
             
             # assuming single experiment for each scenario
             experiment = scenario.getExperiment()
+            clusterRequest = experiment.cluster
+            appRequest = experiment.app
+            
+            # update unset technology parameters with defaults
+            t = self.technologySetter.setDefaultsOn(clusterRequest.technology)
+            clusterRequest.technology = t 
             
             # validate experiment, skip with message if invalid
             if not experiment.isConsistentWith(self.hwSpecs):
@@ -66,10 +78,6 @@ class ExperimentSetRunner():
             
             # trials in experiment
             for trial in range(0, experiment.trials):  # @UnusedVariable
-                    
-                # get the request objects
-                clusterRequest = experiment.cluster
-                appRequest = experiment.app
                     
                 if clusterRequest.physicalMachinesOnly:
                     # deploy application on physical hosts
@@ -179,6 +187,9 @@ class ClusterFactory:
     def createClusterExecutor(self):
         clusterExecutor = ClusterExecutor(self.forReal, self.vespaPrefs, self.runOpts)
         return clusterExecutor 
+    
+    #def createClusterDefaults(self):
+        
                     
 class ClusterDeployer:
     '''

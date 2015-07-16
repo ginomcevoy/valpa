@@ -22,7 +22,7 @@ class SimpleScenarioGeneratorTest(VespaAbstractTest):
     def setUp(self):
         super(SimpleScenarioGeneratorTest, self).setUp()
         
-        self.scenarioGenerator = SimpleScenarioGenerator(self.hwSpecs)
+        self.scenarioGenerator = SimpleScenarioGenerator(self.vespaPrefs, self.hwSpecs)
         self.clusterSpecification = SimpleClusterGenerationSpecification(self.hwSpecs)
 
     def testXMLExport(self):

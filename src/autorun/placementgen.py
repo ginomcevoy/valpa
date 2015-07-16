@@ -7,7 +7,7 @@ from autorun.scenariogen import SimpleScenarioGenerator
 from autorun.constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from autorun.appgen import ApplicationGenerationSpecification
-from config import hwconfig
+from config import hwconfig, vespaconfig
 import sys
 
 class SimplePlacementScenarioGenerator():
@@ -18,14 +18,18 @@ class SimplePlacementScenarioGenerator():
     VMM settings and no MPI pinning options (NONE)
     '''
     
-    def __init__(self, hwParamFile='../input/hardware.params'):
+    def __init__(self, vespaFilename='../input/vespa.params', hwParamFile='../input/hardware.params'):
+        
+        # Read Vespa configuration file
+        vespaConfig = vespaconfig.readVespaConfig(vespaFilename)
+        vespaPrefs = vespaConfig.getVespaPrefs()
         
         # load hardware specification
         hwInfo = hwconfig.getHardwareInfo()
         hwSpecs = hwInfo.getHwSpecs()
         
         # delegate to generator
-        self.scenarioGenerator = SimpleScenarioGenerator(hwSpecs)
+        self.scenarioGenerator = SimpleScenarioGenerator(vespaPrefs, hwSpecs)
         
         # specifications are built using some user input
         self.clusterSpecification = SimpleClusterGenerationSpecification(hwSpecs)

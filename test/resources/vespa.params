@@ -127,16 +127,16 @@ general_verbose=1
 # These can be overridden by the user when defining experiments.
 ###
 
-# Technology for disk virtualization, { ide | scsi | virtio } 
-default_tech_disk=virtio
-
 # Technology for network virtualization, { virtio | vhost | sriov }
 # If using sriov (by default or by override), also set network_source=sriov
 # TODO: validate this constraint 
 default_tech_network=vhost
 
+# Technology for disk virtualization, { ide | scsi | virtio } 
+default_tech_disk=virtio
+
 # Use Infiniband? (assumes it is configured correctly)
-# True = use Infiniband, do not use otherwise
+# True: use Infiniband, otherwise do not use
 default_infiniband=False
 
 [MasterXML]

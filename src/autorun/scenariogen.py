@@ -55,7 +55,7 @@ class StandaloneExperimentGenerator():
         return scenarios
             
     def nameForExperiment(self, clusterRequest, appRequest):
-        return clusterRequest.__str__()
+        return str(clusterRequest)
     
 class SimpleScenariosToXMLExporter():
     '''
@@ -100,10 +100,10 @@ class SimpleScenarioGenerator():
     so that it is ready to use.
     '''
     
-    def __init__(self, hwSpecs, defaultTechnology=None, defaultTuning=None, templateFile = 'builder.template'):
+    def __init__(self, vespaPrefs, hwSpecs, templateFile = 'builder.template'):
         
         # prepare clusterRequest and applicationRequest generators
-        clusterGenerator = SimpleClusterGenerator(hwSpecs, defaultTechnology, defaultTuning)
+        clusterGenerator = SimpleClusterGenerator(vespaPrefs, hwSpecs)
         applicationGenerator = AppRequestGenerator()
         
         # prepare delegate scenario generator

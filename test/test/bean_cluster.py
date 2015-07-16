@@ -6,16 +6,15 @@ Created on Oct 13, 2013
 import unittest
 
 from bean.cluster import Cluster, Topology, Mapping, \
-    Tuning, ClusterPlacement
-from bean.enum import PinningOpt
-from bean import cluster
-from test.test_abstract import VespaAbstractTest
+    Tuning, ClusterPlacement, Technology, SetsTechnologyDefaults
+from bean.enum import PinningOpt, NetworkOpt, DiskOpt
+from test.test_abstract import VespaAbstractTest, VespaDeploymentAbstractTest
 
 class ConsistencyTest(VespaAbstractTest):
         
     def setUp(self):
         super(ConsistencyTest, self).setUp()
-        self.technology = cluster.getDefaultTechnology() 
+        self.technology = Technology(NetworkOpt.vhost, DiskOpt.virtio, False)
         
     def testConsistent1(self):
         '''
@@ -81,6 +80,52 @@ class ConsistencyTest(VespaAbstractTest):
         mapping = Mapping(12, PinningOpt.BAL_SET)
         clusterPlacement = ClusterPlacement(topology, mapping)
         self.failUnless(clusterPlacement.canBeDeployedWithin(13))
+        
+class TestClusterDefaults(VespaDeploymentAbstractTest):
+    """Unit test for ClusterDefaults class. """
+    
+    def setUp(self):
+        super(TestClusterDefaults, self).setUp()
+        self.technologySetter = SetsTechnologyDefaults(self.vespaPrefs)
+
+    def testSetDefaultsOnNoInfiniband(self):
+        # given that VespaDeploymentAbstractTest has 
+        # NetworkOpt.vhost, DiskOpt.scsi set, infinibandFlag is unset
+        technology = self.clusterRequest.technology
+        
+        # when
+        technology = self.technologySetter.setDefaultsOn(technology)
+        
+        # then
+        self.assertEqual(technology.networkOpt, NetworkOpt.vhost)
+        self.assertEqual(technology.diskOpt, DiskOpt.scsi)
+        self.assertEqual(technology.infinibandFlag, False)
+        
+    def testSetDefaultsOnInfinibandTrue(self):
+        # given that VespaDeploymentAbstractTest has 
+        # NetworkOpt.vhost, DiskOpt.scsi set, infinibandFlag is set manually
+        technology = self.clusterRequest.technology
+        technology.infinibandFlag = True
+        
+        # when
+        technology = self.technologySetter.setDefaultsOn(technology)
+        
+        # then
+        self.assertEqual(technology.networkOpt, NetworkOpt.vhost)
+        self.assertEqual(technology.diskOpt, DiskOpt.scsi)
+        self.assertEqual(technology.infinibandFlag, True)
+
+    def testSetDefaultsOnAllUnset(self):
+        # given an empty Technology request 
+        technology = Technology()
+        
+        # when
+        technology = self.technologySetter.setDefaultsOn(technology)
+        
+        # then
+        self.assertEqual(technology.networkOpt, NetworkOpt.vhost)
+        self.assertEqual(technology.diskOpt, DiskOpt.virtio)
+        self.assertEqual(technology.infinibandFlag, False)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testDeployedNodesSubset']
