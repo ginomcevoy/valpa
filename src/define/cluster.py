@@ -9,7 +9,7 @@ import subprocess
 
 from config import vespaconfig
 from deploy.mapping import MappingResolver
-from run.config import ConfiguratorFactory
+from run.config import ConfiguratorFactory, ApplicationParameterReader
 from run.pbs.updater import PBSUpdater
 from bean.vm import VirtualClusterTemplates
 from bean.enum import NetworkOpt
@@ -81,7 +81,7 @@ class PhysicalClusterDefiner:
         self.runOpts = runOpts
 
         # strategy 
-        self.configFactory = ConfiguratorFactory(runOpts)
+        self.appParamReader = ApplicationParameterReader(runOpts)
 
         
     def defineCluster(self, cluster, appInfo, forReal):
@@ -120,7 +120,7 @@ class PhysicalClusterDefiner:
         deployedVMs = VirtualClusterTemplates(vmDict, byNode)
         
         # Case for using PBS
-        isPBS = self.configFactory.isPBS(appInfo)
+        isPBS = self.appParamReader.isPBS(appInfo)
         if isPBS:
             #deploymentType = 'PBS'
 

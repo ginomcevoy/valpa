@@ -65,11 +65,13 @@ class ClusterDefinerIntegrationTest(VespaWithBootstrapAbstractTest, VespaDeploym
         self.assertFileContentEqual(deployedVMs.getDefinitionOf('kvm-pbs083-01'), self.expectedXMLs[2])
         self.assertFileContentEqual(deployedVMs.getDefinitionOf('kvm-pbs083-02'), self.expectedXMLs[3])
         
-class ClusterExecutorTest(VespaDeploymentAbstractTest):
+class ClusterExecutorTest(VespaWithBootstrapAbstractTest, VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(ClusterExecutorTest, self).setUp()
-        self.executor = ClusterExecutor(False, self.vespaPrefs, self.runOpts)
+        VespaDeploymentAbstractTest.setUp(self)
+        VespaWithBootstrapAbstractTest.setUp(self)
+        configFactory = self.bootstrap.getConfiguratorFactory()
+        self.executor = ClusterExecutor(configFactory, False, self.vespaPrefs, self.runOpts)
     
     def testPrepareAndExecute(self):
         (execConfig, executionFile) = self.executor.prepareAndExecute(self.clusterRequest, self.deploymentInfo, self.appRequest)

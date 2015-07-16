@@ -13,7 +13,7 @@ from bean.enum import NetworkOpt, DiskOpt  # @UnusedImport they ARE used
 from deploy import parser
 from define.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
 from run.prepare import PreparesExperiment
-from run.config import ConfiguratorFactory
+from run.config import ConfiguratorFactory, ApplicationParameterReader
 from run.apprunner import RunnerFactory
 from run.pbs.updater import PBSUpdater
 from deploy.mapping import MappingResolver
@@ -157,7 +157,7 @@ class ClusterFactory:
     '''
     Instantiates the ClusterDefiner, ClusterDeployer and ClusterExecutor.
     '''
-    def __init__(self, forReal, vespaConfig, hwSpecs, vmDefinitionGenerator, physicalCluster, allVMDetails, vespaXML):
+    def __init__(self, forReal, vespaConfig, hwSpecs, vmDefinitionGenerator, configFactory, physicalCluster, allVMDetails, vespaXML):
         # Process Vespa configuration
         (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = vespaConfig.getAll()
        
@@ -167,7 +167,9 @@ class ClusterFactory:
         
         self.vespaXML = vespaXML
         self.forReal = forReal
+        
         self.vmDefinitionGenerator = vmDefinitionGenerator
+        self.configFactory  = configFactory
         
     def createClusterDefiner(self):
         
@@ -182,10 +184,12 @@ class ClusterFactory:
         return clusterDefiner
     
     def createClusterDeployer(self):
-        return ClusterDeployer(self.forReal, self.hwSpecs, self.runOpts)
+        appParamReader = ApplicationParameterReader(self.runOpts)
+        pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
+        return ClusterDeployer(self.forReal, appParamReader, pbsUpdater)
         
     def createClusterExecutor(self):
-        clusterExecutor = ClusterExecutor(self.forReal, self.vespaPrefs, self.runOpts)
+        clusterExecutor = ClusterExecutor(self.configFactory, self.forReal, self.vespaPrefs, self.runOpts)
         return clusterExecutor 
     
     #def createClusterDefaults(self):
@@ -196,13 +200,14 @@ class ClusterDeployer:
     Deploys a previously defined virtual cluster, while preparing it to run
     the application.
     '''
-    def __init__(self, forReal, hwSpecs, runOpts):
+    def __init__(self, forReal, appParamReader, pbsUpdater):
         self.forReal = forReal
-        self.hwSpecs = hwSpecs
-        self.runOpts = runOpts
+        #self.hwSpecs = hwSpecs
+        #self.runOpts = runOpts
         
-        # strategy 
-        self.configFactory = ConfiguratorFactory(runOpts)
+        # strategies 
+        self.appParamReader = appParamReader
+        self.pbsUpdater = pbsUpdater
         
     
     def deploy(self, cluster, deploymentInfo, appRequest):
@@ -237,13 +242,13 @@ class ClusterDeployer:
             print(createShellCall)
                         
         # Deployment over Torque requires special treatment
-        isPBS = self.configFactory.isPBS(appRequest)
+        isPBS = self.appParamReader.isPBS(appRequest)
         if isPBS:
             deploymentType = 'Torque'
             
             # need to update Torque configuration
-            pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
-            pbsUpdater.updatePBS(deployedVMs, cluster)
+            #pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
+            self.pbsUpdater.updatePBS(deployedVMs, cluster)
             
         else:
             # indicates non-Torque deployment
@@ -294,7 +299,7 @@ class ClusterDeployer:
         return None
                 
     def isPBS(self, appRequest):
-        return self.configFactory.isPBS(appRequest)
+        return self.appParamReader.isPBS(appRequest)
             
     def preparePinningCall(self, pinningVirshGen, deployedVMs, vmName, pinningOpt, cpv):
         
@@ -317,13 +322,13 @@ class ClusterExecutor:
     Executes an application on a previously deployed cluster.
     '''
     
-    def __init__(self, forReal, vespaPrefs, runOpts):
+    def __init__(self, configFactory, forReal, vespaPrefs, runOpts):
         self.forReal = forReal
         self.runOpts = runOpts
 
         # need these as strategy
         self.prepsExperiment = PreparesExperiment(forReal, vespaPrefs, runOpts)
-        self.configFactory = ConfiguratorFactory(runOpts)
+        self.configFactory = configFactory
         self.runnerFactory = RunnerFactory(self.configFactory, forReal)
     
     def prepareAndExecute(self, clusterRequest, deploymentInfo, appRequest):

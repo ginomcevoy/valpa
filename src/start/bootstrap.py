@@ -16,6 +16,7 @@ from bean.vm import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from define.cluster import VespaXMLGenerator
+from run.config import ConfiguratorFactory, ApplicationParameterReader
 
 def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
     # instantiate Bootstrapper as a Singleton
@@ -46,6 +47,7 @@ class VespaBootstrapper():
         # lazy loading of these
         self.networkAddresses = None
         self.buildsVMDefinitionGenerator = None
+        self.configFactory = None
         self.clusterFactory = None
         self.experimentSetRunner = None
         self.buildsNetworkXMLs = None
@@ -72,6 +74,9 @@ class VespaBootstrapper():
         self.allVMDetails = vmFactory.build()
         
         self.boostrapped = True
+        
+    def getAllConfig(self):
+        return (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts)
         
     def getVespaPrefs(self):
         _checkBootstrap()
@@ -119,12 +124,24 @@ class VespaBootstrapper():
             networkAddresses = self.getNetworkAddresses()
             self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningBuilder.build(), networkAddresses)
         return self.buildsVMDefinitionGenerator
-             
+    
+    def getConfiguratorFactory(self):
+        _checkBootstrap()
+        if self.configFactory is None:
+            networkAddresses = self.getNetworkAddresses()
+            appParamReader = ApplicationParameterReader(self.runOpts)
+            self.configFactory = ConfiguratorFactory(self.runOpts, appParamReader, networkAddresses)
+        return self.configFactory
+        
     def getClusterFactory(self):
         _checkBootstrap()
         if self.clusterFactory is None:
             vmDefinitionGenerator = self.getBuildsVMDefinitionGenerator().build()
-            self.clusterFactory = ClusterFactory(self.forReal, self.vespaConfig, self.hwSpecs, vmDefinitionGenerator, self.physicalCluster, self.getAllVMDetails(), self.vespaXML)
+            configFactory = self.getConfiguratorFactory()
+            self.clusterFactory = ClusterFactory(self.forReal, self.vespaConfig, self.hwSpecs,
+                                                  vmDefinitionGenerator, configFactory, 
+                                                  self.physicalCluster, self.getAllVMDetails(), 
+                                                  self.vespaXML)
         return self.clusterFactory
     
     def getExperimentSetRunner(self):
