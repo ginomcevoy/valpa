@@ -9,7 +9,8 @@ and default values
 
 import sys
 from bean.enum import PinningOpt  # @UnusedImport it IS used
-from bean.cluster import Topology, Mapping, Cluster, ClusterPlacement
+from bean.cluster import Topology, Mapping, Cluster, ClusterPlacement,\
+    SetsTechnologyDefaults
 from bean.experiment import Application
 from start import bootstrap
 
@@ -23,6 +24,13 @@ def quickCluster(nc, cpv, idf, pstrat, forReal):
     bootstrapper = bootstrap.getInstance()
     
     hwSpecs = bootstrapper.getHwSpecs()
+    
+    # Strategy to set default Technology values
+    vespaPrefs = bootstrapper.getVespaPrefs()
+    technologySetter = SetsTechnologyDefaults(vespaPrefs)
+    
+    # update unset technology parameters with defaults
+    clusterRequest.technology = technologySetter.setDefaultsOn(clusterRequest.technology)
     
     if not clusterRequest.isConsistentWith(hwSpecs):
         # declared cluster is invalid
