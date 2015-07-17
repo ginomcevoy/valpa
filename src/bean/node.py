@@ -71,13 +71,21 @@ class NodeCluster:
     def getSubset(self, nodeNames):
         '''
         Extracts a subset of the nodes.
-        @return: DeployNodes, None if nodeNames is empty list
+        @return: NodeCluster, None if nodeNames is empty list
         '''
         subsetDict = {}
         for nodeName in nodeNames:
             subsetDict[nodeName] = self.nodeDict[nodeName]
             
         return NodeCluster(subsetDict, tuple(nodeNames))
+    
+    def getSubsetForHostCount(self, hostCount):
+        """ Uses the first `hostCount` nodes to get a subset cluster.
+        
+        @return: NodeCluster instance
+        """
+        nodeNames =  self.nodeTuple[0:hostCount]
+        return self.getSubset(nodeNames)
     
     def toFile(self, filename):
         '''

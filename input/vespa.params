@@ -62,14 +62,14 @@ dhcp_c_step=15
 ####
 
 # network name for SR-IOV
-net_name_sriov=vespa-sriov
+net_name_sriov=valpa-sriov
 
 # network name for libvirt bridge
-net_name_bridge_create=vespa-libvirt-bridge
+net_name_bridge_create=valpa-libvirt-bridge
 
 # Network name for external bridge, user needs to change this to match
 # configuration of the network in the physical cluster.
-net_name_bridge_use=vespa-external-bridge
+net_name_bridge_use=valpa-external-bridge
 
 # Miscellaneous networking
 
