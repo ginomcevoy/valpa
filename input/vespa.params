@@ -4,22 +4,34 @@
 
 [Networking]
 # Main networking option: one of {libvirt-bridge | external-bridge | sriov}
-# ALL options imply a virtual network defined in libvirt, for each physical node 
-# libvirt-bridge: instructs Vespa to use a bridge managed by libvirt (DHCP by libvirt)
-# external-bridge:    instructs Vespa to use a previously defined bridge (bridge and DHCP external to libvirt)
-# sriov:         instructs Vespa to use the Virtual Functions of a SR-IOV network (defined in libvirt) 
+# Vespa will use this value when creating the VM definitions.
+# ALL options imply a virtual network created in libvirt, for each physical node
+# The setup/define-virtual-networks.sh script can be used to generate the XML
+# definitions for these networks
+# 
+# libvirt-bridge: 	instructs Vespa to use a bridge managed by libvirt (DHCP by libvirt)
+# external-bridge:  instructs Vespa to use a previously defined bridge (bridge and DHCP external to libvirt)
+# sriov:         	instructs Vespa to use the Virtual Functions of a SR-IOV network
+# 
 network_source=external-bridge
 
-# interface that will host bridge (libvirt-bridge)
+# Name of interface that will host bridge (libvirt-bridge)
+# It is also used by setup/define-virtual-networks.sh script to generate
+# the libvirt network definition for SR-IOV.
 net_dev=eth0
 
-# desired bridge name (libvirt-bridge) or name of external bridge (external-bridge)
+# Desired bridge name (libvirt-bridge) or name of external bridge (external-bridge)
 net_bridge=br0
+
+####
+# The following parameters are used by the setup/define-virtual-networks.sh
+# to generate the libvirt network definition for (libvirt-bridge) option.
+####
 
 # either B or C network class
 net_class=B
 
-# DHCP for B class (libvirt-bridge)
+# DHCP for B class 
 # Nodes will get 172.16.X.254
 # VMs will get 172.16.X.Y, X matching node
 
@@ -29,7 +41,7 @@ dhcp_b_prefix=172.16
 # First VM of each node will have this suffix
 dhcp_b_start=1
 
-# DHCP for 'network', C class
+# DHCP for C class
 # Nodes assumed in range from 1 to 'nodes'
 # e.g. dhcp.c.prefix.1, dhcp.c.prefix.2, ..., dhcp.c.prefix.12
 
@@ -42,16 +54,24 @@ dhcp_c_start=15
 # 1st VM of 2nd node gets dhcp.c.start + dhcp.c.step 
 dhcp_c_step=15
 
-# Other networking
+####
+# The following three parameters specify the names that Vespa expects
+# for the virtual networks managed by libvirt. 
+# net_name_sriov and net_name_bridge_create are used by the
+# setup/define-virtual-networks.sh script to create the networks XMLs.   
+####
 
 # network name for SR-IOV
-net_name_sriov=vespa-sriov
+net_name_sriov=valpa-sriov
 
-# network name for created bridge
-net_name_bridge_create=vespa-created-bridge
+# network name for libvirt bridge
+net_name_bridge_create=valpa-libvirt-bridge
 
-# network name for existing bridge
-net_name_bridge_use=valpa-existing-bridge
+# Network name for external bridge, user needs to change this to match
+# configuration of the network in the physical cluster.
+net_name_bridge_use=valpa-external-bridge
+
+# Miscellaneous networking
 
 # MAC address prefix for VMs
 net_mac_prefix=00:16:36:ff
@@ -100,6 +120,23 @@ out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory
 
 general_verbose=1
+
+###
+# Default values for virtualization technologies.
+# These can be overridden by the user when defining experiments.
+###
+
+# Technology for network virtualization, { virtio | vhost | sriov }
+# If using sriov (by default or by override), also set network_source=sriov
+# TODO: validate this constraint 
+default_tech_network=vhost
+
+# Technology for disk virtualization, { ide | scsi | virtio } 
+default_tech_disk=virtio
+
+# Use Infiniband? (assumes it is configured correctly)
+# True: use Infiniband, otherwise do not use
+default_infiniband=False
 
 [MasterXML]
 # _DISK_DRIVER_TYPE
