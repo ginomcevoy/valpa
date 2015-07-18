@@ -5,9 +5,9 @@ Created on Oct 15, 2013
 '''
 import unittest
 from unit.test_abstract import VespaDeploymentAbstractTest
-from deploy.pinning import BuildsPinningWriter
+from create.pinning import BuildsPinningWriter
 from network.address import NetworkAddresses
-from define.vm import BuildsVMDefinitionGenerator
+from create.vm import BuildsVMDefinitionGenerator
 
 class VmRequestGeneratorIntegrationTest(VespaDeploymentAbstractTest):
 

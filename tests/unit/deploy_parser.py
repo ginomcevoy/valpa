@@ -1,8 +1,8 @@
-"""Unit tests for deploy.parser module. """
+"""Unit tests for create.parser module. """
 
 import unittest
 
-from deploy import parser
+from create import parser
 from core.enum import MPIBindOpt, PinningOpt, NetworkOpt, DiskOpt
 
 class ParserTest(unittest.TestCase):

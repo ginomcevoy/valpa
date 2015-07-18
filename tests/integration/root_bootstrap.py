@@ -10,7 +10,7 @@ import difflib
 import unittest
 
 import bootstrap
-from deploy.runner import ExperimentSetRunner
+from create.runner import ExperimentSetRunner
 
 class VespaWithBootstrapAbstractTest(unittest.TestCase):
 

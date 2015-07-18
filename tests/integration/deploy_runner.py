@@ -4,14 +4,14 @@ Created on Oct 16, 2013
 @author: giacomo
 '''
 import unittest
-from deploy.runner import ClusterExecutor
-from define.cluster import ClusterDefiner, ClusterXMLGenerator
+from create.runner import ClusterExecutor
+from create.cluster import ClusterDefiner, ClusterXMLGenerator
 from unit.test_abstract import VespaDeploymentAbstractTest
-from deploy.pinning import BuildsPinningWriter
+from create.pinning import BuildsPinningWriter
 from network.address import NetworkAddresses
-from define.vm import BuildsVMDefinitionGenerator
+from create.vm import BuildsVMDefinitionGenerator
 import bootstrap
-from deploy.mapping import MappingResolver
+from create.mapping import MappingResolver
 
 class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):
     '''

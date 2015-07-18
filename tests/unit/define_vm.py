@@ -8,7 +8,7 @@ Unit tests for deploy.vmgen module
 import unittest
 from unit.test_abstract import VespaDeploymentAbstractTest
 from network.address import NetworkAddresses
-from define.vm import VMDefinitionDetails, VMDefinitionBasicGenerator,\
+from create.vm import VMDefinitionDetails, VMDefinitionBasicGenerator,\
     VMXMLSaver
 
 class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):

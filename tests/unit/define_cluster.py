@@ -8,7 +8,7 @@ import unittest
 
 from core.cluster import Topology, Technology
 from core.enum import DiskOpt, NetworkOpt
-from define.cluster import ClusterXMLGenerator, VespaXMLGenerator
+from create.cluster import ClusterXMLGenerator, VespaXMLGenerator
 from unit.test_abstract import VespaAbstractTest
 
 class VespaXMLGeneratorTest(VespaAbstractTest):

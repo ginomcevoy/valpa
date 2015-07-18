@@ -129,7 +129,7 @@ def parseApplication(appNode):
 			appTuning = AppTuning(procpin, knem)
 		else:
 			appTuning = AppTuning(procpin)
-		 
+		
 	else:
 		appTuning = AppTuning() # default values for tuning
 

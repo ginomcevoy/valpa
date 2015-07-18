@@ -7,15 +7,15 @@ from core import hwconfig
 from core import vespaconfig
 from core.node import PhysicalNodeFactory
 from network.address import NetworkAddresses
-from define.vm import BuildsVMDefinitionGenerator
-from deploy.pinning import BuildsPinningWriter
-from deploy.runner import ClusterFactory, ExperimentSetRunner
+from create.vm import BuildsVMDefinitionGenerator
+from create.pinning import BuildsPinningWriter
+from create.runner import ClusterFactory, ExperimentSetRunner
 from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from core.vm import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
-from define.cluster import VespaXMLGenerator
+from create.cluster import VespaXMLGenerator
 
 def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
     # instantiate Bootstrapper as a Singleton

@@ -3,7 +3,7 @@ Created on Oct 16, 2013
 
 @author: giacomo
 '''
-from deploy.runner import ExperimentSetRunner
+from create.runner import ExperimentSetRunner
 import sys
 import bootstrap
 

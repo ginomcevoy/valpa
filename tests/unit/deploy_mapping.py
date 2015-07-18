@@ -4,7 +4,7 @@ Created on Oct 13, 2013
 @author: giacomo
 '''
 import unittest
-from deploy.mapping import MappingResolver
+from create.mapping import MappingResolver
 from core.cluster import Topology, Cluster, Mapping, \
     ClusterPlacement
 from unit.test_abstract import VespaWithNodesAbstractTest

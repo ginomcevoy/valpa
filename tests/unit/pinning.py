@@ -4,7 +4,7 @@ Created on Oct 14, 2013
 @author: giacomo
 '''
 import unittest
-from deploy.pinning import PinningTextGenerator, \
+from create.pinning import PinningTextGenerator, \
     PinningVirshTextGenerator, PinningCoreMapper, PinningWriter
 from core.enum import PinningOpt
 from unit.test_abstract import VespaDeploymentAbstractTest
