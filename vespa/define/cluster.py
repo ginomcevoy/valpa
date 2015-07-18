@@ -90,8 +90,6 @@ class PhysicalClusterDefiner:
         # cpv = number of processes per host
         # hosts = nc / cpv
         
-        deployNodes = None
-        
         if cluster.mapping.deployNodes is not None:
             # read from definition
             deployNodeNames = cluster.mapping.deployNodes

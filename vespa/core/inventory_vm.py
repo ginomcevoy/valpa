@@ -7,7 +7,6 @@ Created on Jun 25, 2015
 import sys
 
 from start import bootstrap
-from deploy.mapping import MappingResolver
 
 if __name__ == "__main__":
     # verify input
