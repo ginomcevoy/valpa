@@ -259,7 +259,7 @@ class EnhancesXMLForCreatingBridge:
 
 if __name__ == '__main__':
     
-    from start import bootstrap
+    import bootstrap
     
     # verify input
     if len(sys.argv) < 2:

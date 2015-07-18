@@ -6,7 +6,7 @@ Created on Jan 15, 2014
 
 from core.experiment import Application
 from autorun.phyexpgen import PhysicalExperimentGenerator
-from start import bootstrap
+import bootstrap
 import sys
 
 if __name__ == '__main__':

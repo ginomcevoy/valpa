@@ -5,7 +5,7 @@ Created on Oct 16, 2013
 '''
 from deploy.runner import ExperimentSetRunner
 import sys
-from start import bootstrap
+import bootstrap
 
 if __name__ == "__main__":
     # verify input

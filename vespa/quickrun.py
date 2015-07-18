@@ -10,7 +10,7 @@ import sys
 from core.enum import PinningOpt  # @UnusedImport it IS used
 from core.experiment import Application
 import quickcluster
-from start import bootstrap
+import bootstrap
 
 def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
         

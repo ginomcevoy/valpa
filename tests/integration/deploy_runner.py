@@ -10,7 +10,7 @@ from unit.test_abstract import VespaDeploymentAbstractTest
 from deploy.pinning import BuildsPinningWriter
 from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator
-from start import bootstrap
+import bootstrap
 from deploy.mapping import MappingResolver
 
 class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):

@@ -7,7 +7,7 @@ Created on Jun 26, 2015
 import sys
 import socket
 
-from start import bootstrap
+import bootstrap
 
 class EtcHostsFileBuilder():
     '''

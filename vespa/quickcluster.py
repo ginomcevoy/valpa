@@ -11,7 +11,7 @@ import sys
 from core.enum import PinningOpt  # @UnusedImport it IS used
 from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
 from core.experiment import Application
-from start import bootstrap
+import bootstrap
 
 def quickCluster(nc, cpv, idf, pstrat, forReal):
     

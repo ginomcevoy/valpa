@@ -6,7 +6,7 @@ Created on Jun 23, 2015
 
 import sys
 
-from start import bootstrap
+import bootstrap
 
 if __name__ == "__main__":
     # verify input

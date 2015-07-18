@@ -12,7 +12,7 @@ Outputs the filename of the created instance of the template.
 import jinja2
 import os
 
-from start import bootstrap
+import bootstrap
 
 class ShellParameters:
     

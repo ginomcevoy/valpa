@@ -9,7 +9,7 @@ serves as a base unit for other integration tests that use the bootstrap.
 import difflib
 import unittest
 
-from start import bootstrap
+import bootstrap
 from deploy.runner import ExperimentSetRunner
 
 class VespaWithBootstrapAbstractTest(unittest.TestCase):

@@ -6,7 +6,7 @@ Created on Jun 26, 2015
 
 import sys
 
-from start import bootstrap
+import bootstrap
 
 def buildVespaInventory(inventoryFilename):
     '''
