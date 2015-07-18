@@ -11,10 +11,10 @@ import subprocess
 
 from . import parser
 from create.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
-from run.prepare import PreparesExperiment
-from run.config import ConfiguratorFactory
-from run.apprunner import RunnerFactory
-from run.pbs.updater import PBSUpdater
+from submit.prepare import PreparesExperiment
+from submit.config import ConfiguratorFactory
+from submit.apprunner import RunnerFactory
+from submit.pbs.updater import PBSUpdater
 from .mapping import MappingResolver
 
 class ExperimentSetRunner():
@@ -139,7 +139,7 @@ class ExperimentSetRunner():
     
     def awaitExecution(self, appRequest):
         isPBS = self.clusterDeployer.isPBS(appRequest)
-        waitExecCall = ['/bin/bash', 'run/wait-end-jobs.sh', appRequest.name, str(isPBS)]
+        waitExecCall = ['/bin/bash', 'submit/wait-end-jobs.sh', appRequest.name, str(isPBS)]
         if self.forReal:
             subprocess.call(waitExecCall)
         else:
@@ -182,7 +182,7 @@ class ClusterFactory:
                     
 class ClusterDeployer:
     '''
-    Deploys a previously defined virtual cluster, while preparing it to run
+    Deploys a previously defined virtual cluster, while preparing it to submit
     the application.
     '''
     def __init__(self, forReal, hwSpecs, runOpts):
@@ -240,7 +240,7 @@ class ClusterDeployer:
             deploymentType = 'Simple'
         
         # Preparation of the VMs is made with the Ansible playbook
-        # run/prepare-vms.yml. The steps are:
+        # submit/prepare-vms.yml. The steps are:
         # 1) wait for VMs (use Torque if available, wait for SSH otherwise)    
         # 2) mount the NFS
         # 3) activate KNEM module (if withKnem is True) 
@@ -253,7 +253,7 @@ class ClusterDeployer:
                         }
         deployedVMs.createVirtualInventory(vmFilename, inventoryVars) 
         
-        playbookName = 'run/prepare-vms.yml'
+        playbookName = 'submit/prepare-vms.yml'
         if self.forReal:
             # Setup the playbook, execute it and analyze return codes
             stats = callbacks.AggregateStats()

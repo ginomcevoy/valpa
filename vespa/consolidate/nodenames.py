@@ -68,6 +68,6 @@ def writeNames(output, names):
         output.write(name + '\n')
     output.close()
 
-# Do this when attempting to run module
+# Do this when attempting to submit module
 if __name__ == '__main__':
     run()

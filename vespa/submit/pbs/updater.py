@@ -19,7 +19,7 @@ class PBSUpdater:
         filename = self.createFile(deployedVMs, clusterInfo)
         
         # call script that will use administrative privileges for update
-        updateCall = ['/bin/bash', 'run/pbs/update-pbs.sh', filename, self.pbsServer]
+        updateCall = ['/bin/bash', 'submit/pbs/update-pbs.sh', filename, self.pbsServer]
         if self.forReal:
             print('updating pbs')
             subprocess.call(updateCall)

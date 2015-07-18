@@ -1,13 +1,13 @@
 '''
 Created on Oct 31, 2013
 
-Unit tests for run.prepare
+Unit tests for submit.prepare
 
 @author: giacomo
 '''
 
 import unittest
-from run.prepare import ConfigFileGenerator, PreparesExperiment
+from submit.prepare import ConfigFileGenerator, PreparesExperiment
 from unit.test_abstract import VespaDeploymentAbstractTest
 
 class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):

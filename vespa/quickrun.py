@@ -1,7 +1,7 @@
 '''
 Created on Oct 30, 2013
 
-Uses Vespa to run an application on a previously deployed cluster.
+Uses Vespa to submit an application on a previously deployed cluster.
 
 @author: giacomo
 '''

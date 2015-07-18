@@ -61,7 +61,7 @@ class EtcHostsFileBuilder():
     def appendNodeEntries(self, localHostnameAndIp):
         '''
         Append all lines corresponding to the Vespa physical cluster, 
-        including the head node (assuming code is run in the head node)
+        including the head node (assuming code is submit in the head node)
         @param localHostnameAndIp: (hostname, ip) tuple returned by
         getLocalHostnameAndIp function
         '''

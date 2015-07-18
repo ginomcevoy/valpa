@@ -4,7 +4,7 @@ Unit tests for ConfiguratorFactory
 @author: giacomo
 '''
 import unittest
-from run.config import ConfiguratorFactory, ApplicationConfiguratorPBS,\
+from submit.config import ConfiguratorFactory, ApplicationConfiguratorPBS,\
     ExecutionConfiguratorPBS
 import shutil
 from unit.test_abstract import VespaDeploymentAbstractTest

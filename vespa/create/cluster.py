@@ -9,8 +9,8 @@ import subprocess
 
 from core import vespaconfig
 from .mapping import MappingResolver
-from run.config import ConfiguratorFactory
-from run.pbs.updater import PBSUpdater
+from submit.config import ConfiguratorFactory
+from submit.pbs.updater import PBSUpdater
 from core.vm import VirtualClusterTemplates
 from core.enum import NetworkOpt
 

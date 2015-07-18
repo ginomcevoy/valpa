@@ -66,7 +66,7 @@ class Experiment:
 class Scenario:
 	'''
 	A scenario is the most generic form of virtual cluster instantiation. 
-	Represents one experiment, or multiple experiments run concurrently.
+	Represents one experiment, or multiple experiments submit concurrently.
 	'''
 	
 	def __init__(self, exps):

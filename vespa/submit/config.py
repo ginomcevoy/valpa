@@ -37,7 +37,7 @@ class VespaConfigurator(Configurator):
         self.runOpts = runOpts
         
     def enhanceExecutionFile(self, executionFile, execConfig=None):
-        # Get values from Vespa run options
+        # Get values from Vespa submit options
         timeFormat = self.runOpts['run_timeformat']
         timeOutput = self.runOpts['run_timeoutput']
         

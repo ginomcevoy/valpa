@@ -207,7 +207,7 @@ def createExperimentText(cluster, app):
 	text = template.render(locals())
 	return text
 
-# Do this when attempting to run module
+# Do this when attempting to submit module
 # Arguments:
 # 1: the XML with experiments
 # 2: the main directory for experiment groups
