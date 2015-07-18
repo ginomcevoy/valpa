@@ -13,7 +13,7 @@ from bean.enum import NetworkOpt, DiskOpt  # @UnusedImport they ARE used
 from deploy import parser
 from define.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
 from run.prepare import PreparesExperiment
-from run.config import ConfiguratorFactory, ApplicationParameterReader
+from run.config import ApplicationParameterReader
 from run.apprunner import RunnerFactory
 from run.pbs.updater import PBSUpdater
 from deploy.mapping import MappingResolver
