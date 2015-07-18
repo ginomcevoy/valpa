@@ -6,7 +6,7 @@ Created on Jul 9, 2015
 import os
 import unittest
 
-from datagen import sargen
+from consolidate import sargen
 from unit.test_abstract import VespaAbstractTest
 
 class SargenTest(VespaAbstractTest):

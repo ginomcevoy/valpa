@@ -3,8 +3,8 @@ Created on Nov 5, 2014
 
 @author: giacomo
 '''
-from config import hwconfig
-from config import vespaconfig
+from core import hwconfig
+from core import vespaconfig
 from core.node import PhysicalNodeFactory
 from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator

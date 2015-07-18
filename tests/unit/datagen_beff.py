@@ -4,7 +4,7 @@ Created on Oct 10, 2014
 @author: giacomo
 '''
 import unittest
-from datagen import beff
+from consolidate import beff
 import pprint
 import os
 

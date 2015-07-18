@@ -7,7 +7,7 @@ Created on Oct 21, 2014
 import jinja2
 import sys
 
-from config import vespaconfig
+from core import vespaconfig
 
 class BuildsNetworkXMLs:
     '''

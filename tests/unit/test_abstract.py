@@ -6,7 +6,7 @@ Created on Nov 2, 2014
 import difflib
 import unittest
 
-from config import hwconfig, vespaconfig
+from core import hwconfig, vespaconfig
 from core.cluster import Topology, Mapping, Technology, Cluster,\
     ClusterPlacement
 from core.node import PhysicalNode, NodeCluster

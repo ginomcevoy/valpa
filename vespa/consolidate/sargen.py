@@ -6,7 +6,7 @@ For this, calls sargen-metrics.R for each configuration
 
 @author: giacomo
 '''
-from datagen import configutil, configtree, configlist
+from consolidate import configutil, configtree, configlist
 import os
 import subprocess
 import sys

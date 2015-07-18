@@ -5,7 +5,7 @@ Created on Oct 13, 2013
 '''
 import unittest
 
-from config import vespaconfig
+from core import vespaconfig
 
 class VespaConfigBase (unittest.TestCase):
 

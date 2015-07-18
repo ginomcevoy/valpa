@@ -13,8 +13,8 @@ import math
 import csv
 import sys
 
-from datagen.configutil import listAllConfigDirs
-from datagen import configutil
+from consolidate.configutil import listAllConfigDirs
+from consolidate import configutil
 from os import path
 
 def enumerateConfigs(configNames):

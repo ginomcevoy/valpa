@@ -7,7 +7,7 @@ Created on Oct 16, 2013
 import jinja2
 import subprocess
 
-from config import vespaconfig
+from core import vespaconfig
 from deploy.mapping import MappingResolver
 from run.config import ConfiguratorFactory
 from run.pbs.updater import PBSUpdater

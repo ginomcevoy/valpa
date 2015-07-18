@@ -8,7 +8,7 @@ Unit unit for config.shellparams
 import pprint
 import unittest
 
-from config.shellparams import ShellParameters
+from core.shellparams import ShellParameters
 from integration.root_bootstrap import VespaWithBootstrapAbstractTest
 
 
