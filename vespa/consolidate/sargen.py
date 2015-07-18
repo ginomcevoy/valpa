@@ -6,10 +6,12 @@ For this, calls sargen-metrics.R for each configuration
 
 @author: giacomo
 '''
-from consolidate import configutil, configtree, configlist
+
 import os
 import subprocess
 import sys
+
+from . import configutil, configtree, configlist
 
 def sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsFilename):
     configDirs = configutil.listAllConfigDirs(appDir)

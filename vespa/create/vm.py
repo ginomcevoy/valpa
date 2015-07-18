@@ -5,7 +5,7 @@
 import jinja2
 import os
 import shutil
-import subprocess
+
 from core import uuid
 
 class VMDefinitionGenerator:

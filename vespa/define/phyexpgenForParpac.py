@@ -4,10 +4,12 @@ Created on Jan 15, 2014
 @author: giacomo
 '''
 
+import sys
+
 from core.experiment import Application
 from .phyexpgen import PhysicalExperimentGenerator
 import bootstrap
-import sys
+
 
 if __name__ == '__main__':
     

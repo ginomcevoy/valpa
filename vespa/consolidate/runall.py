@@ -11,9 +11,11 @@ Runs all datagen scripts in order:
 
 @author: giacomo
 '''
-from datagen import settings, analyzer, configtree, configlist, metricsgen,\
-    sargen
 import sys
+
+from . import settings, analyzer, configtree, configlist, metricsgen,\
+    sargen
+
 
 def run(appName, configVars):
     

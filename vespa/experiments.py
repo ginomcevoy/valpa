@@ -3,8 +3,8 @@ Created on Oct 16, 2013
 
 @author: giacomo
 '''
-from create.runner import ExperimentSetRunner
 import sys
+
 import bootstrap
 
 if __name__ == "__main__":

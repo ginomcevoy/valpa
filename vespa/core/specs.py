@@ -3,7 +3,7 @@ Created on Sep 29, 2014
 
 @author: giacomo
 '''
-from core.simple import SimpleRules
+from .simple import SimpleRules
 
 class ClusterPlacementSpecification():
     '''

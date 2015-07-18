@@ -8,7 +8,7 @@ import jinja2
 import subprocess
 
 from core import vespaconfig
-from create.mapping import MappingResolver
+from .mapping import MappingResolver
 from run.config import ConfiguratorFactory
 from run.pbs.updater import PBSUpdater
 from core.vm import VirtualClusterTemplates

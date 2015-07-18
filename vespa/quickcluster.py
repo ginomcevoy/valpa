@@ -8,6 +8,7 @@ and default values
 '''
 
 import sys
+
 from core.enum import PinningOpt  # @UnusedImport it IS used
 from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
 from core.experiment import Application

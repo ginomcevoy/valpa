@@ -15,8 +15,9 @@ Creates the required directory structure for application data
 '''
 import sys
 import os
-from consolidate import configlist, configutil
 import subprocess
+
+from . import configlist, configutil
 
 def buildConfigTree(appName, appDir, outputDir):
     

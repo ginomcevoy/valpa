@@ -5,8 +5,8 @@ Created on Jan 15, 2014
 '''
 
 from core.experiment import Application
-from .expgen import ExperimentGenerator
 from core.enum import PinningOpt
+from .expgen import ExperimentGenerator
 
 if __name__ == '__main__':
     # Call from src directory!

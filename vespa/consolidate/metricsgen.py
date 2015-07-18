@@ -8,8 +8,9 @@ Uses config numbers: <config> <appTime> ...
 '''
 import os.path
 import csv
-from datagen import configutil, configlist
 import sys
+
+from . import configutil, configlist
 
 def writeMetrics(outputFile, appDir, metricsFilename):
     

@@ -3,7 +3,7 @@ Created on Sep 21, 2014
  
 @author: giacomo
 '''
-from core.enum import PinningOpt
+from .enum import PinningOpt
 
 class SimpleRules(object):
     '''

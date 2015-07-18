@@ -1,4 +1,4 @@
-from core.enum import MPIBindOpt
+from .enum import MPIBindOpt
 
 class Application:
 	'''

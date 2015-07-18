@@ -12,10 +12,11 @@ Writes a configs.csv containing a frame with the info
 import math
 import csv
 import sys
-
-from consolidate.configutil import listAllConfigDirs
-from consolidate import configutil
 from os import path
+
+from .configutil import listAllConfigDirs
+from . import configutil
+
 
 def enumerateConfigs(configNames):
     '''

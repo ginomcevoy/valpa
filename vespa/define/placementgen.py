@@ -3,12 +3,14 @@ Created on Aug 31, 2014
 
 @author: giacomo
 '''
+
+import sys
+
 from .scenariogen import SimpleScenarioGenerator
 from .constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from .appgen import ApplicationGenerationSpecification
 from core import hwconfig
-import sys
 
 class SimplePlacementScenarioGenerator():
     '''

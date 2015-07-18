@@ -1,7 +1,6 @@
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 
-#import pprint
 import ConfigParser
 
 class HardwareInfo:

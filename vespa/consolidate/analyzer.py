@@ -8,10 +8,13 @@ of the execution dirs
 
 @author: giacomo
 '''
+
 import os.path
-from datagen import configutil
 import subprocess
 import sys
+
+from . import configutil
+
 
 def analyzeApplication(appName, appDir, metricsFilename):
     

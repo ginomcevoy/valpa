@@ -15,7 +15,7 @@ from run.prepare import PreparesExperiment
 from run.config import ConfiguratorFactory
 from run.apprunner import RunnerFactory
 from run.pbs.updater import PBSUpdater
-from create.mapping import MappingResolver
+from .mapping import MappingResolver
 
 class ExperimentSetRunner():
     '''
