@@ -5,7 +5,7 @@ Created on Jan 15, 2014
 '''
 
 from core.experiment import Application
-from autorun.expgen import ExperimentGenerator, NPBExecutableGenerator
+from .expgen import ExperimentGenerator, NPBExecutableGenerator
 
 if __name__ == '__main__':
     # Call from src directory!

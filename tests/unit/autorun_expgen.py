@@ -106,7 +106,7 @@ class ExperimentGeneratorTest(unittest.TestCase):
         self.expGen.withMachines((1, 2, 3))
         self.expGen.withPstratValues()
         self.expGen.withPinCores()
-        xmlPath = '../vespa/autorun/generated' 
+        xmlPath = '../output/autorun/generated' 
         
         # when
         xmlNames = self.expGen.generateXMLs(appInfo, xmlPath)

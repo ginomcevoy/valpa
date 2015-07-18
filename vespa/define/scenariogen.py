@@ -7,8 +7,8 @@ Created on Sep 29, 2014
 import jinja2
 
 from core.experiment import Experiment, Scenario
-from define.clustergen import SimpleClusterGenerator
-from define.appgen import AppRequestGenerator
+from .clustergen import SimpleClusterGenerator
+from .appgen import AppRequestGenerator
 
 class StandaloneExperimentGenerator():
     '''

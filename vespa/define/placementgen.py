@@ -3,11 +3,11 @@ Created on Aug 31, 2014
 
 @author: giacomo
 '''
-from autorun.scenariogen import SimpleScenarioGenerator
-from autorun.constraint import SimpleClusterGenerationSpecification,\
+from .scenariogen import SimpleScenarioGenerator
+from .constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
-from autorun.appgen import ApplicationGenerationSpecification
-from config import hwconfig
+from .appgen import ApplicationGenerationSpecification
+from core import hwconfig
 import sys
 
 class SimplePlacementScenarioGenerator():

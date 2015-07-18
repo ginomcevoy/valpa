@@ -5,7 +5,7 @@ Created on Jan 15, 2014
 '''
 
 from core.experiment import Application
-from autorun.expgen import StandaloneExperimentGenerator, NPBExecutableGenerator
+from .scenariogen import StandaloneExperimentGenerator
 from core.enum import PinningOpt
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@ Created on Jan 15, 2014
 '''
 
 from core.experiment import Application
-from autorun.phyexpgen import PhysicalExperimentGenerator
+from .phyexpgen import PhysicalExperimentGenerator
 import bootstrap
 import sys
 
