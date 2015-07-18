@@ -5,8 +5,8 @@ Created on Sep 29, 2014
 '''
 import unittest
 
-from autorun.clustergen import SimpleClusterGenerator
-from autorun.constraint import SimpleClusterConstraint,\
+from define.clustergen import SimpleClusterGenerator
+from define.constraint import SimpleClusterConstraint,\
     SimpleClusterGenerationSpecification
 from core.enum import PinningOpt
 from unit.test_abstract import VespaAbstractTest

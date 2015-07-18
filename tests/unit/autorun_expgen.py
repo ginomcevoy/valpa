@@ -4,7 +4,7 @@ Created on Nov 10, 2013
 @author: giacomo
 '''
 import unittest
-from autorun.expgen import NPBExecutableGenerator, ExperimentGenerator
+from define.expgen import NPBExecutableGenerator, ExperimentGenerator
 from core.experiment import Application, AppTuning  # @UnusedImport
 from core.enum import PinningOpt, MPIBindOpt
 import difflib

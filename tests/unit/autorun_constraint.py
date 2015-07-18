@@ -4,7 +4,7 @@ Created on Sep 26, 2014
 @author: giacomo
 '''
 import unittest
-from autorun.constraint import SimpleClusterGenerationSpecification,\
+from define.constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from .test_abstract import VespaAbstractTest
 

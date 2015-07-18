@@ -1,11 +1,9 @@
 '''
 Created on Sep 29, 2014
 
-Applications requiring special parameters should be registered here,
-by subclassing AppRequestAbstractFactory
-
 @author: giacomo
 '''
+from core.enum import MPIBindOpt
 from core.experiment import AppTuning, Application
 
 def chooseRequestFactory(appName):
@@ -44,3 +42,31 @@ class AppRequestAbstractFactory():
         are sensitive to the context.
         '''
         return '' # by default, no arguments
+
+class AppRequestGenerator():
+    '''
+    Generates a list of ApplicationRequest objects according to a specification, 
+    with a particular clusterRequest instance as context.
+    '''
+    
+    def generateFor(self, appGenerationSpec, clusterRequest):
+        appName = appGenerationSpec.name
+        requestFactory = chooseRequestFactory(appName)
+        return requestFactory.generateFor(appGenerationSpec, clusterRequest)
+        
+class ApplicationGenerationSpecification():
+    
+    def __init__(self, name, runs, defaultProcpinTuple = [MPIBindOpt.none, ], defaultKnemTuple = [False, ]):
+        self.name = name
+        self.runs = runs
+        
+        # default values
+        self.procpinTuple = defaultProcpinTuple
+        self.knemTuple = defaultKnemTuple
+        
+    def withProcpinOpts(self, procpinTuple):
+        self.procpinTuple = procpinTuple 
+        return self
+    
+    def withKnemOpts(self, knemTuple):
+        self.knemTuple = knemTuple

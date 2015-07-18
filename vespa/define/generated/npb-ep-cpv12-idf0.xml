@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<scenarios>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppCORE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>core</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppSOCKET" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>numa</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_ONE-ppNONE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_ONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>none</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_SET-ppCORE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>core</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_SET-ppSOCKET" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_SET-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>numa</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psBAL_SET-ppNONE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="BAL_SET" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>none</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psGREEDY-ppCORE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>core</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psGREEDY-ppSOCKET" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psGREEDY-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>numa</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psGREEDY-ppNONE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="GREEDY" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>none</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psSPLIT-ppCORE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>core</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psSPLIT-ppSOCKET" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psSPLIT-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>numa</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psSPLIT-ppNONE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="SPLIT" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>none</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psNONE-ppCORE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>core</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psNONE-ppSOCKET" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>socket</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psNONE-ppNUMA" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>numa</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="nc12-cpv12-idf0-psNONE-ppNONE" trials="1">
+			<cluster>
+				<topology nc="12" cpv="12" />
+				<mapping idf="0" pstrat="NONE" />
+			</cluster>
+			<app name="npb-ep" runs="10">
+				<args>12 C</args>
+				<tuning>
+					<procpin>none</procpin>
+				</tuning>
+			</app>
+		</experiment>
+	</scenario>
+</scenarios>

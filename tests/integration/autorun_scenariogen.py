@@ -5,10 +5,10 @@ Created on Sep 30, 2014
 '''
 import unittest
 
-from autorun.scenariogen import SimpleScenarioGenerator
-from autorun.constraint import SimpleClusterConstraint,\
+from define.scenariogen import SimpleScenarioGenerator
+from define.constraint import SimpleClusterConstraint,\
     SimpleClusterGenerationSpecification
-from autorun.appgen import ApplicationGenerationSpecification
+from define.appgen import ApplicationGenerationSpecification
 from core.enum import MPIBindOpt, PinningOpt
 from unit.test_abstract import VespaAbstractTest
 

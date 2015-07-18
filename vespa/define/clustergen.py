@@ -5,7 +5,7 @@ Created on Sep 29, 2014
 '''
 from core.cluster import Topology, Mapping, ClusterPlacement, Cluster
 from core.specs import SimpleClusterPlacementSpecification
-from autorun.constraint import ClusterGenerationSpecification,\
+from .constraint import ClusterGenerationSpecification,\
     SimpleClusterGenerationSpecification
 from core.simple import SimpleRules
 
