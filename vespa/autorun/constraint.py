@@ -3,8 +3,8 @@ Created on Sep 26, 2014
 
 @author: giacomo
 '''
-from bean.enum import PinningOpt
-from bean.simple import SimpleRules
+from core.enum import PinningOpt
+from core.simple import SimpleRules
 
 #  super(ParentClass, self).__init__(superParams)
 

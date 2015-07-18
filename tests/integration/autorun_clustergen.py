@@ -8,7 +8,7 @@ import unittest
 from autorun.clustergen import SimpleClusterGenerator
 from autorun.constraint import SimpleClusterConstraint,\
     SimpleClusterGenerationSpecification
-from bean.enum import PinningOpt
+from core.enum import PinningOpt
 from unit.test_abstract import VespaAbstractTest
 
 

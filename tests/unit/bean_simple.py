@@ -5,14 +5,14 @@ Created on Sep 21, 2014
 '''
 import unittest
 
-from bean import simple
-from bean.enum import PinningOpt
-from bean.simple import SimpleRules
+from core import simple
+from core.enum import PinningOpt
+from core.simple import SimpleRules
 from unit.test_abstract import VespaAbstractTest
 
 
 class SimpleRulesTest(VespaAbstractTest):
-    """Unit unit for bean.simple.SimpleRules. """
+    """Unit unit for core.simple.SimpleRules. """
     
     def setUp(self):
         super(SimpleRulesTest, self).setUp()
@@ -252,7 +252,7 @@ class SimpleRulesTest(VespaAbstractTest):
         self.assertFalse(self.simpleRules.canBeDeployedInAny(4, 0, physicalMachinesTuple))
                 
 class SimpleRulesSingleNodeTest(VespaAbstractTest):
-    """Unit unit for bean.simple.SimpleRules, where the physical 
+    """Unit unit for core.simple.SimpleRules, where the physical 
     architecture has been restricted to a single node. 
     
     """

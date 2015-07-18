@@ -6,7 +6,7 @@ Created on Sep 29, 2014
 import unittest
 from autorun.constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
-from bean.enum import PinningOpt
+from core.enum import PinningOpt
 import pprint
 from unit.test_abstract import VespaAbstractTest
 

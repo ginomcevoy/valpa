@@ -5,14 +5,14 @@ Created on Nov 5, 2014
 '''
 from config import hwconfig
 from config import vespaconfig
-from bean.node import PhysicalNodeFactory
+from core.node import PhysicalNodeFactory
 from network.address import NetworkAddresses
 from define.vm import BuildsVMDefinitionGenerator
 from deploy.pinning import BuildsPinningWriter
 from deploy.runner import ClusterFactory, ExperimentSetRunner
 from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
-from bean.vm import BuildsAllVMDetails
+from core.vm import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from define.cluster import VespaXMLGenerator

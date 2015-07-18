@@ -5,8 +5,8 @@ Created on Nov 10, 2013
 '''
 import unittest
 from autorun.expgen import NPBExecutableGenerator, ExperimentGenerator
-from bean.experiment import Application, AppTuning  # @UnusedImport
-from bean.enum import PinningOpt, MPIBindOpt
+from core.experiment import Application, AppTuning  # @UnusedImport
+from core.enum import PinningOpt, MPIBindOpt
 import difflib
 
 class ExperimentGeneratorTest(unittest.TestCase):

@@ -5,7 +5,7 @@ Created on Nov 2, 2014
 '''
 import unittest
 
-from bean.node import PhysicalNodeFactory
+from core.node import PhysicalNodeFactory
 from unit.test_abstract import VespaAbstractTest
 
 

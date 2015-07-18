@@ -6,7 +6,7 @@ Created on Oct 14, 2013
 import unittest
 from deploy.pinning import PinningTextGenerator, \
     PinningVirshTextGenerator, PinningCoreMapper, PinningWriter
-from bean.enum import PinningOpt
+from core.enum import PinningOpt
 from unit.test_abstract import VespaDeploymentAbstractTest
 
 

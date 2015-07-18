@@ -6,7 +6,7 @@ by subclassing AppRequestAbstractFactory
 
 @author: giacomo
 '''
-from bean.experiment import AppTuning, Application
+from core.experiment import AppTuning, Application
 
 def chooseRequestFactory(appName):
     # if name == 'myApp':

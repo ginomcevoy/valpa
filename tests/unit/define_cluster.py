@@ -6,8 +6,8 @@ Created on Oct 13, 2013
 import difflib
 import unittest
 
-from bean.cluster import Topology, Technology
-from bean.enum import DiskOpt, NetworkOpt
+from core.cluster import Topology, Technology
+from core.enum import DiskOpt, NetworkOpt
 from define.cluster import ClusterXMLGenerator, VespaXMLGenerator
 from unit.test_abstract import VespaAbstractTest
 

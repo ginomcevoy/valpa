@@ -10,7 +10,7 @@ from network.create import CreatesBasicNetworkXML, EnhancesXMLForCreatingBridge,
     NetworkArgumentsForSRIOV, NetworkArgumentsForUsingBridge,\
     NetworkArgumentsForCreatingBridge
 from integration.root_bootstrap import VespaWithBootstrapAbstractTest
-from bean.node import PhysicalNode
+from core.node import PhysicalNode
 
 class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
     '''

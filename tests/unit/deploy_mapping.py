@@ -5,10 +5,10 @@ Created on Oct 13, 2013
 '''
 import unittest
 from deploy.mapping import MappingResolver
-from bean.cluster import Topology, Cluster, Mapping, \
+from core.cluster import Topology, Cluster, Mapping, \
     ClusterPlacement
 from unit.test_abstract import VespaWithNodesAbstractTest
-from bean.vm import VirtualClusterTemplates
+from core.vm import VirtualClusterTemplates
 
 class MappingTest(VespaWithNodesAbstractTest):
 

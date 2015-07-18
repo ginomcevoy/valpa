@@ -5,10 +5,10 @@ Created on Oct 13, 2013
 '''
 import unittest
 
-from bean.cluster import Cluster, Topology, Mapping, \
+from core.cluster import Cluster, Topology, Mapping, \
     Tuning, ClusterPlacement
-from bean.enum import PinningOpt
-from bean import cluster
+from core.enum import PinningOpt
+from core import cluster
 from unit.test_abstract import VespaAbstractTest
 
 class ConsistencyTest(VespaAbstractTest):

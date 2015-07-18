@@ -4,9 +4,9 @@ Created on Jan 15, 2014
 @author: giacomo
 '''
 
-from bean.experiment import Application
+from core.experiment import Application
 from autorun.expgen import ExperimentGenerator
-from bean.enum import PinningOpt
+from core.enum import PinningOpt
 
 if __name__ == '__main__':
     # Call from src directory!

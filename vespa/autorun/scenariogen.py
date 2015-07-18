@@ -6,7 +6,7 @@ Created on Sep 29, 2014
 
 import jinja2
 
-from bean.experiment import Experiment, Scenario
+from core.experiment import Experiment, Scenario
 from autorun.clustergen import SimpleClusterGenerator
 from autorun.appgen import AppRequestGenerator
 

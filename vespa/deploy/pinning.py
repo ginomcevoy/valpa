@@ -3,7 +3,7 @@ Created on Oct 14, 2013
 
 @author: giacomo
 '''
-from bean.enum import PinningOpt
+from core.enum import PinningOpt
 import math
 
 class PinningWriter:

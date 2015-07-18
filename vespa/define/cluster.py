@@ -11,8 +11,8 @@ from config import vespaconfig
 from deploy.mapping import MappingResolver
 from run.config import ConfiguratorFactory
 from run.pbs.updater import PBSUpdater
-from bean.vm import VirtualClusterTemplates
-from bean.enum import NetworkOpt
+from core.vm import VirtualClusterTemplates
+from core.enum import NetworkOpt
 
 class ClusterDefiner:
     '''

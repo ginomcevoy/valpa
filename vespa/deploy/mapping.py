@@ -1,7 +1,7 @@
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 # Mapping Resolver component
-from bean.vm import VirtualClusterFactory
+from core.vm import VirtualClusterFactory
 
 class MappingResolver:
 	'''

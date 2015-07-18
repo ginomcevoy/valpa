@@ -8,7 +8,7 @@ Configures application (PBS if supported) for execution
 import shutil
 import ConfigParser
 import datetime
-from bean.enum import MPIBindOpt
+from core.enum import MPIBindOpt
 
 class Configurator:
     

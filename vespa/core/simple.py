@@ -3,7 +3,7 @@ Created on Sep 21, 2014
  
 @author: giacomo
 '''
-from bean.enum import PinningOpt
+from core.enum import PinningOpt
 
 class SimpleRules(object):
     '''

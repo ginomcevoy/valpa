@@ -3,7 +3,7 @@
 import unittest
 
 from deploy import parser
-from bean.enum import MPIBindOpt, PinningOpt, NetworkOpt, DiskOpt
+from core.enum import MPIBindOpt, PinningOpt, NetworkOpt, DiskOpt
 
 class ParserTest(unittest.TestCase):
     

@@ -7,7 +7,7 @@ Created on May 2, 2014
 import jinja2
 import os
 
-from bean.enum import MPIBindOpt
+from core.enum import MPIBindOpt
 
 class PhysicalExperimentGenerator(object):
     '''

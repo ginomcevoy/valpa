@@ -8,9 +8,9 @@ and default values
 '''
 
 import sys
-from bean.enum import PinningOpt  # @UnusedImport it IS used
-from bean.cluster import Topology, Mapping, Cluster, ClusterPlacement
-from bean.experiment import Application
+from core.enum import PinningOpt  # @UnusedImport it IS used
+from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
+from core.experiment import Application
 from start import bootstrap
 
 def quickCluster(nc, cpv, idf, pstrat, forReal):

@@ -7,12 +7,12 @@ import difflib
 import unittest
 
 from config import hwconfig, vespaconfig
-from bean.cluster import Topology, Mapping, Technology, Cluster,\
+from core.cluster import Topology, Mapping, Technology, Cluster,\
     ClusterPlacement
-from bean.node import PhysicalNode, NodeCluster
-from bean.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
-from bean.experiment import AppTuning, Application
-from bean.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
+from core.node import PhysicalNode, NodeCluster
+from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
+from core.experiment import AppTuning, Application
+from core.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates, AllVMDetails
 
 class VespaAbstractTest(unittest.TestCase):

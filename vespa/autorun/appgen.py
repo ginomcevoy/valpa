@@ -4,7 +4,7 @@ Created on Sep 29, 2014
 @author: giacomo
 '''
 from application import appgen
-from bean.enum import MPIBindOpt
+from core.enum import MPIBindOpt
 
 class AppRequestGenerator():
     '''

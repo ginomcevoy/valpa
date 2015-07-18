@@ -5,7 +5,7 @@ Created on Nov 2, 2014
 '''
 import unittest
 from unit.test_abstract import VespaWithNodesAbstractTest
-from bean.vm import BuildsAllVMDetails, VirtualClusterFactory
+from core.vm import BuildsAllVMDetails, VirtualClusterFactory
 
 class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
 

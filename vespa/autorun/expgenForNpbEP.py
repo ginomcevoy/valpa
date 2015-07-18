@@ -4,7 +4,7 @@ Created on Jan 15, 2014
 @author: giacomo
 '''
 
-from bean.experiment import Application
+from core.experiment import Application
 from autorun.expgen import ExperimentGenerator, NPBExecutableGenerator
 
 if __name__ == '__main__':

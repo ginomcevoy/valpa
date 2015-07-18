@@ -9,7 +9,7 @@ from autorun.scenariogen import SimpleScenarioGenerator
 from autorun.constraint import SimpleClusterConstraint,\
     SimpleClusterGenerationSpecification
 from autorun.appgen import ApplicationGenerationSpecification
-from bean.enum import MPIBindOpt, PinningOpt
+from core.enum import MPIBindOpt, PinningOpt
 from unit.test_abstract import VespaAbstractTest
 
 class SimpleScenarioGeneratorTest(VespaAbstractTest):

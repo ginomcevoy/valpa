@@ -1,5 +1,5 @@
-from bean.enum import CpuTopoOpt, NetworkOpt, DiskOpt, PinningOpt
-from bean.specs import SimpleClusterPlacementSpecification,\
+from core.enum import CpuTopoOpt, NetworkOpt, DiskOpt, PinningOpt
+from core.specs import SimpleClusterPlacementSpecification,\
 	SimpleTopologySpecification, SimpleMappingSpecification
 
 class Cluster:

@@ -7,7 +7,7 @@ Created on Nov 10, 2013
 import os
 import jinja2
 
-from bean.enum import PinningOpt, MPIBindOpt
+from core.enum import PinningOpt, MPIBindOpt
 
 class ExperimentGenerator(object):
     '''    

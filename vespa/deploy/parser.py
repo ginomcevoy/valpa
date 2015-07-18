@@ -14,10 +14,10 @@ import shutil
 import sys
 import xml.etree.ElementTree as ET
 
-from bean.experiment import *  # @UnusedWildImport
-from bean.cluster import Cluster, Topology, Mapping, Technology ,\
+from core.experiment import *  # @UnusedWildImport
+from core.cluster import Cluster, Topology, Mapping, Technology ,\
 	ClusterPlacement
-from bean.enum import CpuTopoOpt, DiskOpt, NetworkOpt, PinningOpt  # @UnusedImport they ARE used
+from core.enum import CpuTopoOpt, DiskOpt, NetworkOpt, PinningOpt  # @UnusedImport they ARE used
 
 def parseScenarios(xmlFile):
 

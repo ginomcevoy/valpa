@@ -3,11 +3,11 @@ Created on Sep 29, 2014
 
 @author: giacomo
 '''
-from bean.cluster import Topology, Mapping, ClusterPlacement, Cluster
-from bean.specs import SimpleClusterPlacementSpecification
+from core.cluster import Topology, Mapping, ClusterPlacement, Cluster
+from core.specs import SimpleClusterPlacementSpecification
 from autorun.constraint import ClusterGenerationSpecification,\
     SimpleClusterGenerationSpecification
-from bean.simple import SimpleRules
+from core.simple import SimpleRules
 
 #  super(ParentClass, self).__init__(superParams)
 # isinstance(simpleExpConstraintInstance, ExperimentConstraint)

@@ -7,8 +7,8 @@ Uses Vespa to run an application on a previously deployed cluster.
 '''
 
 import sys
-from bean.enum import PinningOpt  # @UnusedImport it IS used
-from bean.experiment import Application
+from core.enum import PinningOpt  # @UnusedImport it IS used
+from core.experiment import Application
 import quickcluster
 from start import bootstrap
 

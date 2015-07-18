@@ -1,4 +1,4 @@
-from bean.enum import MPIBindOpt
+from core.enum import MPIBindOpt
 
 class Application:
 	'''
