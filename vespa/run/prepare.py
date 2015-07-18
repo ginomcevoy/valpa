@@ -10,7 +10,7 @@ import io
 import hashlib
 import jinja2
 import os
-from util import uuid
+from core import uuid
 
 class PreparesExperiment:
     

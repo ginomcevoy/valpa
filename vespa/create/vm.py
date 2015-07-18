@@ -6,6 +6,7 @@ import jinja2
 import os
 import shutil
 import subprocess
+from core import uuid
 
 class VMDefinitionGenerator:
 	'''
@@ -132,15 +133,9 @@ class VMDefinitionDetails:
 	
 	def getUUID(self, vmName):
 		'''
-		Calls the uuidgen system exec to create a UUID.
+		Generate an UUID
 		'''
-		if (self.forReal):
-			output = subprocess.check_output(['uuidgen'])
-			uuid = output.decode('utf-8')[0:len(output) -1]
-		else:
-			# mock value for testing
-			uuid = '446bf85f-b4ba-459b-8e04-60394fc00d5c'
-		return uuid
+		return uuid.newUUID(self.forReal)
 	
 	def getVmPath(self, vmName):
 		hostingNode = self.deployedVMs.getHostingNode(vmName)
