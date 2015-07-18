@@ -1,5 +1,5 @@
 from .enum import CpuTopoOpt, NetworkOpt, DiskOpt, PinningOpt
-from .specs import SimpleClusterPlacementSpecification,\
+from core.simple_specs import SimpleClusterPlacementSpecification,\
 	SimpleTopologySpecification, SimpleMappingSpecification
 
 class Cluster:

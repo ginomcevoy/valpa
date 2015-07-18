@@ -36,7 +36,7 @@ class MappingResolver:
 		
 	def getDeployedNodes(self):
 		'''
-		Returns physical nodes as NodeCluster object, either read from 
+		Returns physical nodes as PhysicalCluster object, either read from 
 		virtual cluster definition or inferred from specs and prefs. 
 		TODO: add support for initial node
 		'''

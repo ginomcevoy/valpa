@@ -37,7 +37,7 @@ class PhysicalNode(object):
     def __eq__(self, other):
         return self.name == other.name
         
-class NodeCluster:
+class PhysicalCluster:
     '''
     @type nodeDict: dictionary {nodeName : PhysicalNode instance}
     @type nodeTuple: tuple of node names
@@ -71,18 +71,18 @@ class NodeCluster:
     def getSubset(self, nodeNames):
         '''
         Extracts a subset of the nodes.
-        @return: NodeCluster, None if nodeNames is empty list
+        @return: PhysicalCluster, None if nodeNames is empty list
         '''
         subsetDict = {}
         for nodeName in nodeNames:
             subsetDict[nodeName] = self.nodeDict[nodeName]
             
-        return NodeCluster(subsetDict, tuple(nodeNames))
+        return PhysicalCluster(subsetDict, tuple(nodeNames))
     
     def getSubsetForHostCount(self, hostCount):
         """ Uses the first `hostCount` nodes to get a subset cluster.
         
-        @return: NodeCluster instance
+        @return: PhysicalCluster instance
         """
         nodeNames =  self.nodeTuple[0:hostCount]
         return self.getSubset(nodeNames)
@@ -132,7 +132,7 @@ class NodeCluster:
 
 class PhysicalNodeFactory(object):
     '''
-    Creates the NodeCluster object for all physical nodes in the cluster.
+    Creates the PhysicalCluster object for all physical nodes in the cluster.
     '''
 
     def __init__(self, hwInfo):
@@ -143,7 +143,7 @@ class PhysicalNodeFactory(object):
         self.allNodes = None
         
     def getAllNodes(self):
-        """Return a NodeCluster object of all nodes in physical cluster.
+        """Return a PhysicalCluster object of all nodes in physical cluster.
         """
         if self.allNodes is None:
             
@@ -162,7 +162,7 @@ class PhysicalNodeFactory(object):
                 
                 nodeIndex += 1
             
-            self.allNodes = NodeCluster(nodeDict, nodeNames)
+            self.allNodes = PhysicalCluster(nodeDict, nodeNames)
                 
         return self.allNodes
     

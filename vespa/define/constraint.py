@@ -4,7 +4,7 @@ Created on Sep 26, 2014
 @author: giacomo
 '''
 from core.enum import PinningOpt
-from core.simple import SimpleRules
+from core.simple_rules import SimpleRules
 
 #  super(ParentClass, self).__init__(superParams)
 

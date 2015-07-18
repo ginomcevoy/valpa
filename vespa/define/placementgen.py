@@ -10,7 +10,7 @@ from .scenariogen import SimpleScenarioGenerator
 from .constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from .appgen import ApplicationGenerationSpecification
-from core import hwconfig
+from core import config_hw
 
 class SimplePlacementScenarioGenerator():
     '''
@@ -23,7 +23,7 @@ class SimplePlacementScenarioGenerator():
     def __init__(self, hwParamFile='../input/hardware.params'):
         
         # load hardware specification
-        hwInfo = hwconfig.getHardwareInfo()
+        hwInfo = config_hw.getHardwareInfo()
         hwSpecs = hwInfo.getHwSpecs()
         
         # delegate to generator

@@ -7,7 +7,7 @@ Created on Oct 21, 2014
 import jinja2
 import sys
 
-from core import vespaconfig
+from core import config_vespa
 
 class BuildsNetworkXMLs:
     '''
@@ -33,8 +33,8 @@ class BuildsNetworkXMLs:
         self.argumentsCreateBridge = argumentSolverFactory.createForCreatingBridge()
         
     def createNetworkXMLs(self, networkType, outputDir):
-        if not networkType in vespaconfig.allowedNetworkTypes():
-            print('Allowed values = ' + str(vespaconfig.allowedNetworkTypes()))
+        if not networkType in config_vespa.allowedNetworkTypes():
+            print('Allowed values = ' + str(config_vespa.allowedNetworkTypes()))
             raise ValueError('Network type not allowed: ', networkType)
         
         if networkType == 'sriov':

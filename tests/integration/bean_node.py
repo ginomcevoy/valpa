@@ -7,13 +7,13 @@ import unittest
 from unit.test_abstract import VespaWithNodesAbstractTest
 
 
-class TestNodeCluster(VespaWithNodesAbstractTest):
+class TestPhysicalCluster(VespaWithNodesAbstractTest):
     '''
-    Integration unit for NodeCluster that uses the bootstrapper 
+    Integration unit for PhysicalCluster that uses the bootstrapper 
     to create an Ansible inventory for the physical nodes.
     '''
     def setUp(self):
-        super(TestNodeCluster, self).setUp()
+        super(TestPhysicalCluster, self).setUp()
         self.inventoryFilename = '/tmp/vespa-node-inventory.unit'
     
     def testCreateInventory(self):

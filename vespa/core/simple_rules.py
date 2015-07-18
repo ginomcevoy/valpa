@@ -20,8 +20,7 @@ class SimpleRules(object):
 
     def __init__(self, hwSpecs):
         '''
-        Constructor, receives hardware specs as returned from 
-        hwconfig.getHwSpecs().
+        Constructor, receives hardware specs 
         '''
         self.hwSpecs = hwSpecs
         

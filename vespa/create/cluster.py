@@ -7,7 +7,7 @@ Created on Oct 16, 2013
 import jinja2
 import subprocess
 
-from core import vespaconfig
+from core import config_vespa
 from .mapping import MappingResolver
 from submit.config import ConfiguratorFactory
 from submit.pbs.updater import PBSUpdater
@@ -158,8 +158,8 @@ class VespaXMLGenerator:
         # choose network name from selected type 
         # types: ('sriov', 'use-bridge', 'create-bridge')
         networkType = self.networkingOpts['network_source']
-        if not networkType in vespaconfig.allowedNetworkTypes():
-            print('Allowed values = ' + str(vespaconfig.allowedNetworkTypes()))
+        if not networkType in config_vespa.allowedNetworkTypes():
+            print('Allowed values = ' + str(config_vespa.allowedNetworkTypes()))
             raise ValueError('Network type not allowed: ', networkType)
         
         if networkType == 'external-bridge':

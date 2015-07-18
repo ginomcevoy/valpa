@@ -5,53 +5,53 @@ Created on Sep 21, 2014
 '''
 import unittest
 
-from core import simple
+from core import simple_rules
 from core.enum import PinningOpt
-from core.simple import SimpleRules
+from core.simple_rules import SimpleRules
 from unit.test_abstract import VespaAbstractTest
 
 
 class SimpleRulesTest(VespaAbstractTest):
-    """Unit unit for core.simple.SimpleRules. """
+    """Unit unit for core.simple_rules.SimpleRules. """
     
     def setUp(self):
         super(SimpleRulesTest, self).setUp()
         self.simpleRules = SimpleRules(self.hwSpecs)
         
     def testDivisorsOf1(self):
-        divisors = simple.divisorsOf(12)
+        divisors = simple_rules.divisorsOf(12)
         self.assertEqual(divisors, [1, 2, 3, 4, 6, 12])
         
     def testDivisorsOf2(self):
-        divisors = simple.divisorsOf(1)
+        divisors = simple_rules.divisorsOf(1)
         self.assertEqual(divisors, [1])
         
     def testDivisorsOf3(self):
-        divisors = simple.divisorsOf(12, 4)
+        divisors = simple_rules.divisorsOf(12, 4)
         self.assertEqual(divisors, [1, 2, 3, 4])
         
     def testMultiplesOf1(self):
-        multiples = simple.multiplesOf(2, 12)
+        multiples = simple_rules.multiplesOf(2, 12)
         self.assertEqual(multiples, [2, 4, 6, 8, 10, 12])
         
     def testMultiplesOf2(self):
-        multiples = simple.multiplesOf(5, 12)
+        multiples = simple_rules.multiplesOf(5, 12)
         self.assertEqual(multiples, [5, 10])
         
     def testMultiplesOf3(self):
-        multiples = simple.multiplesOf(12, 12)
+        multiples = simple_rules.multiplesOf(12, 12)
         self.assertEqual(multiples, [12, ])
         
     def testMultiplesOf4(self):
-        multiples = simple.multiplesOf(22, 12)
+        multiples = simple_rules.multiplesOf(22, 12)
         self.assertEqual(multiples, [])
         
     def removeLowerEqualsThan1(self):
-        highEnough = simple.removeLowerEqualsThan([1, 2, 3, 4, 5, 6], 3)
+        highEnough = simple_rules.removeLowerEqualsThan([1, 2, 3, 4, 5, 6], 3)
         self.assertEqual(highEnough, [3, 4, 5, 6])
         
     def removeLowerEqualsThan2(self):
-        highEnough = simple.removeLowerEqualsThan([1, 2, 3, 4, 5, 6], 7)
+        highEnough = simple_rules.removeLowerEqualsThan([1, 2, 3, 4, 5, 6], 7)
         self.assertEqual(highEnough, [])
 
     def testIsNcPermitted1(self):
@@ -252,7 +252,7 @@ class SimpleRulesTest(VespaAbstractTest):
         self.assertFalse(self.simpleRules.canBeDeployedInAny(4, 0, physicalMachinesTuple))
                 
 class SimpleRulesSingleNodeTest(VespaAbstractTest):
-    """Unit unit for core.simple.SimpleRules, where the physical 
+    """Unit unit for core.simple_rules.SimpleRules, where the physical 
     architecture has been restricted to a single node. 
     
     """

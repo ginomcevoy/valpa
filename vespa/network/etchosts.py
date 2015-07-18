@@ -19,7 +19,7 @@ class EtcHostsFileBuilder():
     
     def __init__(self, physicalCluster, allVMDetails):
         '''
-        @param physicalCluster: NodeCluster instance with IP addresses set
+        @param physicalCluster: PhysicalCluster instance with IP addresses set
         @param allVMDetails: AllVMDetails instance with IP addresses set
         '''
         self.physicalCluster = physicalCluster

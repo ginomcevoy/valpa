@@ -5,7 +5,7 @@ Created on Oct 13, 2013
 '''
 import unittest
 
-from core import vespaconfig
+from core import config_vespa
 
 class VespaConfigBase (unittest.TestCase):
 
@@ -35,7 +35,7 @@ class VespaConfigBase (unittest.TestCase):
 
     def testVespaConfig(self):
         vespaFile = 'resources/vespa.params'
-        vespaCfg = vespaconfig.readVespaConfig(vespaFile)
+        vespaCfg = config_vespa.readVespaConfig(vespaFile)
 
         # vespaPrefs
         vespaPrefs = vespaCfg.getVespaPrefs()

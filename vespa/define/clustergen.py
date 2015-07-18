@@ -4,10 +4,10 @@ Created on Sep 29, 2014
 @author: giacomo
 '''
 from core.cluster import Topology, Mapping, ClusterPlacement, Cluster
-from core.specs import SimpleClusterPlacementSpecification
+from core.simple_specs import SimpleClusterPlacementSpecification
 from .constraint import ClusterGenerationSpecification,\
     SimpleClusterGenerationSpecification
-from core.simple import SimpleRules
+from core.simple_rules import SimpleRules
 
 #  super(ParentClass, self).__init__(superParams)
 # isinstance(simpleExpConstraintInstance, ExperimentConstraint)

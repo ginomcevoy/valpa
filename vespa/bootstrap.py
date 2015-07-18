@@ -3,9 +3,9 @@ Created on Nov 5, 2014
 
 @author: giacomo
 '''
-from core import hwconfig
-from core import vespaconfig
-from core.node import PhysicalNodeFactory
+from core import config_hw
+from core import config_vespa
+from core.physical import PhysicalNodeFactory
 from network.address import NetworkAddresses
 from create.vm import BuildsVMDefinitionGenerator
 from create.pinning import BuildsPinningWriter
@@ -52,11 +52,11 @@ class VespaBootstrapper():
         
     def bootstrap(self):
         # Read Vespa configuration file
-        self.vespaConfig = vespaconfig.readVespaConfig(self.vespaFilename)
+        self.vespaConfig = config_vespa.readVespaConfig(self.vespaFilename)
         (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.vespaConfig.getAll()
                
         # Read hardware specification
-        self.hardwareInfo = hwconfig.getHardwareInfo(self.hardwareFilename, self.inventoryFilename)
+        self.hardwareInfo = config_hw.getHardwareInfo(self.hardwareFilename, self.inventoryFilename)
         self.hwSpecs = self.hardwareInfo.getHwSpecs()
         
         # Produce Vespa XML from master template

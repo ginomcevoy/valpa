@@ -6,10 +6,11 @@ Created on Nov 2, 2014
 import difflib
 import unittest
 
-from core import hwconfig, vespaconfig
+from core import config_vespa
+from core import config_hw
 from core.cluster import Topology, Mapping, Technology, Cluster,\
     ClusterPlacement
-from core.node import PhysicalNode, NodeCluster
+from core.physical import PhysicalNode, PhysicalCluster
 from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
 from core.experiment import AppTuning, Application
 from core.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
@@ -23,12 +24,12 @@ class VespaAbstractTest(unittest.TestCase):
 
     def setUp(self):
         # Hardware
-        self.hwInfo = hwconfig.getHardwareInfo(specsFile='resources/hardware.params', inventoryFilename='resources/vespa.nodes')
+        self.hwInfo = config_hw.getHardwareInfo(specsFile='resources/hardware.params', inventoryFilename='resources/vespa.nodes')
         self.hwSpecs = self.hwInfo.getHwSpecs()
         self.nodeNames = self.hwInfo.getNodeNames()
         
         # Vespa params
-        vespaConfig = vespaconfig.readVespaConfig('resources/vespa.params')
+        vespaConfig = config_vespa.readVespaConfig('resources/vespa.params')
         (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = vespaConfig.getAll()
         
     def assertMultiLineEqual(self, first, second, msg=None):
@@ -79,7 +80,7 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
                     'node086' : node5,
                     'node087' : node6}
         nodeTuple = ('node082', 'node083', 'node084', 'node085', 'node086', 'node087')
-        self.physicalCluster = NodeCluster(nodeDict, nodeTuple)
+        self.physicalCluster = PhysicalCluster(nodeDict, nodeTuple)
         
         buildsVMDetails = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = buildsVMDetails.build()
