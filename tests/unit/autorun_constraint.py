@@ -15,7 +15,7 @@ class SimpleClusterGenerationSpecificationTest(VespaAbstractTest):
     '''
 
     def setUp(self):
-        super(SimpleClusterGenerationSpecificationTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.simpleGenSpec = SimpleClusterGenerationSpecification(self.hwSpecs)
 
     def testBuildInternalSpace(self):

@@ -15,7 +15,7 @@ from core.vm import BuildsAllVMDetails
 class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        super(SetsIpAddressesToPhysicalClusterTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
         self.ipSetter = SetsAddressesToPhysicalCluster(networkAddresses)
 
@@ -33,7 +33,7 @@ class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
 class SetsAddressesToAllPossibleVMsTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        super(SetsAddressesToAllPossibleVMsTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         
         self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMs = self.vmFactory.build()

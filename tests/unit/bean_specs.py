@@ -17,7 +17,7 @@ class SimpleTopologySpecificationTest(VespaAbstractTest):
     """Unit unit for core.simple_specs.SimpleTopologySpecification. """
     
     def setUp(self):
-        super(SimpleTopologySpecificationTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.topologySpec = SimpleTopologySpecification(self.hwSpecs)
         
     def testIsSatisfiedBy1(self):
@@ -36,7 +36,7 @@ class SimpleMappingSpecificationTest(VespaAbstractTest):
     """Unit unit for core.simple_specs.SimpleMappingSpecification. """
     
     def setUp(self):
-        super(SimpleMappingSpecificationTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.mappingSpec = SimpleMappingSpecification(self.hwSpecs)
         
     def testIsSatisfiedBy1(self):
@@ -59,7 +59,7 @@ class SimpleClusterSpecificationTest(VespaAbstractTest):
     """Unit unit for core.simple_specs.SimpleClusterSpecification. """
     
     def setUp(self):
-        super(SimpleClusterSpecificationTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.clusterSpec = SimpleClusterPlacementSpecification(self.hwSpecs)
         
     def testIsSatisfiedBy1(self):

@@ -10,7 +10,7 @@ from core.vm import BuildsAllVMDetails, VirtualClusterFactory
 class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        super(BuildsAllVMDetailsTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
 
     def testGetAllNodes(self):
@@ -43,7 +43,7 @@ class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
 class AllVMDetailsTest(VespaWithNodesAbstractTest):
     
     def setUp(self):
-        super(AllVMDetailsTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = self.vmFactory.build()
         
@@ -76,7 +76,7 @@ class AllVMDetailsTest(VespaWithNodesAbstractTest):
 class VirtualClusterFactoryTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        super(VirtualClusterFactoryTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         vmDetailsFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         allVMDetails = vmDetailsFactory.build()
         self.vmTemplateFactory = VirtualClusterFactory(allVMDetails)

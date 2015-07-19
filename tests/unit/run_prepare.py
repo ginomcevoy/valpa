@@ -13,7 +13,7 @@ from unit.test_abstract import VespaDeploymentAbstractTest
 class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(ConfigFileGeneratorTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         self.excConfigGen = ConfigFileGenerator(False, self.vespaPrefs, self.runOpts)
     
     def testCreateExecConfig(self):
@@ -42,7 +42,7 @@ class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
 class PreparesExperimentTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(PreparesExperimentTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         self.prepsExperiment = PreparesExperiment(False, self.vespaPrefs, self.runOpts)
     
     def testSaveTopology(self):

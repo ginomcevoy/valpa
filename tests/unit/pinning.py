@@ -18,7 +18,7 @@ class PinningTestBase(unittest.TestCase):
 class EnhancesXMLWithPinningsTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(EnhancesXMLWithPinningsTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         coreMapper = PinningCoreMapper(self.hwSpecs)
         pinningTextGen = PinningTextGenerator(self.hwSpecs, coreMapper)
         self.pinningWriter = PinningWriter(self.vespaPrefs, pinningTextGen)
@@ -59,7 +59,7 @@ class EnhancesXMLWithPinningsTest(VespaDeploymentAbstractTest):
 class PinningCoreMapperTest(PinningTestBase):
     
     def setUp(self):
-        super(PinningCoreMapperTest, self).setUp()
+        PinningTestBase.setUp(self)
         self.coreMapper = PinningCoreMapper(self.hwSpecs)
     
     def testGetBalOneCores1(self):
@@ -232,7 +232,7 @@ class PinningCoreMapperTest(PinningTestBase):
 class PinningTextGeneratorTest(PinningTestBase):
     
     def setUp(self):
-        super(PinningTextGeneratorTest, self).setUp()
+        PinningTestBase.setUp(self)
         coreMapper = PinningCoreMapper(self.hwSpecs)
         self.pinningTextGen = PinningTextGenerator(self.hwSpecs, coreMapper)
         
@@ -254,7 +254,7 @@ class PinningTextGeneratorTest(PinningTestBase):
 class PinningVirshTextGeneratorTest(PinningTestBase):
         
     def setUp(self):
-        super(PinningVirshTextGeneratorTest, self).setUp()
+        PinningTestBase.setUp(self)
         coreMapper = PinningCoreMapper(self.hwSpecs)
         self.pinningVirshGen = PinningVirshTextGenerator(coreMapper)
         

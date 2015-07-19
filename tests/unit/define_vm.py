@@ -14,7 +14,7 @@ from create.vm import VMDefinitionDetails, VMDefinitionBasicGenerator,\
 class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(VMRequestGenerationDetailsTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
         self.generationDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
         self.generationDetails.setDeploymentContext(self.deploymentInfo)
@@ -41,7 +41,7 @@ class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
 class BasicVMGenTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(BasicVMGenTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         (deployedNodes, deployedSockets, deployedVMs) = self.deploymentInfo  # @UnusedVariable
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
         generationDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses)
@@ -66,7 +66,7 @@ class VmXMLSaverTest(VespaDeploymentAbstractTest):
     '''
     
     def setUp(self):
-        super(VmXMLSaverTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         self.xmlDict = {'kvm-pbs082-01' : open('resources/vms/kvm-pbs082-01-balone.xml', 'r').read(),
                           'kvm-pbs082-02' : open('resources/vms/kvm-pbs082-02-balone.xml', 'r').read()}
         

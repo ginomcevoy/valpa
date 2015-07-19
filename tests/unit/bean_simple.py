@@ -15,7 +15,7 @@ class SimpleRulesTest(VespaAbstractTest):
     """Unit unit for core.simple_rules.SimpleRules. """
     
     def setUp(self):
-        super(SimpleRulesTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.simpleRules = SimpleRules(self.hwSpecs)
         
     def testDivisorsOf1(self):
@@ -260,7 +260,7 @@ class SimpleRulesSingleNodeTest(VespaAbstractTest):
     def setUp(self):
         # This call to super will initialize self.hwSpecs,
         # modify it before instantiating SimpleRules object. 
-        super(SimpleRulesSingleNodeTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.hwSpecs['nodes'] = 1
         self.hwSpecs['coresInCluster'] = 12
         self.simpleRules = SimpleRules(self.hwSpecs)

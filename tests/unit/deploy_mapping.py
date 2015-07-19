@@ -14,7 +14,7 @@ class MappingTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         # load fixed Vespa settings and physical nodes
-        super(MappingTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         self.mappingResolver = MappingResolver(self.hwSpecs, self.vespaPrefs, self.physicalCluster, self.allVMDetails)
 
     def testSpecified(self):

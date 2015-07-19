@@ -64,7 +64,7 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
     
     def setUp(self):
         # load fixed Vespa settings
-        super(VespaWithNodesAbstractTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         
         # assume cluster architecture: 3 physical nodes
         node1 = PhysicalNode('node082', 0, 82, '082')
@@ -94,7 +94,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
     
     def setUp(self):
         # load fixed Vespa settings and physical nodes
-        super(VespaDeploymentAbstractTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
     
         # Cluster with 2 PMs, 2 VMs each, cpv=4, all sockets
         topo = Topology(16, 4)

@@ -12,7 +12,7 @@ from unit.test_abstract import VespaDeploymentAbstractTest
 class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
-        super(ConfiguratorFactoryTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         self.appParams = {'app.home' : '/home/giacomo2/shared/PARPACBench-1.4',
                     'app.executable' : 'PARPACBench',
                     'exec.walltime' : '60:00',
@@ -74,7 +74,7 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
 class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(ApplicationConfiguratorPBSTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         appParams = {'app.home' : '/home/giacomo2/shared/PARPACBench-1.4',
                     'app.executable' : 'PARPACBench',
                     'exec.walltime' : '60:00',
@@ -103,7 +103,7 @@ class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     '''
     
     def setUp(self):
-        super(ExecutionConfiguratorPBSTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         self.execConfigurator = ExecutionConfiguratorPBS(self.clusterRequest, self.deploymentInfo)
     
     def testCreateTopologyString(self):

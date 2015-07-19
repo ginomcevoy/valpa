@@ -16,7 +16,7 @@ class ShellParametersTest(VespaWithBootstrapAbstractTest):
 
     def setUp(self):
         # load fixed Vespa settings
-        super(ShellParametersTest, self).setUp()
+        VespaWithBootstrapAbstractTest.setUp(self)
         
         self.desiredFilename = '/tmp/vespa-shell-params'
         self.expectedOutput = 'resources/vespa-shell-params-expected'

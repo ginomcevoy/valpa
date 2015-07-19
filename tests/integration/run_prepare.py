@@ -13,7 +13,7 @@ from unit.test_abstract import VespaDeploymentAbstractTest
 class PreparesExperimentTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
-        super(PreparesExperimentTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         self.prepsExperiment = PreparesExperiment(False, self.vespaPrefs, self.runOpts)
         
     def testPrepare(self):

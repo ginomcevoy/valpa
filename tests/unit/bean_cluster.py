@@ -14,7 +14,7 @@ from unit.test_abstract import VespaAbstractTest
 class ConsistencyTest(VespaAbstractTest):
         
     def setUp(self):
-        super(ConsistencyTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.technology = cluster.getDefaultTechnology() 
         
     def testConsistent1(self):

@@ -13,7 +13,7 @@ class TestVirtualClusterTemplates(VespaWithNodesAbstractTest):
     to create an Ansible inventory for the VMs.
     '''
     def setUp(self):
-        super(TestVirtualClusterTemplates, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         self.inventoryFilename = '/tmp/vespa-vm-inventory.unit'
     
     def testCreateVirtualInventory(self):

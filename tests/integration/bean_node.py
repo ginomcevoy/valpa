@@ -13,7 +13,7 @@ class TestPhysicalCluster(VespaWithNodesAbstractTest):
     to create an Ansible inventory for the physical nodes.
     '''
     def setUp(self):
-        super(TestPhysicalCluster, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         self.inventoryFilename = '/tmp/vespa-node-inventory.unit'
     
     def testCreateInventory(self):

@@ -45,7 +45,7 @@ class VespaWithBootstrapAbstractTest(unittest.TestCase):
 class BootstrapNetworkingTest(VespaWithBootstrapAbstractTest):
     
     def setUp(self):
-        super(BootstrapNetworkingTest, self).setUp()
+        VespaWithBootstrapAbstractTest.setUp(self)
         
     def testVMNetworking(self):
         allVMDetails = self.bootstrap.getAllVMDetails()

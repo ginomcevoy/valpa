@@ -14,7 +14,7 @@ from unit.test_abstract import VespaAbstractTest
 class VespaXMLGeneratorTest(VespaAbstractTest):
     
     def setUp(self):
-        super(VespaXMLGeneratorTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, 'resources', 'master.xml')
         
     def testMasterXML(self):

@@ -22,8 +22,8 @@ class AppRunnerPBS(AppRunnerAbstract):
     Runs an application on a virtual cluster using PBS.
     '''
 
-    def __init__(self, appInfo, forReal):
-        super(AppRunnerPBS, self).__init__(appInfo, forReal)
+    #def __init__(self, appInfo, forReal):
+    #    super(AppRunnerPBS, self).__init__(appInfo, forReal)
         
     def execute(self, executionFile, execConfig=None):
         # Just submit the file, it has all the information needed for PBS.

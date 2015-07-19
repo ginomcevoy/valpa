@@ -12,7 +12,7 @@ from unit.test_abstract import VespaAbstractTest
 class PhysicalNodeFactoryTest(VespaAbstractTest):
 
     def setUp(self):
-        super(PhysicalNodeFactoryTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         self.nodeFactory = PhysicalNodeFactory(self.hwInfo)
         self.subsetNames = ('node084', 'node086', 'node088') 
 

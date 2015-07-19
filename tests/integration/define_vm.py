@@ -12,7 +12,7 @@ from create.vm import BuildsVMDefinitionGenerator
 class VmRequestGeneratorIntegrationTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
-        super(VmRequestGeneratorIntegrationTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         (self.deployedNodes, self.deployedSockets, self.deployedVMs) = self.deploymentInfo
         
         # expected

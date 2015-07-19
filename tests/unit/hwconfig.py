@@ -10,7 +10,7 @@ from unit.test_abstract import VespaAbstractTest
 class GetHardwareInfoTest(VespaAbstractTest):
     
     def setUp(self):
-        super(GetHardwareInfoTest, self).setUp()
+        VespaAbstractTest.setUp(self)
 
     def testHardwareInfo(self):
 

@@ -15,7 +15,7 @@ class SargenTest(VespaAbstractTest):
     verify the output of a single call to sargen-metrics.R.
     '''
     def setUp(self):
-        super(SargenTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         
         # create output directories
         self.configOutputDir =  '/tmp/vespa/unit/datagen/parpac/cfg1/'
