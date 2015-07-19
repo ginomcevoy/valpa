@@ -18,8 +18,7 @@ class TestPhysicalCluster(VespaWithNodesAbstractTest):
     
     def testCreateInventory(self):
         # when
-        hostCount = len(self.physicalCluster.getNames())
-        self.physicalCluster.createInventory(self.inventoryFilename, self.allVMDetails, hostCount)
+        self.physicalCluster.createInventory(self.inventoryFilename, self.allVMDetails)
         
         # then get expected content in the inventory file
         actualContent = open(self.inventoryFilename, 'r').read()

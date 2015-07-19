@@ -94,13 +94,12 @@ class PhysicalClusterDefiner:
         if cluster.mapping.deployNodes is not None:
             # read from definition
             deployNodeNames = cluster.mapping.deployNodes
+            deployedNodes = self.allNodes.getSubset(deployNodeNames)
         else:
             # infer deployNodes
             topology = cluster.topology
-            deployNodeCount = int(topology.nc / topology.cpv)
-            deployNodeNames = self.allNodes.getNames()[0:deployNodeCount]
-        
-        deployedNodes = self.allNodes.getSubset(deployNodeNames)
+            hostCount = int(topology.nc / topology.cpv)
+            deployNodeNames = self.allNodes.getSubsetForHostCount(hostCount)
         
         # reuse socket logic
         self.mapper.mapping = cluster.mapping
@@ -113,10 +112,10 @@ class PhysicalClusterDefiner:
         byNode = {}
         
         # iterate over nodes
-        for nodeName in deployedNodes.getNames():
+        for node in deployedNodes:
             # build vmDict and byNode using node data
-            vmDict[nodeName] = deployedNodes.getNode(nodeName)
-            byNode[nodeName] = nodeName
+            vmDict[node.name] = node
+            byNode[node.name] = node.name
             
         deployedVMs = VirtualClusterTemplates(vmDict, byNode)
         

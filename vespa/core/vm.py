@@ -271,10 +271,8 @@ class BuildsAllVMDetails:
         vmNameTemplate = vmNameTemplate.replace('&PREFIX', self.vespaPrefs['vm_prefix'])
         
         # iterate over physical nodes
-        for nodeName in self.physicalCluster.getNames():
-            node = self.physicalCluster.getNode(nodeName)
-            nodeSuffix = node.suffix
-            vmNameHost = vmNameTemplate.replace('&NODESUFFIX', nodeSuffix)
+        for node in self.physicalCluster:
+            vmNameHost = vmNameTemplate.replace('&NODESUFFIX', node.suffix)
             byNodeList = [] 
 
             # Each node gets vmsPerHost VMs. Index of first VM = 0

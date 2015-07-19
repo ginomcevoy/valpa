@@ -18,11 +18,10 @@ class SetsAddressesToPhysicalCluster(object):
         self.networkAddresses = networkAddresses
         
     def setAddresses(self, physicalCluster):
-        for nodeName in physicalCluster.getNames():
-            # get each node and delegate ip address resolution
-            nodeIndex = physicalCluster.getNodeIndex(nodeName)
-            ipAddress = self.networkAddresses.getNodeAddress(nodeIndex)
-            physicalCluster.setIpAddressTo(nodeName, ipAddress)
+        for node in physicalCluster:
+            # delegate ip address resolution
+            ipAddress = self.networkAddresses.getNodeAddress(node.index)
+            node.setIpAddress(ipAddress)
             
 class SetsAddressesToAllPossibleVMs():
     '''

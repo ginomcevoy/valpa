@@ -34,7 +34,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         # deployNodes
         deployNodes = self.mappingResolver.getDeployedNodes()
         self.failIf(deployNodes is None, 'cannot read deployNodes')
-        self.failUnlessEqual(deployNodes.getNames(), self.testDeployNodes)
+        self.failUnlessEqual(deployNodes.nodeNames, self.testDeployNodes)
 
         # deploySockets
         deploySockets = self.mappingResolver.getDeployedSockets()
@@ -55,7 +55,7 @@ class MappingTest(VespaWithNodesAbstractTest):
 
         # deployNodes
         deployNodes = self.mappingResolver.getDeployedNodes()
-        self.failUnlessEqual(deployNodes.getNames(), ('node082', 'node083', 'node084'))
+        self.failUnlessEqual(deployNodes.nodeNames, ('node082', 'node083', 'node084'))
 
         # deploySockets
         deploySockets = self.mappingResolver.getDeployedSockets()
@@ -75,7 +75,7 @@ class MappingTest(VespaWithNodesAbstractTest):
 
         # deployNodes
         deployNodes = self.mappingResolver.getDeployedNodes()
-        self.failUnlessEqual(deployNodes.getNames(), ('node082',))
+        self.failUnlessEqual(deployNodes.nodeNames, ('node082',))
 
     def testSingleVM(self):
         '''

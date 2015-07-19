@@ -60,15 +60,13 @@ class BuildsNetworkXMLs:
         self.basicCreator.setArgumentSolver(self.argumentsCreateBridge)
         
         # Creating bridge gets a file per physical node
-        for nodeName in self.physicalCluster.getNames():
-            node = self.physicalCluster.getNode(nodeName)
-            nodeIndex = self.physicalCluster.getNodeIndex(nodeName)
-            xmlText = self.basicCreator.createXML(nodeIndex)
+        for node in self.physicalCluster:
+            xmlText = self.basicCreator.createXML(node.index)
             
             # add DHCP lines
             xmlText = self.enhancerForCreatingBridge.addDHCPLines(xmlText, node)
             
-            outputFilename = 'libvirt-bridge-' + nodeName + '.xml'
+            outputFilename = 'libvirt-bridge-' + node.name + '.xml'
             self._writeXMLText(xmlText, outputDir, outputFilename)
         
     def _writeXMLText(self, xmlText, outputDir, outputFilename):

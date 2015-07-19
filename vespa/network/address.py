@@ -17,8 +17,8 @@ class NetworkAddresses:
         '''
         DHCP range start, given zero-based node index.
         '''
-        nodeName = self.physicalCluster.getNames()[nodeIndex]
-        nodeNumber = self.physicalCluster.getNodeNumber(nodeName)
+        nodeName = self.physicalCluster.nodeNames[nodeIndex]
+        node = self.physicalCluster.getNode(nodeName)
         
         # behavior depends on class
         if self.__usingCClass__():
@@ -34,7 +34,7 @@ class NetworkAddresses:
         elif self.__usingBClass__():
             dhcpStart = self.networkingOpts['dhcp_b_start']
             rangeStartPrefix = self.networkingOpts['dhcp_b_prefix']
-            rangeStart = rangeStartPrefix + '.' + str(nodeNumber) + '.' + str(dhcpStart) 
+            rangeStart = rangeStartPrefix + '.' + str(node.number) + '.' + str(dhcpStart) 
             
         else:
             self.__invalidClass__()
@@ -46,8 +46,8 @@ class NetworkAddresses:
         DHCP range end, given zero-based node index.
         '''
         vmsPerHost = self.hwSpecs['cores']
-        nodeName = self.physicalCluster.getNames()[nodeIndex]
-        nodeNumber = self.physicalCluster.getNodeNumber(nodeName)
+        nodeName = self.physicalCluster.nodeNames[nodeIndex]
+        node = self.physicalCluster.getNode(nodeName)
         
         # behavior depends on class
         if self.__usingCClass__():
@@ -63,7 +63,7 @@ class NetworkAddresses:
             rangeEndSuffix = int(dhcpStart) + vmsPerHost - 1
             
             rangeEndPrefix = self.networkingOpts['dhcp_b_prefix']
-            rangeEnd = rangeEndPrefix + '.' + str(nodeNumber) + '.' + str(rangeEndSuffix)
+            rangeEnd = rangeEndPrefix + '.' + str(node.number) + '.' + str(rangeEndSuffix)
             
         else:
             self.__invalidClass__() 
@@ -74,8 +74,8 @@ class NetworkAddresses:
         '''
         Returns IP address of node given its zero-based index
         '''
-        nodeName = self.physicalCluster.getNames()[nodeIndex]
-        nodeNumber = self.physicalCluster.getNodeNumber(nodeName)
+        nodeName = self.physicalCluster.nodeNames[nodeIndex]
+        node = self.physicalCluster.getNode(nodeName)
         
         # behavior depends on class
         if self.__usingCClass__():
@@ -84,7 +84,7 @@ class NetworkAddresses:
             
         elif self.__usingBClass__():
             prefix = self.networkingOpts['dhcp_b_prefix']
-            nodeAddress = prefix + '.' + str(nodeNumber) + '.254'
+            nodeAddress = prefix + '.' + str(node.number) + '.254'
             
         else:
             self.__invalidClass__() 
@@ -95,8 +95,8 @@ class NetworkAddresses:
         '''
         Returns IP address of VM given node and VM zero-based indexes.
         '''
-        nodeName = self.physicalCluster.getNames()[nodeIndex]
-        nodeNumber = self.physicalCluster.getNodeNumber(nodeName)
+        nodeName = self.physicalCluster.nodeNames[nodeIndex]
+        node = self.physicalCluster.getNode(nodeName)
         
         # behavior depends on class
         if self.__usingCClass__():
@@ -111,7 +111,7 @@ class NetworkAddresses:
             
         elif self.__usingBClass__():
             vmAddressPrefix = self.networkingOpts['dhcp_b_prefix']
-            vmAddress = vmAddressPrefix + '.' + str(nodeNumber) + '.' + str(vmIndex + 1)
+            vmAddress = vmAddressPrefix + '.' + str(node.number) + '.' + str(vmIndex + 1)
 
         else:
             self.__invalidClass__() 
@@ -123,16 +123,16 @@ class NetworkAddresses:
         Returns MAC address of VM given node and VM zero-based indexes.
         TODO: Does not work for node number > 99!
         '''
-        nodeName = self.physicalCluster.getNames()[nodeIndex]
-        nodeNumber = self.physicalCluster.getNodeNumber(nodeName)
+        nodeName = self.physicalCluster.nodeNames[nodeIndex]
+        node = self.physicalCluster.getNode(nodeName)
         
         # strategy for large node numbers (UNTESTED)
-        if nodeNumber < 100:
+        if node.number < 100:
             # e.g. 82, 01 (tested)
-            nodePart = '%02d' % nodeNumber
-        elif nodeNumber < 256:
+            nodePart = '%02d' % node.number
+        elif node.number < 256:
             # contingency for 3 digits, use hexadecimal
-            nodePart = '%02x' % nodeNumber
+            nodePart = '%02x' % node.number
         else:
             raise ValueError('Vespa limitation: cannot issue MAC addresses for nodeNumber > 255!') 
         

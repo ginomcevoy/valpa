@@ -29,7 +29,7 @@ class MappingResolver:
 		if (deployNodes is None):
 			# infer deployNodes
 			deployNodeCount = self.__obtainDeployNodeCount__()
-			deployNodes = self.allNodes.getNames()[0:deployNodeCount]
+			deployNodes = self.allNodes.nodeNames[0:deployNodeCount]
 			deployNodes = tuple(deployNodes)
 		
 		self.deployedNodes = self.allNodes.getSubset(deployNodes)
@@ -81,8 +81,7 @@ class MappingResolver:
 		clusterVMs = []
 		
 		# get VM names that should correspond to cluster request
-		for nodeName in self.deployedNodes.getNames():
-			node = self.deployedNodes.getNode(nodeName)
+		for node in self.deployedNodes:
 			allVMsForNode = self.allVMDetails.getVMNamesForNode(node)
 			# current policy: select the first vms up to vmsPerHost
 			vmsForNode = allVMsForNode[0:vmsPerHost]

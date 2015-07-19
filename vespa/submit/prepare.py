@@ -79,12 +79,12 @@ class ConfigFileGenerator:
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo
         
         # fix deployed
-        deployedNodesText= self.__tupleToText__(deployedNodes.getNames())
+        deployedNodesText= self.__tupleToText__(deployedNodes.nodeNames)
         deployedSocketsText= self.__tupleToText__(deployedSockets)
         
         # add vmCount, hostCount 
         vmCount = len(deployedVMs.getNames())
-        hostCount = len(deployedNodes.getNames())
+        hostCount = len(deployedNodes)
         
         # calculate deployment dir
         expDir = self.runOpts['exp_dir']

@@ -24,10 +24,10 @@ class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
         self.ipSetter.setAddresses(self.physicalCluster)
         
         # unit ip addresses in physical cluster
-        ipAddress1 = self.physicalCluster.getIpAddressOf('node082')
+        ipAddress1 = self.physicalCluster.getNode('node082').getIpAddress()
         self.assertEqual(ipAddress1, '172.16.82.254')
         
-        ipAddress2 = self.physicalCluster.getIpAddressOf('node083')
+        ipAddress2 = self.physicalCluster.getNode('node083').getIpAddress()
         self.assertEqual(ipAddress2, '172.16.83.254')
         
 class SetsAddressesToAllPossibleVMsTest(VespaWithNodesAbstractTest):

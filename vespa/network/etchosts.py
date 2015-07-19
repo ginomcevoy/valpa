@@ -76,9 +76,8 @@ class EtcHostsFileBuilder():
             etcHostsFile.write(ipAddress + '\t' + hostname + '\n')
             
             # write each line
-            for nodeName in self.physicalCluster.getNames():
-                ipAddress = self.physicalCluster.getIpAddressOf(nodeName)
-                etcHostsFile.write(ipAddress + '\t' + nodeName + '\n')
+            for node in self.physicalCluster:
+                etcHostsFile.write(node.getIpAddress() + '\t' + node.name + '\n')
                 
             etcHostsFile.write('\n')
             
@@ -119,7 +118,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 2:
         neighbor = sys.argv[2]
     else:
-        neighbor = physicalCluster.getNames()[0]
+        neighbor = physicalCluster.nodeNames[0]
     if len(sys.argv) > 3:
         inputFilename = sys.argv[3]
     else:

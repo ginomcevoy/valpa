@@ -79,8 +79,7 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
                     'node085' : node4,
                     'node086' : node5,
                     'node087' : node6}
-        nodeTuple = ('node082', 'node083', 'node084', 'node085', 'node086', 'node087')
-        self.physicalCluster = PhysicalCluster(nodeDict, nodeTuple)
+        self.physicalCluster = PhysicalCluster(nodeDict)
         
         buildsVMDetails = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = buildsVMDetails.build()

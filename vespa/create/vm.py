@@ -69,8 +69,7 @@ class VMDefinitionBasicGenerator:
 		template = self.templateEnv.get_template(self.clusterXMLFilename)
 		
 		# iterate all vms
-		for nodeName in self.deployedNodes.getNames():
-			node = self.deployedNodes.getNode(nodeName)
+		for node in self.deployedNodes:
 			for vmName in self.deployedVMs.getVMNamesForNode(node):
 				
 				# replace VM name, UUID, MAC address and disk path

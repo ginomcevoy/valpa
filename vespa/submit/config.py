@@ -147,7 +147,7 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
             executionText = executionText.replace('&PBS_TOPOLOGY', topologyString)
             
             # Replace node list (for monitoring nodes)
-            nodeList = self.deploymentInfo[0].getNames()
+            nodeList = self.deploymentInfo[0].nodeNames
             nodeText = ''
             for node in nodeList:
                 nodeText += node + '\\n'
