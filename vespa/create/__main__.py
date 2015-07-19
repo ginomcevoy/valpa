@@ -10,14 +10,15 @@ and default values
 import sys
 
 from core.enum import PinningOpt  # @UnusedImport it IS used
-from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
+
 from core.experiment import Application
+from . import cluster
 import bootstrap
 
 def quickCluster(nc, cpv, idf, pstrat, forReal):
     
     # create clusterRequest based on DIST tuple
-    clusterRequest = createClusterRequest(nc, cpv, idf, pstrat)
+    clusterRequest = cluster.createClusterRequest(nc, cpv, idf, pstrat)
     
     # Bootstrap Vespa
     bootstrap.doBootstrap(forReal)
@@ -41,21 +42,6 @@ def quickCluster(nc, cpv, idf, pstrat, forReal):
         deploymentInfo = clusterDefiner.defineCluster(clusterRequest, 'quick', forReal)
         clusterDeployer.deploy(clusterRequest, deploymentInfo, appInfo)
     
-def createClusterRequest(nc, cpv, idf, pstrat):
-    
-    # convert input
-    nc = int(nc)
-    cpv = int(cpv)
-    idf = int(idf)
-    pinningOpt = eval('PinningOpt.' + pstrat)
-    
-    # Create cluster object = topology + mapping + default VMM opts
-    topology = Topology(nc, cpv)
-    mapping = Mapping(idf, pinningOpt)
-    clusterPlacement = ClusterPlacement(topology, mapping) 
-    clusterRequest = Cluster(clusterPlacement)
-    return clusterRequest
-
 if __name__ == "__main__":
     # verify input
     if len(sys.argv) < 5:

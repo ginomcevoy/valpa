@@ -12,7 +12,8 @@ from .mapping import MappingResolver
 from submit.config import ConfiguratorFactory
 from submit.pbs.updater import PBSUpdater
 from core.vm import VirtualClusterTemplates
-from core.enum import NetworkOpt
+from core.enum import NetworkOpt, PinningOpt # @UnusedImport it IS used
+from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
 
 class ClusterDefiner:
     '''
@@ -238,4 +239,20 @@ class ClusterXMLGenerator:
         # apply jinja substitution
         clusterXML = template.render(args)
         
-        return clusterXML    
+        return clusterXML
+    
+def createClusterRequest(nc, cpv, idf, pstrat):
+    
+    # convert input
+    nc = int(nc)
+    cpv = int(cpv)
+    idf = int(idf)
+    pinningOpt = eval('PinningOpt.' + pstrat)
+    
+    # Create cluster object = topology + mapping + default VMM opts
+    topology = Topology(nc, cpv)
+    mapping = Mapping(idf, pinningOpt)
+    clusterPlacement = ClusterPlacement(topology, mapping) 
+    clusterRequest = Cluster(clusterPlacement)
+    return clusterRequest
+    

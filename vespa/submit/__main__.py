@@ -8,15 +8,15 @@ Uses Vespa to submit an application on a previously deployed cluster.
 
 import sys
 
-from core.enum import PinningOpt  # @UnusedImport it IS used
 from core.experiment import Application
-import quickcluster
+from create import cluster
 import bootstrap
 
 def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
         
     # create clusterRequest based on DIST tuple
-    clusterRequest = quickcluster.createClusterRequest(nc, cpv, idf, pstrat)
+    # TODO push createCluster functionality to the core  
+    clusterRequest = cluster.createClusterRequest(nc, cpv, idf, pstrat)
     
     # create application object
     appRequest = Application(appName, 1, args)
