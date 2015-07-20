@@ -33,13 +33,12 @@ class SetsAddressesToAllPossibleVMs():
         self.physicalCluster = physicalCluster
         
     def setAddresses(self, allPossibleVMs):
-        for vmName in allPossibleVMs.getNames():
-            # get each vm and delegate ip address resolution
-            vmIndex = allPossibleVMs.getVMIndex(vmName)
-            node = allPossibleVMs.getHostingNode(vmName)
+        for vm in allPossibleVMs:
+            # delegate ip address resolution
+            node = vm.hostingNode
             
-            ipAddress = self.networkAddresses.getVMAddress(node.index, vmIndex)
-            macAddress = self.networkAddresses.getVMMAC(node.index, vmIndex)
+            ipAddress = self.networkAddresses.getVMAddress(node.index, vm.index)
+            macAddress = self.networkAddresses.getVMMAC(node.index, vm.index)
             
-            allPossibleVMs.setIpAddressTo(vmName, ipAddress)
-            allPossibleVMs.setMacAddressTo(vmName, macAddress)
+            vm.setIpAddress(ipAddress)
+            vm.setMacAddress(macAddress)

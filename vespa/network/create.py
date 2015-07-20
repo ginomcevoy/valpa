@@ -249,8 +249,8 @@ class EnhancesXMLForCreatingBridge:
         return lines
     
     def _buildLineForVM(self, vmName):
-        vmMAC = self.allVMDetails.getMacAddressOf(vmName)
-        vmAddress = self.allVMDetails.getIpAddressOf(vmName)
+        vmMAC = self.allVMDetails.getVM(vmName).getMacAddress()
+        vmAddress = self.allVMDetails.getVM(vmName).getIpAddress()
         line='<host mac="' + vmMAC + '" name="' + vmName + '" ip="' + vmAddress +'" />\n'
         return line
 

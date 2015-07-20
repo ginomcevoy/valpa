@@ -28,16 +28,15 @@ class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
         vmsInLastNode = allVMDetails.byNode[node087]
         self.failUnlessEqual(vmsInLastNode[5], 'kvm-pbs087-06')
                 
-        allNames = allVMDetails.getNames()
-        self.failUnlessEqual(len(allNames), 72)
+        self.failUnlessEqual(len(allVMDetails), 72)
         
-        aVMIndex = allVMDetails.getVMIndex('kvm-pbs084-02')
+        aVMIndex = allVMDetails.getVM('kvm-pbs084-02').index
         self.failUnlessEqual(aVMIndex, 1)
         
-        aVMNumber = allVMDetails.getVMNumber('kvm-pbs085-12')
+        aVMNumber = allVMDetails.getVM('kvm-pbs085-12').number
         self.failUnlessEqual(aVMNumber, 12)
         
-        aVMSuffix = allVMDetails.getVMSuffix('kvm-pbs086-08')
+        aVMSuffix = allVMDetails.getVM('kvm-pbs086-08').suffix
         self.failUnlessEqual(aVMSuffix, '08')
         
 class AllVMDetailsTest(VespaWithNodesAbstractTest):
@@ -58,7 +57,9 @@ class AllVMDetailsTest(VespaWithNodesAbstractTest):
         vmDictKeys = subsetDetails.vmDict.keys()
         self.assertEquals(len(vmDictKeys), 6)
         self.assertEquals(sorted(vmDictKeys), sorted(vmNames))
-        self.assertEquals(subsetDetails.getHostingNode('kvm-pbs082-02').name, 'node082')
+        
+        hostingNode = subsetDetails.getVM('kvm-pbs082-02').hostingNode
+        self.assertEquals(hostingNode.name, 'node082')
         
         byNodeKeys = subsetDetails.byNode.keys()
         self.assertEquals(len(byNodeKeys), 3)
@@ -104,19 +105,18 @@ class VirtualClusterFactoryTest(VespaWithNodesAbstractTest):
         vmsInLastNode = clusterTemplate.byNode[node084]
         self.failUnlessEqual(vmsInLastNode[1], 'kvm-pbs084-02')
                 
-        allNames = clusterTemplate.getNames()
-        self.failUnlessEqual(sorted(allNames), sorted(vmNames))
+        self.failUnlessEqual(len(clusterTemplate), len(vmNames))
         
-        aVMIndex = clusterTemplate.getVMIndex('kvm-pbs084-02')
+        aVMIndex = clusterTemplate.getVM('kvm-pbs084-02').index
         self.failUnlessEqual(aVMIndex, 1)
         
-        aVMNumber = clusterTemplate.getVMNumber('kvm-pbs083-02')
+        aVMNumber = clusterTemplate.getVM('kvm-pbs083-02').number
         self.failUnlessEqual(aVMNumber, 2)
         
-        aVMSuffix = clusterTemplate.getVMSuffix('kvm-pbs082-01')
+        aVMSuffix = clusterTemplate.getVM('kvm-pbs082-01').suffix
         self.failUnlessEqual(aVMSuffix, '01')
         
-        aCpv = clusterTemplate.getCpv('kvm-pbs084-01')
+        aCpv = clusterTemplate.getVM('kvm-pbs084-01').cpv
         self.failUnlessEqual(aCpv, 2)
 
     def testDefinitionsToFile(self):

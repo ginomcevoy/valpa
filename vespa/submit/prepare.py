@@ -83,7 +83,7 @@ class ConfigFileGenerator:
         deployedSocketsText= self.__tupleToText__(deployedSockets)
         
         # add vmCount, hostCount 
-        vmCount = len(deployedVMs.getNames())
+        vmCount = len(deployedVMs)
         hostCount = len(deployedNodes)
         
         # calculate deployment dir

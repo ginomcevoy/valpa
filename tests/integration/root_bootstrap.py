@@ -50,10 +50,10 @@ class BootstrapNetworkingTest(VespaWithBootstrapAbstractTest):
     def testVMNetworking(self):
         allVMDetails = self.bootstrap.getAllVMDetails()
         
-        ipAddress = allVMDetails.getIpAddressOf('kvm-pbs086-11')
+        ipAddress = allVMDetails.getVM('kvm-pbs086-11').getIpAddress()
         self.assertEquals(ipAddress, '172.16.86.11')
         
-        macAddress = allVMDetails.getMacAddressOf('kvm-pbs093-04')
+        macAddress = allVMDetails.getVM('kvm-pbs093-04').getMacAddress()
         self.assertEquals(macAddress, '00:16:36:ff:93:04')
         
     def testGetExperimentSetRunner(self):

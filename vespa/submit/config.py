@@ -8,7 +8,6 @@ Configures application (PBS if supported) for execution
 import shutil
 import ConfigParser
 import datetime
-from core.enum import MPIBindOpt
 
 class Configurator:
     
@@ -164,12 +163,12 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
         Example of a string:
         kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4
         '''
-        vmList = self.deploymentInfo[2].getNames()
+        deployedVMs = self.deploymentInfo[2]
         cpv = self.clusterInfo.topology.cpv
         topologyString = ''
          
-        for vmName in vmList:
-            topologyString = topologyString + vmName + ':ppn=' + str(cpv) + '+'
+        for vm in deployedVMs:
+            topologyString = topologyString + vm.name + ':ppn=' + str(cpv) + '+'
         topologyString = topologyString[0 : len(topologyString)-1]
         return topologyString
     

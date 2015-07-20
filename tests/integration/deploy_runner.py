@@ -79,21 +79,18 @@ class ClusterDefinerIntegrationTest(VespaDeploymentAbstractTest):
                                'kvm-pbs083-01' : '/tmp/vespa/xmls/testExp/kvm-pbs083-01.xml',
                                'kvm-pbs083-02' : '/tmp/vespa/xmls/testExp/kvm-pbs083-02.xml'}
         
-        self.expectedXMLs = (open('resources/integration/kvm-pbs082-01-expected.xml').read(),
-                             open('resources/integration/kvm-pbs082-02-expected.xml').read(),
-                             open('resources/integration/kvm-pbs083-01-expected.xml').read(),
-                             open('resources/integration/kvm-pbs083-02-expected.xml').read())
+        self.expectedXMLs = ('resources/integration/kvm-pbs082-01-expected.xml',
+                             'resources/integration/kvm-pbs082-02-expected.xml',
+                             'resources/integration/kvm-pbs083-01-expected.xml',
+                             'resources/integration/kvm-pbs083-02-expected.xml')
         
     def testGeneration(self):
         # call under unit
         (deployedNodes, deployedSockets, deployedVMs) = self.clusterDefiner.defineCluster(self.clusterRequest, self.experimentName, False)  # @UnusedVariable
         
         # verify
-        self.maxDiff = None
-        self.assertEqual(open(deployedVMs.getDefinitionOf('kvm-pbs082-01'), 'r').read(), self.expectedXMLs[0])
-        self.assertEqual(open(deployedVMs.getDefinitionOf('kvm-pbs082-02'), 'r').read(), self.expectedXMLs[1])
-        self.assertEqual(open(deployedVMs.getDefinitionOf('kvm-pbs083-01'), 'r').read(), self.expectedXMLs[2])
-        self.assertEqual(open(deployedVMs.getDefinitionOf('kvm-pbs083-02'), 'r').read(), self.expectedXMLs[3])
+        for i, vm in enumerate(deployedVMs):
+            self.assertFileContentEqual(vm.getDefinition(), self.expectedXMLs[i])
         
 class ClusterExecutorTest(VespaDeploymentAbstractTest):
     

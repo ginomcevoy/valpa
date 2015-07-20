@@ -46,14 +46,14 @@ class SetsAddressesToAllPossibleVMsTest(VespaWithNodesAbstractTest):
         self.setter.setAddresses(self.allVMs)
         
         # then
-        ipAddress1 = self.allVMs.getIpAddressOf('kvm-pbs082-01')
-        macAddress1 = self.allVMs.getMacAddressOf('kvm-pbs082-01')
+        ipAddress1 = self.allVMs.getVM('kvm-pbs082-01').getIpAddress()
+        macAddress1 = self.allVMs.getVM('kvm-pbs082-01').getMacAddress()
         
         self.assertEquals(ipAddress1, '172.16.82.1')
         self.assertEquals(macAddress1, '00:16:36:ff:82:01')
         
-        ipAddress2 = self.allVMs.getIpAddressOf('kvm-pbs087-12')
-        macAddress2 = self.allVMs.getMacAddressOf('kvm-pbs087-12')
+        ipAddress2 = self.allVMs.getVM('kvm-pbs087-12').getIpAddress()
+        macAddress2 = self.allVMs.getVM('kvm-pbs087-12').getMacAddress()
         
         self.assertEquals(ipAddress2, '172.16.87.12')
         self.assertEquals(macAddress2, '00:16:36:ff:87:12')

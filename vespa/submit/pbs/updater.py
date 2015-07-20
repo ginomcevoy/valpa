@@ -37,15 +37,14 @@ class PBSUpdater:
         '''
         # data
         cpv = clusterInfo.topology.cpv
-        vmNames = sorted(deployedVMs.getNames())
         
         # start clean file
         nodesFile = open(self.tempFile, 'w')
 
         # write output
         text = ''
-        for vm in vmNames:
-            text = text + vm + ' np=' + str(cpv) + '\n' 
+        for vm in deployedVMs:
+            text = text + vm.name + ' np=' + str(cpv) + '\n' 
         nodesFile.write(text)
         nodesFile.close()
         

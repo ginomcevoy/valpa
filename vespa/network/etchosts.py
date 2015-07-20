@@ -91,10 +91,8 @@ class EtcHostsFileBuilder():
             etcHostsFile.write('# Vespa VMs\n\n')
             
             # write each line
-            vmNames = sorted(self.allVMDetails.getNames())
-            for vmName in vmNames:
-                ipAddress = self.allVMDetails.getIpAddressOf(vmName)
-                etcHostsFile.write(ipAddress + '\t' + vmName + '\n')
+            for vm in self.allVMDetails:
+                etcHostsFile.write(vm.getIpAddress() + '\t' + vm.name + '\n')
             
 def getLocalHostnameAndIp(neighbor):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

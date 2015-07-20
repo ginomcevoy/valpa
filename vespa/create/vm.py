@@ -137,15 +137,14 @@ class VMDefinitionDetails:
 		return uuid.newUUID(self.forReal)
 	
 	def getVmPath(self, vmName):
-		hostingNode = self.deployedVMs.getHostingNode(vmName)
+		hostingNode = self.deployedVMs.getVM(vmName).hostingNode
 		return hostingNode.name + '/' + vmName
 	
 	def getMAC(self, vmName):
 		# delegate MAC definition
-		node = self.deployedVMs.getHostingNode(vmName)
-		nodeIndex = node.index
-		vmIndex = self.deployedVMs.getVMIndex(vmName)
-		return self.networkAddresses.getVMMAC(nodeIndex, vmIndex)
+		vm = self.deployedVMs.getVM(vmName)
+		node = vm.hostingNode
+		return self.networkAddresses.getVMMAC(node.index, vm.index)
 	
 class BuildsVMDefinitionGenerator:
 	'''
