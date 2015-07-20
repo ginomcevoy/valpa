@@ -8,10 +8,10 @@ VESPA_DIR=$(dirname $FULL_PATH)
 
 # Go to Vespa source
 ORIG_PATH=$PWD
-cd $VESPA_DIR/src
+cd $VESPA_DIR/vespa
 
 # Get the filename TODO: handle exit code != 0
-VESPA_PARAMS=$(python -m config.shellparams)
+VESPA_PARAMS=$(python -m core.shellparams)
 
 # source the parameters
 source $VESPA_PARAMS

@@ -30,6 +30,5 @@ fi
 rm -f $INVENTORY
 
 # Call python
-cd $VESPA_DIR/src
-python -m inventory.vm $HOST_COUNT $VMS_PER_HOST $INVENTORY
+PYTHONPATH=$VESPA_DIR/vespa python -m core.inventory_vm $HOST_COUNT $VMS_PER_HOST $INVENTORY
 

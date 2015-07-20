@@ -1,0 +1,1 @@
+PYTHONPATH=../vespa python -m submit $@

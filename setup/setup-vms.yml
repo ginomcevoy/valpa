@@ -12,6 +12,6 @@
 
     - name: Create Vespa directory
       file: dest={{ vespa_dir }} state=directory
-    
+
     - name: Copy necessary files to VMs
       synchronize: src={{ vespa_dir }}/monitor dest={{ vespa_dir }}

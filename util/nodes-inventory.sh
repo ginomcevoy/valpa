@@ -29,6 +29,5 @@ fi
 rm -f $INVENTORY
 
 # Call python
-cd $VESPA_DIR/src
-python -m inventory.node $HOST_COUNT $INVENTORY
+PYTHONPATH=$VESPA_DIR/vespa python -m core.inventory_node $HOST_COUNT $INVENTORY
 

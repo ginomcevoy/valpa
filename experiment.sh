@@ -22,6 +22,6 @@ XML_FILE=$XML_PATH/$XML_NAME.xml
 OUTPUT_LOG=$HOME/vespa-logs/$XML_NAME.log
 
 # Run experiment
-cd src
+cd vespa
 nohup python experiments.py True $XML_FILE &> $OUTPUT_LOG &
 echo "Output log at $OUTPUT_LOG"
