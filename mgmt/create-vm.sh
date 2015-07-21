@@ -18,3 +18,5 @@ XML=$2
 echo -e "virsh -c qemu+ssh://$HOST/system create $XML"
 virsh -c qemu+ssh://$HOST/system create $XML
 
+# Wait before sending another libvirt request, may prevent VM hangup
+sleep 2

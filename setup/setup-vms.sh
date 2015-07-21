@@ -22,7 +22,7 @@ NC=$(expr $NODE_L \* $VM_L)
 CPV=1
 IDF=$VM_L
 PS='NONE'
-cd $VESPA_DIR/src
+cd $VESPA_DIR/vespa
 python quickcluster.py $NC $CPV $IDF $PS
 
 # Create /etc/hosts file
