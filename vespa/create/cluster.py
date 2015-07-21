@@ -11,7 +11,7 @@ from core import config_vespa
 from .mapping import MappingResolver
 from submit.config import ConfiguratorFactory
 from submit.pbs.updater import PBSUpdater
-from core.vm import VirtualClusterTemplates
+from core.virtual import VirtualClusterTemplates
 from core.enum import NetworkOpt, PinningOpt # @UnusedImport it IS used
 from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
 

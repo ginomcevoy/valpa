@@ -20,7 +20,9 @@ class VespaWithBootstrapAbstractTest(unittest.TestCase):
         hardwareFilename = 'resources/hardware.params'
         templateDir = 'resources'
         masterTemplate = 'master.xml'
-        bootstrap.doBootstrap(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename)
+        inventoryFilename = 'resources/vespa.nodes'
+        bootstrap.doBootstrap(forReal, templateDir, masterTemplate, 
+                              vespaFilename, hardwareFilename, inventoryFilename)
         self.bootstrap = bootstrap.getInstance()
         
     def assertMultiLineEqual(self, first, second, msg=None):

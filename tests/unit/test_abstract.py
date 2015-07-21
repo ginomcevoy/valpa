@@ -13,7 +13,7 @@ from core.cluster import Topology, Mapping, Technology, Cluster,\
 from core.physical import PhysicalNode, PhysicalCluster
 from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
 from core.experiment import AppTuning, Application
-from core.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
+from core.virtual import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates, AllVMDetails
 
 class VespaAbstractTest(unittest.TestCase):

@@ -10,7 +10,7 @@ from unit.test_abstract import VespaWithNodesAbstractTest
 from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from network.address import NetworkAddresses
-from core.vm import BuildsAllVMDetails
+from core.virtual import BuildsAllVMDetails
 
 class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
 

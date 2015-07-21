@@ -8,7 +8,7 @@ from create.mapping import MappingResolver
 from core.cluster import Topology, Cluster, Mapping, \
     ClusterPlacement
 from unit.test_abstract import VespaWithNodesAbstractTest
-from core.vm import VirtualClusterTemplates
+from core.virtual import VirtualClusterTemplates
 
 class MappingTest(VespaWithNodesAbstractTest):
 

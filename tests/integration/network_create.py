@@ -9,7 +9,7 @@ import unittest
 from network.create import CreatesBasicNetworkXML, EnhancesXMLForCreatingBridge,\
     NetworkArgumentsForSRIOV, NetworkArgumentsForUsingBridge,\
     NetworkArgumentsForCreatingBridge
-from integration.root_bootstrap import VespaWithBootstrapAbstractTest
+from integration.vespa_bootstrap import VespaWithBootstrapAbstractTest
 from core.physical import PhysicalNode
 
 class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):

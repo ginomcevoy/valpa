@@ -9,7 +9,7 @@ import pprint
 import unittest
 
 from core.shellparams import ShellParameters
-from integration.root_bootstrap import VespaWithBootstrapAbstractTest
+from integration.vespa_bootstrap import VespaWithBootstrapAbstractTest
 
 
 class ShellParametersTest(VespaWithBootstrapAbstractTest):
