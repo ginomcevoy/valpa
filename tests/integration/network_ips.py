@@ -10,12 +10,12 @@ from unit.test_abstract import VespaWithNodesAbstractTest
 from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from network.address import NetworkAddresses
-from core.vm import BuildsAllVMDetails
+from core.virtual import BuildsAllVMDetails
 
 class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        super(SetsIpAddressesToPhysicalClusterTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
         self.ipSetter = SetsAddressesToPhysicalCluster(networkAddresses)
 
@@ -24,16 +24,16 @@ class SetsIpAddressesToPhysicalClusterTest(VespaWithNodesAbstractTest):
         self.ipSetter.setAddresses(self.physicalCluster)
         
         # unit ip addresses in physical cluster
-        ipAddress1 = self.physicalCluster.getIpAddressOf('node082')
+        ipAddress1 = self.physicalCluster.getNode('node082').getIpAddress()
         self.assertEqual(ipAddress1, '172.16.82.254')
         
-        ipAddress2 = self.physicalCluster.getIpAddressOf('node083')
+        ipAddress2 = self.physicalCluster.getNode('node083').getIpAddress()
         self.assertEqual(ipAddress2, '172.16.83.254')
         
 class SetsAddressesToAllPossibleVMsTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
-        super(SetsAddressesToAllPossibleVMsTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
         
         self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMs = self.vmFactory.build()
@@ -46,14 +46,14 @@ class SetsAddressesToAllPossibleVMsTest(VespaWithNodesAbstractTest):
         self.setter.setAddresses(self.allVMs)
         
         # then
-        ipAddress1 = self.allVMs.getIpAddressOf('kvm-pbs082-01')
-        macAddress1 = self.allVMs.getMacAddressOf('kvm-pbs082-01')
+        ipAddress1 = self.allVMs.getVM('kvm-pbs082-01').getIpAddress()
+        macAddress1 = self.allVMs.getVM('kvm-pbs082-01').getMacAddress()
         
         self.assertEquals(ipAddress1, '172.16.82.1')
         self.assertEquals(macAddress1, '00:16:36:ff:82:01')
         
-        ipAddress2 = self.allVMs.getIpAddressOf('kvm-pbs087-12')
-        macAddress2 = self.allVMs.getMacAddressOf('kvm-pbs087-12')
+        ipAddress2 = self.allVMs.getVM('kvm-pbs087-12').getIpAddress()
+        macAddress2 = self.allVMs.getVM('kvm-pbs087-12').getMacAddress()
         
         self.assertEquals(ipAddress2, '172.16.87.12')
         self.assertEquals(macAddress2, '00:16:36:ff:87:12')

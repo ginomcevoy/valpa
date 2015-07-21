@@ -17,19 +17,16 @@ def buildVespaInventory(inventoryFilename):
     bootstrap.doBootstrap()
     bootstrapper = bootstrap.getInstance()
     
+    # get all nodes and vms
     physicalCluster = bootstrapper.getPhysicalCluster()
     allVMDetails = bootstrapper.getAllVMDetails()
     
-    # all possible nodes and vms
-    hostCount = len(physicalCluster.getNames())
-    vmsPerHost = int(bootstrapper.getVespaPrefs()['vm_pernode'])
-    
     # produce inventory files for nodes and vms 
     temporaryNodeFilename = '/tmp/vespa-nodeinv-temp'
-    physicalCluster.createInventory(temporaryNodeFilename, allVMDetails, hostCount)
+    physicalCluster.createInventory(temporaryNodeFilename, allVMDetails)
     
     temporaryVmFilename = '/tmp/vespa-vminv-temp'
-    allVMDetails.createVirtualInventory(temporaryVmFilename, physicalCluster, hostCount, vmsPerHost)
+    allVMDetails.createVirtualInventory(temporaryVmFilename, physicalCluster)
     
     # join both inventories in a single file
     with open(inventoryFilename, 'w') as inventoryFile:

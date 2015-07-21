@@ -38,35 +38,32 @@ class PhysicalNode(object):
         return self.name == other.name
         
 class PhysicalCluster:
-    '''
+    """An aggregation of physical machines (PhysicalNode instances) that 
+    represent either the whole cluster or a subset.
+    
+    This class is iterable on its nodes (for node in physicalCluster).
+    
     @type nodeDict: dictionary {nodeName : PhysicalNode instance}
-    @type nodeTuple: tuple of node names
-    '''
+    """
     
-    def __init__(self, nodeDict, nodeTuple):
+    def __init__(self, nodeDict):
         self.nodeDict = nodeDict
-        self.nodeTuple = nodeTuple
+        self.nodeNames = tuple(sorted(nodeDict.keys()))
+        self.orderedNodes = []      # keep an ordered list too 
+        for nodeName in self.nodeNames:
+            self.orderedNodes.append(nodeDict[nodeName])  
+        self.orderedNodes = tuple(self.orderedNodes)
         
-    def getNodeIndex(self, nodeName):
-        return self.nodeDict[nodeName].index
+    def __len__(self):
+        return len(self.nodeNames)
     
-    def getNodeNumber(self, nodeName):
-        return self.nodeDict[nodeName].number
-    
-    def getNodeSuffix(self, nodeName):
-        return self.nodeDict[nodeName].suffix
+    def __getitem__(self, index):
+        if index >= len(self):
+            raise IndexError
+        return self.orderedNodes[index]
     
     def getNode(self, nodeName):
         return self.nodeDict[nodeName]
-    
-    def getNames(self):
-        return self.nodeTuple
-    
-    def setIpAddressTo(self, nodeName, ipAddress):
-        self.nodeDict[nodeName].setIpAddress(ipAddress)
-        
-    def getIpAddressOf(self, nodeName):
-        return self.nodeDict[nodeName].getIpAddress()
     
     def getSubset(self, nodeNames):
         '''
@@ -77,15 +74,17 @@ class PhysicalCluster:
         for nodeName in nodeNames:
             subsetDict[nodeName] = self.nodeDict[nodeName]
             
-        return PhysicalCluster(subsetDict, tuple(nodeNames))
+        return PhysicalCluster(subsetDict)
     
     def getSubsetForHostCount(self, hostCount):
         """ Uses the first `hostCount` nodes to get a subset cluster.
         
         @return: PhysicalCluster instance
         """
-        nodeNames =  self.nodeTuple[0:hostCount]
-        return self.getSubset(nodeNames)
+        if hostCount > len(self):
+            raise ValueError('Not enough nodes in cluster: ' + hostCount)
+        someNodeNames =  self.nodeNames[0:hostCount]
+        return self.getSubset(someNodeNames)
     
     def toFile(self, filename):
         '''
@@ -94,10 +93,10 @@ class PhysicalCluster:
         '''
         # open file for writing
         with open(filename, 'w') as nodeFile:
-            for node in sorted(self.nodeTuple):
-                nodeFile.write(node + '\n')
+            for nodeName in sorted(self.nodeNames):
+                nodeFile.write(nodeName + '\n')
                 
-    def createInventory(self, inventoryFilename, allVMDetails, hostCount):
+    def createInventory(self, inventoryFilename, allVMDetails):
         '''
         Creates an inventory for Ansible. Overwrites file if exists.
         Example using 'vespa' as node name and 'kvm-pbs' as vm prefix:
@@ -109,26 +108,20 @@ class PhysicalCluster:
         @param allVMDetails: a valid instance of AllVMDetails 
         '''
         with open(inventoryFilename, 'w') as inventoryFile:
-            sortedNames = sorted(self.nodeTuple)
-            counter = 0
-            while counter < hostCount and counter < len(sortedNames):
-                nodeName = sortedNames[counter]
-                nodeObj = self.nodeDict[nodeName] 
-                
+            for node in self:
                 # build list of vmNames as string
-                vmNames = allVMDetails.getVMNamesForNode(nodeObj)
+                vmNames = allVMDetails.getVMNamesForNode(node)
                 vmNamesString = ''
                 for vmName in vmNames:
                     vmNamesString = vmNamesString + '"' + vmName + '",'
                 vmNamesString = vmNamesString[0:len(vmNamesString)-1] 
                 
                 # write name, suffix, index and vmNames for each node
-                suffix = self.getNodeSuffix(nodeName)
-                index = str(self.getNodeIndex(nodeName))
-                number = str(self.getNodeNumber(nodeName))
-                line = nodeName + " nodeSuffix=" +  suffix + " nodeIndex=" + index + " nodeNumber=" + number + " vmNames='[" + vmNamesString + "]'\n"
+                suffix = node.suffix
+                index = str(node.index)
+                number = str(node.number)
+                line = node.name + " nodeSuffix=" +  suffix + " nodeIndex=" + index + " nodeNumber=" + number + " vmNames='[" + vmNamesString + "]'\n"
                 inventoryFile.write(line)
-                counter = counter + 1
 
 class PhysicalNodeFactory(object):
     '''
@@ -162,7 +155,7 @@ class PhysicalNodeFactory(object):
                 
                 nodeIndex += 1
             
-            self.allNodes = PhysicalCluster(nodeDict, nodeNames)
+            self.allNodes = PhysicalCluster(nodeDict)
                 
         return self.allNodes
     
