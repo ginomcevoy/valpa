@@ -15,7 +15,7 @@ from create.mapping import MappingResolver
 
 class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):
     '''
-    Full integration unit for ExperimentSetRunner, using forReal=False
+    Full integration test for ExperimentSetRunner, using forReal=False
     (only checks for cluster definition in each experiment) 
     '''
     
@@ -52,7 +52,7 @@ class ExperimentSetRunnerPartialIntegrationTest(unittest.TestCase):
         
 class ClusterDefinerIntegrationTest(VespaDeploymentAbstractTest):
     '''
-    Full integration unit for ClusterDefiner.
+    Full integration test for ClusterDefiner.
     '''
 
     def setUp(self):

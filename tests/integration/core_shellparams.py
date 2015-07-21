@@ -1,7 +1,7 @@
 '''
 Created on Aug 24, 2014
 
-Unit unit for config.shellparams
+Unit test for config.shellparams
 
 @author: giacomo
 '''

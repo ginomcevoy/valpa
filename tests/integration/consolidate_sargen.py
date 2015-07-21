@@ -11,14 +11,14 @@ from unit.test_abstract import VespaAbstractTest
 
 class SargenTest(VespaAbstractTest):
     '''
-    Unit unit for datagen.sargen. Calls the analyzeSingleConfig function to 
+    Unit test for datagen.sargen. Calls the analyzeSingleConfig function to 
     verify the output of a single call to sargen-metrics.R.
     '''
     def setUp(self):
         VespaAbstractTest.setUp(self)
         
         # create output directories
-        self.configOutputDir =  '/tmp/vespa/unit/datagen/parpac/cfg1/'
+        self.configOutputDir =  '/tmp/vespa/test/datagen/parpac/cfg1/'
         if not os.path.exists(self.configOutputDir):
             os.makedirs(self.configOutputDir)
         

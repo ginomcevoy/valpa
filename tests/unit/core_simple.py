@@ -12,7 +12,7 @@ from unit.test_abstract import VespaAbstractTest
 
 
 class SimpleRulesTest(VespaAbstractTest):
-    """Unit unit for core.simple_rules.SimpleRules. """
+    """Unit tests for core.simple_rules.SimpleRules. """
     
     def setUp(self):
         VespaAbstractTest.setUp(self)
@@ -252,7 +252,7 @@ class SimpleRulesTest(VespaAbstractTest):
         self.assertFalse(self.simpleRules.canBeDeployedInAny(4, 0, physicalMachinesTuple))
                 
 class SimpleRulesSingleNodeTest(VespaAbstractTest):
-    """Unit unit for core.simple_rules.SimpleRules, where the physical 
+    """Unit tests for core.simple_rules.SimpleRules, where the physical 
     architecture has been restricted to a single node. 
     
     """

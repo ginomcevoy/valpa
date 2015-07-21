@@ -14,7 +14,7 @@ from unit.test_abstract import VespaAbstractTest
 
 class SimpleScenarioGeneratorTest(VespaAbstractTest):
     '''
-    Integration unit for SimpleScenarioGenerator, tests every step of
+    Integration tests for SimpleScenarioGenerator, tests every step of
     generating the XML for 4 experiments (2 variations of cpv, 2 variations
     of MPIBindOpt)
     '''

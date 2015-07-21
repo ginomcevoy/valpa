@@ -14,7 +14,7 @@ from unit.test_abstract import VespaAbstractTest
 
 class ClusterGenerationTest(VespaAbstractTest):
     '''
-    Integration unit for SimpleClusterGenerator. Tests the generated space
+    Integration tests for SimpleClusterGenerator. Tests the generated space
     for virtual clusters after aggregating some constraints.
     '''
 

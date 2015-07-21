@@ -14,7 +14,7 @@ class TestVirtualClusterTemplates(VespaWithNodesAbstractTest):
     '''
     def setUp(self):
         VespaWithNodesAbstractTest.setUp(self)
-        self.inventoryFilename = '/tmp/vespa-vm-inventory.unit'
+        self.inventoryFilename = '/tmp/vespa-vm-inventory.test'
     
     def testCreateVirtualInventory(self):
         # when

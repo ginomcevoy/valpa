@@ -98,7 +98,7 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
         
 class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     '''
-    Unit unit for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
+    Unit tests for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
     string, as well as the enhancement of the PBS file.
     '''
     

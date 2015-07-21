@@ -12,7 +12,7 @@ from unit.test_abstract import VespaAbstractTest
 
 class ClusterGenerationSpecificationTest(VespaAbstractTest):
     '''
-    Integration unit for SimpleClusterConstraint and SimpleClusterGenerationSpecification.
+    Integration tests for SimpleClusterConstraint and SimpleClusterGenerationSpecification.
     Tests the generated space for virtual clusters after aggregating some constraints.
     '''
 

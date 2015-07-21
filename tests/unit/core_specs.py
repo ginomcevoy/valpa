@@ -14,7 +14,7 @@ from core.enum import PinningOpt
 
 
 class SimpleTopologySpecificationTest(VespaAbstractTest):
-    """Unit unit for core.simple_specs.SimpleTopologySpecification. """
+    """Unit tests for core.simple_specs.SimpleTopologySpecification. """
     
     def setUp(self):
         VespaAbstractTest.setUp(self)
@@ -33,7 +33,7 @@ class SimpleTopologySpecificationTest(VespaAbstractTest):
         self.assertFalse(self.topologySpec.isSatisfiedBy(topologyRequest))
         
 class SimpleMappingSpecificationTest(VespaAbstractTest):
-    """Unit unit for core.simple_specs.SimpleMappingSpecification. """
+    """Unit tests for core.simple_specs.SimpleMappingSpecification. """
     
     def setUp(self):
         VespaAbstractTest.setUp(self)
@@ -56,7 +56,7 @@ class SimpleMappingSpecificationTest(VespaAbstractTest):
         self.assertFalse(self.mappingSpec.isSatisfiedBy(mappingRequest))
 
 class SimpleClusterSpecificationTest(VespaAbstractTest):
-    """Unit unit for core.simple_specs.SimpleClusterSpecification. """
+    """Unit tests for core.simple_specs.SimpleClusterSpecification. """
     
     def setUp(self):
         VespaAbstractTest.setUp(self)

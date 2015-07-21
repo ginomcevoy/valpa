@@ -130,7 +130,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         deployedSockets = (0, 1)
         self.deploymentInfo = (deployedNodes, deployedSockets, deployedVMs)
         
-        # Application under unit
+        # Application under test
         appTuning = AppTuning(MPIBindOpt.socket)
         self.appRequest = Application('parpac', 11, 'firstarg secondarg', appTuning)
         

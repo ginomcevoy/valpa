@@ -134,7 +134,7 @@ class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
         
 class BuildsNetworkXMLsTest(VespaWithBootstrapAbstractTest):
     '''
-    Integration unit for BuildsNetworkXMLs, tests each networking strategy.
+    Integration tests for BuildsNetworkXMLs, tests each networking strategy.
     '''
     
     def setUp(self):

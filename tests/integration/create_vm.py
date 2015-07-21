@@ -34,7 +34,7 @@ class VmRequestGeneratorIntegrationTest(VespaDeploymentAbstractTest):
         buildsVMGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningWriter, networkAddresses)
         vmDefinitionGenerator = buildsVMGenerator.build()
         
-        # call under unit
+        # call under test
         vmDefinitionGenerator.setDeploymentContext(self.deploymentInfo, False)
         xmlNames = vmDefinitionGenerator.createDefinitions(self.clusterXML, self.clusterRequest, 'testExp')
         

@@ -272,7 +272,7 @@ class SimpleClusterGenerationSpecification(ClusterGenerationSpecification):
         The virtual clusters for each value are aggregated.
         '''  
         
-        # explore every value in the space, use the simple specification to unit
+        # explore every value in the space, use the simple specification to test
         # if the virtual cluster can be deployed in any of the values specified
         constrainedSpace = {}
         for nc in self.internalSpace.keys():
