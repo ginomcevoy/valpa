@@ -69,7 +69,7 @@ net_name_bridge_create=valpa-libvirt-bridge
 
 # Network name for external bridge, user needs to change this to match
 # configuration of the network in the physical cluster.
-net_name_bridge_use=valpa-external-bridge
+net_name_bridge_use=valpa-existing-bridge
 
 # Miscellaneous networking
 
@@ -136,7 +136,7 @@ default_tech_disk=virtio
 
 # Use Infiniband? (assumes it is configured correctly)
 # True: use Infiniband, otherwise do not use
-default_infiniband=False
+default_infiniband=True
 
 [MasterXML]
 # _DISK_DRIVER_TYPE
