@@ -19,7 +19,7 @@ class PhysicalExperimentGenerator(object):
         Constructor
         '''
         self.allNodes = allNodes
-        self.nodeCount = len(allNodes.getNames())
+        self.nodeCount = len(allNodes)
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="../templates/")

@@ -12,7 +12,7 @@ from network.address import NetworkAddresses
 class NetworkAddressesTest(NetworkAbstractTest):
 
     def setUp(self):
-        super(NetworkAddressesTest, self).setUp()
+        NetworkAbstractTest.setUp(self)
         self.networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalNodes, self.hwSpecs)
         
     def testAddressRangeStartB1(self):

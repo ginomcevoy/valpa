@@ -33,8 +33,8 @@ class PinningWriter:
             xml = xmlDict[vmName]
             
             # use pinningTextGen to get text
-            vmIndex = self.deployedVMs.getVMIndex(vmName)
-            pinningText = self.pinningTextGen.producePinningText(pinningOpt, vmIndex, cpv)
+            vm = self.deployedVMs.getVM(vmName)
+            pinningText = self.pinningTextGen.producePinningText(pinningOpt, vm.index, cpv)
             
             # add it to xml, just below </vcpu>
             vcpuPos = xml.find('</vcpu>\n') + len('</vcpu>\n')

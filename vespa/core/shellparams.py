@@ -44,7 +44,7 @@ class ShellParameters:
             outputFile.write(templateText)
             outputFile.close()    
         
-        # Echo the filename for shell script, also return it for unit
+        # Echo the filename for shell script, also return it for test
         print(outputFilename)
         return outputFilename
         

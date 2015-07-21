@@ -18,11 +18,10 @@ class SetsAddressesToPhysicalCluster(object):
         self.networkAddresses = networkAddresses
         
     def setAddresses(self, physicalCluster):
-        for nodeName in physicalCluster.getNames():
-            # get each node and delegate ip address resolution
-            nodeIndex = physicalCluster.getNodeIndex(nodeName)
-            ipAddress = self.networkAddresses.getNodeAddress(nodeIndex)
-            physicalCluster.setIpAddressTo(nodeName, ipAddress)
+        for node in physicalCluster:
+            # delegate ip address resolution
+            ipAddress = self.networkAddresses.getNodeAddress(node.index)
+            node.setIpAddress(ipAddress)
             
 class SetsAddressesToAllPossibleVMs():
     '''
@@ -34,13 +33,12 @@ class SetsAddressesToAllPossibleVMs():
         self.physicalCluster = physicalCluster
         
     def setAddresses(self, allPossibleVMs):
-        for vmName in allPossibleVMs.getNames():
-            # get each vm and delegate ip address resolution
-            vmIndex = allPossibleVMs.getVMIndex(vmName)
-            node = allPossibleVMs.getHostingNode(vmName)
+        for vm in allPossibleVMs:
+            # delegate ip address resolution
+            node = vm.hostingNode
             
-            ipAddress = self.networkAddresses.getVMAddress(node.index, vmIndex)
-            macAddress = self.networkAddresses.getVMMAC(node.index, vmIndex)
+            ipAddress = self.networkAddresses.getVMAddress(node.index, vm.index)
+            macAddress = self.networkAddresses.getVMMAC(node.index, vm.index)
             
-            allPossibleVMs.setIpAddressTo(vmName, ipAddress)
-            allPossibleVMs.setMacAddressTo(vmName, macAddress)
+            vm.setIpAddress(ipAddress)
+            vm.setMacAddress(macAddress)

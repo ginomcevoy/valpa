@@ -69,8 +69,7 @@ class VMDefinitionBasicGenerator:
 		template = self.templateEnv.get_template(self.clusterXMLFilename)
 		
 		# iterate all vms
-		for nodeName in self.deployedNodes.getNames():
-			node = self.deployedNodes.getNode(nodeName)
+		for node in self.deployedNodes:
 			for vmName in self.deployedVMs.getVMNamesForNode(node):
 				
 				# VMs have the following unique parameters:
@@ -150,19 +149,18 @@ class VMDefinitionDetails:
 		return uuid.newUUID(self.forReal)
 	
 	def getVmPath(self, vmName):
-		hostingNode = self.deployedVMs.getHostingNode(vmName)
+		hostingNode = self.deployedVMs.getVM(vmName).hostingNode
 		return hostingNode.name + '/' + vmName
 	
 	def getMAC(self, vmName):
 		# delegate MAC definition
-		node = self.deployedVMs.getHostingNode(vmName)
-		nodeIndex = node.index
-		vmIndex = self.deployedVMs.getVMIndex(vmName)
-		return self.networkAddresses.getVMMAC(nodeIndex, vmIndex)
+		vm = self.deployedVMs.getVM(vmName)
+		node = vm.hostingNode
+		return self.networkAddresses.getVMMAC(node.index, vm.index)
 	
 	def getVirtualFunction(self, vmName):
-		vmNumber = self.deployedVMs.getVMNumber(vmName) # starts at 1
-		return '0x' + str(vmNumber)
+		vm = self.deployedVMs.getVM(vmName)
+		return '0x' + str(vm.number) # starts at 0x1
 	
 class BuildsVMDefinitionGenerator:
 	'''

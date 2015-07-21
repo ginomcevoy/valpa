@@ -20,8 +20,9 @@ if __name__ == "__main__":
     bootstrapper = bootstrap.getInstance()
     
     physicalCluster = bootstrapper.getPhysicalCluster()
+    clusterSubset = physicalCluster.getSubsetForHostCount(hostCount)
     allVMDetails = bootstrapper.getAllVMDetails()
     
     # produce inventory file and output filename
-    physicalCluster.createInventory(inventoryFilename, allVMDetails, hostCount)
+    clusterSubset.createInventory(inventoryFilename, allVMDetails)
     print(inventoryFilename)

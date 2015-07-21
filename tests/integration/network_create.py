@@ -9,7 +9,7 @@ import unittest
 from network.create import CreatesBasicNetworkXML, EnhancesXMLForCreatingBridge,\
     NetworkArgumentsForSRIOV, NetworkArgumentsForUsingBridge,\
     NetworkArgumentsForCreatingBridge
-from integration.root_bootstrap import VespaWithBootstrapAbstractTest
+from integration.vespa_bootstrap import VespaWithBootstrapAbstractTest
 from core.physical import PhysicalNode
 
 class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
@@ -17,7 +17,7 @@ class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
     Integration tests for CreatesBasicNetworkXMLFromTemplate.
     '''
     def setUp(self):
-        super(CreatesBasicNetworkXMLTest, self).setUp()
+        VespaWithBootstrapAbstractTest.setUp(self)
         networkingOpts = self.bootstrap.getNetworkingOpts()
         networkAddresses = self.bootstrap.getNetworkAddresses()
         
@@ -80,7 +80,7 @@ class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
 class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
     
     def setUp(self):
-        super(EnhancesXMLForCreatingBridgeTest, self).setUp()
+        VespaWithBootstrapAbstractTest.setUp(self)
         physicalCluster = self.bootstrap.getPhysicalCluster()
         allVMDetails = self.bootstrap.getAllVMDetails()
         self.xmlEnhancer = EnhancesXMLForCreatingBridge(physicalCluster, allVMDetails)
@@ -134,11 +134,11 @@ class EnhancesXMLForCreatingBridgeTest(VespaWithBootstrapAbstractTest):
         
 class BuildsNetworkXMLsTest(VespaWithBootstrapAbstractTest):
     '''
-    Integration unit for BuildsNetworkXMLs, tests each networking strategy.
+    Integration tests for BuildsNetworkXMLs, tests each networking strategy.
     '''
     
     def setUp(self):
-        super(BuildsNetworkXMLsTest, self).setUp()
+        VespaWithBootstrapAbstractTest.setUp(self)
         self.buildsXMLs = self.bootstrap.getBuildsNetworkXMLs()
         
     def testForSRIOV(self):

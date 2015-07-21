@@ -11,7 +11,7 @@ from unit.test_abstract import VespaDeploymentAbstractTest
 class NetworkAbstractTest(VespaDeploymentAbstractTest):
 
     def setUp(self):
-        super(NetworkAbstractTest, self).setUp()
+        VespaDeploymentAbstractTest.setUp(self)
         
         self.networkingOpts = {
                             'network_source' : 'external-bridge',

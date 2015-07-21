@@ -76,9 +76,8 @@ class EtcHostsFileBuilder():
             etcHostsFile.write(ipAddress + '\t' + hostname + '\n')
             
             # write each line
-            for nodeName in self.physicalCluster.getNames():
-                ipAddress = self.physicalCluster.getIpAddressOf(nodeName)
-                etcHostsFile.write(ipAddress + '\t' + nodeName + '\n')
+            for node in self.physicalCluster:
+                etcHostsFile.write(node.getIpAddress() + '\t' + node.name + '\n')
                 
             etcHostsFile.write('\n')
             
@@ -92,10 +91,8 @@ class EtcHostsFileBuilder():
             etcHostsFile.write('# Vespa VMs\n\n')
             
             # write each line
-            vmNames = sorted(self.allVMDetails.getNames())
-            for vmName in vmNames:
-                ipAddress = self.allVMDetails.getIpAddressOf(vmName)
-                etcHostsFile.write(ipAddress + '\t' + vmName + '\n')
+            for vm in self.allVMDetails:
+                etcHostsFile.write(vm.getIpAddress() + '\t' + vm.name + '\n')
             
 def getLocalHostnameAndIp(neighbor):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -119,7 +116,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 2:
         neighbor = sys.argv[2]
     else:
-        neighbor = physicalCluster.getNames()[0]
+        neighbor = physicalCluster.nodeNames[0]
     if len(sys.argv) > 3:
         inputFilename = sys.argv[3]
     else:

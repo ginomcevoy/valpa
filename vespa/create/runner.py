@@ -108,7 +108,7 @@ class ExperimentSetRunner():
         deployedNodes = deploymentInfo[0]
         nodeFilename = '/tmp/vespa/' + str(clusterRequest) + '-nodes.txt'
         deployedNodes.toFile(nodeFilename)
-        hostCount = len(deployedNodes.getNames())
+        hostCount = len(deployedNodes)
 
         # call meant for Ansible API
         ansible_args = '../mgmt/stop-vms-local.sh ' + self.vespaPrefs['vm_prefix']
@@ -220,8 +220,7 @@ class ClusterDeployer:
         cpv = cluster.topology.cpv
         withKnem = appRequest.appTuning.knem
         
-        hosts = deployedNodes.getNames()
-        hostCount = len(hosts)
+        hostCount = len(deployedNodes)
         vmCount = int(nc / cpv)
         
         # Create VM given its XML using libvirt call using parallel.

@@ -12,7 +12,7 @@ from create.pinning import BuildsPinningWriter
 from create.runner import ClusterFactory, ExperimentSetRunner
 from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
-from core.vm import BuildsAllVMDetails
+from core.virtual import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from create.cluster import VespaXMLGenerator

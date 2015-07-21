@@ -11,7 +11,7 @@ from core import config_vespa
 from .mapping import MappingResolver
 from submit.config import ApplicationParameterReader
 from submit.pbs.updater import PBSUpdater
-from core.vm import VirtualClusterTemplates
+from core.virtual import VirtualClusterTemplates
 from core.enum import NetworkOpt, PinningOpt # @UnusedImport it IS used
 from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
 
@@ -94,13 +94,12 @@ class PhysicalClusterDefiner:
         if cluster.mapping.deployNodes is not None:
             # read from definition
             deployNodeNames = cluster.mapping.deployNodes
+            deployedNodes = self.allNodes.getSubset(deployNodeNames)
         else:
             # infer deployNodes
             topology = cluster.topology
-            deployNodeCount = int(topology.nc / topology.cpv)
-            deployNodeNames = self.allNodes.getNames()[0:deployNodeCount]
-        
-        deployedNodes = self.allNodes.getSubset(deployNodeNames)
+            hostCount = int(topology.nc / topology.cpv)
+            deployNodeNames = self.allNodes.getSubsetForHostCount(hostCount)
         
         # reuse socket logic
         self.mapper.mapping = cluster.mapping
@@ -113,10 +112,10 @@ class PhysicalClusterDefiner:
         byNode = {}
         
         # iterate over nodes
-        for nodeName in deployedNodes.getNames():
+        for node in deployedNodes:
             # build vmDict and byNode using node data
-            vmDict[nodeName] = deployedNodes.getNode(nodeName)
-            byNode[nodeName] = nodeName
+            vmDict[node.name] = node
+            byNode[node.name] = node.name
             
         deployedVMs = VirtualClusterTemplates(vmDict, byNode)
         

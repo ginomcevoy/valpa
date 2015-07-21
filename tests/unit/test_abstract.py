@@ -13,7 +13,7 @@ from core.cluster import Topology, Mapping, Technology, Cluster,\
 from core.physical import PhysicalNode, PhysicalCluster
 from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
 from core.experiment import AppTuning, Application
-from core.vm import BuildsAllVMDetails, VMDetails, VMTemplate,\
+from core.virtual import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates, AllVMDetails
 
 class VespaAbstractTest(unittest.TestCase):
@@ -64,7 +64,7 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
     
     def setUp(self):
         # load fixed Vespa settings
-        super(VespaWithNodesAbstractTest, self).setUp()
+        VespaAbstractTest.setUp(self)
         
         # assume cluster architecture: 3 physical nodes
         node1 = PhysicalNode('node082', 0, 82, '082')
@@ -79,8 +79,7 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
                     'node085' : node4,
                     'node086' : node5,
                     'node087' : node6}
-        nodeTuple = ('node082', 'node083', 'node084', 'node085', 'node086', 'node087')
-        self.physicalCluster = PhysicalCluster(nodeDict, nodeTuple)
+        self.physicalCluster = PhysicalCluster(nodeDict)
         
         buildsVMDetails = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = buildsVMDetails.build()
@@ -94,7 +93,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
     
     def setUp(self):
         # load fixed Vespa settings and physical nodes
-        super(VespaDeploymentAbstractTest, self).setUp()
+        VespaWithNodesAbstractTest.setUp(self)
     
         # Cluster with 2 PMs, 2 VMs each, cpv=4, all sockets
         topo = Topology(16, 4)
@@ -131,7 +130,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         deployedSockets = (0, 1)
         self.deploymentInfo = (deployedNodes, deployedSockets, deployedVMs)
         
-        # Application under unit
+        # Application under test
         appTuning = AppTuning(MPIBindOpt.socket)
         self.appRequest = Application('parpac', 11, 'firstarg secondarg', appTuning)
         
