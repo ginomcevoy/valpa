@@ -25,13 +25,9 @@ PS='NONE'
 cd $VESPA_DIR/bin
 vespa-create $NC $CPV $IDF $PS
 
-# Create /etc/hosts file
-ETC_HOSTS=$VESPA_DIR/data-output/hosts
-python -m network.etchosts $ETC_HOSTS 
-
 # Generate inventory for all VMs: TODO: use inventory.all call
 INVENTORY=$($VESPA_DIR/util/vms-inventory.sh $NODE_L $VM_L)
 
 # Call playbook that configures VMs
 cd $LOCAL_DIR
-ansible-playbook setup-vms.yml --inventory=$INVENTORY --forks=$NODE_L --extra-vars="vespa_dir=$VESPA_DIR etc_hosts=$ETC_HOSTS"
+ansible-playbook setup-grub.yml --inventory=$INVENTORY --forks=$NODE_L --extra-vars="vespa_dir=$VESPA_DIR"

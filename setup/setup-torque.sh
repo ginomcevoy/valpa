@@ -15,15 +15,15 @@ VESPA_DIR=$LOCAL_DIR/../
 source $VESPA_DIR/params.sh
 
 # Stop all VMs
-#$VESPA_DIR/mgmt/stop-vms-all.sh $NODE_L
+$VESPA_DIR/mgmt/stop-vms-all.sh $NODE_L
 
 # Create all possible VMs
 NC=$(expr $NODE_L \* $VM_L)
 CPV=1
 IDF=$VM_L
 PS='NONE'
-cd $VESPA_DIR/src
-python quickcluster.py $NC $CPV $IDF $PS
+cd $VESPA_DIR/bin
+vespa-create $NC $CPV $IDF $PS
 
 # Generate inventory for all VMs: TODO: use inventory.all call
 INVENTORY=$($VESPA_DIR/util/vms-inventory.sh $NODE_L $VM_L)
