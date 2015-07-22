@@ -3,7 +3,8 @@ Created on Sep 29, 2014
 
 @author: giacomo
 '''
-from core.cluster import Topology, Mapping, ClusterPlacement, Cluster
+from core.cluster import Topology, Mapping, ClusterPlacement, Cluster,\
+    SetsTechnologyDefaults, Technology
 from core.simple_specs import SimpleClusterPlacementSpecification
 from .constraint import ClusterGenerationSpecification,\
     SimpleClusterGenerationSpecification
@@ -18,7 +19,7 @@ class ClusterRequestGenerator():
     and default values for VMM Settings (technology + tuning). 
     '''
     
-    def __init__(self, hwSpecs, clusterPlacementGenerator, defaultTechnology = None, defaultTuning = None):
+    def __init__(self, hwSpecs, clusterPlacementGenerator, defaultTechnology, defaultTuning = None):
         self.hwSpecs = hwSpecs
         self.clusterPlacementGenerator = clusterPlacementGenerator
         self.technologyTuple = [defaultTechnology, ]
@@ -96,10 +97,19 @@ class ClusterPlacementGenerator():
 class SimpleClusterGenerator(ClusterRequestGenerator):
     '''
     Generates a list of virtual cluster requests using the simple cluster
-    characterization (DIST tuple)
+    characterization (DIST tuple). Calculates default technology from 
+    Vespa configuration.
     '''
-    def __init__(self, hwSpecs, defaultTechnology = None, defaultTuning = None):
-        ClusterRequestGenerator.__init__(self, hwSpecs, SimpleClusterPlacementGenerator(hwSpecs, SimpleClusterPlacementSpecification(hwSpecs)), defaultTechnology, defaultTuning)
+    def __init__(self, vespaPrefs, hwSpecs):
+        # use the simple characterization for cluster placements
+        placementSpecs = SimpleClusterPlacementSpecification(hwSpecs)
+        placementGen =  SimpleClusterPlacementGenerator(hwSpecs, placementSpecs)
+        
+        # calculate default technology
+        technologySetter = SetsTechnologyDefaults(vespaPrefs)
+        defaultTechnology = technologySetter.setDefaultsOn(Technology())
+        
+        ClusterRequestGenerator.__init__(self, hwSpecs, placementGen, defaultTechnology)
     
 class SimpleClusterPlacementGenerator(ClusterPlacementGenerator):
     '''

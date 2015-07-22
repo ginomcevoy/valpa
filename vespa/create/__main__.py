@@ -14,6 +14,7 @@ from core.enum import PinningOpt  # @UnusedImport it IS used
 from core.experiment import Application
 from . import cluster
 import bootstrap
+from core.cluster import SetsTechnologyDefaults
 
 def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
     
@@ -25,6 +26,13 @@ def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
     bootstrapper = bootstrap.getInstance()
     
     hwSpecs = bootstrapper.getHwSpecs()
+    
+    # Strategy to set default Technology values
+    vespaPrefs = bootstrapper.getVespaPrefs()
+    technologySetter = SetsTechnologyDefaults(vespaPrefs)
+    
+    # update unset technology parameters with defaults
+    clusterRequest.technology = technologySetter.setDefaultsOn(clusterRequest.technology)
     
     if not clusterRequest.isConsistentWith(hwSpecs):
         # declared cluster is invalid

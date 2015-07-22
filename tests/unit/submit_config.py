@@ -4,10 +4,11 @@ Unit tests for ConfiguratorFactory
 @author: giacomo
 '''
 import unittest
-from submit.config import ConfiguratorFactory, ApplicationConfiguratorPBS,\
-    ExecutionConfiguratorPBS
 import shutil
+
 from unit.test_abstract import VespaDeploymentAbstractTest
+from submit.config import ConfiguratorFactory, ApplicationParameterReader,\
+    ApplicationConfiguratorPBS, ExecutionConfiguratorPBS
 
 class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
 
@@ -19,7 +20,9 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
                     'exec.needsoutputcopy' : 'Y',
                     'exec.otheroutput' : '/home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out',
                     'exec.outputrename' : 'custom.out'}
-        self.configFactory = ConfiguratorFactory(self.runOpts)
+
+        appParamReader = ApplicationParameterReader(self.runOpts)
+        self.configFactory = ConfiguratorFactory(self.runOpts, appParamReader, None) # no NetworkAddresses
 
     def testCreateBasicExecutionFile(self):
         # given
@@ -96,15 +99,26 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
         self.assertEquals(pbsFile, '/tmp/submit.pbs')
         self.assertFileContentEqual(pbsFile, 'resources/torque/pbs-app-expected.pbs')
         
+class MockNetworkAddresses():
+        
+        def networkCIDR(self):
+            return '172.16.0.0/16'
+        
 class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     '''
+<<<<<<< HEAD:tests/unit/run_config.py
+    Unit test for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
+    string, as well as the enhancement of the PBS file. The NetworkAddresses class
+=======
     Unit tests for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
     string, as well as the enhancement of the PBS file.
+>>>>>>> develop:tests/unit/submit_config.py
     '''
-    
+
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
-        self.execConfigurator = ExecutionConfiguratorPBS(self.clusterRequest, self.deploymentInfo)
+        mock = MockNetworkAddresses()
+        self.execConfigurator = ExecutionConfiguratorPBS(self.clusterRequest, self.deploymentInfo, mock)
     
     def testCreateTopologyString(self):
         # when
@@ -112,6 +126,13 @@ class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
         
         # then
         self.assertEqual(topologyLine, 'kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4')
+        
+    def testCreateNetworkingString(self):
+        # when
+        networkString = self.execConfigurator.createNetworkingString()
+        
+        # then
+        self.assertEqual(networkString, '--mca btl_tcp_if_include 172.16.0.0/16 --mca btl self,sm,tcp')
         
         
     def testEnhanceExecutionFile(self):

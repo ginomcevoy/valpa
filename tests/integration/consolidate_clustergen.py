@@ -22,7 +22,7 @@ class ClusterGenerationTest(VespaAbstractTest):
         # load fixed Vespa settings
         VespaAbstractTest.setUp(self)
         
-        self.clusterGenerator = SimpleClusterGenerator(self.hwSpecs)
+        self.clusterGenerator = SimpleClusterGenerator(self.vespaPrefs, self.hwSpecs)
         self.simpleGenSpec = SimpleClusterGenerationSpecification(self.hwSpecs)
 
     def testGenerateSingleCluster(self):

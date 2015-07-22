@@ -3,7 +3,6 @@ Created on Aug 31, 2014
 
 @author: giacomo
 '''
-
 import sys
 
 from .scenariogen import SimpleScenarioGenerator
@@ -20,14 +19,18 @@ class SimplePlacementScenarioGenerator():
     VMM settings and no MPI pinning options (NONE)
     '''
     
-    def __init__(self, hwParamFile='../input/hardware.params'):
+    def __init__(self, vespaFilename='../input/vespa.params', hwParamFile='../input/hardware.params'):
+        
+        # Read Vespa configuration file
+        vespaConfig = vespaconfig.readVespaConfig(vespaFilename)
+        vespaPrefs = vespaConfig.getVespaPrefs()
         
         # load hardware specification
         hwInfo = config_hw.getHardwareInfo()
         hwSpecs = hwInfo.getHwSpecs()
         
         # delegate to generator
-        self.scenarioGenerator = SimpleScenarioGenerator(hwSpecs)
+        self.scenarioGenerator = SimpleScenarioGenerator(vespaPrefs, hwSpecs)
         
         # specifications are built using some user input
         self.clusterSpecification = SimpleClusterGenerationSpecification(hwSpecs)

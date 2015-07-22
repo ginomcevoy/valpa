@@ -9,7 +9,7 @@ import subprocess
 
 from core import config_vespa
 from .mapping import MappingResolver
-from submit.config import ConfiguratorFactory
+from submit.config import ApplicationParameterReader
 from submit.pbs.updater import PBSUpdater
 from core.virtual import VirtualClusterTemplates
 from core.enum import NetworkOpt, PinningOpt # @UnusedImport it IS used
@@ -19,9 +19,9 @@ class ClusterDefiner:
     '''
     Defines the VMs in a cluster.
     '''
-    def __init__(self, mappingResolver, clusterXMLGen, vmDefinitionGenerator):#vespaPrefs, vespaXML, hwSpecs, allNodes, vmRequestGenerator):
-        self.mappingResolver = mappingResolver#MappingResolver(hwSpecs, allNodes, vespaPrefs)
-        self.clusterXMLGen = clusterXMLGen #ClusterXMLGenerator(vespaXML, vespaPrefs)
+    def __init__(self, mappingResolver, clusterXMLGen, vmDefinitionGenerator):
+        self.mappingResolver = mappingResolver
+        self.clusterXMLGen = clusterXMLGen 
         self.vmDefinitionGenerator = vmDefinitionGenerator
     
     def defineCluster(self, cluster, experimentName, forReal):
@@ -82,7 +82,7 @@ class PhysicalClusterDefiner:
         self.runOpts = runOpts
 
         # strategy 
-        self.configFactory = ConfiguratorFactory(runOpts)
+        self.appParamReader = ApplicationParameterReader(runOpts)
 
         
     def defineCluster(self, cluster, appInfo, forReal):
@@ -120,7 +120,7 @@ class PhysicalClusterDefiner:
         deployedVMs = VirtualClusterTemplates(vmDict, byNode)
         
         # Case for using PBS
-        isPBS = self.configFactory.isPBS(appInfo)
+        isPBS = self.appParamReader.isPBS(appInfo)
         if isPBS:
             #deploymentType = 'PBS'
 
@@ -187,9 +187,10 @@ class ClusterXMLGenerator:
     cluster info. Returns the text of the xml.
     '''
 
-    def __init__(self, vespaXML, vespaPrefs):
+    def __init__(self, vespaXML, vespaPrefs, hwSpecs):
         self.vespaXML = vespaXML
         self.vespaPrefs = vespaPrefs
+        self.hwSpecs = hwSpecs
         
         self.vespaXMLFilename = '/tmp/vespa-definition.xml'
         
@@ -203,12 +204,9 @@ class ClusterXMLGenerator:
         cluster info. Returns the text of the xml.
         '''
         
-        # need cpv and disk technology
-        cpv = topology.cpv
-        networkOpt = technology.networkOpt
-        diskOpt = technology.diskOpt
-        
-        # special case for networking
+        # networking works with a two variables:
+        # networkOpt is read from technology
+        # networkDriver variable is calculated here
         if (technology.networkOpt == NetworkOpt.virtio):
             networkDriver = 'qemu'     # <driver name="qemu"/>   - virtIO
         elif (technology.networkOpt == NetworkOpt.vhost):
@@ -216,18 +214,24 @@ class ClusterXMLGenerator:
         else:
             networkDriver = ''         # SR-IOV has no such line
             
-        # memory
+        # calculate total memory based on number of cores, libvirt uses KB
         memoryBase = int(self.vespaPrefs['vm_mem_base'])
         memoryPerCore = int(self.vespaPrefs['vm_mem_core'])
-        totalMemory = (memoryBase + memoryPerCore * cpv) * 1024
-        
-        # disk path
-        diskPath = self.vespaPrefs['vm_disk']
+        totalMemory = (memoryBase + memoryPerCore * topology.cpv) * 1024
         
         # gather all substitutions
-        args = {'cluster_vcpu' : cpv, 'cluster_memory' : totalMemory,
-                'network_option' : networkOpt, 'network_driver' : networkDriver,  
-                'cluster_disk_bus' : diskOpt, 'cluster_disk' : diskPath}
+        args = {'cluster_vcpu' : topology.cpv, 
+                'cluster_memory' : totalMemory,
+                'network_option' : technology.networkOpt, 
+                'network_driver' : networkDriver,  
+                'cluster_disk_bus' : technology.diskOpt,
+                'cluster_disk' : self.vespaPrefs['vm_disk'],
+                
+                # if Infiniband is unused, last two have no effect
+                'infiniband_flag' : technology.infinibandFlag,
+                'infiniband_bus' : self.hwSpecs['infiniband_bus'],
+                'infiniband_slot' : self.hwSpecs['infiniband_slot']
+                }
         
         # prepare jinja template for cluster arguments
         self.vespaXML = self.vespaXML.replace('_CLUSTER_VAR_', '{')

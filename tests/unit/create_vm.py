@@ -16,27 +16,34 @@ class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        self.generationDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
-        self.generationDetails.setDeploymentContext(self.deploymentInfo)
+        self.definitionDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
+        self.definitionDetails.setDeploymentContext(self.deploymentInfo)
 
     def testGetUUID(self):
-        uuidgen = self.generationDetails.getUUID('kvm-pbs082-01')
+        uuidgen = self.definitionDetails.getUUID('kvm-pbs082-01')
         #print(uuidgen)
-        self.failUnlessEqual(len(uuidgen), len('446bf85f-b4ba-459b-8e04-60394fc00d5c'))
+        self.assertEqual(len(uuidgen), len('446bf85f-b4ba-459b-8e04-60394fc00d5c'))
         
     def testGetMAC(self):
-        mac = self.generationDetails.getMAC('kvm-pbs082-01')
-        self.failUnlessEqual(mac, '00:16:36:ff:82:01')
+        mac = self.definitionDetails.getMAC('kvm-pbs082-01')
+        self.assertEqual(mac, '00:16:36:ff:82:01')
         
-        mac = self.generationDetails.getMAC('kvm-pbs083-02')
-        self.failUnlessEqual(mac, '00:16:36:ff:83:02')
+        mac = self.definitionDetails.getMAC('kvm-pbs083-02')
+        self.assertEqual(mac, '00:16:36:ff:83:02')
 
     def testGetVmPath(self):
-        path = self.generationDetails.getVmPath('kvm-pbs082-01')
-        self.failUnlessEqual(path, 'node082/kvm-pbs082-01')
+        path = self.definitionDetails.getVmPath('kvm-pbs082-01')
+        self.assertEqual(path, 'node082/kvm-pbs082-01')
         
-        path = self.generationDetails.getVmPath('kvm-pbs083-02')
-        self.failUnlessEqual(path, 'node083/kvm-pbs083-02')
+        path = self.definitionDetails.getVmPath('kvm-pbs083-02')
+        self.assertEqual(path, 'node083/kvm-pbs083-02')
+        
+    def testGetVirtualFunction(self):
+        vf = self.definitionDetails.getVirtualFunction('kvm-pbs082-01')
+        self.assertEqual(vf, '0x1')
+        
+        vf = self.definitionDetails.getVirtualFunction('kvm-pbs083-02')
+        self.assertEqual(vf, '0x2')
         
 class BasicVMGenTest(VespaDeploymentAbstractTest):
     
@@ -44,15 +51,15 @@ class BasicVMGenTest(VespaDeploymentAbstractTest):
         VespaDeploymentAbstractTest.setUp(self)
         (deployedNodes, deployedSockets, deployedVMs) = self.deploymentInfo  # @UnusedVariable
         networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        generationDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses)
-        self.basicGen = VMDefinitionBasicGenerator(self.vespaPrefs, generationDetails)
+        definitionDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses)
+        self.basicGen = VMDefinitionBasicGenerator(self.vespaPrefs, definitionDetails)
         self.basicGen.setDeploymentContext(self.deploymentInfo, False)
 
     def testProduceXMLs(self):
         self.maxDiff = None
         
         xmls = self.basicGen.createDefinitions(self.clusterXML)
-        self.failUnlessEqual(type(xmls), type({}))
+        self.assertEqual(type(xmls), type({}))
         
         xml08201 = 'resources/vms/kvm-pbs082-01-basic.xml' 
         self.assertTextEqualsContent(xmls['kvm-pbs082-01'], xml08201)

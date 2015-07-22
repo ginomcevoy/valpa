@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<scenarios>
+	<scenario>
+		<experiment name="exp1" trials="1">
+			<cluster>
+				<topology nc="16" cpv="4" />
+				<mapping idf="8" pstrat="BAL_ONE" />
+			</cluster>
+		</experiment>
+	</scenario>
+</scenarios>

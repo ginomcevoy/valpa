@@ -127,9 +127,10 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
     Adds execution information to PBS submission file
     '''
     
-    def __init__(self, clusterInfo, deploymentInfo):
-        self.clusterInfo = clusterInfo
+    def __init__(self, clusterRequest, deploymentInfo, networkAddresses):
+        self.clusterRequest = clusterRequest
         self.deploymentInfo = deploymentInfo        
+        self.networkAddresses = networkAddresses
 
     def enhanceExecutionFile(self, executionFile, execConfig=None):
         
@@ -138,7 +139,7 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
             executionText = execution.read()
             
             # Replace #processes (= #cores in cluster)
-            nc = self.clusterInfo.topology.nc
+            nc = self.clusterRequest.topology.nc
             executionText = executionText.replace('&NC', str(nc))
             
             # Replace VM list (for specifying PBS nodes and their ppn)
@@ -152,6 +153,10 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
                 nodeText += node + '\\n'
             executionText = executionText.replace('&PHYSICAL_NODE_LIST', nodeText)
             
+            # Replace networking string for OpenMPI call
+            networkingString = self.createNetworkingString()
+            executionText = executionText.replace('&MPI_BTL', networkingString)
+            
         with open(executionFile, 'w') as execution:
             execution.write(executionText)
         
@@ -164,13 +169,36 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
         kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4
         '''
         deployedVMs = self.deploymentInfo[2]
-        cpv = self.clusterInfo.topology.cpv
+        cpv = self.clusterRequest.topology.cpv
         topologyString = ''
          
         for vm in deployedVMs:
             topologyString = topologyString + vm.name + ':ppn=' + str(cpv) + '+'
         topologyString = topologyString[0 : len(topologyString)-1]
         return topologyString
+    
+    def createNetworkingString(self):
+        """Return a string appropriate for the BTL inter-process communication
+        of OpenMPI. The following values are needed:
+        
+        For non-Infiniband, class B network:
+        --mca btl_tcp_if_include 172.16.0.0/16 --mca btl self,sm,tcp
+        
+        For non-Infiniband, class C network:
+        --mca btl_tcp_if_include 192.168.3.0/24 --mca btl self,sm,tcp
+
+        For Infiniband:
+        --mca btl self,sm,openib
+        
+        The calculation of network CIDR is delegated to networkAddresses. 
+        """
+        withInfiniband = self.clusterRequest.technology.infinibandFlag
+        if withInfiniband:
+            networkingString = '--mca btl self,sm,openib'
+        else:
+            cidr = self.networkAddresses.networkCIDR()
+            networkingString = '--mca btl_tcp_if_include ' + cidr + ' --mca btl self,sm,tcp'
+        return networkingString
     
 class ConfiguratorFactory:
     '''
@@ -179,10 +207,11 @@ class ConfiguratorFactory:
     
     TODO: rethink this class using patterns, is PBS optional here?
     '''
-    def __init__(self, runOpts):
+    def __init__(self, runOpts, appParamReader, networkAddresses):
         self.runOpts = runOpts
         self.masterPbs = runOpts['pbs_master'] 
-        self.pbsApps = runOpts['pbs_supported_apps'].split(',')
+        self.networkAddresses = networkAddresses
+        self.appParamReader = appParamReader
     
     def createBasicExecutionFile(self, appInfo, experimentPath):
         '''
@@ -219,14 +248,25 @@ class ConfiguratorFactory:
         else:
             raise ValueError("Application not supported: " + appInfo.name)
     
-    def createExecutionConfigurator(self, appInfo, clusterInfo, deploymentInfo):
+    def createExecutionConfigurator(self, appInfo, clusterRequest, deploymentInfo):
         '''
         Returns ExecutionConfigurator instance, with PBS if supported.
         '''
         if self.isPBS(appInfo):
-            return ExecutionConfiguratorPBS(clusterInfo, deploymentInfo)
+            return ExecutionConfiguratorPBS(clusterRequest, deploymentInfo, self.networkAddresses)
         else:
             raise ValueError("Application not supported: " + appInfo.name)
+        
+    def isPBS(self, appInfo):
+        return self.appParamReader.isPBS(appInfo)
+    
+    def readAppParams(self, appInfo):
+        return self.appParamReader.readAppParams(appInfo)
+    
+class ApplicationParameterReader():
+    
+    def __init__(self, runOpts):
+        self.pbsApps = runOpts['pbs_supported_apps'].split(',')
     
     def isPBS(self, appInfo):
         return appInfo.name in self.pbsApps

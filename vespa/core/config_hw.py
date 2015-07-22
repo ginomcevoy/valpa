@@ -32,6 +32,9 @@ class HardwareInfo:
 					'coresPerSocket' : coresPerSocket,
 					'coresInCluster' : coresInCluster, 
 					'mem' : mem,
+					'infiniband_bus' : hwDict['infiniband_bus'],
+					'infiniband_slot' : hwDict['infiniband_slot'],
+					'infiniband_vfs' : hwDict['infiniband_vfs'],
 					'nodes' : self.nodeCount}
 
 	def getHwSpecs(self):

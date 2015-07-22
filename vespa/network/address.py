@@ -195,6 +195,13 @@ class NetworkAddresses:
             
         return subnet
     
+    def networkCIDR(self):
+        if self.__usingBClass__():
+            subnetBits = '16' 
+        else:
+            subnetBits = '24'
+        return self.networkSubnet() + "/" + subnetBits 
+    
     def __usingBClass__(self):
         return self.networkingOpts['net_class'] == 'B'
     
