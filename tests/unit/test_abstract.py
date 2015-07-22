@@ -8,7 +8,7 @@ import unittest
 
 from core import config_vespa
 from core import config_hw
-from core.cluster import Topology, Mapping, Technology, Cluster,\
+from core.cluster import Topology, Mapping, Technology, ClusterRequest,\
     ClusterPlacement
 from core.physical import PhysicalNode, PhysicalCluster
 from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
@@ -99,7 +99,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         topo = Topology(16, 4)
         mappings = Mapping(8, PinningOpt.BAL_ONE)
         technology = Technology(NetworkOpt.vhost, DiskOpt.scsi)
-        self.clusterRequest = Cluster(ClusterPlacement(topo, mappings), technology)
+        self.clusterRequest = ClusterRequest(ClusterPlacement(topo, mappings), technology)
         
         nodeNames = ('node082', 'node083') 
         deployedNodes = self.physicalCluster.getSubset(nodeNames)

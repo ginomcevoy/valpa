@@ -5,7 +5,7 @@ Created on Oct 13, 2013
 '''
 import unittest
 from create.mapping import MappingResolver
-from core.cluster import Topology, Cluster, Mapping, \
+from core.cluster import Topology, ClusterRequest, Mapping, \
     ClusterPlacement
 from unit.test_abstract import VespaWithNodesAbstractTest
 from core.virtual import VirtualClusterTemplates
@@ -27,7 +27,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         self.testDeployNodes = ('node083', 'node084', 'node087')
         self.testDeploySockets = (1, 2)
         mapping = Mapping(8, None, self.testDeployNodes, self.testDeploySockets)
-        self.cluster = Cluster(ClusterPlacement(topology, mapping))
+        self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
 
         self.mappingResolver.processMappings(self.cluster)
 
@@ -49,7 +49,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         # 3 hosts, 2 vms per host, 4 cores each
         topology = Topology(24, 4)
         mapping = Mapping(8, None)
-        self.cluster = Cluster(ClusterPlacement(topology, mapping))
+        self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
         
         self.mappingResolver.processMappings(self.cluster)
 
@@ -69,7 +69,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         # 1 hosts, 2 vms, 4 cores each
         topology = Topology(8, 4)
         mapping = Mapping(0, None)
-        self.cluster = Cluster(ClusterPlacement(topology, mapping))
+        self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
 
         self.mappingResolver.processMappings(self.cluster)
 
@@ -85,7 +85,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         # 1 host, 1 vms, 4 cores
         topology = Topology(4, 4)
         mapping = Mapping(0, None)
-        self.cluster = Cluster(ClusterPlacement(topology, mapping))
+        self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
 
         self.mappingResolver.processMappings(self.cluster)
 
@@ -107,7 +107,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         # 3 hosts, 2 vms per host, 4 cores each
         topology = Topology(24, 4)
         mapping = Mapping(8, None)
-        self.cluster = Cluster(ClusterPlacement(topology, mapping))
+        self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
         
         self.mappingResolver.processMappings(self.cluster)
         

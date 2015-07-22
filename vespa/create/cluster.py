@@ -13,7 +13,7 @@ from submit.config import ApplicationParameterReader
 from submit.pbs.updater import PBSUpdater
 from core.virtual import VirtualClusterTemplates
 from core.enum import NetworkOpt, PinningOpt # @UnusedImport it IS used
-from core.cluster import Topology, Mapping, Cluster, ClusterPlacement
+from core.cluster import Topology, Mapping, ClusterRequest, ClusterPlacement
 
 class ClusterDefiner:
     '''
@@ -256,6 +256,6 @@ def createClusterRequest(nc, cpv, idf, pstrat):
     topology = Topology(nc, cpv)
     mapping = Mapping(idf, pinningOpt)
     clusterPlacement = ClusterPlacement(topology, mapping) 
-    clusterRequest = Cluster(clusterPlacement)
+    clusterRequest = ClusterRequest(clusterPlacement)
     return clusterRequest
     

@@ -15,7 +15,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 from core.experiment import *  # @UnusedWildImport
-from core.cluster import Cluster, Topology, Mapping, Technology ,\
+from core.cluster import ClusterRequest, Topology, Mapping, Technology ,\
 	ClusterPlacement
 from core.enum import CpuTopoOpt, DiskOpt, NetworkOpt, PinningOpt  # @UnusedImport they ARE used
 
@@ -95,7 +95,7 @@ def parseCluster(clusterNode):
 
 	# cluster object
 	clusterPlacement = ClusterPlacement(topology, mapping) 
-	cluster = Cluster(clusterPlacement, technology, None, physicalMachinesOnly)
+	cluster = ClusterRequest(clusterPlacement, technology, None, physicalMachinesOnly)
 
 	return cluster
 

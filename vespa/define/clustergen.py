@@ -3,7 +3,7 @@ Created on Sep 29, 2014
 
 @author: giacomo
 '''
-from core.cluster import Topology, Mapping, ClusterPlacement, Cluster,\
+from core.cluster import Topology, Mapping, ClusterPlacement, ClusterRequest,\
     SetsTechnologyDefaults, Technology
 from core.simple_specs import SimpleClusterPlacementSpecification
 from .constraint import ClusterGenerationSpecification,\
@@ -59,7 +59,8 @@ class ClusterRequestGenerator():
             # use provided VMM Settings
             for technology in self.technologyTuple:
                 for tuning in self.tuningTuple:
-                    cluster = Cluster(clusterPlacement, technology, tuning, physicalMachinesOnly)
+                    cluster = ClusterRequest(clusterPlacement, technology, 
+                                             tuning, physicalMachinesOnly)
                     clusterRequests.append(cluster)
                         
         return clusterRequests
