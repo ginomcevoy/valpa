@@ -59,7 +59,7 @@ def parseExperiment(experimentNode):
 		app = parseApplication(appNode)
 	else:
 		# mock application, only cluster matters
-		app = Application('none', 0) 
+		app = defaultApplication()
 	
 	return Experiment(name, cluster, app, trials)  
 
@@ -147,11 +147,28 @@ def parseMapping(mappingNode):
 	return Mapping(idf, pinningOpt)
 	
 def parseTechnology(technologyNode):
+	""" Read parameters within a <technology/> element.
+	   
+	<technology network="vhost" disk="virtio" infiniband="True" />
+	All items within technology are optional.
+	"""
+	networkOpt, diskOpt, infinibandFlag = (None, None, None)
+	
 	networkValue = technologyNode.get('network')
-	networkOpt = eval('NetworkOpt.' + networkValue)
+	if networkValue is not None:
+		networkOpt = eval('NetworkOpt.' + networkValue)
+		
 	diskValue = technologyNode.get('disk')
-	diskOpt = eval('DiskOpt.' + diskValue)
-	return Technology(networkOpt, diskOpt)
+	if diskValue is not None:
+		diskOpt = eval('DiskOpt.' + diskValue)
+		
+	infinibandValue = technologyNode.get('infiniband')
+	if infinibandValue is not None:
+		infinibandFlag = infinibandValue.capitalize() == 'True' 
+	return Technology(networkOpt, diskOpt, infinibandFlag)
+
+def defaultApplication():
+	return Application('none', 0)
 
 def writeScenarios(scenarios, baseDir, helperFilename):
 
