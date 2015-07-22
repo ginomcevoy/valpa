@@ -24,7 +24,6 @@ class ExperimentSetRunnerIntegrationTest(VespaWithBootstrapAbstractTest):
         experimentXML = 'resources/integration/two-exps.xml'
         
         # when
-        print(experimentXML)
         expSetRunner.readAndExecute(experimentXML)
         
 class ClusterDefinerIntegrationTest(VespaWithBootstrapAbstractTest, VespaDeploymentAbstractTest):

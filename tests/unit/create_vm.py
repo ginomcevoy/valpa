@@ -21,7 +21,6 @@ class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
 
     def testGetUUID(self):
         uuidgen = self.definitionDetails.getUUID('kvm-pbs082-01')
-        #print(uuidgen)
         self.assertEqual(len(uuidgen), len('446bf85f-b4ba-459b-8e04-60394fc00d5c'))
         
     def testGetMAC(self):

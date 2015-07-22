@@ -11,19 +11,16 @@ def run():
     
     # Read filename from args
     filename = sys.argv[1]
-    #print('filename: ', filename)
 
     # open file and read it
-    file = open(filename, 'r')
-    text = file.read()
+    aFile = open(filename, 'r')
+    text = aFile.read()
     
     # get the repeated filenames
     repeatedNames = re.split('\\n', text)
-    #print(repeatedNames)
     
     # work on repeated filenames
     names = unique(repeatedNames)
-    #print(names)
 
     # output to another file
     outputName = sys.argv[2]
@@ -50,14 +47,12 @@ def unique(repeatedNames):
         # boundary condition for first element 
         if len(uniques) == 0:
             uniques.append(s)
-            #print('added ', s)
             continue
         
         # add the rest 
         size = len(uniques)
         if uniques[size - 1] != s:
             # this node name has not been added yet
-            #print('added ', s)
             uniques.append(s);
         
     return uniques;
