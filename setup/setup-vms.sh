@@ -18,14 +18,16 @@ source $VESPA_DIR/params.sh
 $VESPA_DIR/mgmt/stop-vms-all.sh $NODE_L
 
 # Create all possible VMs
+# Don't use Torque (last False) because Torque mom does not load at first setup
 NC=$(expr $NODE_L \* $VM_L)
 CPV=1
 IDF=$VM_L
 PS='NONE'
-cd $VESPA_DIR/vespa
-python quickcluster.py $NC $CPV $IDF $PS
+cd $VESPA_DIR/bin
+./vespa-create $NC $CPV $IDF $PS False
 
 # Create /etc/hosts file
+cd $VESPA_DIR/vespa
 ETC_HOSTS=$VESPA_DIR/data-output/hosts
 python -m network.etchosts $ETC_HOSTS 
 

@@ -16,7 +16,7 @@ from . import cluster
 import bootstrap
 from core.cluster import SetsTechnologyDefaults
 
-def quickCluster(nc, cpv, idf, pstrat, forReal):
+def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
     
     # create clusterRequest based on DIST tuple
     clusterRequest = cluster.createClusterRequest(nc, cpv, idf, pstrat)
@@ -38,8 +38,13 @@ def quickCluster(nc, cpv, idf, pstrat, forReal):
         # declared cluster is invalid
         print("ERROR: cluster invalid! ", clusterRequest)        
     else:
-        # mock application
-        appInfo = Application('none', 0)
+        # mock application: if withTorque, then use an application
+        # that will configure the Torque server with the VMs as nodes, 
+        # else ignore Torque and only instantiate VMs.  
+        if withTorque:
+            appInfo = Application('torque', 0)
+        else:
+            appInfo = Application('none', 0)
         
         # cluster managers: define and deploy 
         clusterFactory = bootstrapper.getClusterFactory()
@@ -53,9 +58,15 @@ def quickCluster(nc, cpv, idf, pstrat, forReal):
 if __name__ == "__main__":
     # verify input
     if len(sys.argv) < 5:
-        raise ValueError("call: quickcluster <nc> <cpv> <idf> <ps> [forReal=True]")
+        raise ValueError("call: quickcluster <nc> <cpv> <idf> <ps> [withTorque=True] [forReal=True]")
+    
     if len(sys.argv) > 5:
-        forReal = sys.argv[5] == "True"
+        withTorque = sys.argv[5] == "True"
+    else:
+        withTorque = True
+        
+    if len(sys.argv) > 6:
+        forReal = sys.argv[6] == "True"
     else:
         forReal = True
          
@@ -66,4 +77,4 @@ if __name__ == "__main__":
     pstrat = sys.argv[4]
     
     # call logic
-    quickCluster(nc, cpv, idf, pstrat, forReal)
+    quickCluster(nc, cpv, idf, pstrat, withTorque, forReal)
