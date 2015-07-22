@@ -1,0 +1,67 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          torque-mom
+# Required-Start:    $remote_fs $local_fs $named $network
+# Required-Stop:     $remote_fs $local_fs $named $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop the PBS Mom
+# Description:       PBS is a versatile batch system for SMPs and clusters.
+#                    This script controls the mom process.
+### END INIT INFO
+
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+DAEMON=/usr/sbin/pbs_mom
+NAME=torque-mom
+DESC="Torque Mom"
+PIDFILE=/var/spool/torque/mom_priv/mom.lock
+
+test -x $DAEMON || exit 0
+
+# Include defaults if available
+if [ -f /etc/default/$NAME ] ; then
+	. /etc/default/$NAME
+fi
+
+# Load lsb functions
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+        ulimit -l unlimited
+        ulimit -s unlimited
+	log_daemon_msg "Starting $DESC" "$NAME"
+	start-stop-daemon --start --quiet --pidfile $PIDFILE \
+		--exec $DAEMON -- $DAEMON_OPTS
+	log_end_msg $?
+	;;
+  stop)
+	log_daemon_msg "Stopping $DESC" "$NAME"
+	start-stop-daemon --stop --quiet --pidfile $PIDFILE \
+		--exec $DAEMON
+	log_end_msg $?
+	;;
+ reload|force-reload)
+	log_daemon_msg "Reoading $DESC configuration files" "$NAME"
+	start-stop-daemon --stop --signal 1 --quiet --pidfile $PIDFILE \
+		--exec $DAEMON
+	log_end_msg $?
+  ;;
+  restart)
+	log_daemon_msg "Restarting $DESC" "$NAME"
+	start-stop-daemon --stop --quiet --pidfile $PIDFILE \
+		--exec $DAEMON
+	sleep 1
+	start-stop-daemon --start --quiet --pidfile $PIDFILE \
+		--exec $DAEMON -- $DAEMON_OPTS
+	log_end_msg $?
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	log_action_msg "Usage: /etc/init.d/torque-mom {start|stop|restart|reload|force-reload}"
+	exit 2
+	;;
+esac
+
+exit 0
