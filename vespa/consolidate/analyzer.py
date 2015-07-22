@@ -27,7 +27,7 @@ def analyzeApplication(appName, appDir, metricsFilename):
         if isMetricFileOutdated(configDir, metricsFilename):
                     
             # analyze this config: use application-specific shell script
-            script = 'datagen/apps/' + appName + '/metrics-config.sh'
+            script = 'consolidate/apps/' + appName + '/metrics-config.sh'
             
             # contingency
             if not os.path.exists(script):
