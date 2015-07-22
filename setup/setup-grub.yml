@@ -1,0 +1,11 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Copy necessary files to VMs
+      synchronize: src={{ vespa_dir }}/data-input/grub dest=/etc/default/
+      remote_user: root
+
+    - name: Update GRUB
+      command: update-grub
+      remote_user: root
