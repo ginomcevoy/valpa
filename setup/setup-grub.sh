@@ -23,7 +23,7 @@ CPV=1
 IDF=$VM_L
 PS='NONE'
 cd $VESPA_DIR/bin
-vespa-create $NC $CPV $IDF $PS
+./vespa-create $NC $CPV $IDF $PS
 
 # Generate inventory for all VMs: TODO: use inventory.all call
 INVENTORY=$($VESPA_DIR/util/vms-inventory.sh $NODE_L $VM_L)

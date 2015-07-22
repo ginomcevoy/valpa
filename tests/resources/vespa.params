@@ -99,7 +99,7 @@ monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
 monitor_do_nodes=True
 
 # comma separated list of applications that will use PBS
-pbs_supported_apps=parpac,none
+pbs_supported_apps=parpac,torque
 
 [Preferences]
 vm_pernode=12
