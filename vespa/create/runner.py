@@ -12,32 +12,31 @@ from sys import stdout
 
 from . import parser
 from create.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
-from submit.prepare import PreparesExperiment
 from submit.config import ApplicationParameterReader
-from submit.apprunner import RunnerFactory
 from submit.pbs.updater import PBSUpdater
 from .mapping import MappingResolver
 from core.cluster import SetsTechnologyDefaults
+from submit.execute import ApplicationExecutor
 
 class ExperimentSetRunner():
     '''
     Runs all experiments in the experiment XML.
     '''
 
-    def __init__(self, clusterFactory, hwSpecs, vespaPrefs, forReal):
+    def __init__(self, deploymentFactory, hwSpecs, vespaPrefs, forReal):
         '''
-        Constructor, clusterFactory should have been instantiated by bootstrap
+        Constructor, deploymentFactory should have been instantiated by bootstrap
         '''
 
         # Get a clusterDefiner instance ready to process clusters
-        self.clusterDefiner = clusterFactory.createClusterDefiner()
-        self.physicalClusterDefiner = clusterFactory.createPhysicalClusterDefiner()
+        self.clusterDefiner = deploymentFactory.createClusterDefiner()
+        self.physicalClusterDefiner = deploymentFactory.createPhysicalClusterDefiner()
         
         # Get a clusterDeployer instance ready
-        self.clusterDeployer = clusterFactory.createClusterDeployer()
+        self.clusterDeployer = deploymentFactory.createClusterDeployer()
         
-        # Get an clusterExecutor instance ready
-        self.clusterExecutor = clusterFactory.createClusterExecutor()
+        # Get an applicationExecutor instance ready
+        self.applicationExecutor = deploymentFactory.createApplicationExecutor()
         
         # Strategy to set default Technology values
         self.technologySetter = SetsTechnologyDefaults(vespaPrefs)
@@ -98,7 +97,7 @@ class ExperimentSetRunner():
         
         if error is None:                        
             # deployment correct, go on to application execution on the virtual cluster
-            self.clusterExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest)
+            self.applicationExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest)
                             
             # wait for application execution
             self.awaitExecution(appRequest)
@@ -139,7 +138,7 @@ class ExperimentSetRunner():
         deploymentInfo = self.physicalClusterDefiner.defineCluster(clusterRequest, appRequest, self.forReal) 
 
         # go on to application execution on the cluster
-        self.clusterExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest)
+        self.applicationExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest)
         
         # wait for application execution
         self.awaitExecution(appRequest)
@@ -152,9 +151,9 @@ class ExperimentSetRunner():
         else:
             print(waitExecCall)
                     
-class ClusterFactory:
+class DeploymentFactory:
     '''
-    Instantiates the ClusterDefiner, ClusterDeployer and ClusterExecutor.
+    Instantiates the ClusterDefiner, ClusterDeployer and ApplicationExecutor.
     '''
     def __init__(self, forReal, vespaConfig, hwSpecs, vmDefinitionGenerator, configFactory, physicalCluster, allVMDetails, vespaXML):
         # Process Vespa configuration
@@ -187,13 +186,10 @@ class ClusterFactory:
         pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
         return ClusterDeployer(self.forReal, appParamReader, pbsUpdater)
         
-    def createClusterExecutor(self):
-        clusterExecutor = ClusterExecutor(self.configFactory, self.forReal, self.vespaPrefs, self.runOpts)
-        return clusterExecutor 
+    def createApplicationExecutor(self):
+        applicationExecutor = ApplicationExecutor(self.configFactory, self.forReal, self.vespaPrefs, self.runOpts)
+        return applicationExecutor 
     
-    #def createClusterDefaults(self):
-        
-                    
 class ClusterDeployer:
     '''
     Deploys a previously defined virtual cluster, while preparing it to submit
@@ -316,42 +312,3 @@ class ClusterDeployer:
         # produce ssh call to the host
         pinningCall = ['ssh', host, virshCall]
         return pinningCall
-
-class ClusterExecutor:
-    '''
-    Executes an application on a previously deployed cluster.
-    '''
-    
-    def __init__(self, configFactory, forReal, vespaPrefs, runOpts):
-        self.forReal = forReal
-        self.runOpts = runOpts
-
-        # need these as strategy
-        self.prepsExperiment = PreparesExperiment(forReal, vespaPrefs, runOpts)
-        self.configFactory = configFactory
-        self.runnerFactory = RunnerFactory(self.configFactory, forReal)
-    
-    def prepareAndExecute(self, clusterRequest, deploymentInfo, appRequest):
-        
-        # Prepare execution (config file and execution path)
-        (execConfig, experimentPath) = self.prepsExperiment.prepare(clusterRequest, deploymentInfo, appRequest)
-        
-        # Application-specific params
-        appParams = self.configFactory.readAppParams(appRequest)
-        
-        # support classes
-        appConfigurator = self.configFactory.createApplicationConfigurator(appRequest, experimentPath, appParams, self.forReal)
-        execConfigurator = self.configFactory.createExecutionConfigurator(appRequest, clusterRequest, deploymentInfo)
-        appRunner = self.runnerFactory.createAppRunner(appRequest)
-        
-        # get basic execution file
-        executionFile = self.configFactory.createVespaExecutionFile(appRequest, experimentPath)
-        
-        # apply configuration
-        executionFile = appConfigurator.enhanceExecutionFile(executionFile, execConfig)
-        executionFile = execConfigurator.enhanceExecutionFile(executionFile, execConfig)
-        
-        # Run experiments
-        appRunner.execute(executionFile, execConfig)
-
-        return (execConfig, executionFile)

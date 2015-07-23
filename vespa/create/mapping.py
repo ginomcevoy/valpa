@@ -47,7 +47,7 @@ class MappingResolver:
 		Returns physical sockets, either read from virtual cluster definition
 		or inferred from specs and prefs
 		'''
-		# TODO use VMDetails + VirtualClusterFactory
+		# TODO: use VMDetails + VirtualClusterFactory
 		
 		# try to read from definition
 		deploySockets = None

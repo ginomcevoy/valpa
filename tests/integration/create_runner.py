@@ -5,7 +5,7 @@ Created on Oct 16, 2013
 '''
 import unittest
 
-from create.runner import ClusterExecutor
+from submit.execute import ApplicationExecutor
 from unit.test_abstract import VespaDeploymentAbstractTest
 from .vespa_bootstrap import VespaWithBootstrapAbstractTest
 
@@ -40,8 +40,8 @@ class ClusterDefinerIntegrationTest(VespaWithBootstrapAbstractTest, VespaDeploym
         self.experimentName = 'testExp'
         
         # get ClusterDefiner instance through the bootstrapper
-        clusterFactory = self.bootstrap.getClusterFactory()
-        self.clusterDefiner = clusterFactory.createClusterDefiner()
+        deploymentFactory = self.bootstrap.getDeploymentFactory()
+        self.clusterDefiner = deploymentFactory.createClusterDefiner()
         
         # expected
         self.expectedOutput = {'kvm-pbs082-01' : '/tmp/vespa/xmls/testExp/kvm-pbs082-01.xml',
@@ -62,13 +62,13 @@ class ClusterDefinerIntegrationTest(VespaWithBootstrapAbstractTest, VespaDeploym
         for i, vm in enumerate(deployedVMs):
             self.assertFileContentEqual(vm.getDefinition(), self.expectedXMLs[i])
         
-class ClusterExecutorTest(VespaWithBootstrapAbstractTest, VespaDeploymentAbstractTest):
+class ApplicationExecutorTest(VespaWithBootstrapAbstractTest, VespaDeploymentAbstractTest):
     
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
         VespaWithBootstrapAbstractTest.setUp(self)
         configFactory = self.bootstrap.getConfiguratorFactory()
-        self.executor = ClusterExecutor(configFactory, False, self.vespaPrefs, self.runOpts)
+        self.executor = ApplicationExecutor(configFactory, False, self.vespaPrefs, self.runOpts)
     
     def testPrepareAndExecute(self):
         (execConfig, executionFile) = self.executor.prepareAndExecute(self.clusterRequest, self.deploymentInfo, self.appRequest)
