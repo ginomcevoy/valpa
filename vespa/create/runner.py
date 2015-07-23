@@ -8,6 +8,7 @@ from ansible.playbook import PlayBook
 from ansible import callbacks, utils, runner
 import json
 import subprocess
+from sys import stdout
 
 from . import parser
 from create.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
@@ -123,7 +124,7 @@ class ExperimentSetRunner():
                                    forks=hostCount
                                 )
             out = theRunner.run()
-            print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))            
+            print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))
         else:
             print('ansible: ' + nodeFilename)
             print('ansible: ' + ansible_args)
@@ -214,6 +215,7 @@ class ClusterDeployer:
         print(cluster)
         print(appRequest)
         print('\n')
+        stdout.flush()
         
         # Get relevant values
         nc = cluster.topology.nc
@@ -288,6 +290,7 @@ class ClusterDeployer:
              
             # Playbook succeeded, inform output
             print json.dumps(results, sort_keys=True, indent=4, separators=(',', ':'))
+            stdout.flush()
         else:
             print('ansible: ' + vmFilename)
             print('ansible: ' + playbookName)
