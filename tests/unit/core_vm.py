@@ -17,7 +17,7 @@ class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
         allVMDetails = self.vmFactory.build()
 
         self.failIf(allVMDetails is None)
-        self.failUnlessEqual(len(allVMDetails.vmDict.keys()), 72, 'wrong amount of VMs')
+        self.failUnlessEqual(len(allVMDetails), 144)
         
         firstNode = self.physicalCluster.getNode('node082')
         vmsInFirstNode = allVMDetails.byNode[firstNode]
@@ -27,8 +27,6 @@ class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
         node087 = self.physicalCluster.getNode('node087')
         vmsInLastNode = allVMDetails.byNode[node087]
         self.failUnlessEqual(vmsInLastNode[5], 'kvm-pbs087-06')
-                
-        self.failUnlessEqual(len(allVMDetails), 72)
         
         aVMIndex = allVMDetails.getVM('kvm-pbs084-02').index
         self.failUnlessEqual(aVMIndex, 1)

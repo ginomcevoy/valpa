@@ -29,7 +29,8 @@ class MappingResolver:
 		if (deployNodeNames is None):
 			# infer deployNodes
 			deployNodeCount = self.__obtainDeployNodeCount__()
-			deployNodeNames = self.allNodes.nodeNames[0:deployNodeCount]
+			firstNodeIndex = self.mapping.firstNodeIndex
+			deployNodeNames = self.allNodes.nodeNames[firstNodeIndex:(deployNodeCount+firstNodeIndex)]
 			deployNodeNames = tuple(deployNodeNames)
 		
 		self.deployedNodes = self.allNodes.getSubset(deployNodeNames)

@@ -119,6 +119,24 @@ class MappingTest(VespaWithNodesAbstractTest):
         vmsSecondHost = deployedVMs.getVMNamesForNode(node083)
         self.failUnlessEqual(vmsSecondHost, ('kvm-pbs083-01', 'kvm-pbs083-02'))
         
+    def testFirstNodeIndex(self):
+        # 3 PMs, 2 vms per PM, 4 cores each
+        # firstNodeIndex = 3 so it leaves 3 PMs free
+        topology = Topology(24, 4)
+        mapping = Mapping(8, None, 3)
+        self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
+        
+        self.mappingResolver.processMappings(self.cluster)
+        
+        physicalNodes = self.mappingResolver.getDeployedNodes()
+        self.assertEquals(physicalNodes.nodeNames, ('node085', 'node086', 'node087'))
+        
+        virtualCluster = self.mappingResolver.getDeployedVMs()
+        node086 = self.physicalCluster.getNode('node086')
+        vmNames = virtualCluster.getVMNamesForNode(node086)
+        self.assertEquals(vmNames, ('kvm-pbs086-01', 'kvm-pbs086-02'))
+
+        
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
