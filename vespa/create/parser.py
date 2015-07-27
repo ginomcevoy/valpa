@@ -144,7 +144,12 @@ def parseMapping(mappingNode):
 	idf = int(mappingNode.get('idf'))
 	pstratValue = mappingNode.get('pstrat')
 	pinningOpt = eval('PinningOpt.' + pstratValue)
-	return Mapping(idf, pinningOpt)
+	
+	# firstNodeIndex is optional
+	firstNodeIndex = mappingNode.get('firstNodeIndex')
+	if firstNodeIndex is not None:
+		firstNodeIndex = int(firstNodeIndex)
+	return Mapping(idf, pinningOpt, firstNodeIndex)
 	
 def parseTechnology(technologyNode):
 	""" Read parameters within a <technology/> element.

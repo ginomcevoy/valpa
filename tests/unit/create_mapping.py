@@ -26,7 +26,7 @@ class MappingTest(VespaWithNodesAbstractTest):
         topology = Topology(24, 4)
         self.testDeployNodes = ('node083', 'node084', 'node087')
         self.testDeploySockets = (1, 2)
-        mapping = Mapping(8, None, self.testDeployNodes, self.testDeploySockets)
+        mapping = Mapping(8, None, None, self.testDeployNodes, self.testDeploySockets)
         self.cluster = ClusterRequest(ClusterPlacement(topology, mapping))
 
         self.mappingResolver.processMappings(self.cluster)

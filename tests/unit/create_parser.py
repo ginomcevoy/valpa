@@ -11,6 +11,7 @@ class ParserTest(unittest.TestCase):
         self.noOptionalValues = 'resources/integration/two-exps.xml'
         self.emptyApp = 'resources/scenario/empty-app.xml'
         self.infinibandOnly = 'resources/scenario/infiniband-only.xml'
+        self.withFirstNode = 'resources/scenario/withFirstNode.xml'
 
     def testNoOptionalValues(self):
         scenarios = parser.parseScenarios(self.noOptionalValues)
@@ -75,6 +76,7 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(experiment.app.name, defaultApplication.name)
         
     def testInfinibandOnly(self):
+        """Tests the infinibandFlag in the Technology field. """
         # given two scenarios
         scenarios = parser.parseScenarios(self.infinibandOnly)
         self.assertEqual(len(scenarios), 2)
@@ -96,6 +98,25 @@ class ParserTest(unittest.TestCase):
         self.assertFalse(technology.infinibandFlag)
         self.assertIsNone(technology.diskOpt)
         self.assertIsNone(technology.diskOpt)
+        
+    def testWithFirstNode(self):
+        """Test firstNodeIndex param in the Mapping field."""
+        # given
+        scenarios = parser.parseScenarios(self.withFirstNode)
+        self.assertEqual(len(scenarios), 4)
+        
+        # then for first scenario, firstNodeIndex=3
+        scenario = scenarios[0]
+        experiment = scenario.exps[0]
+        mapping = experiment.cluster.mapping
+        self.assertEquals(mapping.firstNodeIndex, 3)
+        
+        # then for fourth scenario, firstNodeIndex is not present 
+        # so it defaults to zero
+        scenario = scenarios[3]
+        experiment = scenario.exps[0]
+        mapping = experiment.cluster.mapping
+        self.assertEquals(mapping.firstNodeIndex, 0)
         
 
 if __name__ == "__main__":

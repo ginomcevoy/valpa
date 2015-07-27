@@ -157,11 +157,16 @@ class Topology:
 
 class Mapping:
 
-    def __init__(self, idf, pinningOpt, deployNodes=None, deploySockets=None):
+    def __init__(self, idf, pinningOpt, firstNodeIndex=None, deployNodes=None, deploySockets=None):
         self.idf = idf
         self.pinningOpt = pinningOpt
         self.deployNodes = deployNodes # default value: first deployNodes
         self.deploySockets = deploySockets # default value: all sockets
+        
+        # mapping will start at first node if unspecified
+        if firstNodeIndex is None:
+            firstNodeIndex = 0
+        self.firstNodeIndex = firstNodeIndex
     
     def isConsistentWith(self, hwSpecs):
         '''

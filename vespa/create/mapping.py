@@ -24,15 +24,15 @@ class MappingResolver:
 		self.topology = clusterRequest.topology
 		
 		# try to read from definition
-		deployNodes = self.mapping.deployNodes
+		deployNodeNames = self.mapping.deployNodes
 		
-		if (deployNodes is None):
+		if (deployNodeNames is None):
 			# infer deployNodes
 			deployNodeCount = self.__obtainDeployNodeCount__()
-			deployNodes = self.allNodes.nodeNames[0:deployNodeCount]
-			deployNodes = tuple(deployNodes)
+			deployNodeNames = self.allNodes.nodeNames[0:deployNodeCount]
+			deployNodeNames = tuple(deployNodeNames)
 		
-		self.deployedNodes = self.allNodes.getSubset(deployNodes)
+		self.deployedNodes = self.allNodes.getSubset(deployNodeNames)
 		
 	def getDeployedNodes(self):
 		'''
