@@ -6,7 +6,7 @@ Created on Sep 21, 2014
 from .enum import PinningOpt
 
 class SimpleRules(object):
-    '''
+    """
     Rules for defining cluster placements using the simple characterization, 
     using the DIST tuple:
     nc: number of cores in virtual cluster
@@ -16,7 +16,11 @@ class SimpleRules(object):
         = vpm (virtual cores per PM), if cluster is in more than one PM
     pstrat = one of the available pinning strategies
     The rules focus on the first three variables.
-    '''
+    
+    Initial verification is also provided for these secondary variables:
+    firstNodeIndex: zero-based index for first PM
+    
+    """
 
     def __init__(self, hwSpecs):
         '''
@@ -58,6 +62,13 @@ class SimpleRules(object):
         Returns True iff the pstrat value is one of the available options.
         '''
         return pstrat in allPstrats()
+    
+    def isFirstNodeIndexPermitted(self, firstNodeIndex):
+        """
+        Return True iff the firstNodeIndex is a valid index for a PM 
+        in the cluster.
+        """
+        return firstNodeIndex >= 0 and firstNodeIndex < self.hwSpecs['nodes']
     
     def allCpvGivenNc(self, nc):
         '''
@@ -288,25 +299,37 @@ class SimpleRules(object):
             
         return pstrats
     
-    def canBeDeployedExactly(self, nc, idf, physicalMachines):
-        '''
-        Returns True iff the virtual cluster can be deployed in exactly the
-        amount of physicalMachines specified. Does not apply for physical
-        cluster.
-        '''
+    def mappedPhysicalNodes(self, nc, idf):
+        """
+        Finds the number of physical nodes that host the virtual cluster.
+        Returns -1 if the virtual cluster is unfeasible.
+        Raises an error if virtual cluster is not virtual.
+        """
         if idf == -1:
             raise ValueError("Only virtual clusters!")
         
         # nc/idf should be possible
         possibleIdfs = self.allIdfGivenNc(nc)
         if idf not in possibleIdfs:
-            return False
+            return -1
         
         if idf == 0:
             # implies single PM
-            return physicalMachines == 1
+            return 1
         else:
-            return physicalMachines == nc / idf
+            return nc / idf
+    
+    def canBeDeployedExactly(self, nc, idf, physicalMachines):
+        '''
+        Returns True iff the virtual cluster can be deployed in exactly the
+        amount of physicalMachines specified. Returns False  for physical
+        cluster.
+        '''
+        try:
+            possible = self.mappedPhysicalNodes(nc, idf) == physicalMachines
+        except ValueError:
+            possible = False
+        return possible
         
     def canBeDeployedInAny(self, nc, idf, physicalMachinesTuple):
         '''

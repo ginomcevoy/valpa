@@ -54,6 +54,17 @@ class SimpleMappingSpecificationTest(VespaAbstractTest):
     def testIsSatisfiedBy4(self):
         mappingRequest = Mapping(13, PinningOpt.BAL_SET)
         self.assertFalse(self.mappingSpec.isSatisfiedBy(mappingRequest))
+        
+    def testIsSatisfiedBy5(self):
+        # testing valid firstNodeIndex value
+        mappingRequest = Mapping(6, "BAL_SET", 3)
+        self.assertTrue(self.mappingSpec.isSatisfiedBy(mappingRequest))
+        
+    def testIsSatisfiedBy6(self):
+        # testing invalid firstNodeIndex value
+        mappingRequest = Mapping(6, "BAL_SET", 12)
+        self.assertFalse(self.mappingSpec.isSatisfiedBy(mappingRequest))
+        
 
 class SimpleClusterSpecificationTest(VespaAbstractTest):
     """Unit tests for core.simple_specs.SimpleClusterSpecification. """
@@ -68,15 +79,28 @@ class SimpleClusterSpecificationTest(VespaAbstractTest):
         self.assertTrue(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
         
     def testIsSatisfiedBy2(self):
+        """ BAL_SET not valid (equals BAL_ONE) """
         topologyRequest = Topology(18, 1)
-        mappingRequest = Mapping(6, PinningOpt.BAL_SET) # BAL_SET not valid (equals BAL_ONE)
+        mappingRequest = Mapping(6, PinningOpt.BAL_SET) 
         self.assertFalse(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
         
     def testIsSatisfiedBy3(self):
+        """ idf not valid with topology. """
         topologyRequest = Topology(24, 12)
-        mappingRequest = Mapping(6, PinningOpt.BAL_SET) # idf not valid with topology
+        mappingRequest = Mapping(6, PinningOpt.BAL_SET) 
         self.assertFalse(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
-
+        
+    def testIsSatisfiedBy4(self):
+        """ Test when firstNodeIndex causes virtual cluster to occupy last nodes """
+        topologyRequest = Topology(24, 2)
+        mappingRequest = Mapping(6, PinningOpt.NONE, 8) 
+        self.assertTrue(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
+    
+    def testIsSatisfiedBy5(self):
+        """ Test when firstNodeIndex causes virtual cluster to not fit """
+        topologyRequest = Topology(24, 2)
+        mappingRequest = Mapping(6, PinningOpt.NONE, 9) 
+        self.assertFalse(self.clusterSpec.isSatisfiedBy(topologyRequest, mappingRequest))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

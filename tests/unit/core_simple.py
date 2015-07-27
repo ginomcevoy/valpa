@@ -105,6 +105,13 @@ class SimpleRulesTest(VespaAbstractTest):
     def testIsIdfPermitted7(self):
         self.assertFalse(self.simpleRules.isIdfPermitted(1.5))
         
+    def testFirstNodeIndexPermitted(self):
+        self.assertTrue(self.simpleRules.isFirstNodeIndexPermitted(0))
+        self.assertTrue(self.simpleRules.isFirstNodeIndexPermitted(3))
+        self.assertTrue(self.simpleRules.isFirstNodeIndexPermitted(11))
+        self.assertFalse(self.simpleRules.isFirstNodeIndexPermitted(12))
+        self.assertFalse(self.simpleRules.isFirstNodeIndexPermitted(-1))
+        
     def testAllCpvGivenNc1(self):
         result = self.simpleRules.allCpvGivenNc(1)
         self.assertEqual(result, [1, ])
