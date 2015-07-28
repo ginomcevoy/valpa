@@ -97,9 +97,6 @@ monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
 # Also monitor physical nodes? (True/False)
 monitor_do_nodes=True
 
-# comma separated list of applications that will use PBS
-pbs_supported_apps=torque,parpac,npb-ep,cavity3d,graph500,uts,npb-mg,spectralclustering
-
 [Preferences]
 vm_pernode=12
 vm_prefix=kvm-pbs
