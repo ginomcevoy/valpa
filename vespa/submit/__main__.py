@@ -33,7 +33,7 @@ def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
     clusterDefiner = deploymentFactory.createClusterDefiner()
     deploymentInfo = clusterDefiner.defineCluster(clusterRequest, appName, False) # false means don't do anything with the cluster, just get the details 
     
-    applicationExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest) 
+    applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest) 
     
 if __name__ == "__main__":
     # verify input

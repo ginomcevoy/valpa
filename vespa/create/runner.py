@@ -97,7 +97,7 @@ class ExperimentSetRunner():
         
         if error is None:                        
             # deployment correct, go on to application execution on the virtual cluster
-            self.applicationExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest)
+            self.applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest)
                             
             # wait for application execution
             self.awaitExecution(appRequest)
@@ -138,7 +138,7 @@ class ExperimentSetRunner():
         deploymentInfo = self.physicalClusterDefiner.defineCluster(clusterRequest, appRequest, self.forReal) 
 
         # go on to application execution on the cluster
-        self.applicationExecutor.prepareAndExecute(clusterRequest, deploymentInfo, appRequest)
+        self.applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest)
         
         # wait for application execution
         self.awaitExecution(appRequest)

@@ -16,7 +16,7 @@ class ApplicationExecutor:
         self.configFactory = configFactory
         self.runnerFactory = RunnerFactory(self.configFactory, forReal)
     
-    def prepareAndExecute(self, clusterRequest, deploymentInfo, appRequest):
+    def execute(self, clusterRequest, deploymentInfo, appRequest):
         
         # Prepare execution (config file and execution path)
         (execConfig, experimentPath) = self.prepsExperiment.prepare(clusterRequest, deploymentInfo, appRequest)
