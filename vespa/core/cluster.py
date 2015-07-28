@@ -1,8 +1,39 @@
+"""This module contains the main entity classes that describe virtual clusters.
+
+The ClusterRequest class contains all the necessary information to describe a
+virtual cluster (Virtual Cluster Characterization). It is composed of the 
+ClusterPlacement, Technology and Tuning instances.
+
+A ClusterPlacement describes unambiguously how the virtual cores of the VMs 
+are mapped to the physical cores. It is composed by the Topology and Mapping. 
+
+The Topology describes the definition of the VMs, in amount and size. The 
+Mapping describes how these VMs are mapped to physical machines. Both are
+expressed using the simplified characterization (nc, cpv, idf, pstrat).
+
+"""
+
 from .enum import CpuTopoOpt, NetworkOpt, DiskOpt, PinningOpt
 from core.simple_specs import SimpleClusterPlacementSpecification,\
-	SimpleTopologySpecification, SimpleMappingSpecification
+    SimpleTopologySpecification, SimpleMappingSpecification
 
-class Cluster:
+class ClusterRequest:
+    """Represents an instance of a complete Virtual Cluster Characterization
+    
+    The ClusterRequest class contains all the necessary information to describe
+    a virtual cluster (Virtual Cluster Characterization). It is composed of 
+    ClusterPlacement, Technology and Tuning instances.
+    
+    Parameters
+    ----------
+    clusterPlacement : `ClusterPlacement`
+    technology : `Technology`, optional
+    tuning : `Tuning`, optional
+    physicalMachinsOnly : bool (default is False)
+            if False then deploy a virtual cluster, else use physical nodes 
+    
+    """
+
 
     def __init__(self, clusterPlacement, technology=None, tuning=None, physicalMachinesOnly=False):
         
@@ -21,12 +52,18 @@ class Cluster:
         self.technology = technology
     
     def isConsistentWith(self, hwSpecs):
-        '''
-        Returns True iff cluster is correctly defined
+        """Return True iff cluster is correctly defined.
+        
         Validates the following:
         1) valid clusterPlacement (see ClusterPlacement class)
         2) technology with valid options
-        '''
+        
+        Parameters
+        ----------
+        hwSpecs: dict
+        Hardware specifications created by HardwareInfo.
+    
+        """
         validClusterPlacement = self.clusterPlacement.isConsistentWith(hwSpecs)
         
         if self.physicalMachinesOnly:
@@ -120,11 +157,16 @@ class Topology:
 
 class Mapping:
 
-    def __init__(self, idf, pinningOpt, deployNodes=None, deploySockets=None):
+    def __init__(self, idf, pinningOpt, firstNodeIndex=None, deployNodes=None, deploySockets=None):
         self.idf = idf
         self.pinningOpt = pinningOpt
         self.deployNodes = deployNodes # default value: first deployNodes
         self.deploySockets = deploySockets # default value: all sockets
+        
+        # mapping will start at first node if unspecified
+        if firstNodeIndex is None:
+            firstNodeIndex = 0
+        self.firstNodeIndex = firstNodeIndex
     
     def isConsistentWith(self, hwSpecs):
         '''

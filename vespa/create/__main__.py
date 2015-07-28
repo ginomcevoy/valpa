@@ -47,9 +47,9 @@ def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
             appInfo = Application('none', 0)
         
         # cluster managers: define and deploy 
-        clusterFactory = bootstrapper.getClusterFactory()
-        clusterDefiner = clusterFactory.createClusterDefiner()
-        clusterDeployer = clusterFactory.createClusterDeployer()
+        deploymentFactory = bootstrapper.getDeploymentFactory()
+        clusterDefiner = deploymentFactory.createClusterDefiner()
+        clusterDeployer = deploymentFactory.createClusterDeployer()
         
         # define and deploy cluster
         deploymentInfo = clusterDefiner.defineCluster(clusterRequest, 'quick', forReal)

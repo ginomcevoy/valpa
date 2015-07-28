@@ -8,7 +8,7 @@ import unittest
 
 from core import config_vespa
 from core import config_hw
-from core.cluster import Topology, Mapping, Technology, Cluster,\
+from core.cluster import Topology, Mapping, Technology, ClusterRequest,\
     ClusterPlacement
 from core.physical import PhysicalNode, PhysicalCluster
 from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
@@ -60,25 +60,33 @@ class VespaAbstractTest(unittest.TestCase):
 class VespaWithNodesAbstractTest(VespaAbstractTest):
     '''
     Template for unit tests in Vespa that assume a fixed physical cluster.
+    The physical cluster has 12 nodes.
     '''
     
     def setUp(self):
         # load fixed Vespa settings
         VespaAbstractTest.setUp(self)
         
-        # assume cluster architecture: 3 physical nodes
+        # assume cluster architecture: 12 physical nodes
         node1 = PhysicalNode('node082', 0, 82, '082')
         node2 = PhysicalNode('node083', 1, 83, '083')
         node3 = PhysicalNode('node084', 2, 84, '084')
         node4 = PhysicalNode('node085', 3, 85, '085')
         node5 = PhysicalNode('node086', 4, 86, '086')
         node6 = PhysicalNode('node087', 5, 87, '087')
-        nodeDict = {'node082' : node1, 
-                    'node083' : node2, 
-                    'node084' : node3,
-                    'node085' : node4,
-                    'node086' : node5,
-                    'node087' : node6}
+        node7 = PhysicalNode('node088', 6, 88, '088')
+        node8 = PhysicalNode('node089', 7, 89, '089')
+        node9 = PhysicalNode('node090', 8, 90, '090')
+        node10 = PhysicalNode('node091', 9, 91, '091')
+        node11 = PhysicalNode('node092', 10, 92, '092')
+        node12 = PhysicalNode('node093', 11, 93, '093')
+        nodeDict = {'node082' : node1, 'node083' : node2, 
+                    'node084' : node3, 'node085' : node4,
+                    'node086' : node5, 'node087' : node6,
+                    'node088' : node7, 'node089' : node8,
+                    'node090' : node9, 'node091' : node10,
+                    'node092' : node11, 'node093' : node12
+                    }
         self.physicalCluster = PhysicalCluster(nodeDict)
         
         buildsVMDetails = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
@@ -99,7 +107,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         topo = Topology(16, 4)
         mappings = Mapping(8, PinningOpt.BAL_ONE)
         technology = Technology(NetworkOpt.vhost, DiskOpt.scsi)
-        self.clusterRequest = Cluster(ClusterPlacement(topo, mappings), technology)
+        self.clusterRequest = ClusterRequest(ClusterPlacement(topo, mappings), technology)
         
         nodeNames = ('node082', 'node083') 
         deployedNodes = self.physicalCluster.getSubset(nodeNames)

@@ -15,7 +15,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 from core.experiment import *  # @UnusedWildImport
-from core.cluster import Cluster, Topology, Mapping, Technology ,\
+from core.cluster import ClusterRequest, Topology, Mapping, Technology ,\
 	ClusterPlacement
 from core.enum import CpuTopoOpt, DiskOpt, NetworkOpt, PinningOpt  # @UnusedImport they ARE used
 
@@ -59,7 +59,7 @@ def parseExperiment(experimentNode):
 		app = parseApplication(appNode)
 	else:
 		# mock application, only cluster matters
-		app = Application('none', 0) 
+		app = defaultApplication()
 	
 	return Experiment(name, cluster, app, trials)  
 
@@ -95,7 +95,7 @@ def parseCluster(clusterNode):
 
 	# cluster object
 	clusterPlacement = ClusterPlacement(topology, mapping) 
-	cluster = Cluster(clusterPlacement, technology, None, physicalMachinesOnly)
+	cluster = ClusterRequest(clusterPlacement, technology, None, physicalMachinesOnly)
 
 	return cluster
 
@@ -144,14 +144,36 @@ def parseMapping(mappingNode):
 	idf = int(mappingNode.get('idf'))
 	pstratValue = mappingNode.get('pstrat')
 	pinningOpt = eval('PinningOpt.' + pstratValue)
-	return Mapping(idf, pinningOpt)
+	
+	# firstNodeIndex is optional
+	firstNodeIndex = mappingNode.get('firstNodeIndex')
+	if firstNodeIndex is not None:
+		firstNodeIndex = int(firstNodeIndex)
+	return Mapping(idf, pinningOpt, firstNodeIndex)
 	
 def parseTechnology(technologyNode):
+	""" Read parameters within a <technology/> element.
+	   
+	<technology network="vhost" disk="virtio" infiniband="True" />
+	All items within technology are optional.
+	"""
+	networkOpt, diskOpt, infinibandFlag = (None, None, None)
+	
 	networkValue = technologyNode.get('network')
-	networkOpt = eval('NetworkOpt.' + networkValue)
+	if networkValue is not None:
+		networkOpt = eval('NetworkOpt.' + networkValue)
+		
 	diskValue = technologyNode.get('disk')
-	diskOpt = eval('DiskOpt.' + diskValue)
-	return Technology(networkOpt, diskOpt)
+	if diskValue is not None:
+		diskOpt = eval('DiskOpt.' + diskValue)
+		
+	infinibandValue = technologyNode.get('infiniband')
+	if infinibandValue is not None:
+		infinibandFlag = infinibandValue.capitalize() == 'True' 
+	return Technology(networkOpt, diskOpt, infinibandFlag)
+
+def defaultApplication():
+	return Application('none', 0)
 
 def writeScenarios(scenarios, baseDir, helperFilename):
 

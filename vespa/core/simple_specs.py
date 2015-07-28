@@ -59,10 +59,12 @@ class SimpleMappingSpecification():
         '''
         idf = mappingRequest.idf
         pstrat = mappingRequest.pinningOpt
+        firstNodeIndex = mappingRequest.firstNodeIndex
         
-        validIdf = self.simpleRules.isIdfPermitted(idf)
-        validPstrat = self.simpleRules.isPstratPermitted(pstrat) 
-        return validIdf and validPstrat
+        valid1 = self.simpleRules.isIdfPermitted(idf)
+        valid2 = self.simpleRules.isPstratPermitted(pstrat) 
+        valid3 = self.simpleRules.isFirstNodeIndexPermitted(firstNodeIndex)
+        return valid1 and valid2 and valid3
            
 class SimpleClusterPlacementSpecification(ClusterPlacementSpecification):
     '''
@@ -92,15 +94,23 @@ class SimpleClusterPlacementSpecification(ClusterPlacementSpecification):
         if (not validTopology) or (not validMapping):
             return False  
         
-        # now check if the combined parts can produce a feasible virtual cluster
+        # check if the combined parts can produce a feasible virtual cluster
         nc = topologyRequest.nc
         cpv = topologyRequest.cpv
         idf = mappingRequest.idf
         pstrat = mappingRequest.pinningOpt
+        firstNodeIndex = mappingRequest.firstNodeIndex
         
         validIdfs = self.simpleRules.allIdfGiven(nc, cpv)
-        validPstrats = self.simpleRules.allPstratGiven(nc, cpv, idf)
-        
         idfOk = idf in validIdfs
+        
+        validPstrats = self.simpleRules.allPstratGiven(nc, cpv, idf)
         pstratOk = pstrat in validPstrats
-        return idfOk and pstratOk     
+        
+        # The virtual cluster must fit in the physical cluster, this can fail
+        # if firstNodeIndex is too large.  
+        remainingNodes = self.hwSpecs['nodes'] - firstNodeIndex 
+        requiredNodes = self.simpleRules.mappedPhysicalNodes(nc, idf)
+        indexOk = remainingNodes >= requiredNodes
+        
+        return idfOk and pstratOk and indexOk     

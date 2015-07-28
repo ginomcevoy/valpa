@@ -24,15 +24,16 @@ class MappingResolver:
 		self.topology = clusterRequest.topology
 		
 		# try to read from definition
-		deployNodes = self.mapping.deployNodes
+		deployNodeNames = self.mapping.deployNodes
 		
-		if (deployNodes is None):
+		if (deployNodeNames is None):
 			# infer deployNodes
 			deployNodeCount = self.__obtainDeployNodeCount__()
-			deployNodes = self.allNodes.nodeNames[0:deployNodeCount]
-			deployNodes = tuple(deployNodes)
+			firstNodeIndex = self.mapping.firstNodeIndex
+			deployNodeNames = self.allNodes.nodeNames[firstNodeIndex:(deployNodeCount+firstNodeIndex)]
+			deployNodeNames = tuple(deployNodeNames)
 		
-		self.deployedNodes = self.allNodes.getSubset(deployNodes)
+		self.deployedNodes = self.allNodes.getSubset(deployNodeNames)
 		
 	def getDeployedNodes(self):
 		'''
@@ -47,7 +48,7 @@ class MappingResolver:
 		Returns physical sockets, either read from virtual cluster definition
 		or inferred from specs and prefs
 		'''
-		# TODO use VMDetails + VirtualClusterFactory
+		# TODO: use VMDetails + VirtualClusterFactory
 		
 		# try to read from definition
 		deploySockets = None

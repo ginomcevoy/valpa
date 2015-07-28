@@ -4,6 +4,7 @@ Created on Apr 29, 2014
 @author: giacomo
 '''
 import subprocess
+from sys import stdout
 
 class PBSUpdater:
     '''
@@ -22,6 +23,7 @@ class PBSUpdater:
         updateCall = ['/bin/bash', 'submit/pbs/update-pbs.sh', filename, self.pbsServer]
         if self.forReal:
             print('updating pbs')
+            stdout.flush()
             subprocess.call(updateCall)
         else:
             print(updateCall)

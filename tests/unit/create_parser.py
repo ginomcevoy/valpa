@@ -8,10 +8,13 @@ from core.enum import MPIBindOpt, PinningOpt, NetworkOpt, DiskOpt
 class ParserTest(unittest.TestCase):
     
     def setUp(self):
-        self.scenarioXML = 'resources/integration/two-exps.xml'
+        self.noOptionalValues = 'resources/integration/two-exps.xml'
+        self.emptyApp = 'resources/scenario/empty-app.xml'
+        self.infinibandOnly = 'resources/scenario/infiniband-only.xml'
+        self.withFirstNode = 'resources/scenario/withFirstNode.xml'
 
-    def testName(self):
-        scenarios = parser.parseScenarios(self.scenarioXML)
+    def testNoOptionalValues(self):
+        scenarios = parser.parseScenarios(self.noOptionalValues)
         self.assertEqual(len(scenarios), 2)
         
         # Verify scenario1
@@ -59,6 +62,61 @@ class ParserTest(unittest.TestCase):
         # <procpin>NONE</procpin>
         appTuning = experiment.app.appTuning
         self.assertEqual(appTuning.procpin, MPIBindOpt.none)
+        
+    def testEmptyApp(self):
+        # given
+        scenarios = parser.parseScenarios(self.emptyApp)
+        self.assertEqual(len(scenarios), 1)
+        scenario = scenarios[0]
+        experiment = scenario.exps[0]
+        
+        # then no application in XML, so default should be added
+        # (also no exception thrown)
+        defaultApplication = parser.defaultApplication()
+        self.assertEqual(experiment.app.name, defaultApplication.name)
+        
+    def testInfinibandOnly(self):
+        """Tests the infinibandFlag in the Technology field. """
+        # given two scenarios
+        scenarios = parser.parseScenarios(self.infinibandOnly)
+        self.assertEqual(len(scenarios), 2)
+
+        # then first: technology has infinibandFlag set to True
+        # other items to None
+        scenario = scenarios[0]
+        experiment = scenario.exps[0]
+        technology = experiment.cluster.technology
+        self.assertTrue(technology.infinibandFlag)
+        self.assertIsNone(technology.diskOpt)
+        self.assertIsNone(technology.diskOpt)
+        
+        # then second: technology has infinibandFlag set to False
+        # other items to None
+        scenario = scenarios[1]
+        experiment = scenario.exps[0]
+        technology = experiment.cluster.technology
+        self.assertFalse(technology.infinibandFlag)
+        self.assertIsNone(technology.diskOpt)
+        self.assertIsNone(technology.diskOpt)
+        
+    def testWithFirstNode(self):
+        """Test firstNodeIndex param in the Mapping field."""
+        # given
+        scenarios = parser.parseScenarios(self.withFirstNode)
+        self.assertEqual(len(scenarios), 4)
+        
+        # then for first scenario, firstNodeIndex=3
+        scenario = scenarios[0]
+        experiment = scenario.exps[0]
+        mapping = experiment.cluster.mapping
+        self.assertEquals(mapping.firstNodeIndex, 3)
+        
+        # then for fourth scenario, firstNodeIndex is not present 
+        # so it defaults to zero
+        scenario = scenarios[3]
+        experiment = scenario.exps[0]
+        mapping = experiment.cluster.mapping
+        self.assertEquals(mapping.firstNodeIndex, 0)
         
 
 if __name__ == "__main__":

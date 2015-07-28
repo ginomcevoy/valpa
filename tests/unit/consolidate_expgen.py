@@ -38,7 +38,6 @@ class ExperimentGeneratorTest(unittest.TestCase):
         self.expGen.withMachines(machineTuple)
         
         # then
-        #print(self.expGen.combinations)
         self.assertEquals(self.expGen.combinations, [(12, 12, 0),])
         
     def testWithMachines2(self):
@@ -51,7 +50,6 @@ class ExperimentGeneratorTest(unittest.TestCase):
         self.expGen.withMachines(machineTuple)
         
         # then
-        #print(self.expGen.combinations)
         self.assertEquals(self.expGen.combinations, [(1, 1, 0), (2, 1, 0), (3, 1, 0), (4, 1, 0), (5, 1, 0), (6, 1, 0), (7, 1, 0), (8, 1, 0), (9, 1, 0), (10, 1, 0), (11, 1, 0), (12, 1, 0), (12, 12, 0), (2, 1, 1), (4, 1, 2), (6, 1, 3), (8, 1, 4), (10, 1, 5), (12, 1, 6), (14, 1, 7), (16, 1, 8), (18, 1, 9), (20, 1, 10), (22, 1, 11), (24, 1, 12), (24, 12, 12)])
         
     def testWithMachines3(self):
@@ -77,7 +75,6 @@ class ExperimentGeneratorTest(unittest.TestCase):
                 
         # grouped combinations
         groups = self.expGen.groups
-        #print(groups)
         self.assertEquals(len(groups.keys()), 31) # will be 31 XMLs
         
     def testGenerateXML1(self):
@@ -88,8 +85,6 @@ class ExperimentGeneratorTest(unittest.TestCase):
         self.expGen.withPstratValues((PinningOpt.BAL_ONE, PinningOpt.NONE))
         self.expGen.withPinCores(pinCoreTuple=(MPIBindOpt.core, MPIBindOpt.socket, MPIBindOpt.none))
         xmlPath = '../output/autorun/generated' 
-        
-        #print(os.path.abspath(os.path.curdir))
         
         # when
         xmlName = self.expGen.generateXML(experimentList, appInfo, xmlPath)

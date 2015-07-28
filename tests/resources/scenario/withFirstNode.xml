@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<scenarios>
+	<scenario>
+		<experiment name="exp1" trials="1">
+			<cluster>
+				<topology nc="16" cpv="4" />
+				<mapping idf="8" pstrat="BAL_ONE" firstNodeIndex="3" />
+				<technology infiniband="True"/>
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="exp2" trials="1">
+			<cluster>
+				<topology nc="16" cpv="4" />
+				<mapping idf="8" pstrat="BAL_ONE" firstNodeIndex="10" />
+				<technology infiniband="False"/>
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="exp3" trials="1">
+			<cluster>
+				<topology nc="16" cpv="4" />
+				<mapping idf="8" pstrat="BAL_ONE" firstNodeIndex="12" />
+				<technology infiniband="False"/>
+			</cluster>
+		</experiment>
+	</scenario>
+	<scenario>
+		<experiment name="exp4" trials="1">
+			<cluster>
+				<topology nc="16" cpv="4" />
+				<mapping idf="8" pstrat="BAL_ONE" />
+				<technology infiniband="False"/>
+			</cluster>
+		</experiment>
+	</scenario>
+</scenarios>

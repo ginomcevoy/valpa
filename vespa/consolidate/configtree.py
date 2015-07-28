@@ -53,7 +53,7 @@ def buildConfigDirs(configNames, configDict, appOutputDir):
 
 def copyFiles(configInputDir, configOutputDir):
     # use shell script for this
-    copyCall = ['/bin/bash', 'datagen/copyConfigFiles.sh', configInputDir, configOutputDir]
+    copyCall = ['/bin/bash', 'consolidate/copyConfigFiles.sh', configInputDir, configOutputDir]
     subprocess.call(copyCall)
 
     # create a file named 'identifier.txt' with the dist + config name

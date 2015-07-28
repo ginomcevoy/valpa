@@ -1,8 +1,8 @@
 '''
 Created on Dec 4, 2013
 
-Runs all datagen scripts in order:
-0. settings - loads datagen settings
+Runs all consolidate scripts in order:
+0. settings - loads consolidate settings
 1. analyzer - creates metrics-app.csv in each config
 2. configtree - creates output structure
 3. configlist - creates configs.csv in output

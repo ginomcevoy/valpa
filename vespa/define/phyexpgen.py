@@ -90,7 +90,6 @@ class PhysicalExperimentGenerator(object):
             
         xmlNames = []
         for experimentList in self.groups.values():
-            #print(experimentList)
             xmlName = self.generateXML(experimentList, appInfo, xmlPath)
             xmlNames.append(xmlName)
         return tuple(xmlNames)

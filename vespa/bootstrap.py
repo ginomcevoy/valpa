@@ -9,7 +9,7 @@ from core.physical import PhysicalNodeFactory
 from network.address import NetworkAddresses
 from create.vm import BuildsVMDefinitionGenerator
 from create.pinning import BuildsPinningWriter
-from create.runner import ClusterFactory, ExperimentSetRunner
+from create.runner import DeploymentFactory, ExperimentSetRunner
 from network.ips import SetsAddressesToPhysicalCluster,\
     SetsAddressesToAllPossibleVMs
 from core.virtual import BuildsAllVMDetails
@@ -48,7 +48,7 @@ class VespaBootstrapper():
         self.networkAddresses = None
         self.buildsVMDefinitionGenerator = None
         self.configFactory = None
-        self.clusterFactory = None
+        self.deploymentFactory = None
         self.experimentSetRunner = None
         self.buildsNetworkXMLs = None
         
@@ -133,21 +133,21 @@ class VespaBootstrapper():
             self.configFactory = ConfiguratorFactory(self.runOpts, appParamReader, networkAddresses)
         return self.configFactory
         
-    def getClusterFactory(self):
+    def getDeploymentFactory(self):
         _checkBootstrap()
-        if self.clusterFactory is None:
+        if self.deploymentFactory is None:
             vmDefinitionGenerator = self.getBuildsVMDefinitionGenerator().build()
             configFactory = self.getConfiguratorFactory()
-            self.clusterFactory = ClusterFactory(self.forReal, self.vespaConfig, self.hwSpecs,
+            self.deploymentFactory = DeploymentFactory(self.forReal, self.vespaConfig, self.hwSpecs,
                                                   vmDefinitionGenerator, configFactory, 
                                                   self.physicalCluster, self.getAllVMDetails(), 
                                                   self.vespaXML)
-        return self.clusterFactory
+        return self.deploymentFactory
     
     def getExperimentSetRunner(self):
         if self.experimentSetRunner is None:
-            clusterFactory = self.getClusterFactory()
-            self.experimentSetRunner = ExperimentSetRunner(clusterFactory, self.hwSpecs, self.vespaPrefs, self.forReal)
+            deploymentFactory = self.getDeploymentFactory()
+            self.experimentSetRunner = ExperimentSetRunner(deploymentFactory, self.hwSpecs, self.vespaPrefs, self.forReal)
         return self.experimentSetRunner
     
     def getBuildsNetworkXMLs(self):

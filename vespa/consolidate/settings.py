@@ -1,12 +1,12 @@
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
-# Reads datagen.params to obtain data generation preferences
+# Reads consolidate.params to obtain data generation preferences
 
 import ConfigParser
 
 class DataGenSettings:
 	'''
-	Reads datagen.params to produce dictionaries with options. One dictionary is
+	Reads consolidate.params to produce dictionaries with options. One dictionary is
 	the 'prefs' dictionary, with general settings. The other dictionaries represent
 	each application, and are stored in a single (second) dictionary
 	'''
@@ -32,9 +32,9 @@ class DataGenSettings:
 	def getInfoForApp(self, appName):
 		return self.apps[appName]
 	
-def getSettings(filename='../input/datagen.params'):
+def getSettings(filename='../input/consolidate.params'):
 	'''
-	Reads datagen settings file and instantiates DataGenSettings object
+	Reads consolidate settings file and instantiates DataGenSettings object
 	'''
 	if DataGenSettings.settings is None:
 		DataGenSettings.settings = DataGenSettings(filename)

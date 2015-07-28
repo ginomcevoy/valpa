@@ -59,7 +59,6 @@ def writeMetricsOneConfig(csvWriter, configDir, configDict, metricsFilename): #=
     # rest of entries are the data
     # open the metrics-app.csv data file
     csvFile = configDir + '/' + metricsFilename
-    #print(csvFile)
     
     with open(csvFile, 'r') as csvHandle:
         csvReader = csv.reader(csvHandle, delimiter=';', quotechar='|')

@@ -1,0 +1,19 @@
+# calculate directory local to script
+LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
+VESPA_DIR=$LOCAL_DIR/../
+
+# Verify parameters
+if [ $# -lt 2 ]; then
+	echo "Gather performance and execution metrics from a set of "
+        echo "Experiments and consolidate the data into a single folder."
+        echo
+	echo "Usage: $0 <appName> '<configVars>'"
+        echo
+	echo "The <configVars> string contains the parameters that are "
+        echo "considered relevant for the set of experiments."
+        echo "Example: 'nc cpv idf pstrat'"
+	exit 1
+fi
+
+cd $VESPA_DIR/vespa
+PYTHONPATH=. python -m consolidate $@
