@@ -3,7 +3,7 @@ Created on Nov 5, 2014
 
 @author: giacomo
 '''
-from core import config_hw
+from core import config_hw, config_app
 from core import config_vespa
 from core.physical import PhysicalNodeFactory
 from network.address import NetworkAddresses
@@ -16,13 +16,13 @@ from core.virtual import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from create.cluster import VespaXMLGenerator
-from submit.config import ApplicationParameterReader, ConfiguratorFactory
+from submit.config import ConfiguratorFactory
 
-def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
+def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes', appFolder='../apps'):
     # instantiate Bootstrapper as a Singleton
     
     if VespaBootstrapper.instance is None:
-        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename)
+        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename, appFolder)
         VespaBootstrapper.instance.bootstrap()
         
 def getInstance():
@@ -35,18 +35,20 @@ class VespaBootstrapper():
     # Singleton variable
     instance = None
     
-    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename):
+    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename, appFolder):
         self.forReal = forReal
         self.vespaFilename = vespaFilename 
         self.hardwareFilename= hardwareFilename
         self.inventoryFilename = inventoryFilename
         self.templateDir = templateDir
         self.masterTemplate = masterTemplate
+        self.appFolder = appFolder
         self.boostrapped = False
         
         # lazy loading of these
         self.networkAddresses = None
         self.buildsVMDefinitionGenerator = None
+        self.appConfig = None
         self.configFactory = None
         self.deploymentFactory = None
         self.experimentSetRunner = None
@@ -125,12 +127,18 @@ class VespaBootstrapper():
             self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningBuilder.build(), networkAddresses)
         return self.buildsVMDefinitionGenerator
     
+    def getAppConfig(self):
+        _checkBootstrap()
+        if self.appConfig is None:
+            self.appConfig = config_app.getAppConfig(self.appFolder)
+        return self.appConfig
+    
     def getConfiguratorFactory(self):
         _checkBootstrap()
         if self.configFactory is None:
             networkAddresses = self.getNetworkAddresses()
-            appParamReader = ApplicationParameterReader(self.runOpts)
-            self.configFactory = ConfiguratorFactory(self.runOpts, appParamReader, networkAddresses)
+            appConfig = self.getAppConfig()
+            self.configFactory = ConfiguratorFactory(self.runOpts, appConfig, networkAddresses)
         return self.configFactory
         
     def getDeploymentFactory(self):

@@ -14,18 +14,15 @@ class ApplicationExecutor:
         # need these as strategy
         self.prepsExperiment = PreparesExperiment(forReal, vespaPrefs, runOpts)
         self.configFactory = configFactory
-        self.runnerFactory = RunnerFactory(self.configFactory, forReal)
+        self.runnerFactory = RunnerFactory(configFactory.appConfig, forReal)
     
     def execute(self, clusterRequest, deploymentInfo, appRequest):
         
         # Prepare execution (config file and execution path)
         (execConfig, experimentPath) = self.prepsExperiment.prepare(clusterRequest, deploymentInfo, appRequest)
         
-        # Application-specific params
-        appParams = self.configFactory.readAppParams(appRequest)
-        
         # support classes
-        appConfigurator = self.configFactory.createApplicationConfigurator(appRequest, experimentPath, appParams, self.forReal)
+        appConfigurator = self.configFactory.createApplicationConfigurator(appRequest, experimentPath, self.forReal)
         execConfigurator = self.configFactory.createExecutionConfigurator(appRequest, clusterRequest, deploymentInfo)
         appRunner = self.runnerFactory.createAppRunner(appRequest)
         
@@ -40,3 +37,6 @@ class ApplicationExecutor:
         appRunner.execute(executionFile, execConfig)
 
         return (execConfig, executionFile)
+    
+    def isTorqueBased(self, appRequest):
+        return self.configFactory.appConfig.isTorqueBased(appRequest)

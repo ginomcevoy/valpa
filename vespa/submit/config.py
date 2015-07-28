@@ -7,6 +7,7 @@ Configures application (PBS if supported) for execution
 '''
 import shutil
 import datetime
+from core import config_app
 
 class Configurator:
     
@@ -101,16 +102,18 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
             executionText = executionText.replace('&APP_EXECUTABLE', self.appParams['app.executable'])
             executionText = executionText.replace('&WALLTIME', self.appParams['exec.walltime'])
             
-            needsOutputCopy = self.appParams['exec.needsoutputcopy']
-            executionText = executionText.replace('&APP_NEEDS_OUTPUT_COPY', needsOutputCopy)
-            
-            if needsOutputCopy == 'Y':
+            if 'exec.otheroutput' in self.appParams and self.appParams['exec.otheroutput']:
+                # additional output requested
+                needsOutputCopy = 'Y'
                 otherOutput = self.appParams['exec.otheroutput']
                 outputRename = self.appParams['exec.outputrename']
             else:
+                # no need for handling additional output
+                needsOutputCopy = 'N'
                 otherOutput = '/dev/null'
                 outputRename = ''
-            
+                
+            executionText = executionText.replace('&APP_NEEDS_OUTPUT_COPY', needsOutputCopy)
             executionText = executionText.replace('&APP_OTHER_OUTPUT', otherOutput)
             executionText = executionText.replace('&APP_OUTPUT_RENAME', outputRename)
         
@@ -200,59 +203,56 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
         return networkingString
     
 class ConfiguratorFactory:
-    '''
-    Creates instances for configuration of application execution,
+    """ Creates instances for configuration of application execution,
     also creates a copy of the master execution file. 
     
-    TODO: rethink this class using patterns, is PBS optional here?
-    '''
-    def __init__(self, runOpts, appParamReader, networkAddresses):
+    """
+    def __init__(self, runOpts, appConfig, networkAddresses):
         self.runOpts = runOpts
         self.masterPbs = runOpts['pbs_master'] 
         self.networkAddresses = networkAddresses
-        self.appParamReader = appParamReader
+        self.appConfig = appConfig
     
-    def createBasicExecutionFile(self, appInfo, experimentPath):
-        '''
-        If using PBS, returns a copy of the Vespa PBS file (master version)
-        in the provided experimentPath 
-        '''
-        if self.isPBS(appInfo):
-            # is PBS
-            # copy the master PBS file to experiment path
+    def createBasicExecutionFile(self, appRequest, experimentPath):
+        """
+        If using Torque, returns a copy of the Vespa Torque file 
+        (master version) in the provided experimentPath 
+        """
+        if self.appConfig.isTorqueBased(appRequest):
+            # copy the master Torque file to experiment path
             pbsFile = experimentPath + '/submit.pbs'
             shutil.copyfile(self.masterPbs, pbsFile)
             
         else:
             # only supporting PBS
-            raise ValueError("Application not supported: " + appInfo.name)
+            raise ValueError("Application not supported: " + appRequest.name)
         
         return pbsFile
     
-    def createVespaExecutionFile(self, appInfo, experimentPath):
-        '''
-        If using PBS, returns a copy of the Vespa PBS file (adapted version)
-        in the provided experimentPath 
-        '''
-        executionFile = self.createBasicExecutionFile(appInfo, experimentPath)
+    def createVespaExecutionFile(self, appRequest, experimentPath):
+        """
+        If using Torque, returns a copy of the Vespa Torque file
+        (adapted version) in the provided experimentPath 
+        """
+        executionFile = self.createBasicExecutionFile(appRequest, experimentPath)
         vespaConfigurator = VespaConfigurator(self.runOpts)
         return vespaConfigurator.enhanceExecutionFile(executionFile)
         
-    def createApplicationConfigurator(self, appInfo, experimentPath, appParams, forReal=True):
-        '''
-        Returns ApplicationConfigurator instance, with PBS if supported.
-        '''
-        if self.isPBS(appInfo):
-            return ApplicationConfiguratorPBS(appInfo, experimentPath, appParams, forReal)
+    def createApplicationConfigurator(self, appRequest, experimentPath, forReal=True):
+        """ Return ApplicationConfigurator instance, with PBS if supported.
+        """
+        if self.appConfig.isTorqueBased(appRequest):
+            appParams = self.appConfig.getConfigFor(appRequest)
+            return ApplicationConfiguratorPBS(appRequest, experimentPath, appParams, forReal)
         else:
-            raise ValueError("Application not supported: " + appInfo.name)
+            raise ValueError("Application not supported: " + appRequest.name)
     
-    def createExecutionConfigurator(self, appInfo, clusterRequest, deploymentInfo):
+    def createExecutionConfigurator(self, appRequest, clusterRequest, deploymentInfo):
         '''
         Returns ExecutionConfigurator instance, with PBS if supported.
         '''
-        if self.isPBS(appInfo):
+        if self.appConfig.isTorqueBased(appRequest):
             return ExecutionConfiguratorPBS(clusterRequest, deploymentInfo, self.networkAddresses)
         else:
-            raise ValueError("Application not supported: " + appInfo.name)
+            raise ValueError("Application not supported: " + appRequest.name)
     

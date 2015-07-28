@@ -36,13 +36,13 @@ class AppRunnerPBS(AppRunnerAbstract):
 
 class RunnerFactory:
     
-    def __init__(self, configFactory, forReal):
-        self.configFactory = configFactory
+    def __init__(self, appConfig, forReal):
+        self.appConfig = appConfig
         self.forReal = forReal
     
-    def createAppRunner(self, appInfo):
-        if self.configFactory.isPBS(appInfo):
-            return AppRunnerPBS(appInfo, self.forReal)
+    def createAppRunner(self, appRequest):
+        if self.appConfig.isTorqueBased(appRequest):
+            return AppRunnerPBS(appRequest, self.forReal)
         else:
             # only PBS for now
             raise ValueError('Only PBS...')
