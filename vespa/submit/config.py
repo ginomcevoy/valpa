@@ -6,7 +6,6 @@ Configures application (PBS if supported) for execution
 @author: giacomo
 '''
 import shutil
-import ConfigParser
 import datetime
 
 class Configurator:
@@ -256,27 +255,4 @@ class ConfiguratorFactory:
             return ExecutionConfiguratorPBS(clusterRequest, deploymentInfo, self.networkAddresses)
         else:
             raise ValueError("Application not supported: " + appInfo.name)
-        
-    def isPBS(self, appInfo):
-        return self.appParamReader.isPBS(appInfo)
     
-    def readAppParams(self, appInfo):
-        return self.appParamReader.readAppParams(appInfo)
-    
-class ApplicationParameterReader():
-    
-    def __init__(self, runOpts):
-        self.pbsApps = runOpts['pbs_supported_apps'].split(',')
-    
-    def isPBS(self, appInfo):
-        return appInfo.name in self.pbsApps
-    
-    def readAppParams(self, appInfo):
-        '''
-        Reads application params that are registered with Vespa
-        (not provided in the request), returns dict
-        '''
-        appParamsFile = '../apps/' + appInfo.name + '.params'
-        config = ConfigParser.RawConfigParser()
-        config.read(appParamsFile)
-        return dict(config.items('Application'))
