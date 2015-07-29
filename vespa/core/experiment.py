@@ -7,15 +7,13 @@ class Application:
 	the application should be executed in an experiment.
 	'''
 
-	def __init__(self, name, runs, args='', appTuning=None):
+	def __init__(self, name, runs, args=None, appTuning=None):
 		self.name = name
 		if appTuning is None:
 			appTuning = AppTuning()
 		self.appTuning = appTuning
 		self.runs = runs
 		self.options = []
-		if args is None:
-			args = ''
 		self.args = args
 
 	def __str__(self):

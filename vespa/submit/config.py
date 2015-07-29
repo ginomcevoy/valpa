@@ -7,7 +7,6 @@ Configures application (PBS if supported) for execution
 '''
 import shutil
 import datetime
-from core import config_app
 
 class Configurator:
     
@@ -67,8 +66,8 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
     Adds application information to PBS submission file
     '''
     
-    def __init__(self, appInfo, experimentPath, appParams, forReal):
-        self.appInfo = appInfo
+    def __init__(self, appRequest, experimentPath, appParams, forReal):
+        self.appRequest = appRequest
         self.forReal = forReal
         self.experimentPath = experimentPath
         self.appParams = appParams
@@ -80,12 +79,20 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
             executionText = execution.read()
             
             # Provided in request
-            executionText = executionText.replace('&EXEC_TIMES', str(self.appInfo.runs))
+            executionText = executionText.replace('&EXEC_TIMES', str(self.appRequest.runs))
             executionText = executionText.replace('&EXPERIMENT_PATH', self.experimentPath)
-            executionText = executionText.replace('&APP_ARGS', self.appInfo.args)
+            
+            # Application arguments: use the args provided in the configuration, unless
+            # overridden in the application request
+            if self.appRequest.args is not None:
+                appArgs = self.appRequest.args
+            else:
+                appArgs = self.appParams['app.args']
+            
+            executionText = executionText.replace('&APP_ARGS', appArgs)
 
             # OpenMPI 1.8.x has simplified the binding syntax            
-            bindToCore = '--bind-to ' + self.appInfo.appTuning.procpin
+            bindToCore = '--bind-to ' + self.appRequest.appTuning.procpin
             executionText = executionText.replace('&MPI_PROC_BIND', bindToCore)
             
             # Inferred from name/date
@@ -94,7 +101,7 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
                 dateString = now.strftime('%Y-%m-%d-%H:%M')
             else:
                 dateString = '2013-04-06-08:55' # for testing
-            appExecName = self.appInfo.name + '-' + dateString
+            appExecName = self.appRequest.name + '-' + dateString
             executionText = executionText.replace('&APP_EXEC_NAME', appExecName)
             
             # From registration in Vespa
@@ -108,7 +115,7 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
                 otherOutput = self.appParams['exec.otheroutput']
                 outputRename = self.appParams['exec.outputrename']
             else:
-                # no need for handling additional output
+                # indicate no need for handling additional output
                 needsOutputCopy = 'N'
                 otherOutput = '/dev/null'
                 outputRename = ''

@@ -110,7 +110,7 @@ def parseApplication(appNode):
 	if argNode is not None:
 		args = argNode.text
 	else:
-		args = ''
+		args = None
 
 	# parse app tuning details, it is optional
 	tuningNode = appNode.find('tuning')
