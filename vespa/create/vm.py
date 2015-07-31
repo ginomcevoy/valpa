@@ -83,12 +83,13 @@ class VMDefinitionBasicGenerator:
 				uuid = self.definitionDetails.getUUID(vmName)
 				mac = self.definitionDetails.getMAC(vmName)
 				vmPath = self.definitionDetails.getVmPath(vmName)
-				vf = self.definitionDetails.getVirtualFunction(vmName)
+				slot, vf = self.definitionDetails.getInfiniband(vmName)
 				args = {'vm_name' : vmName, 
 						'vm_uuid' : uuid, 
 						'vm_mac' : mac, 
 						'vm_path' : vmPath,
-						'infiniband_function' : vf}
+						'ib_slot' : slot,
+						'ib_function' : vf}
 				
 				# apply jinja substitution
 				vmXML = template.render(args)
@@ -135,6 +136,7 @@ class VMDefinitionDetails:
 	'''
 	def __init__(self, vespaPrefs, networkAddresses):
 		self.vespaPrefs = vespaPrefs
+		self.hwSpecs = networkAddresses.hwSpecs
 		self.networkAddresses = networkAddresses
 		
 	def setDeploymentContext(self, deploymentInfo, forReal = True):
@@ -158,9 +160,26 @@ class VMDefinitionDetails:
 		node = vm.hostingNode
 		return self.networkAddresses.getVMMAC(node.index, vm.index)
 	
-	def getVirtualFunction(self, vmName):
+	def getInfiniband(self, vmName):
+		""" Return (slot, vf) tuple for Infiniband parameters.
+		
+		Uses hardware information to deduce the information for the i-th VM
+		in the PM. The virtual function increases up to 0x7, then it adds one
+		to the slot. This solution assumes that the bus remains the same
+		for all VMs, and assumes that slot never exceeds 0x07.
+		"""
+		# calculate the device for the VM. If it exceeds 7, add one to the 
+		# slot specified in the configuration.
 		vm = self.deployedVMs.getVM(vmName)
-		return '0x' + str(vm.number) # starts at 0x1
+		vf = int(self.hwSpecs['ib_device_start']) + vm.index # start value for 1st VM
+		slot = int(self.hwSpecs['ib_slot_start'])
+		if (vf > 7):
+			addedSlots= vf / 7
+			vf = vf % 7
+			slot = slot + addedSlots
+		slotString = '0x0' + str(slot)
+		vfString = '0x' + str(vf)
+		return (slotString, vfString) 
 	
 class BuildsVMDefinitionGenerator:
 	'''

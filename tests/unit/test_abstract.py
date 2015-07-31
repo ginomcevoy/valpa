@@ -93,11 +93,11 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
         self.allVMDetails = buildsVMDetails.build()
         
 class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
-    '''
-    Template for unit tests in Vespa used for testing virtual cluster deployments.
+    """ Template for unit tests in Vespa used for testing virtual cluster deployments.
+    
     Inherits the physical cluster from VespaWithNodesAbstractTest, and assumes
     a virtual cluster request.
-    '''
+    """
     
     def setUp(self):
         # load fixed Vespa settings and physical nodes
@@ -144,6 +144,72 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         
         # assume constructed XML
         self.clusterXML = open('resources/cluster-expected-vhost-scsi.xml', 'r').read()
+    
+class VespaInfinibandAbstractTest(VespaWithNodesAbstractTest):
+    """ Template for unit tests in Vespa used for testing virtual cluster deployments.
+    
+    Similar to VespaDeploymentAbstractTest, but the deployment is of eight VMs
+    in a single PM and Infiniband is enabled.
+    """
+    
+    def setUp(self):
+        # load fixed Vespa settings and physical nodes
+        VespaWithNodesAbstractTest.setUp(self)
+    
+        # Cluster of eight single-core VMs with 1 PM
+        topo = Topology(8, 1)
+        mappings = Mapping(0, PinningOpt.NONE)
+        technology = Technology(NetworkOpt.vhost, DiskOpt.scsi, infinibandFlag=True)
+        self.clusterRequest = ClusterRequest(ClusterPlacement(topo, mappings), technology)
+        
+        nodeNames = ('node082',) 
+        deployedNodes = self.physicalCluster.getSubset(nodeNames)
+
+        # build virtual cluster deployment manually        
+        vm1 = VMDetails('kvm-pbs082-01', 0, '01', deployedNodes.getNode('node082'))
+        vm2 = VMDetails('kvm-pbs082-02', 1, '02', deployedNodes.getNode('node082'))
+        vm3 = VMDetails('kvm-pbs082-03', 2, '03', deployedNodes.getNode('node082'))
+        vm4 = VMDetails('kvm-pbs082-04', 3, '04', deployedNodes.getNode('node082'))
+        vm5 = VMDetails('kvm-pbs082-05', 4, '05', deployedNodes.getNode('node082'))
+        vm6 = VMDetails('kvm-pbs082-06', 5, '06', deployedNodes.getNode('node082'))
+        vm7 = VMDetails('kvm-pbs082-07', 6, '07', deployedNodes.getNode('node082'))
+        vm8 = VMDetails('kvm-pbs082-08', 7, '08', deployedNodes.getNode('node082'))
+        
+        vmDict = {'kvm-pbs082-01' : vm1, 'kvm-pbs082-02' : vm2, 
+                  'kvm-pbs082-03' : vm3, 'kvm-pbs082-04' : vm4,
+                  'kvm-pbs082-05' : vm5, 'kvm-pbs082-06' : vm6,
+                  'kvm-pbs082-07' : vm7, 'kvm-pbs082-08' : vm8}
+        byNode = {deployedNodes.getNode('node082') : ('kvm-pbs082-01', 'kvm-pbs082-02',
+                                                      'kvm-pbs082-03', 'kvm-pbs082-04',
+                                                      'kvm-pbs082-05', 'kvm-pbs082-06',
+                                                      'kvm-pbs082-07', 'kvm-pbs082-08')}
+        allVMDetails = AllVMDetails(vmDict, byNode)
+        
+        vmTemplate1 = VMTemplate(vm1, 1)
+        vmTemplate2 = VMTemplate(vm2, 1)
+        vmTemplate3 = VMTemplate(vm3, 1)
+        vmTemplate4 = VMTemplate(vm4, 1)
+        vmTemplate5 = VMTemplate(vm5, 1)
+        vmTemplate6 = VMTemplate(vm6, 1)
+        vmTemplate7 = VMTemplate(vm7, 1)
+        vmTemplate8 = VMTemplate(vm8, 1)
+        
+        templateDict = {'kvm-pbs082-01' : vmTemplate1, 'kvm-pbs082-02' : vmTemplate2, 
+                        'kvm-pbs082-03' : vmTemplate3, 'kvm-pbs082-04' : vmTemplate4,
+                        'kvm-pbs082-05' : vmTemplate5, 'kvm-pbs082-06' : vmTemplate6,
+                        'kvm-pbs082-07' : vmTemplate7, 'kvm-pbs082-08' : vmTemplate8}
+        
+        deployedVMs = VirtualClusterTemplates(templateDict, byNode, allVMDetails)
+        
+        deployedSockets = (0, 1)
+        self.deploymentInfo = (deployedNodes, deployedSockets, deployedVMs)
+        
+        # Application under test
+        appTuning = AppTuning(MPIBindOpt.socket)
+        self.appRequest = Application('parpac', 11, 'firstarg secondarg', appTuning)
+        
+        # assume constructed XML
+        self.clusterXML = open('resources/cluster-expected-infiniband.xml', 'r').read()
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

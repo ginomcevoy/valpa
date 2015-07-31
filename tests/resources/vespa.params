@@ -117,6 +117,14 @@ exec_config_output=/tmp/vespa/execs
 out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory
 
+# Main Consolidation output dir
+consolidate.output=/home/giacomo2/experiments/analyzed
+
+# Consolidation filenames
+metrics.config.name = metrics-app.csv
+metrics.all.name = metrics-all.csv
+configs.name = configs.csv
+
 general_verbose=1
 
 ###

@@ -16,6 +16,7 @@ mem=24
 # To use Infiniband, use default_infiniband=True or override infiniband="True"
 # in the technology node of the experiment XML.
 ###
-infiniband_bus=0x03
-infiniband_slot=0x00
-infiniband_vfs=8
+ib_bus=0x03
+ib_slot_start=0
+ib_device_start=1
+ib_vfs=8

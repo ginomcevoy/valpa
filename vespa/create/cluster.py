@@ -222,9 +222,8 @@ class ClusterXMLGenerator:
                 'cluster_disk' : self.vespaPrefs['vm_disk'],
                 
                 # if Infiniband is unused, last two have no effect
-                'infiniband_flag' : technology.infinibandFlag,
-                'infiniband_bus' : self.hwSpecs['infiniband_bus'],
-                'infiniband_slot' : self.hwSpecs['infiniband_slot']
+                'ib_flag' : technology.infinibandFlag,
+                'ib_bus' : self.hwSpecs['ib_bus'],
                 }
         
         # prepare jinja template for cluster arguments
