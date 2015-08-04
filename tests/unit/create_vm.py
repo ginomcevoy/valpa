@@ -57,7 +57,7 @@ class VMRequestInfinibandTest(VespaInfinibandAbstractTest):
         
         slot, vf = self.definitionDetails.getInfiniband('kvm-pbs082-08')
         self.assertEqual(slot, '0x01')
-        self.assertEqual(vf, '0x1')
+        self.assertEqual(vf, '0x0')
         
 class BasicVMGenTest(VespaDeploymentAbstractTest):
     
