@@ -6,7 +6,8 @@ Unit tests for deploy.vmgen module
 @author: giacomo
 '''
 import unittest
-from unit.test_abstract import VespaDeploymentAbstractTest
+from unit.test_abstract import VespaDeploymentAbstractTest,\
+    VespaInfinibandAbstractTest
 from network.address import NetworkAddresses
 from create.vm import VMDefinitionDetails, VMDefinitionBasicGenerator,\
     VMXMLSaver
@@ -37,12 +38,26 @@ class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
         path = self.definitionDetails.getVmPath('kvm-pbs083-02')
         self.assertEqual(path, 'node083/kvm-pbs083-02')
         
-    def testGetVirtualFunction(self):
-        vf = self.definitionDetails.getVirtualFunction('kvm-pbs082-01')
+class VMRequestInfinibandTest(VespaInfinibandAbstractTest):
+    
+    def setUp(self):
+        VespaInfinibandAbstractTest.setUp(self)
+        networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
+        self.definitionDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
+        self.definitionDetails.setDeploymentContext(self.deploymentInfo)
+        
+    def testGetInfinibandDetails(self):
+        slot, vf = self.definitionDetails.getInfiniband('kvm-pbs082-01')
+        self.assertEqual(slot, '0x00')
         self.assertEqual(vf, '0x1')
         
-        vf = self.definitionDetails.getVirtualFunction('kvm-pbs083-02')
-        self.assertEqual(vf, '0x2')
+        slot, vf = self.definitionDetails.getInfiniband('kvm-pbs082-07')
+        self.assertEqual(slot, '0x00')
+        self.assertEqual(vf, '0x7')
+        
+        slot, vf = self.definitionDetails.getInfiniband('kvm-pbs082-08')
+        self.assertEqual(slot, '0x01')
+        self.assertEqual(vf, '0x1')
         
 class BasicVMGenTest(VespaDeploymentAbstractTest):
     

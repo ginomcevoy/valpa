@@ -20,7 +20,7 @@
 	<devices>
 		<hostdev mode="subsystem" type="pci" managed="yes">
 			<source>
-				<address type="pci" domain="0x0000" bus="0x03" slot="0x00" function="_VM_VAR_{ infiniband_function }}"/>
+				<address type="pci" domain="0x0000" bus="0x03" slot="_VM_VAR_{ ib_slot }}" function="_VM_VAR_{ ib_function }}"/>
 			</source>
 		</hostdev>
 		<interface type="network">
