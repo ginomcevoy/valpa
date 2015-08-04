@@ -9,7 +9,7 @@ from .scenariogen import SimpleScenarioGenerator
 from .constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from .appgen import ApplicationGenerationSpecification
-from core import config_hw
+from core import config_hw, config_vespa
 
 class SimplePlacementScenarioGenerator():
     '''
@@ -22,7 +22,7 @@ class SimplePlacementScenarioGenerator():
     def __init__(self, vespaFilename='../input/vespa.params', hwParamFile='../input/hardware.params'):
         
         # Read Vespa configuration file
-        vespaConfig = vespaconfig.readVespaConfig(vespaFilename)
+        vespaConfig = config_vespa.readVespaConfig(vespaFilename)
         vespaPrefs = vespaConfig.getVespaPrefs()
         
         # load hardware specification

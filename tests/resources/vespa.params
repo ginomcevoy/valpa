@@ -157,3 +157,13 @@ repo_root=/home/giacomo/vms
 
 # Dir for base images inside root dir
 repo_base_dir=base
+
+[Consolidate]
+# Default filenames
+consolidate_metrics_same=metrics-app.csv
+consolidate_metrics_all=metrics-all.csv
+consolidate_configs=configs.csv
+consolidate_module=read_output
+
+# Main output dir for consolidated data
+generated.dir=$HOME/experiments/analyzed

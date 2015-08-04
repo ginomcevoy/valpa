@@ -64,15 +64,23 @@ class ApplicationConfigurator(object):
         try:
             parser.read(appFile)
         
-            application = dict(parser.items('Application'))
-            execution = dict(parser.items('Execution'))
-            self.appConfigs[appName] = application
-            self.appConfigs[appName].update(execution)
-             
+            appParams = dict(parser.items('Application'))
+            execParams = dict(parser.items('Execution'))
+            appParams.update(execParams)
+            
+            # add the path for the application to avoid further derivations
+            appParams['app.config'] = appFolder
+            
+            # add the application name to simplify parameter passing
+            appParams['app.name'] = appName
+            
             # [Consolidate] is optional but should be present for correct consolidation            
             if 'Consolidate' in parser.sections():
-                consolidate = dict(parser.items('Consolidate'))
-                self.appConfigs[appName].update(consolidate)
+                consolidateParams = dict(parser.items('Consolidate'))
+                appParams.update(consolidateParams)
+            
+            # add to main dictionary
+            self.appConfigs[appName] = appParams
                 
         except ParsingError:
             # Parser could not read the file, do not consider this app
