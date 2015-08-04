@@ -5,7 +5,7 @@
 # Adapted from job.PARPARBench
 # christian.simmendinger@t-systems.com
 #
-#PBS -l walltime=60:00
+#PBS -l walltime=120:00
 #PBS -l nodes=kvm-pbs082-01:ppn=4+kvm-pbs082-02:ppn=4+kvm-pbs083-01:ppn=4+kvm-pbs083-02:ppn=4
 #PBS -N PARPACBench
 #PBS -t 1-11
