@@ -10,6 +10,7 @@ from .constraint import SimpleClusterGenerationSpecification,\
     SimpleClusterConstraint
 from .appgen import ApplicationGenerationSpecification
 from core import config_hw, config_vespa
+import os
 
 class SimplePlacementScenarioGenerator():
     '''
@@ -67,6 +68,8 @@ class SimplePlacementScenarioGenerator():
         self.scenarioGenerator.withClusterSpecification(self.clusterSpecification)
         self.scenarioGenerator.withXML(xmlPath, xmlName)
         self.scenarioGenerator.produceXML()
+        xmlFile = os.path.join(xmlPath, xmlName)
+        print(xmlFile)
         
 if __name__ == '__main__':
     

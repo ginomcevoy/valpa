@@ -221,7 +221,7 @@ class ClusterXMLGenerator:
                 'cluster_disk_bus' : technology.diskOpt,
                 'cluster_disk' : self.vespaPrefs['vm_disk'],
                 
-                # if Infiniband is unused, last two have no effect
+                # if Infiniband is unused, last has no effect
                 'ib_flag' : technology.infinibandFlag,
                 'ib_bus' : self.hwSpecs['ib_bus'],
                 }

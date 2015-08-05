@@ -34,7 +34,7 @@ class HardwareInfo:
 					'mem' : mem,
 					'ib_bus' : hwDict['ib_bus'],
 					'ib_slot_start' : hwDict['ib_slot_start'],
-					'ib_device_start' : hwDict['ib_device_start'],
+				 	'ib_device_start' : hwDict['ib_device_start'],
 					'ib_vfs' : hwDict['ib_vfs'],
 					'nodes' : self.nodeCount}
 

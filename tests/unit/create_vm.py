@@ -38,13 +38,6 @@ class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
         path = self.definitionDetails.getVmPath('kvm-pbs083-02')
         self.assertEqual(path, 'node083/kvm-pbs083-02')
         
-#     def testGetVirtualFunction(self):
-#         vf = self.definitionDetails.getVirtualFunction('kvm-pbs082-01')
-#         self.assertEqual(vf, '0x1')
-#         
-#         vf = self.definitionDetails.getVirtualFunction('kvm-pbs083-02')
-#         self.assertEqual(vf, '0x2')
-
 class VMRequestInfinibandTest(VespaInfinibandAbstractTest):
     
     def setUp(self):

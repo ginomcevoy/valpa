@@ -21,7 +21,7 @@
 _CLUSTER_VAR_% if ib_flag %}
 		<hostdev mode="subsystem" type="pci" managed="yes">
 			<source>
-				<address type="pci" domain="0x0000" bus="_CLUSTER_VAR_{ ib_bus }}" slot="_VM_VAR_{ ib_slot }}" function="_VM_VAR_{ infiniband_function }}"/>
+				<address type="pci" domain="0x0000" bus="_CLUSTER_VAR_{ ib_bus }}" slot="_VM_VAR_{ ib_slot }}" function="_VM_VAR_{ ib_function }}"/>
 			</source>
 		</hostdev>
 _CLUSTER_VAR_% endif %}
