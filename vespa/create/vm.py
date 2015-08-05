@@ -168,14 +168,14 @@ class VMDefinitionDetails:
         to the slot. This solution assumes that the bus remains the same
         for all VMs, and assumes that slot never exceeds 0x07.
         """
-        # calculate the device for the VM. If it exceeds 7, add one to the 
-        # slot specified in the configuration.
+        # calculate the device for the VM. If it reaches 8, add one to the 
+        # slot specified in the configuration and reset vf to zero.
         vm = self.deployedVMs.getVM(vmName)
         vf = int(self.hwSpecs['ib_device_start']) + vm.index # start value for 1st VM
         slot = int(self.hwSpecs['ib_slot_start'])
-        if (vf > 7):
-            addedSlots= vf / 7
-            vf = vf % 7
+        if (vf >= 8):
+            addedSlots= vf / 8
+            vf = vf % 8
             slot = slot + addedSlots
         slotString = '0x0' + str(slot)
         vfString = '0x' + str(vf)

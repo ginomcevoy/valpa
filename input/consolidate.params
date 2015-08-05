@@ -15,6 +15,9 @@ configs.name = configs.csv
 [parpac-physical]
 app.dir = /home/giacomo2/experiments/arriving/parpac-physical
 
+[parpac-infiniband]
+app.dir = /home/giacomo2/experiments/arriving/parpac-infiniband
+
 [parpac]
 app.dir = /home/giacomo2/experiments/arriving/parpac
 

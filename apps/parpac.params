@@ -6,7 +6,7 @@ app.home=/home/giacomo2/shared/PARPACBench-1.4
 app.executable=PARPACBench
 
 # Timeout (assume failure)
-exec.walltime=60:00
+exec.walltime=120:00
 
 # Copy a file besides standard output/error? ('Y' or 'N')
 exec.needsoutputcopy=Y
