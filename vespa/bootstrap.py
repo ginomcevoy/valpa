@@ -17,6 +17,7 @@ from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from create.cluster import VespaXMLGenerator
 from submit.config import ConfiguratorFactory
+from collections import namedtuple
 
 def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes', appFolder='../apps'):
     # instantiate Bootstrapper as a Singleton
@@ -166,6 +167,18 @@ class VespaBootstrapper():
             enhancerForCreatingBridge = EnhancesXMLForCreatingBridge(physicalCluster, self.getAllVMDetails())
             self.buildsNetworkXMLs = BuildsNetworkXMLs(basicCreator, argumentSolverFactory, enhancerForCreatingBridge, physicalCluster)
         return self.buildsNetworkXMLs
+    
+    def getConsolidateConfig(self, appName):
+        """ Return a named tuple that holds configuration relevant to consolidation.
+        
+        The tuple holds the names 'appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'.
+        """
+        appConfig = self.getAppConfig()
+        appParams = appConfig.appConfigs[appName]
+    
+        # Single variable for relevant configuration
+        ConsolidateConfig = namedtuple('ConsolidateConfig', ['appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'])
+        return ConsolidateConfig(appParams, self.vespaConfig.consolidatePrefs, self.hwSpecs, self.runOpts)
     
     def __loadNetworkAddresses__(self):
         '''

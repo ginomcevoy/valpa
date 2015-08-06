@@ -10,20 +10,22 @@ class CustomMetricsReader(object):
     relevant application folder. For each experiment output, Vespa will call
      
     read_output.read_metrics(stdout, stderr, expDir, customFile=None)
+    
+    The output should be a dictionary of numbers. An OrderedDict can be used
+    to maintain the order of the metrics.
 
     """ 
     
     def __init__(self, appParams, moduleName='read_output'):
-        
-        # find the module at the application path
-        appConfigPath = appParams['app.config']
-        fp, pathname, description = imp.find_module(moduleName, [appConfigPath,])
-        
-        # load the module, the function can be called on it
-        return imp.load_module(moduleName, fp, pathname, description)
+        self.appConfigPath = appParams['app.config']
+        self.moduleName = moduleName
         
     def __enter__(self):
-        return self
+        # find the module at the application path
+        self.fp, pathname, description = imp.find_module(self.moduleName, [self.appConfigPath,])
+        
+        # load the module, the function can be called on it
+        return imp.load_module(self.moduleName, self.fp, pathname, description)
     
     def __exit__(self, exctype, excinst, exctb):
         if exctype == ImportError:

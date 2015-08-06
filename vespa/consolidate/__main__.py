@@ -25,13 +25,7 @@ def consolidate(appName, configVars, consolidateKey):
     bootstrap.doBootstrap(True)
     bootstrapper = bootstrap.getInstance()
     
-    consolidatePrefs = bootstrapper.vespaConfig.consolidatePrefs
-    appConfig = bootstrapper.getAppConfig()
-    appParams = appConfig.appConfigs[appName]
-    
-    # Single variable for relevant configuration
-    ConsolidateConfig = namedtuple('ConsolidateConfig', ['appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'])
-    relevantConfig = ConsolidateConfig(appParams, consolidatePrefs, bootstrapper.hwSpecs, bootstrapper.runOpts)
+    consolidateConfig = bootstrapper.getConsolidateConfig(appName)
     
 # 
 # def analyze(relevantConfig, appName, consolidateKey):
@@ -78,7 +72,7 @@ def consolidate(appName, configVars, consolidateKey):
     # call sargen
     sargen.sarAnalyze(appName, appDir, appOutputDir, phycores, 'config.txt'
 , metricsConfig)
-
+    
 def getConfigVars(varsText):
     return tuple(varsText.split(' ')) # ('nc', 'cpv', ...)
 

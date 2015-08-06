@@ -9,24 +9,23 @@ of the execution dirs
 @author: giacomo
 '''
 
+import csv
 import os.path
-import subprocess
-import sys
 
 from . import configutil
-from consolidate.plugin import CustomMetricsReader
+from .plugin import CustomMetricsReader
+from collections import OrderedDict
+import itertools
 
-
-#def analyzeApplication(appName, appDir, metricsFilename):
-def analyze(relevantConfig, appName, consolidateKey):
+def analyze(consolidateConfig, appName, consolidateKey):
     
-    # filenames: partial output, user-specific module and time output
-    metricsFilename = relevantConfig.consolidatePrefs['consolidate_metrics_same']
-    moduleName = relevantConfig.consolidatePrefs['read_output']
-    timeFilename = relevantConfig.runOpts['run_timeoutput']
+    # filenames: partial output, user-specific module, time output
+    metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_same']
+    moduleName = consolidateConfig.consolidatePrefs['consolidate_module']
+    timeFilename = consolidateConfig.runOpts['run_timeoutput']
     
     # get the relevant input directory for request, iterate subfolders
-    inputDir = configutil.appInputDir(relevantConfig.appParams, consolidateKey)
+    inputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
     configDirs = configutil.listAllConfigDirs(inputDir)
     
     for configDir in configDirs:
@@ -38,27 +37,44 @@ def analyze(relevantConfig, appName, consolidateKey):
             timeMetrics = getTimeMetrics(configDir, timeFilename)
             
             # analyze with application-specific module
-            customMetrics = getCustomMetrics(relevantConfig, moduleName, configDir)
-                    
-#             # analyze this config: use application-specific shell script
-#             script = 'consolidate/apps/' + appName + '/metrics-config.sh'
-#             
-#             # contingency
-#             if not os.path.exists(script):
-#                 print('Need application specific script to analyze output: ' + script)
-#                 exit(1)
-#             
-#             # call script
-#             analyzeCall = ['/bin/bash', script, configDir, configDir, metricsFilename]
-#             subprocess.call(analyzeCall)
+            appMetrics = getAppMetrics(consolidateConfig, moduleName, configDir)
             
+            # validate consistency of metrics
+            if not areConsistent(appMetrics, timeMetrics):
+                raise ValueError("Experiment numbers don't match:", configDir)
+            
+            # metrics consistent, merge these metrics in order and save
+            allMetrics = OrderedDict(timeMetrics.items() + appMetrics.items())
+            metricsToCSV(metricsFilename, allMetrics)
+                    
+def metricsToCSV(metricsFilename, allMetrics):
+    """ Generates a CSV file with the times data and application data (if any). """
+
+    with open(metricsFilename, 'wb') as csvfile:
+        csvWriter = csv.writer(csvfile, delimiter=';',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        
+        # write header: names of metrics
+        # if using OrderedDict, column order is preserved 
+        csvWriter.writerow(allMetrics.keys())
+        
+        # write each row: this idiom creates an iterator through all the lists
+        # in the allMetrics dictionary, then use it to iterate rows
+        rowIter = itertools.imap(lambda *x: list(x), *allMetrics.itervalues())
+        for row in rowIter:
+            csvWriter.writerow(row)
+        
 def getTimeMetrics(configDir, timesFilename):
     """ Return a dictionary with the output from time command.
     
     Current keys: userTime, systemTime, ellapsedTime
     """
     # output format
-    metrics = {'userTime' : [], 'systemTime' : [], 'ellapsedTime' : []}
+    items = (('userTime', []), 
+             ('systemTime', []),
+             ('ellapsedTime', [])
+             )
+    metrics = OrderedDict(items)
     
     # read file in lines
     timesFile = os.path.join(configDir, timesFilename)
@@ -77,13 +93,9 @@ def getTimeMetrics(configDir, timesFilename):
             metrics['systemTime'].append(system)
             metrics['ellapsedTime'].append(ellapsed)
     
-    metrics['userTime'] = tuple(metrics['userTime'])
-    metrics['systemTime'] = tuple(metrics['systemTime'])
-    metrics['ellapsedTime'] = tuple(metrics['ellapsedTime'])
+    return OrderedDict(metrics)
     
-    return metrics
-    
-def getCustomMetrics(relevantConfig, moduleName, configDir):
+def getAppMetrics(consolidateConfig, configDir):
     """ Return a dictionary with application-specific metrics.
     
     The dictionary has unspecified keys. For each key, a tuple is expected,
@@ -93,30 +105,47 @@ def getCustomMetrics(relevantConfig, moduleName, configDir):
     
     """
     
-    customMetrics = {}
-    customFilename = relevantConfig.appParams['exec.outputrename']
-    customFile = None
+    appMetrics = {}
+    moduleName = consolidateConfig.consolidatePrefs['consolidate_module']
+    customFilename = consolidateConfig.appParams['exec.outputrename']
     
     # load user module for application-specific metrics
     # if there is no user module, the dictionary remains empty
-    with CustomMetricsReader(relevantConfig.appParams, moduleName) as cr:
+    with CustomMetricsReader(consolidateConfig.appParams, moduleName) as cr:
         
         # iterate experiments within each configuration
         expDirs = configutil.getSubDirs(configDir)
         for expDir in expDirs:
             
             # main output files
+            expDir = os.path.join(configDir, expDir)
             stdoutFile = os.path.join(expDir, 'std.out')
             stderrFile = os.path.join(expDir, 'std.err')
+            customFile = os.path.join(expDir, customFilename)
             
             # work optional custom file
-            if customFilename.strip():    
-                customFile = open(customFilename, 'r')
+            cf = open(customFile, 'r') if customFilename.strip() else None
+            
+            with open(stdoutFile, 'r') as stdout, open(stderrFile, 'r') as stderr:
+                # module reads 
+                customMetrics = cr.read_metrics(stdout, stderr, expDir, cf)
                 
-            # module reads 
-            #cr.read_metrics(stdout, stderr, expDir, customFile=None)
+                # convert the customMetrics dictionary to a dictionary of lists
+                # each list has one element
+                metricsAsList = {}
+                for k, v in customMetrics.items():
+                    metricsAsList[k] = [v,] 
                 
-    return customMetrics 
+                # aggregate output for each experiment
+                if not appMetrics:
+                    # handle special case for first experiment
+                    appMetrics = metricsAsList
+                else: 
+                    # this idiom aggregates dictionaries of lists, maintaining structure
+                    keys = appMetrics.keys()
+                    appMetrics = dict((k, metricsAsList.get(k, []) + appMetrics.get(k, [])) for k in keys) 
+                
+    return appMetrics 
             
 def isMetricFileOutdated(configDir, metricsFilename):
     
@@ -139,3 +168,30 @@ def isMetricFileOutdated(configDir, metricsFilename):
     
     # execDirs are older, metrics file is ok
     return False
+
+def areConsistent(appMetrics, timeMetrics):
+    """ Indicate consistency between appMetrics and timeMetrics.
+    
+    The verification is done by the size of each metrics, the number of
+    experiment tuples should be the same. Returns True iff verification
+    succeeds. 
+    
+    """
+    appLen = 0
+    timeLen = 0
+    
+    for metricType in appMetrics.values():
+        thisAppLen = len(metricType)
+        if appLen == 0:
+            appLen = thisAppLen
+        elif appLen != thisAppLen: # different length within appMetrics
+            return False 
+        
+    for metricType in timeMetrics.values():
+        thisTimeLen = len(metricType)
+        if timeLen == 0:
+            timeLen = thisTimeLen
+        elif timeLen != thisTimeLen: # different length within timeMetrics
+            return False
+    
+    return appLen == timeLen

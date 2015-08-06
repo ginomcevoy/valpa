@@ -1,13 +1,28 @@
 """ Unit tests for consolidate.analyzer module. """
 import unittest
 from consolidate import analyzer
+from collections import OrderedDict
+from unit.test_abstract import VespaTestHelper
 
-class AnalyzerTest(unittest.TestCase):
+class AnalyzerTest(VespaTestHelper):
     
     def setUp(self):
         self.inputDir = 'resources/datagen/arriving'
         self.parpacInputDir = self.inputDir + '/parpac'
         self.timeFilename = 'times.txt'
+        
+        # given time and application metrics
+        timeItems = (('userTime', [227.99, 228.56]),
+                     ('systemTime', [16.56, 16.17]),
+                     ('ellapsedTime', [122.73, 122.76])
+                     )
+        appItems = (('appTime', [122.12, 122.2]),
+                    ('fluidRate', [3.197, 3.195]),
+                    ('floatRate', [1.909, 1.908])
+                    )
+        self.timeMetrics = OrderedDict(timeItems)
+        self.appMetrics = OrderedDict(appItems)
+        self.allMetrics = OrderedDict(timeItems + appItems)
 
     def testGetTimeMetrics(self):
         # given this directory contains parpac-specific metrics
@@ -20,11 +35,28 @@ class AnalyzerTest(unittest.TestCase):
         # when
         timeMetrics = analyzer.getTimeMetrics(configDir, self.timeFilename)
         
-        # then 
-        self.assertEqual(len(timeMetrics), 3)
-        self.assertEqual(timeMetrics['userTime'], (227.99, 228.56))
-        self.assertEqual(timeMetrics['systemTime'], (16.56, 16.17))
-        self.assertEqual(timeMetrics['ellapsedTime'], (122.73, 122.76))
+        # then keys are exactly in this order
+        self.assertEqual(timeMetrics.keys(), ['userTime', 'systemTime', 'ellapsedTime'])
+        
+        # then content valid
+        self.assertEqual(timeMetrics['userTime'], [227.99, 228.56])
+        self.assertEqual(timeMetrics['systemTime'], [16.56, 16.17])
+        self.assertEqual(timeMetrics['ellapsedTime'], [122.73, 122.76])
+        
+    def testAreConsistent(self):
+        self.assertTrue(analyzer.areConsistent(self.appMetrics, self.timeMetrics))
+        
+    def testMetricsToCSV(self):
+        
+        # given output
+        metricsFile = '/tmp/vespa-consolidate-analyzer.csv'
+        
+        # when requesting a CSV
+        analyzer.metricsToCSV(metricsFile, self.allMetrics)
+        
+        # then verify CSV content
+        expectedFilename = 'resources/datagen/consolidate-analyzer.csv'
+        self.assertFileContentEqual(metricsFile, expectedFilename)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
