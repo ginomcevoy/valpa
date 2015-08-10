@@ -26,7 +26,7 @@ kill $VMSTAT_PID
 echo "vmstat stopped"
 
 if [ -d $OUTPUTDIR ]; then
-	mv $TARGETDIR/sar_data.dat $OUTPUTDIR/$OUTPUTFILE
+	mv $TARGETDIR/vmstat.dat $OUTPUTDIR/$OUTPUTFILE
 	echo "Performance data in $(hostname):$OUTPUTFILE"
 else
 	>&2 echo "Monitor - output dir does not exist: $(hostname):$OUTPUTDIR"

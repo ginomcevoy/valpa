@@ -4,6 +4,12 @@ Vespa is designed to support the definition and production of controlled applica
 
 Vespa is not meant to be a tool for deploying applications in the Cloud or in virtualized environments. It is specifically aimed at improving the understanding of how virtualization affects application performance. While Vespa performs the deployment of the virtual cluster and the execution of the application, it does not currently configure the VMs (assumes the VM images are ready), nor does it takes care of the application deployment (assumes the application has an executable properly installed and ready to be called).
 
+## Functionalities
+- **Create:** Read a request for a virtual cluster, apply parameters from the request and Vespa defaults, in order to transform an XML template into VM definitions for libvirt. Finally, launch the VM instances on the physical cluster.
+- **Submit:** Read a request for application execution(s), apply parameters from the request, Vespa defaults and application definition, in order to to transform a PBS template into a Torque submission file. Finally, submit the file to a Torque virtual cluster while gathering performance metrics.
+- **Run Experiments:** Process an XML with a list of independent *Scenarios*, each *Scenario* has one or more concurrent *Experiments* (currently no concurrency). For each *Experiment*, apply the **Create** and **Submit** functionalities for the cluster and application requests contained therein and generate performance metrics related to a cluster request.
+- **Consolidate**: Gather performance and execution metrics from a set of *Experiments* and consolidate the data into a single folder. A key CSV file will contain a tuple for each experiment, relatable to particular cluster and application requests.
+
 ## Dependencies
 
 Since Vespa is meant to be deployed on a physical cluster and support virtual clusters, there are different sets of dependencies:

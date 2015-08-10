@@ -1,0 +1,24 @@
+# Test Parameters for core/config_hw.py
+# Author: Giacomo Mc Evoy - giacomo@lncc.br
+# LNCC Brazil 2013
+
+[Hardware]
+cores=12
+sockets=2
+mem=24
+
+###
+# Infiniband SR-IOV parameters. Vespa assumes the following:
+# - SR-IOV Infiniband is properly installed/configured
+# - all physical nodes share the same device addresses, as obtained by lspci.
+# - the device count goes up to 7, then the slot number is increased by one.
+# - the number of specified Virtual Functions (ib_vfs) are available.
+#
+# To use Infiniband, use default_infiniband=True or override infiniband="True"
+# in the technology node of the experiment XML.
+###
+ib_bus=0x03
+ib_slot_start=0
+ib_device_start=1
+ib_vfs=8
+

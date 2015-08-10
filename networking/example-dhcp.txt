@@ -12,7 +12,7 @@ subnet 172.16.0.0 netmask 255.255.0.0 {
         host kvm-pbs02-01 {
                 hardware ethernet 00:16:36:ff:02:01;
                 fixed-address 172.16.2.1;
-        }3
+        }
         host kvm-pbs02-02 {
                 hardware ethernet 00:16:36:ff:02:02;
                 fixed-address 172.16.2.2;

@@ -15,6 +15,7 @@ deployedSockets={{ deployedSocketsText }}
 # VMM Technologies
 network={{ clusterInfo.technology.networkOpt }}
 disk={{ clusterInfo.technology.diskOpt }}
+infiniband={{ clusterInfo.technology.infinibandFlag }}
 
 # App Tuning
 knem={{ appInfo.appTuning.knem }}

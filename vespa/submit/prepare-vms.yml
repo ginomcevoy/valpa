@@ -1,0 +1,34 @@
+---
+- hosts: all
+  gather_facts: no
+  sudo: false
+  tasks:
+    - name: Wait for Torque to see VM agents
+      local_action: shell qnodes | grep 'state = free' | wc -l
+      register: result
+      until: result.stdout == "{{ vmCount }}"
+      changed_when: false
+      retries: 9
+      delay: 20
+      run_once: true
+      when: deploymentType == "Torque"
+
+    - name: Wait for VMs startup
+      local_action: wait_for port=22 host={{ inventory_hostname }} search_regex=OpenSSH 
+        delay=10 timeout=180
+      when: deploymentType == "Simple"
+
+    - name: Mount NFS on VMs
+      command: mount -a
+      remote_user: root
+      ignore_errors: yes
+      register: nfs_result
+
+    - name: Check NFS
+      fail: msg="NFS mounting failed" 
+      when: (nfs_result.stderr != "") and ('busy or already mounted' not in nfs_result.stderr)
+    
+    - name: Load KNEM
+      command: modprobe knem
+      remote_user: root
+      when: withKnem == "True"

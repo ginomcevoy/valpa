@@ -1,0 +1,7 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Copy necessary files to VMs
+      synchronize: src={{ vespa_dir }}/data-input/torque-mom dest=/etc/init.d/
+      remote_user: root

@@ -1,0 +1,6 @@
+# calculate directory local to script
+LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
+VESPA_DIR=$LOCAL_DIR/../
+
+cd $VESPA_DIR/vespa
+PYTHONPATH=. python -m submit $@

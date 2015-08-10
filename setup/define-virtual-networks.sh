@@ -34,7 +34,7 @@ OUTPUT_DIR=$VESPA_DIR/data-output/networks
 mkdir -p $OUTPUT_DIR
 
 # call script for creating XMLs
-cd $VESPA_DIR/src
+cd $VESPA_DIR/vespa
 python -m network.create $TYPE $OUTPUT_DIR
 
 # Iterate nodes
