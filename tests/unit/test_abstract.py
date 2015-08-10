@@ -240,7 +240,7 @@ class ConsolidateAbstractTest(VespaTestHelper):
     
     def setUp(self):
         VespaTestHelper.setUp(self)
-        self.sourceDir = 'resources/datagen/arriving'
+        self.sourceDir = 'resources/consolidate/arriving'
         self.consolidateDir = '/tmp/vespa/tests/consolidate'
         if os.path.exists(self.consolidateDir): # always get a fresh copy
             shutil.rmtree(self.consolidateDir)

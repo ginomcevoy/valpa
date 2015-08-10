@@ -20,12 +20,12 @@ class SargenTest(VespaAbstractTest, ConsolidateAbstractTest):
         ConsolidateAbstractTest.setUp(self)
         
         # create output directories
-        self.configOutputDir =  '/tmp/vespa/test/datagen/parpac/cfg1/'
+        self.configOutputDir =  '/tmp/vespa/tests/consolidated-sargen/parpac/cfg1/'
         if not os.path.exists(self.configOutputDir):
             os.makedirs(self.configOutputDir)
             
         # test-specific configuration for R script
-        self.sargenConfig = 'tests/resources/datagen/sargen-config.R' 
+        self.sargenConfig = 'tests/resources/consolidate/sargen-config.R' 
         
 
     def testSargen(self):
@@ -42,7 +42,7 @@ class SargenTest(VespaAbstractTest, ConsolidateAbstractTest):
                     os.path.join(configDir, 'metrics-app.csv'))
         
         # expected outputs        
-        verifyDir = 'resources/datagen/analyzed/parpac/cfg1/'
+        verifyDir = 'resources/consolidate/analyzed/parpac/cfg1/'
         expectedHeader = verifyDir + 'header.txt'
         expectedFile1 = verifyDir + 'exc001.csv'
         expectedFile2 = verifyDir + 'exc002.csv'

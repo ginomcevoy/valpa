@@ -56,7 +56,7 @@ class AnalyzerTest(ConsolidateAbstractTest):
         analyzer.metricsToCSV(metricsFile, self.allMetrics)
         
         # then verify CSV content
-        expectedFilename = 'resources/datagen/consolidate-analyzer.csv'
+        expectedFilename = 'resources/consolidate/consolidate-analyzer.csv'
         self.assertFileContentEqual(metricsFile, expectedFilename)
         
 if __name__ == "__main__":

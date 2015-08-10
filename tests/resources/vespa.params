@@ -164,7 +164,7 @@ consolidate_metrics_same=metrics-app.csv
 consolidate_metrics_all=metrics-all.csv
 consolidate_configs_all=configs.csv
 consolidate_module=read_output
-consolidate_sargen_config=tests/resources/datagen/sargen-config.R
+consolidate_sargen_config=tests/resources/consolidate/sargen-config.R
 
 # Directory with information about application
 consolidate_app_folder=resources/apps 

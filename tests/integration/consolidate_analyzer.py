@@ -26,7 +26,7 @@ class AnalyzerTest(VespaWithBootstrapAbstractTest, ConsolidateAbstractTest):
         
         # given
         consolidateConfig = self.bootstrap.getConsolidateConfig('parpac')
-        configDir = 'resources/datagen/arriving/parpac/nc4-cpv2-idf0-psBAL_ONE/968f3b98fcab1bc5ae27a8d17a88be0c3a5ff9339b54a958d23957ba51272f9c/'
+        configDir = 'resources/consolidate/arriving/parpac/nc4-cpv2-idf0-psBAL_ONE/968f3b98fcab1bc5ae27a8d17a88be0c3a5ff9339b54a958d23957ba51272f9c/'
         
         # when
         appMetrics = analyzer.getAppMetrics(consolidateConfig, configDir)
@@ -52,11 +52,11 @@ class AnalyzerTest(VespaWithBootstrapAbstractTest, ConsolidateAbstractTest):
         
         config1 = os.path.join(self.consolidateDir, 'parpac-nocustom/someExp1/someConfig1')
         metrics1 = os.path.join(config1, metricsFilename)
-        self.assertFileContentEqual(metrics1, 'resources/datagen/parpac-nocustom1.csv')
+        self.assertFileContentEqual(metrics1, 'resources/consolidate/parpac-nocustom1.csv')
         
         config2 = os.path.join(self.consolidateDir, 'parpac-nocustom/someExp2/someConfig2')
         metrics2 = os.path.join(config2, metricsFilename)
-        self.assertFileContentEqual(metrics2, 'resources/datagen/parpac-nocustom2.csv')
+        self.assertFileContentEqual(metrics2, 'resources/consolidate/parpac-nocustom2.csv')
         
 
 
