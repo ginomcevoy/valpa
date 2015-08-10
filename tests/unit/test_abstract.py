@@ -116,7 +116,7 @@ class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):
         # Cluster with 2 PMs, 2 VMs each, cpv=4, all sockets
         topo = Topology(16, 4)
         mappings = Mapping(8, PinningOpt.BAL_ONE)
-        technology = Technology(NetworkOpt.vhost, DiskOpt.scsi)
+        technology = Technology(NetworkOpt.vhost, DiskOpt.scsi, infinibandFlag=False)
         self.clusterRequest = ClusterRequest(ClusterPlacement(topo, mappings), technology)
         
         nodeNames = ('node082', 'node083') 

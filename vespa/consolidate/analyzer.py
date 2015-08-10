@@ -151,7 +151,7 @@ def getAppMetrics(consolidateConfig, configDir):
                 else: 
                     # this idiom aggregates dictionaries of lists, maintaining structure
                     keys = appMetrics.keys()
-                    appMetrics = dict((k, metricsAsList.get(k, []) + appMetrics.get(k, [])) for k in keys)
+                    appMetrics = dict((k, appMetrics.get(k, []) + metricsAsList.get(k, [])) for k in keys)
                     
     # module not found, there are no appMetrics
     if not crl.loaded:

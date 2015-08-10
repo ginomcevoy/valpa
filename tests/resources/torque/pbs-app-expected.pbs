@@ -9,8 +9,8 @@
 #PBS -l nodes=&PBS_TOPOLOGY
 #PBS -N PARPACBench
 #PBS -t 1-11
-#PBS -o /home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/a8adc50779f75c6b36fa9c95ddb7fa8a5033df6791235f727a20b0e3e6780e93/pbs.out
-#PBS -e /home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/a8adc50779f75c6b36fa9c95ddb7fa8a5033df6791235f727a20b0e3e6780e93/pbs.err
+#PBS -o /home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/8cdcf43265bb69439bb1ce16e5af43e2f54a60526af23d61238359ec6ff6405f/pbs.out
+#PBS -e /home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/8cdcf43265bb69439bb1ce16e5af43e2f54a60526af23d61238359ec6ff6405f/pbs.err
 
 # Var PBS_NODEFILE contains the node names (repeated)
 
@@ -32,7 +32,7 @@ sort $PBS_NODEFILE > $EXEC_PROCS
 
 # Output dir for this execution set 
 rnum=$(printf "%03d\n" $rnum)
-EXEC_OUTPUT_DIR=/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/a8adc50779f75c6b36fa9c95ddb7fa8a5033df6791235f727a20b0e3e6780e93/${name}-${rnum}
+EXEC_OUTPUT_DIR=/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/8cdcf43265bb69439bb1ce16e5af43e2f54a60526af23d61238359ec6ff6405f/${name}-${rnum}
 STDOUT=std.out
 STDERR=std.err
 

@@ -15,6 +15,7 @@ deployedSockets=0,1
 # VMM Technologies
 network=vhost
 disk=scsi
+infiniband=False
 
 # App Tuning
 knem=False
