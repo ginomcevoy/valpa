@@ -18,7 +18,7 @@ class MockApplicationConfigurator():
     def getConfigFor(self, appRequest):
         mockParams = {'app.home' : '/home/giacomo2/shared/PARPACBench-1.4',
                     'app.executable' : 'PARPACBench',
-                    'exec.walltime' : '60:00',
+                    'exec.walltime' : '120:00',
                     'exec.needsoutputcopy' : 'Y',
                     'exec.otheroutput' : '/home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out',
                     'exec.outputrename' : 'custom.out'}
@@ -82,7 +82,7 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
         VespaDeploymentAbstractTest.setUp(self)
         appParams = {'app.home' : '/home/giacomo2/shared/PARPACBench-1.4',
                     'app.executable' : 'PARPACBench',
-                    'exec.walltime' : '60:00',
+                    'exec.walltime' : '120:00',
                     'exec.needsoutputcopy' : 'Y',
                     'exec.otheroutput' : '/home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out',
                     'exec.outputrename' : 'custom.out'}
