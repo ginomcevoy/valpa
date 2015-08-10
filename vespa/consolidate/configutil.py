@@ -10,6 +10,23 @@ Extracts information about DIST variables
 
 import os
 
+def appInputDir(appParams, consolidateKey):
+	"""Return the full path for the consolidation input of a request.
+	
+	By default, the application has a single input folder, given by
+	consolidate.default parameter in the application params. This can
+	be overridden by using a key. If key is present, the path is retrieved
+	from the consolidate.<key> parameter in the config. 
+	
+	An exception is raised if the key is not present in the config.
+	  
+	"""
+	if consolidateKey is None:
+		return appParams['consolidate.default']
+	else:
+		key = 'consolidate.' + consolidateKey
+		return appParams[key]
+
 def getSubDirs(baseDir, orderByModification=True):
 	'''
 	Returns a tuple of all subdirs within baseDir (non-recursive). The list is
@@ -159,3 +176,4 @@ def extractDist(distName):
 	# build output
 	output = {'cn' : cn, 'cpv' : cpv, 'idf' : idf, 'pstrat' : pstrat}
 	return output
+

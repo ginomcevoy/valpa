@@ -5,7 +5,7 @@ import unittest
 from core import config_app
 
 class ApplicationConfigTest(unittest.TestCase):
-    """ Unit tests for ApplicationConfig class. """ 
+    """ Unit tests for ApplicationConfigurator class. """ 
 
     def setUp(self):
         self.appFolder = 'resources/apps'
@@ -33,21 +33,19 @@ class ApplicationConfigTest(unittest.TestCase):
         self.assertFalse('empty' in appConfig.torque)
         
         # validate content for Parpac - app.executable=PARPACBench
-        parpacInfo = appConfig.appInfo['parpac']
-        self.assertTrue('app.executable' in parpacInfo.keys())
-        self.assertEquals('PARPACBench', parpacInfo['app.executable'])
+        parpacConfig = appConfig.appConfigs['parpac']
+        self.assertTrue('app.executable' in parpacConfig.keys())
+        self.assertEquals('PARPACBench', parpacConfig['app.executable'])
         
         # validate content for Parpac - exec.outputrename=custom.out
-        parpacInfo = appConfig.appInfo['parpac']
-        self.assertTrue('exec.outputrename' in parpacInfo.keys())
-        self.assertEquals('custom.out', parpacInfo['exec.outputrename'])
+        self.assertTrue('exec.outputrename' in parpacConfig.keys())
+        self.assertEquals('custom.out', parpacConfig['exec.outputrename'])
         
         # validate content for Parpac 
         # consolidate.default=/home/giacomo2/experiments/arriving/parpac
-        parpacInfo = appConfig.appInfo['parpac']
-        self.assertTrue('consolidate.default' in parpacInfo.keys())
-        self.assertEquals('/home/giacomo2/experiments/arriving/parpac', 
-                          parpacInfo['consolidate.default'])
+        self.assertTrue('consolidate.default' in parpacConfig.keys())
+        self.assertEquals('/tmp/vespa/tests/consolidate/parpac', 
+                          parpacConfig['consolidate.default'])
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testAppConfig']

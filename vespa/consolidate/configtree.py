@@ -19,16 +19,15 @@ import subprocess
 
 from . import configlist, configutil
 
-def buildConfigTree(appName, appDir, outputDir):
+def buildConfigTree(appInputDir, appOutputDir):
     
     # make app output dir 
-    appOutputDir = outputDir + '/' + appName
     if not os.path.exists(appOutputDir):
         os.makedirs(appOutputDir)
     
     # get all config dirs and the config numbers
-    configDirs = configutil.listAllConfigDirs(appDir)
-    configNames = configutil.listAllConfigs(appDir) 
+    configDirs = configutil.listAllConfigDirs(appInputDir)
+    configNames = configutil.listAllConfigs(appInputDir) 
     configDict = configlist.enumerateConfigs(configNames)
     
     # make config output dirs
@@ -52,8 +51,11 @@ def buildConfigDirs(configNames, configDict, appOutputDir):
             os.makedirs(configOutputDir)
 
 def copyFiles(configInputDir, configOutputDir):
-    # use shell script for this
-    copyCall = ['/bin/bash', 'consolidate/copyConfigFiles.sh', configInputDir, configOutputDir]
+    
+    # get full path of this Python script, required shell script is in the same directory
+    pathOfThisScript = os.path.dirname(os.path.abspath(__file__))
+    shellScript = pathOfThisScript + '/copyConfigFiles.sh'
+    copyCall = ['/bin/bash', shellScript, configInputDir, configOutputDir]
     subprocess.call(copyCall)
 
     # create a file named 'identifier.txt' with the dist + config name
@@ -77,8 +79,8 @@ if __name__ == '__main__':
     
     # Mandatory inputs
     appName = sys.argv[1]
-    appDir = sys.argv[2]
+    appInputDir = sys.argv[2]
     outputDir = sys.argv[3]
     
     # work
-    buildConfigTree(appName, appDir, outputDir)
+    buildConfigTree(appInputDir, outputDir)

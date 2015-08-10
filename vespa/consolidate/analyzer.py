@@ -9,36 +9,158 @@ of the execution dirs
 @author: giacomo
 '''
 
+import csv
 import os.path
-import subprocess
-import sys
 
 from . import configutil
+from .plugin import CustomReaderLoader
+from collections import OrderedDict
+import itertools
+import warnings
 
-
-def analyzeApplication(appName, appDir, metricsFilename):
+def analyze(consolidateConfig, appName, consolidateKey, override=False):
     
-    # iterate all configs
-    configDirs = configutil.listAllConfigDirs(appDir)
+    # filenames: partial output, user-specific module, time output
+    metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_same']
+    timeFilename = consolidateConfig.runOpts['run_timeoutput']
+    
+    # get the relevant input directory for request, iterate subfolders
+    appInputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
+    configDirs = configutil.listAllConfigDirs(appInputDir)
     
     for configDir in configDirs:
         
-        # if metrics file is ok, no need to analyze
-        if isMetricFileOutdated(configDir, metricsFilename):
+        # if metrics file is up-to-date, no need to analyze unless forced
+        if override or isMetricFileOutdated(configDir, metricsFilename):
+            
+            # analyze the file with the data derived from time command
+            timeMetrics = getTimeMetrics(configDir, timeFilename)
+            
+            # analyze with application-specific module
+            appMetrics = getAppMetrics(consolidateConfig, configDir)
+            
+            if appMetrics is None:
+                # no module found for application metrics
+                allMetrics = timeMetrics
+            else:
+                # validate consistency of metrics
+                if not areConsistent(appMetrics, timeMetrics):
+                    raise ValueError("Experiment metrics don't match:", configDir)
+                
+                # metrics consistent, merge these metrics in order
+                allMetrics = OrderedDict(timeMetrics.items() + appMetrics.items())
+            
+            # save the available metrics
+            metricsFile = os.path.join(configDir, metricsFilename)
+            metricsToCSV(metricsFile, allMetrics)
                     
-            # analyze this config: use application-specific shell script
-            script = 'consolidate/apps/' + appName + '/metrics-config.sh'
-            
-            # contingency
-            if not os.path.exists(script):
-                print('Need application specific script to analyze output: ' + script)
-                exit(1)
-            
-            # call script
-            analyzeCall = ['/bin/bash', script, configDir, configDir, metricsFilename]
-            subprocess.call(analyzeCall)
-            
+def metricsToCSV(metricsFile, allMetrics):
+    """ Generates a CSV file with the times data and application data (if any). """
 
+    with open(metricsFile, 'wb') as csvfile:
+        csvWriter = csv.writer(csvfile, delimiter=';',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        
+        # write header: names of metrics
+        # if using OrderedDict, column order is preserved 
+        csvWriter.writerow(allMetrics.keys())
+        
+        # write each row: this idiom creates an iterator through all the lists
+        # in the allMetrics dictionary, which allows the iteration by row.
+        rowIter = itertools.imap(lambda *x: list(x), *allMetrics.itervalues())
+        for row in rowIter:
+            csvWriter.writerow(row)
+        
+def getTimeMetrics(configDir, timesFilename):
+    """ Return an ordered dictionary with the output from time command.
+    
+    Current keys: userTime, systemTime, ellapsedTime
+    """
+    # output format
+    items = (('userTime', []), 
+             ('systemTime', []),
+             ('ellapsedTime', [])
+             )
+    metrics = OrderedDict(items)
+    
+    # read file in lines
+    timesFile = os.path.join(configDir, timesFilename)
+    with open(timesFile, 'r') as times:
+        lineCounter = 0
+        for line in times:
+            # each 3rd line has the metrics
+            lineCounter = lineCounter + 1
+            if (lineCounter % 3 != 0):
+                continue
+            
+            # assuming order userTime / systemTime / ellapsedTime
+            user, system, ellapsed = line.split('\t')
+            user, system, ellapsed = float(user), float(system), float(ellapsed)
+            metrics['userTime'].append(user)
+            metrics['systemTime'].append(system)
+            metrics['ellapsedTime'].append(ellapsed)
+    
+    return OrderedDict(metrics)
+    
+def getAppMetrics(consolidateConfig, configDir):
+    """ Return a dictionary with application-specific metrics.
+    
+    The dictionary has unspecified keys. For each key, a tuple is expected,
+    where the length of the tuple is the number of repeated experiments for
+    the configuration. If there is no user module, the output is None.
+    
+    """
+    
+    appMetrics = {}
+    moduleName = consolidateConfig.consolidatePrefs['consolidate_module']
+    customFilename = consolidateConfig.appParams['exec.outputrename']
+    
+    # load user module for application-specific metrics
+    # if there is no user module, the dictionary remains empty
+    with CustomReaderLoader(consolidateConfig.appParams, moduleName) as crl:
+        
+        reader = crl.loadModule()
+        
+        # iterate experiments within each configuration
+        expDirs = configutil.getSubDirs(configDir)
+        for expDir in expDirs:
+            
+            # main output files
+            expDir = os.path.join(configDir, expDir)
+            stdoutFile = os.path.join(expDir, 'std.out')
+            stderrFile = os.path.join(expDir, 'std.err')
+            customFile = os.path.join(expDir, customFilename)
+            
+            # work optional custom file
+            cf = open(customFile, 'r') if customFilename.strip() else None
+            
+            with open(stdoutFile, 'r') as stdout, open(stderrFile, 'r') as stderr:
+                # module reads 
+                customMetrics = reader.read_metrics(stdout, stderr, expDir, cf)
+                
+                # convert the customMetrics dictionary to a dictionary of lists
+                # each list has one element
+                metricsAsList = {}
+                for k, v in customMetrics.items():
+                    metricsAsList[k] = [v,] 
+                
+                # aggregate output for each experiment
+                if not appMetrics:
+                    # handle special case for first experiment
+                    appMetrics = metricsAsList
+                else: 
+                    # this idiom aggregates dictionaries of lists, maintaining structure
+                    keys = appMetrics.keys()
+                    appMetrics = dict((k, metricsAsList.get(k, []) + appMetrics.get(k, [])) for k in keys)
+                    
+    # module not found, there are no appMetrics
+    if not crl.loaded:
+        appName = consolidateConfig.appParams['app.name']
+        warnings.warn('User module not loaded for: ' + appName)
+        return None                
+    else:
+        return appMetrics 
+            
 def isMetricFileOutdated(configDir, metricsFilename):
     
     metricsFile = os.path.join(configDir, metricsFilename)
@@ -61,21 +183,29 @@ def isMetricFileOutdated(configDir, metricsFilename):
     # execDirs are older, metrics file is ok
     return False
 
-if __name__ == '__main__':
-    # Validate input
-    args = len(sys.argv) - 1
-    if args < 2:
-        raise ValueError('Usage: configtree <appName> <appDir> [metricsFilename=metrics-app.csv]')
+def areConsistent(appMetrics, timeMetrics):
+    """ Indicate consistency between appMetrics and timeMetrics.
     
-    # Mandatory inputs
-    appName = sys.argv[1]
-    appDir = sys.argv[2]
+    The verification is done by the size of each metrics, the number of
+    experiment tuples should be the same. Returns True iff verification
+    succeeds. 
     
-    # Optional input
-    if args > 2:
-        metricsFilename = sys.argv[3]
-    else:
-        metricsFilename = 'metrics-app.csv'
+    """
+    appLen = 0
+    timeLen = 0
+    
+    for metricType in appMetrics.values():
+        thisAppLen = len(metricType)
+        if appLen == 0:
+            appLen = thisAppLen
+        elif appLen != thisAppLen: # different length within appMetrics
+            return False 
         
-    # work
-    analyzeApplication(appName, appDir, metricsFilename)
+    for metricType in timeMetrics.values():
+        thisTimeLen = len(metricType)
+        if timeLen == 0:
+            timeLen = thisTimeLen
+        elif timeLen != thisTimeLen: # different length within timeMetrics
+            return False
+    
+    return appLen == timeLen

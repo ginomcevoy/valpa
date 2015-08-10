@@ -60,6 +60,7 @@ class BootstrapNetworkingTest(VespaWithBootstrapAbstractTest):
         self.assertEquals(macAddress, '00:16:36:ff:93:04')
         
     def testGetExperimentSetRunner(self):
+        print('Expected warning: Bad application.config for: invalid')
         runner = self.bootstrap.getExperimentSetRunner()
         self.assertTrue(isinstance(runner, ExperimentSetRunner))
 

@@ -2,7 +2,6 @@
 Created on Dec 4, 2013
 
 Runs all consolidate scripts in order:
-0. settings - loads consolidate settings
 1. analyzer - creates metrics-app.csv in each config
 2. configtree - creates output structure
 3. configlist - creates configs.csv in output
@@ -13,45 +12,56 @@ Runs all consolidate scripts in order:
 '''
 import sys
 
-from . import settings, analyzer, configtree, configlist, metricsgen,\
+from . import analyzer, configtree, configlist, metricsgen,\
     sargen
+import bootstrap
+from consolidate import configutil
 
-
-def run(appName, configVars):
+def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     
-    # load settings
-    settingsInstance = settings.getSettings()
-    prefs = settingsInstance.getPrefs()
+    # TODO: all of these parameters should be hidden within the function calls
+    # using consolidateConfig to hold parameters
     
-    phycores = prefs['hw.cores']
-    baseOutputDir = prefs['generated.dir']
+    # relevant input directory for request
+    appInputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
     
-    metricsConfig = prefs['metrics.config.name']
-    metricsFilename = prefs['metrics.all.name']
-    allConfigsFilename = prefs['configs.name']
+    # application-specific directory for experiment consolidation
+    # is a sub-directory from base output directory
+    baseOutputDir = consolidateConfig.consolidatePrefs['generated_dir']
+    outputName = appName if consolidateKey is None else consolidateKey 
+    appOutputDir = baseOutputDir + '/' + outputName
     
-    # load app info
-    appSettings = settingsInstance.getInfoForApp(appName)
-    appDir = appSettings['app.dir']
-    appOutputDir = baseOutputDir + '/' + appName
+    # filename for main output: all configurations
+    allConfigsFilename = consolidateConfig.consolidatePrefs['consolidate_configs_all'] 
     
-    # call analyzer
-    analyzer.analyzeApplication(appName, appDir, metricsConfig)
+    # filename for main output: all metrics
+    metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_all']
     
-    # call configtree
-    configtree.buildConfigTree(appName, appDir, baseOutputDir)
+    # filename for intermediary output: metrics for each configuration
+    metricsConfig = consolidateConfig.consolidatePrefs['consolidate_metrics_same']  
     
-    # call configlist
-    configlist.writeConfigsFile(appOutputDir, appDir, configVars, 'config.txt', allConfigsFilename)
+    # physical cores per physical machine...
+    phycores = str(consolidateConfig.hwSpecs['cores'])
     
-    # call metricsgen
+    # call analyzer: analyze each configuration
+    analyzer.analyze(consolidateConfig, appName, consolidateKey)
+    
+    # call configtree: create output tree to hold temporal metrics
+    configtree.buildConfigTree(appInputDir, appOutputDir)
+    
+    # call configlist: write main output - configurations
+    # writeConfigsFile(appOutputDir, appDir, configVars, configFilename, allConfigsFilename)
+    configlist.writeConfigsFile(appOutputDir, appInputDir, configVars, 'config.txt', allConfigsFilename)
+    
+    # call metricsgen: write main output - metrics
     metricsOutputFile = appOutputDir + '/' + metricsFilename
-    metricsgen.writeMetrics(metricsOutputFile, appDir, metricsConfig)
+    metricsgen.writeMetrics(metricsOutputFile, appInputDir, metricsConfig)
     
-    # call sargen
-    sargen.sarAnalyze(appName, appDir, appOutputDir, phycores, 'config.txt'
-, metricsConfig)
-
+    # call sargen: analyze temporal metrics for each configuration
+    sargenConfig = consolidateConfig.consolidatePrefs['consolidate_sargen_config']
+    sargen.sarAnalyze(appName, appInputDir, appOutputDir, phycores, 'config.txt',
+                      metricsConfig, sargenConfig)
+    
 def getConfigVars(varsText):
     return tuple(varsText.split(' ')) # ('nc', 'cpv', ...)
 
@@ -60,12 +70,22 @@ if __name__ == '__main__':
     # Validate input
     args = len(sys.argv) - 1
     if args < 2:
-        raise ValueError('Usage: runall <appName> <"configVars">')
+        raise ValueError('Usage: runall <appName> <"configVars"> [consolidateKey]')
     
     # Mandatory inputs
     appName = sys.argv[1]
     varsText = sys.argv[2]
     configVars = getConfigVars(varsText)
     
+    # consolidateKey is optional value
+    consolidateKey = None
+    if args > 2:
+        consolidateKey = sys.argv[3]
+        
+    # Bootstrap Vespa, get relevant configuration
+    bootstrap.doBootstrap(True)
+    bootstrapper = bootstrap.getInstance()
+    consolidateConfig = bootstrapper.getConsolidateConfig(appName)
+        
     # do the work
-    run(appName, configVars)
+    consolidate(consolidateConfig, appName, configVars, consolidateKey)

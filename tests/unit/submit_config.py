@@ -7,22 +7,32 @@ import unittest
 import shutil
 
 from unit.test_abstract import VespaDeploymentAbstractTest
-from submit.config import ConfiguratorFactory, ApplicationParameterReader,\
+from submit.config import ConfiguratorFactory,\
     ApplicationConfiguratorPBS, ExecutionConfiguratorPBS
 
-class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
-
-    def setUp(self):
-        VespaDeploymentAbstractTest.setUp(self)
-        self.appParams = {'app.home' : '/home/giacomo2/shared/PARPACBench-1.4',
+class MockApplicationConfigurator():
+    
+    def isTorqueBased(self, appRequest):
+        return True
+    
+    def getConfigFor(self, appRequest):
+        mockParams = {'app.home' : '/home/giacomo2/shared/PARPACBench-1.4',
                     'app.executable' : 'PARPACBench',
                     'exec.walltime' : '120:00',
                     'exec.needsoutputcopy' : 'Y',
                     'exec.otheroutput' : '/home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out',
                     'exec.outputrename' : 'custom.out'}
+        return mockParams
+    
 
-        appParamReader = ApplicationParameterReader(self.runOpts)
-        self.configFactory = ConfiguratorFactory(self.runOpts, appParamReader, None) # no NetworkAddresses
+class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
+
+    def setUp(self):
+        VespaDeploymentAbstractTest.setUp(self)
+        
+        # mock appConfig for this unit test
+        appConfig = MockApplicationConfigurator()
+        self.configFactory = ConfiguratorFactory(self.runOpts, appConfig, None) # no NetworkAddresses
 
     def testCreateBasicExecutionFile(self):
         # given
@@ -53,7 +63,7 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         experimentPath = '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/f2f8b46e1b3decd0735b9247756f92e8e451a4a46b489f66852b2ddd78a68c52'
         
         # when
-        appConfigurator = self.configFactory.createApplicationConfigurator(self.appRequest, experimentPath, self.appParams, False)
+        appConfigurator = self.configFactory.createApplicationConfigurator(self.appRequest, experimentPath, False)
         
         # then
         self.assertTrue(isinstance(appConfigurator, ApplicationConfiguratorPBS))
@@ -65,14 +75,6 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         
         # then
         self.assertTrue(isinstance(execConfigurator, ExecutionConfiguratorPBS))
-        
-    def testReadAppParams(self):
-        # when
-        gotAppParams = self.configFactory.readAppParams(self.appRequest)
-        
-        # then
-        self.assertEquals(gotAppParams, self.appParams)
-
         
 class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
     

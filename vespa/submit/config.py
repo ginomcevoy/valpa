@@ -6,7 +6,6 @@ Configures application (PBS if supported) for execution
 @author: giacomo
 '''
 import shutil
-import ConfigParser
 import datetime
 
 class Configurator:
@@ -67,8 +66,8 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
     Adds application information to PBS submission file
     '''
     
-    def __init__(self, appInfo, experimentPath, appParams, forReal):
-        self.appInfo = appInfo
+    def __init__(self, appRequest, experimentPath, appParams, forReal):
+        self.appRequest = appRequest
         self.forReal = forReal
         self.experimentPath = experimentPath
         self.appParams = appParams
@@ -80,12 +79,20 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
             executionText = execution.read()
             
             # Provided in request
-            executionText = executionText.replace('&EXEC_TIMES', str(self.appInfo.runs))
+            executionText = executionText.replace('&EXEC_TIMES', str(self.appRequest.runs))
             executionText = executionText.replace('&EXPERIMENT_PATH', self.experimentPath)
-            executionText = executionText.replace('&APP_ARGS', self.appInfo.args)
+            
+            # Application arguments: use the args provided in the configuration, unless
+            # overridden in the application request
+            if self.appRequest.args is not None:
+                appArgs = self.appRequest.args
+            else:
+                appArgs = self.appParams['app.args']
+            
+            executionText = executionText.replace('&APP_ARGS', appArgs)
 
             # OpenMPI 1.8.x has simplified the binding syntax            
-            bindToCore = '--bind-to ' + self.appInfo.appTuning.procpin
+            bindToCore = '--bind-to ' + self.appRequest.appTuning.procpin
             executionText = executionText.replace('&MPI_PROC_BIND', bindToCore)
             
             # Inferred from name/date
@@ -94,7 +101,7 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
                 dateString = now.strftime('%Y-%m-%d-%H:%M')
             else:
                 dateString = '2013-04-06-08:55' # for testing
-            appExecName = self.appInfo.name + '-' + dateString
+            appExecName = self.appRequest.name + '-' + dateString
             executionText = executionText.replace('&APP_EXEC_NAME', appExecName)
             
             # From registration in Vespa
@@ -102,16 +109,18 @@ class ApplicationConfiguratorPBS(ApplicationConfigurator):
             executionText = executionText.replace('&APP_EXECUTABLE', self.appParams['app.executable'])
             executionText = executionText.replace('&WALLTIME', self.appParams['exec.walltime'])
             
-            needsOutputCopy = self.appParams['exec.needsoutputcopy']
-            executionText = executionText.replace('&APP_NEEDS_OUTPUT_COPY', needsOutputCopy)
-            
-            if needsOutputCopy == 'Y':
+            if 'exec.otheroutput' in self.appParams and self.appParams['exec.otheroutput']:
+                # additional output requested
+                needsOutputCopy = 'Y'
                 otherOutput = self.appParams['exec.otheroutput']
                 outputRename = self.appParams['exec.outputrename']
             else:
+                # indicate no need for handling additional output
+                needsOutputCopy = 'N'
                 otherOutput = '/dev/null'
                 outputRename = ''
-            
+                
+            executionText = executionText.replace('&APP_NEEDS_OUTPUT_COPY', needsOutputCopy)
             executionText = executionText.replace('&APP_OTHER_OUTPUT', otherOutput)
             executionText = executionText.replace('&APP_OUTPUT_RENAME', outputRename)
         
@@ -201,82 +210,56 @@ class ExecutionConfiguratorPBS(ExecutionConfigurator):
         return networkingString
     
 class ConfiguratorFactory:
-    '''
-    Creates instances for configuration of application execution,
+    """ Creates instances for configuration of application execution,
     also creates a copy of the master execution file. 
     
-    TODO: rethink this class using patterns, is PBS optional here?
-    '''
-    def __init__(self, runOpts, appParamReader, networkAddresses):
+    """
+    def __init__(self, runOpts, appConfig, networkAddresses):
         self.runOpts = runOpts
         self.masterPbs = runOpts['pbs_master'] 
         self.networkAddresses = networkAddresses
-        self.appParamReader = appParamReader
+        self.appConfig = appConfig
     
-    def createBasicExecutionFile(self, appInfo, experimentPath):
-        '''
-        If using PBS, returns a copy of the Vespa PBS file (master version)
-        in the provided experimentPath 
-        '''
-        if self.isPBS(appInfo):
-            # is PBS
-            # copy the master PBS file to experiment path
+    def createBasicExecutionFile(self, appRequest, experimentPath):
+        """
+        If using Torque, returns a copy of the Vespa Torque file 
+        (master version) in the provided experimentPath 
+        """
+        if self.appConfig.isTorqueBased(appRequest):
+            # copy the master Torque file to experiment path
             pbsFile = experimentPath + '/submit.pbs'
             shutil.copyfile(self.masterPbs, pbsFile)
             
         else:
             # only supporting PBS
-            raise ValueError("Application not supported: " + appInfo.name)
+            raise ValueError("Application not supported: " + appRequest.name)
         
         return pbsFile
     
-    def createVespaExecutionFile(self, appInfo, experimentPath):
-        '''
-        If using PBS, returns a copy of the Vespa PBS file (adapted version)
-        in the provided experimentPath 
-        '''
-        executionFile = self.createBasicExecutionFile(appInfo, experimentPath)
+    def createVespaExecutionFile(self, appRequest, experimentPath):
+        """
+        If using Torque, returns a copy of the Vespa Torque file
+        (adapted version) in the provided experimentPath 
+        """
+        executionFile = self.createBasicExecutionFile(appRequest, experimentPath)
         vespaConfigurator = VespaConfigurator(self.runOpts)
         return vespaConfigurator.enhanceExecutionFile(executionFile)
         
-    def createApplicationConfigurator(self, appInfo, experimentPath, appParams, forReal=True):
-        '''
-        Returns ApplicationConfigurator instance, with PBS if supported.
-        '''
-        if self.isPBS(appInfo):
-            return ApplicationConfiguratorPBS(appInfo, experimentPath, appParams, forReal)
+    def createApplicationConfigurator(self, appRequest, experimentPath, forReal=True):
+        """ Return ApplicationConfigurator instance, with PBS if supported.
+        """
+        if self.appConfig.isTorqueBased(appRequest):
+            appParams = self.appConfig.getConfigFor(appRequest)
+            return ApplicationConfiguratorPBS(appRequest, experimentPath, appParams, forReal)
         else:
-            raise ValueError("Application not supported: " + appInfo.name)
+            raise ValueError("Application not supported: " + appRequest.name)
     
-    def createExecutionConfigurator(self, appInfo, clusterRequest, deploymentInfo):
+    def createExecutionConfigurator(self, appRequest, clusterRequest, deploymentInfo):
         '''
         Returns ExecutionConfigurator instance, with PBS if supported.
         '''
-        if self.isPBS(appInfo):
+        if self.appConfig.isTorqueBased(appRequest):
             return ExecutionConfiguratorPBS(clusterRequest, deploymentInfo, self.networkAddresses)
         else:
-            raise ValueError("Application not supported: " + appInfo.name)
-        
-    def isPBS(self, appInfo):
-        return self.appParamReader.isPBS(appInfo)
+            raise ValueError("Application not supported: " + appRequest.name)
     
-    def readAppParams(self, appInfo):
-        return self.appParamReader.readAppParams(appInfo)
-    
-class ApplicationParameterReader():
-    
-    def __init__(self, runOpts):
-        self.pbsApps = runOpts['pbs_supported_apps'].split(',')
-    
-    def isPBS(self, appInfo):
-        return appInfo.name in self.pbsApps
-    
-    def readAppParams(self, appInfo):
-        '''
-        Reads application params that are registered with Vespa
-        (not provided in the request), returns dict
-        '''
-        appParamsFile = '../apps/' + appInfo.name + '.params'
-        config = ConfigParser.RawConfigParser()
-        config.read(appParamsFile)
-        return dict(config.items('Application'))

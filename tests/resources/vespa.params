@@ -98,9 +98,6 @@ monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
 # Also monitor physical nodes? (True/False)
 monitor_do_nodes=True
 
-# comma separated list of applications that will use PBS
-pbs_supported_apps=parpac,torque
-
 [Preferences]
 vm_pernode=12
 vm_prefix=kvm-pbs
@@ -119,6 +116,14 @@ exec_config_output=/tmp/vespa/execs
 
 out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory
+
+# Main Consolidation output dir
+consolidate.output=/home/giacomo2/experiments/analyzed
+
+# Consolidation filenames
+metrics.config.name = metrics-app.csv
+metrics.all.name = metrics-all.csv
+configs.name = configs.csv
 
 general_verbose=1
 
@@ -152,3 +157,17 @@ repo_root=/home/giacomo/vms
 
 # Dir for base images inside root dir
 repo_base_dir=base
+
+[Consolidate]
+# Default filenames
+consolidate_metrics_same=metrics-app.csv
+consolidate_metrics_all=metrics-all.csv
+consolidate_configs_all=configs.csv
+consolidate_module=read_output
+consolidate_sargen_config=tests/resources/consolidate/sargen-config.R
+
+# Directory with information about application
+consolidate_app_folder=resources/apps 
+
+# Main output dir for consolidated data
+generated_dir=/tmp/vespa/tests/consolidated

@@ -3,7 +3,7 @@ Created on Nov 5, 2014
 
 @author: giacomo
 '''
-from core import config_hw
+from core import config_hw, config_app
 from core import config_vespa
 from core.physical import PhysicalNodeFactory
 from network.address import NetworkAddresses
@@ -16,7 +16,8 @@ from core.virtual import BuildsAllVMDetails
 from network.create import BuildsNetworkXMLs, CreatesBasicNetworkXML,\
     ArgumentSolverFactory, EnhancesXMLForCreatingBridge
 from create.cluster import VespaXMLGenerator
-from submit.config import ApplicationParameterReader, ConfiguratorFactory
+from submit.config import ConfiguratorFactory
+from collections import namedtuple
 
 def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
     # instantiate Bootstrapper as a Singleton
@@ -47,6 +48,7 @@ class VespaBootstrapper():
         # lazy loading of these
         self.networkAddresses = None
         self.buildsVMDefinitionGenerator = None
+        self.appConfig = None
         self.configFactory = None
         self.deploymentFactory = None
         self.experimentSetRunner = None
@@ -125,12 +127,19 @@ class VespaBootstrapper():
             self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningBuilder.build(), networkAddresses)
         return self.buildsVMDefinitionGenerator
     
+    def getAppConfig(self):
+        _checkBootstrap()
+        if self.appConfig is None:
+            appFolder = self.vespaConfig.consolidatePrefs['consolidate_app_folder']
+            self.appConfig = config_app.getAppConfig(appFolder)
+        return self.appConfig
+    
     def getConfiguratorFactory(self):
         _checkBootstrap()
         if self.configFactory is None:
             networkAddresses = self.getNetworkAddresses()
-            appParamReader = ApplicationParameterReader(self.runOpts)
-            self.configFactory = ConfiguratorFactory(self.runOpts, appParamReader, networkAddresses)
+            appConfig = self.getAppConfig()
+            self.configFactory = ConfiguratorFactory(self.runOpts, appConfig, networkAddresses)
         return self.configFactory
         
     def getDeploymentFactory(self):
@@ -158,6 +167,18 @@ class VespaBootstrapper():
             enhancerForCreatingBridge = EnhancesXMLForCreatingBridge(physicalCluster, self.getAllVMDetails())
             self.buildsNetworkXMLs = BuildsNetworkXMLs(basicCreator, argumentSolverFactory, enhancerForCreatingBridge, physicalCluster)
         return self.buildsNetworkXMLs
+    
+    def getConsolidateConfig(self, appName):
+        """ Return a named tuple that holds configuration relevant to consolidation.
+        
+        The tuple holds the names 'appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'.
+        """
+        appConfig = self.getAppConfig()
+        appParams = appConfig.appConfigs[appName]
+    
+        # Single variable for relevant configuration
+        ConsolidateConfig = namedtuple('ConsolidateConfig', ['appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'])
+        return ConsolidateConfig(appParams, self.vespaConfig.consolidatePrefs, self.hwSpecs, self.runOpts)
     
     def __loadNetworkAddresses__(self):
         '''

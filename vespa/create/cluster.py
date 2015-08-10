@@ -9,7 +9,6 @@ import subprocess
 
 from core import config_vespa
 from .mapping import MappingResolver
-from submit.config import ApplicationParameterReader
 from submit.pbs.updater import PBSUpdater
 from core.virtual import VirtualClusterTemplates
 from core.enum import NetworkOpt, PinningOpt # @UnusedImport it IS used
@@ -75,34 +74,31 @@ class PhysicalClusterDefiner:
     TODO: use patterns to create variations Physical/Virtual + PBS/NoPBS
     '''
     
-    def __init__(self, hwSpecs, vespaPrefs, runOpts, allNodes, allVMDetails):
+    def __init__(self, hwSpecs, vespaPrefs, appConfig, runOpts, allNodes, allVMDetails):
         # reuse some mapping functionality
         self.mapper = MappingResolver(hwSpecs, vespaPrefs, allNodes, allVMDetails) 
         self.allNodes = allNodes
         self.runOpts = runOpts
+        self.appConfig = appConfig
 
-        # strategy 
-        self.appParamReader = ApplicationParameterReader(runOpts)
-
-        
-    def defineCluster(self, cluster, appInfo, forReal):
+    def defineCluster(self, clusterRequest, appRequest, forReal):
         # only needs topology:
         # nc = number of processes
         # cpv = number of processes per host
         # hosts = nc / cpv
         
-        if cluster.mapping.deployNodes is not None:
+        if clusterRequest.mapping.deployNodes is not None:
             # read from definition
-            deployNodeNames = cluster.mapping.deployNodes
+            deployNodeNames = clusterRequest.mapping.deployNodes
             deployedNodes = self.allNodes.getSubset(deployNodeNames)
         else:
             # infer deployNodes
-            topology = cluster.topology
+            topology = clusterRequest.topology
             hostCount = int(topology.nc / topology.cpv)
             deployNodeNames = self.allNodes.getSubsetForHostCount(hostCount)
         
         # reuse socket logic
-        self.mapper.mapping = cluster.mapping
+        self.mapper.mapping = clusterRequest.mapping
         deployedSockets = self.mapper.getDeployedSockets()
         
         # here the "VMs" are actually hosts!
@@ -120,13 +116,11 @@ class PhysicalClusterDefiner:
         deployedVMs = VirtualClusterTemplates(vmDict, byNode)
         
         # Case for using PBS
-        isPBS = self.appParamReader.isPBS(appInfo)
-        if isPBS:
-            #deploymentType = 'PBS'
+        if self.appConfig.isTorqueBased(appRequest):
 
             # need to update PBS configuration
             pbsUpdater = PBSUpdater(self.runOpts, forReal)
-            pbsUpdater.updatePBS(deployedVMs, cluster)
+            pbsUpdater.updatePBS(deployedVMs, clusterRequest)
 
         else:
             #deploymentType = 'NONE'

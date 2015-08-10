@@ -86,7 +86,7 @@ if __name__ == '__main__':
         raise ValueError('Usage: configlist <appDir> <"configVars"> [outputDir=appDir] [configFilename=config.txt] [outputFile=configs.csv]')
     
     # Mandatory inputs
-    appDir = sys.argv[1]
+    appInputDir = sys.argv[1]
     varsText = sys.argv[2]
     configVars = getConfigVars(varsText)
     
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     if args > 2:
         outputDir = sys.argv[3]
     else:
-        outputDir = appDir
+        outputDir = appInputDir
         
     if args > 3:
         configFilename = sys.argv[4]
@@ -107,4 +107,4 @@ if __name__ == '__main__':
         outputFile = 'configs.csv'
     
     # do the work
-    writeConfigsFile(outputDir, appDir, configVars, configFilename, outputFile)
+    writeConfigsFile(outputDir, appInputDir, configVars, configFilename, outputFile)

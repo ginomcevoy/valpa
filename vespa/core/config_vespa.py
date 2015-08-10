@@ -20,6 +20,7 @@ class VespaConfig:
 		self.runOpts = dict(config.items('Run'))
 		self.networkingOpts = dict(config.items('Networking'))
 		self.repoOpts = dict(config.items('Repository'))
+		self.consolidatePrefs = dict(config.items('Consolidate'))
 		
 	def getVespaPrefs(self):
 		return self.vespaPrefs
@@ -35,6 +36,9 @@ class VespaConfig:
 
 	def getRepoOpts(self):
 		return self.repoOpts
+	
+	def getConsolidatePrefs(self):
+		return self.consolidatePrefs
 	
 	def getAll(self):
 		return (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts)

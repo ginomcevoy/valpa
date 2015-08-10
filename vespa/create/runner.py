@@ -12,7 +12,6 @@ from sys import stdout
 
 from . import parser
 from create.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
-from submit.config import ApplicationParameterReader
 from submit.pbs.updater import PBSUpdater
 from .mapping import MappingResolver
 from core.cluster import SetsTechnologyDefaults
@@ -144,8 +143,8 @@ class ExperimentSetRunner():
         self.awaitExecution(appRequest)
     
     def awaitExecution(self, appRequest):
-        isPBS = self.clusterDeployer.isPBS(appRequest)
-        waitExecCall = ['/bin/bash', 'submit/wait-end-jobs.sh', appRequest.name, str(isPBS)]
+        isTorque = self.applicationExecutor.isTorqueBased(appRequest)
+        waitExecCall = ['/bin/bash', 'submit/wait-end-jobs.sh', appRequest.name, str(isTorque)]
         if self.forReal:
             subprocess.call(waitExecCall)
         else:
@@ -168,6 +167,8 @@ class DeploymentFactory:
         
         self.vmDefinitionGenerator = vmDefinitionGenerator
         self.configFactory  = configFactory
+        self.appConfig = configFactory.appConfig
+        
         
     def createClusterDefiner(self):
         
@@ -178,13 +179,13 @@ class DeploymentFactory:
         return clusterDefiner
     
     def createPhysicalClusterDefiner(self):
-        clusterDefiner = PhysicalClusterDefiner(self.hwSpecs, self.vespaPrefs, self.runOpts, self.physicalCluster, self.allVMDetails)
+        clusterDefiner = PhysicalClusterDefiner(self.hwSpecs, self.vespaPrefs, self.appConfig, self.runOpts, self.physicalCluster, self.allVMDetails)
         return clusterDefiner
     
     def createClusterDeployer(self):
-        appParamReader = ApplicationParameterReader(self.runOpts)
+        appConfig = self.configFactory.appConfig
         pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
-        return ClusterDeployer(self.forReal, appParamReader, pbsUpdater)
+        return ClusterDeployer(self.forReal, appConfig, pbsUpdater)
         
     def createApplicationExecutor(self):
         applicationExecutor = ApplicationExecutor(self.configFactory, self.forReal, self.vespaPrefs, self.runOpts)
@@ -195,13 +196,13 @@ class ClusterDeployer:
     Deploys a previously defined virtual cluster, while preparing it to submit
     the application.
     '''
-    def __init__(self, forReal, appParamReader, pbsUpdater):
+    def __init__(self, forReal, appConfig, pbsUpdater):
         self.forReal = forReal
         #self.hwSpecs = hwSpecs
         #self.runOpts = runOpts
         
         # strategies 
-        self.appParamReader = appParamReader
+        self.appConfig = appConfig
         self.pbsUpdater = pbsUpdater
         
     
@@ -237,8 +238,7 @@ class ClusterDeployer:
             print(createShellCall)
                         
         # Deployment over Torque requires special treatment
-        isPBS = self.appParamReader.isPBS(appRequest)
-        if isPBS:
+        if self.appConfig.isTorqueBased(appRequest):
             deploymentType = 'Torque'
             
             # need to update Torque configuration
@@ -294,9 +294,6 @@ class ClusterDeployer:
         # no error in deploying cluster
         return None
                 
-    def isPBS(self, appRequest):
-        return self.appParamReader.isPBS(appRequest)
-            
     def preparePinningCall(self, pinningVirshGen, deployedVMs, vmName, pinningOpt, cpv):
         
         # iterate vms and get pinnings
