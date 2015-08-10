@@ -149,3 +149,16 @@ repo_root=/home/giacomo2/vms
 # Dir for base images inside root dir
 repo_base_dir=base
 
+[Consolidate]
+# Default filenames
+consolidate_metrics_same=metrics-app.csv
+consolidate_metrics_all=metrics-all.csv
+consolidate_configs_all=configs.csv
+consolidate_module=read_output
+consolidate_sargen_config=input/sargen-config.R
+
+# Directory with information about application
+consolidate_app_folder=../apps 
+
+# Main output dir for consolidated data
+generated_dir=$HOME/experiments/analyzed
