@@ -11,6 +11,7 @@ import sys
 from core.experiment import Application
 from create import cluster
 import bootstrap
+from core.cluster import SetsTechnologyDefaults
 
 def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
         
@@ -24,6 +25,13 @@ def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
     # Bootstrap Vespa
     bootstrap.doBootstrap(forReal)
     bootstrapper = bootstrap.getInstance()
+    
+    # Strategy to set default Technology values
+    vespaPrefs = bootstrapper.getVespaPrefs()
+    technologySetter = SetsTechnologyDefaults(vespaPrefs)
+    
+    # update unset technology parameters with defaults
+    clusterRequest.technology = technologySetter.setDefaultsOn(clusterRequest.technology)
     
     # need to execute application, get corresponding object
     deploymentFactory = bootstrapper.getDeploymentFactory()
