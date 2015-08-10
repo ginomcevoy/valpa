@@ -3,6 +3,7 @@ from unit.test_abstract import ConsolidateAbstractTest
 from integration.vespa_bootstrap import VespaWithBootstrapAbstractTest
 from consolidate import analyzer
 import os
+import warnings
 
 class AnalyzerTest(VespaWithBootstrapAbstractTest, ConsolidateAbstractTest):
     """ Integration tests for consolidate.analyzer.
@@ -39,17 +40,27 @@ class AnalyzerTest(VespaWithBootstrapAbstractTest, ConsolidateAbstractTest):
         self.assertEqual(appMetrics['fluidRate'], [3.197, 3.195])
         self.assertEqual(appMetrics['floatRate'], [1.909, 1.908])
         
-    def testAnalyze(self):
+    def testAnalyzeWithoutCustomMetrics(self):
         # given
         noCustomConfig = self.bootstrap.getConsolidateConfig('parpac-nocustom')
         metricsFilename = noCustomConfig.consolidatePrefs['consolidate_metrics_same']
         
-        # when
-        analyzer.analyze(noCustomConfig, appName='parpac-nocustom', 
+        with warnings.catch_warnings(record=True) as w:
+            # Cause all warnings to always be triggered.
+            warnings.simplefilter("always")
+            
+            # when analyzing experiments without a custom reader for
+            # application-specific metrics, a warning will be triggered
+            # (User module not loaded for parpac-nocustom)
+            analyzer.analyze(noCustomConfig, appName='parpac-nocustom', 
                          consolidateKey='nocustom', override=True)
-        
+            
+            # then verify warnings (two experiments means two warnings)
+            assert len(w) == 2
+            assert issubclass(w[-1].category, UserWarning)
+            assert "User module not loaded" in str(w[-1].message)
+
         # then verify that consolidated CSV has been created in each config
-        
         config1 = os.path.join(self.consolidateDir, 'parpac-nocustom/someExp1/someConfig1')
         metrics1 = os.path.join(config1, metricsFilename)
         self.assertFileContentEqual(metrics1, 'resources/consolidate/parpac-nocustom1.csv')

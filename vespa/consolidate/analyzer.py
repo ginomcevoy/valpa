@@ -156,7 +156,7 @@ def getAppMetrics(consolidateConfig, configDir):
     # module not found, there are no appMetrics
     if not crl.loaded:
         appName = consolidateConfig.appParams['app.name']
-        warnings.warn('User module not loaded for: ' + appName)
+        warnings.warn('User module not loaded for: ' + appName, UserWarning)
         return None                
     else:
         return appMetrics 

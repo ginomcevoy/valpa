@@ -3,6 +3,7 @@
 import unittest
 
 from core import config_app
+import warnings
 
 class ApplicationConfigTest(unittest.TestCase):
     """ Unit tests for ApplicationConfigurator class. """ 
@@ -12,9 +13,18 @@ class ApplicationConfigTest(unittest.TestCase):
         self.paramFile = 'application.config'
         
     def testAppConfig(self):
-        # when
-        print ('Expected warning: Bad application.config for: invalid')
-        appConfig = config_app.getAppConfig(self.appFolder, self.paramFile)
+        
+        with warnings.catch_warnings(record=True) as w:
+            # Cause all warnings to always be triggered.
+            warnings.simplefilter("always")
+            
+            # Trigger the warning of r
+            appConfig = config_app.getAppConfig(self.appFolder, self.paramFile)
+            
+            # then verify warning
+            assert len(w) == 1
+            assert issubclass(w[-1].category, SyntaxWarning)
+            assert "Bad application.config" in str(w[-1].message)
         
         # then cavity3D and parpac are valid applications
         self.assertTrue('cavity3D' in appConfig.registered)

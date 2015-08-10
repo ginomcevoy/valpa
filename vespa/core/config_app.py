@@ -4,7 +4,7 @@
 
 import os
 import ConfigParser
-from ConfigParser import ParsingError
+from ConfigParser import ParsingError, NoSectionError
 import warnings
 
 class ApplicationConfigurator(object):
@@ -82,9 +82,9 @@ class ApplicationConfigurator(object):
             # add to main dictionary
             self.appConfigs[appName] = appParams
                 
-        except ParsingError:
+        except ParsingError, NoSectionError:
             # Parser could not read the file, do not consider this app
-            warnings.warn('Bad application.config for: ' + appName)
+            warnings.warn('Bad application.config for: ' + appName, SyntaxWarning)
             if appName in self.appConfigs.keys():
                 del self.appConfigs[appName]
     

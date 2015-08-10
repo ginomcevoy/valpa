@@ -11,6 +11,7 @@ import unittest
 
 import bootstrap
 from create.runner import ExperimentSetRunner
+import warnings
 
 class VespaWithBootstrapAbstractTest(unittest.TestCase):
 
@@ -60,10 +61,24 @@ class BootstrapNetworkingTest(VespaWithBootstrapAbstractTest):
         self.assertEquals(macAddress, '00:16:36:ff:93:04')
         
     def testGetExperimentSetRunner(self):
-        print('Expected warning: Bad application.config for: invalid')
-        runner = self.bootstrap.getExperimentSetRunner()
+        
+        with warnings.catch_warnings(record=True) as w:
+            # Cause all warnings to always be triggered.
+            warnings.simplefilter("always")
+            
+            # Use the bootstrapper to get the experiment runner:
+            # this will activate the application configurator and trigger a warning
+            # for invalid configuration ('invalid' folder)
+            runner = self.bootstrap.getExperimentSetRunner()
+            
+            # then verify warning
+            assert len(w) == 1
+            assert issubclass(w[-1].category, SyntaxWarning)
+            assert "Bad application.config" in str(w[-1].message)
+            
+        # verify target instance
         self.assertTrue(isinstance(runner, ExperimentSetRunner))
-
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
