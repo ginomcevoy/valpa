@@ -24,7 +24,7 @@ class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
         self.assertEquals(excConfig, '/tmp/vespa/execs/446bf85f-b4ba-459b-8e04-60394fc00d5c')
         self.assertFileContentEqual(excConfig, 'resources/execConfig-expected.output')
         
-        self.assertEquals(deployDir, '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE')
+        self.assertEquals(deployDir, '/tmp/vespa/tests/deploy/parpac/nc16-cpv4-idf8-psBAL_ONE')
         
     def testSaveTrimmedExecConfig(self):
         # given

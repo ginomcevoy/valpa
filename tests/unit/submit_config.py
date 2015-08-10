@@ -86,7 +86,7 @@ class ApplicationConfiguratorPBSTest(VespaDeploymentAbstractTest):
                     'exec.needsoutputcopy' : 'Y',
                     'exec.otheroutput' : '/home/giacomo2/shared/PARPACBench-1.4/results/parpacbench_${np}cpu_32lbu.out',
                     'exec.outputrename' : 'custom.out'}
-        experimentPath = '/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE/8cdcf43265bb69439bb1ce16e5af43e2f54a60526af23d61238359ec6ff6405f'
+        experimentPath = '/tmp/vespa/tests/deploy/parpac/nc16-cpv4-idf8-psBAL_ONE/ad9513de1bf9a1865050460e904a78904976a648927f07d0be134995cc9a3d55'
         self.appConfigurator = ApplicationConfiguratorPBS(self.appRequest, experimentPath, appParams, False)
                  
     def testEnhanceExecutionFile(self):

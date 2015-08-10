@@ -26,5 +26,5 @@ procpin=socket
 runs=11
 VMS=4
 HOSTS=2
-DEPLOY_DIR=/home/giacomo2/shared/execs/parpac/nc16-cpv4-idf8-psBAL_ONE
+DEPLOY_DIR=/tmp/vespa/tests/deploy/parpac/nc16-cpv4-idf8-psBAL_ONE
 VERBOSE=1

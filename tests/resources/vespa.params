@@ -78,7 +78,7 @@ net_name_bridge_use=vespa-external-bridge
 net_mac_prefix=00:16:36:ff
 
 [Run]
-exp_dir=/home/giacomo2/shared/execs
+exp_dir=/tmp/vespa/tests/deploy
 deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
 deploy_dir_pattern=&EXPDIR/&APP/&DEPLOYSUBDIR
 
