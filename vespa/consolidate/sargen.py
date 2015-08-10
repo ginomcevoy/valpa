@@ -35,9 +35,8 @@ def analyzeSingleConfig(configDir, phycores, configOutputDir, sargenConfig):
     rScript = pathOfThisScript + '/sargen-metrics.R'
     vespaPath = pathOfThisScript + '/../../'
     
-    # variables may have $HOME environment variable
+    # variable may have $HOME environment variable
     sargenConfig = os.path.expandvars(sargenConfig)
-    configOutputDir =  os.path.expandvars(configOutputDir)
     
     # create call list
     sargenArgs = [vespaPath, sargenConfig, configDir, phycores, configOutputDir]

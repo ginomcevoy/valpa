@@ -7,13 +7,17 @@ if [ $# -lt 2 ]; then
 	echo "Gather performance and execution metrics from a set of "
         echo "Experiments and consolidate the data into a single folder."
         echo
-	echo "Usage: $0 <appName> '<configVars>'"
+	echo "Usage: $0 <appName> '<configVars>' [consolidateKey]"
         echo
-	echo "The <configVars> string contains the parameters that are "
+	echo "'<configVars>' - contains the parameters that are "
         echo "considered relevant for the set of experiments."
         echo "Example: 'nc cpv idf pstrat'"
+	echo
+	echo "[consolidateKey] - optional value that overrides default"
+ 	echo "consolidation target, it should exist in the configuration"
+	echo "file of the specified application."
 	exit 1
 fi
 
 cd $VESPA_DIR/vespa
-PYTHONPATH=. python -m consolidate $@
+PYTHONPATH=. python -m consolidate "$@"

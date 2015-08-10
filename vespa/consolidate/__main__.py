@@ -10,6 +10,7 @@ Runs all consolidate scripts in order:
 
 @author: giacomo
 '''
+import os
 import sys
 
 from . import analyzer, configtree, configlist, metricsgen,\
@@ -28,6 +29,8 @@ def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     # application-specific directory for experiment consolidation
     # is a sub-directory from base output directory
     baseOutputDir = consolidateConfig.consolidatePrefs['generated_dir']
+    baseOutputDir = os.path.expandvars(baseOutputDir)  # may have $HOME environment variable
+
     outputName = appName if consolidateKey is None else consolidateKey 
     appOutputDir = baseOutputDir + '/' + outputName
     
