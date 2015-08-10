@@ -44,7 +44,7 @@ class ApplicationConfigTest(unittest.TestCase):
         # validate content for Parpac 
         # consolidate.default=/home/giacomo2/experiments/arriving/parpac
         self.assertTrue('consolidate.default' in parpacConfig.keys())
-        self.assertEquals('/home/giacomo2/experiments/arriving/parpac', 
+        self.assertEquals('/tmp/vespa/tests/consolidate/parpac', 
                           parpacConfig['consolidate.default'])
 
 if __name__ == "__main__":

@@ -19,11 +19,11 @@ from create.cluster import VespaXMLGenerator
 from submit.config import ConfiguratorFactory
 from collections import namedtuple
 
-def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes', appFolder='../apps'):
+def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
     # instantiate Bootstrapper as a Singleton
     
     if VespaBootstrapper.instance is None:
-        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename, appFolder)
+        VespaBootstrapper.instance = VespaBootstrapper(forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename)
         VespaBootstrapper.instance.bootstrap()
         
 def getInstance():
@@ -36,14 +36,13 @@ class VespaBootstrapper():
     # Singleton variable
     instance = None
     
-    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename, appFolder):
+    def __init__(self, forReal, templateDir, masterTemplate, vespaFilename, hardwareFilename, inventoryFilename):
         self.forReal = forReal
         self.vespaFilename = vespaFilename 
         self.hardwareFilename= hardwareFilename
         self.inventoryFilename = inventoryFilename
         self.templateDir = templateDir
         self.masterTemplate = masterTemplate
-        self.appFolder = appFolder
         self.boostrapped = False
         
         # lazy loading of these
@@ -131,7 +130,8 @@ class VespaBootstrapper():
     def getAppConfig(self):
         _checkBootstrap()
         if self.appConfig is None:
-            self.appConfig = config_app.getAppConfig(self.appFolder)
+            appFolder = self.vespaConfig.consolidatePrefs['consolidate_app_folder']
+            self.appConfig = config_app.getAppConfig(appFolder)
         return self.appConfig
     
     def getConfiguratorFactory(self):

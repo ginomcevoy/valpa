@@ -2,7 +2,6 @@
 Created on Dec 4, 2013
 
 Runs all consolidate scripts in order:
-0. settings - loads consolidate settings
 1. analyzer - creates metrics-app.csv in each config
 2. configtree - creates output structure
 3. configlist - creates configs.csv in output
@@ -11,67 +10,57 @@ Runs all consolidate scripts in order:
 
 @author: giacomo
 '''
-from collections import namedtuple
 import sys
 
-from . import settings, analyzer, configtree, configlist, metricsgen,\
+from . import analyzer, configtree, configlist, metricsgen,\
     sargen
 import bootstrap
+from consolidate import configutil
 
-
-def consolidate(appName, configVars, consolidateKey):
+def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     
-    # Bootstrap Vespa, get relevant configuration
-    bootstrap.doBootstrap(True)
-    bootstrapper = bootstrap.getInstance()
+    # TODO: all of these parameters should be hidden within the function calls
+    # using consolidateConfig to hold parameters
     
-    consolidateConfig = bootstrapper.getConsolidateConfig(appName)
+    # relevant input directory for request
+    appInputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
     
-# 
-# def analyze(relevantConfig, appName, consolidateKey):
-#   
-#   appConfig = relevantConfig.appConfig
-#   moduleName = consolidatePrefs['']
-#   metricsFilename = consolidatePrefs['']
-#   
-#   for configDir in configDirs:
-#     if isMetricFileOutdated(configDir, metricsFilename):
-# 
-#   with CustomMetricsReader(appConfig, appName, moduleName) as customReader:
-#  
+    # application-specific directory for experiment consolidation
+    # is a sub-directory from base output directory
+    baseOutputDir = consolidateConfig.consolidatePrefs['generated_dir']
+    outputName = appName if consolidateKey is None else consolidateKey 
+    appOutputDir = baseOutputDir + '/' + outputName
     
-    # load settings
-    settingsInstance = settings.getSettings()
-    prefs = settingsInstance.getPrefs()
+    # filename for main output: all configurations
+    allConfigsFilename = consolidateConfig.consolidatePrefs['consolidate_configs_all'] 
     
-    phycores = prefs['hw.cores']
-    baseOutputDir = prefs['generated.dir']
+    # filename for main output: all metrics
+    metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_all']
     
-    metricsConfig = prefs['metrics.config.name']
-    metricsFilename = prefs['metrics.all.name']
-    allConfigsFilename = prefs['configs.name']
+    # filename for intermediary output: metrics for each configuration
+    metricsConfig = consolidateConfig.consolidatePrefs['consolidate_metrics_same']  
     
-    # load app info
-    appSettings = settingsInstance.getInfoForApp(appName)
-    appDir = appSettings['app.dir']
-    appOutputDir = baseOutputDir + '/' + appName
+    # physical cores per physical machine...
+    phycores = str(consolidateConfig.hwSpecs['cores'])
     
-    # call analyzer
-    #analyzer.analyzeApplication(appName, appDir, metricsConfig)
+    # call analyzer: analyze each configuration
+    analyzer.analyze(consolidateConfig, appName, consolidateKey)
     
-    # call configtree
-    configtree.buildConfigTree(appName, appDir, baseOutputDir)
+    # call configtree: create output tree to hold temporal metrics
+    configtree.buildConfigTree(appInputDir, appOutputDir)
     
-    # call configlist
-    configlist.writeConfigsFile(appOutputDir, appDir, configVars, 'config.txt', allConfigsFilename)
+    # call configlist: write main output - configurations
+    # writeConfigsFile(appOutputDir, appDir, configVars, configFilename, allConfigsFilename)
+    configlist.writeConfigsFile(appOutputDir, appInputDir, configVars, 'config.txt', allConfigsFilename)
     
-    # call metricsgen
+    # call metricsgen: write main output - metrics
     metricsOutputFile = appOutputDir + '/' + metricsFilename
-    metricsgen.writeMetrics(metricsOutputFile, appDir, metricsConfig)
+    metricsgen.writeMetrics(metricsOutputFile, appInputDir, metricsConfig)
     
-    # call sargen
-    sargen.sarAnalyze(appName, appDir, appOutputDir, phycores, 'config.txt'
-, metricsConfig)
+    # call sargen: analyze temporal metrics for each configuration
+    sargenConfig = consolidateConfig.consolidatePrefs['consolidate_sargen_config']
+    sargen.sarAnalyze(appName, appInputDir, appOutputDir, phycores, 'config.txt',
+                      metricsConfig, sargenConfig)
     
 def getConfigVars(varsText):
     return tuple(varsText.split(' ')) # ('nc', 'cpv', ...)
@@ -92,6 +81,11 @@ if __name__ == '__main__':
     consolidateKey = None
     if args > 2:
         consolidateKey = sys.argv[3]
-    
+        
+    # Bootstrap Vespa, get relevant configuration
+    bootstrap.doBootstrap(True)
+    bootstrapper = bootstrap.getInstance()
+    consolidateConfig = bootstrapper.getConsolidateConfig(appName)
+        
     # do the work
-    consolidate(appName, configVars, consolidateKey)
+    consolidate(consolidateConfig, appName, configVars, consolidateKey)

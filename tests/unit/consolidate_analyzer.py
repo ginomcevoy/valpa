@@ -2,13 +2,14 @@
 import unittest
 from consolidate import analyzer
 from collections import OrderedDict
-from unit.test_abstract import VespaTestHelper
+from unit.test_abstract import ConsolidateAbstractTest
 
-class AnalyzerTest(VespaTestHelper):
+class AnalyzerTest(ConsolidateAbstractTest):
     
     def setUp(self):
-        self.inputDir = 'resources/datagen/arriving'
-        self.parpacInputDir = self.inputDir + '/parpac'
+        ConsolidateAbstractTest.setUp(self)
+        
+        self.parpacInputDir = self.consolidateDir + '/parpac'
         self.timeFilename = 'times.txt'
         
         # given time and application metrics
@@ -57,7 +58,7 @@ class AnalyzerTest(VespaTestHelper):
         # then verify CSV content
         expectedFilename = 'resources/datagen/consolidate-analyzer.csv'
         self.assertFileContentEqual(metricsFile, expectedFilename)
-
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

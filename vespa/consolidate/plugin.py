@@ -1,7 +1,6 @@
 import imp
-import logging
 
-class CustomMetricsReader(object):
+class CustomReaderLoader(object):
     """ Loads a user-defined module that processes application-specific output.
     
     With this API, users of Vespa can add application metrics such as throughput
@@ -19,16 +18,24 @@ class CustomMetricsReader(object):
     def __init__(self, appParams, moduleName='read_output'):
         self.appConfigPath = appParams['app.config']
         self.moduleName = moduleName
+        self.fp = None
         
     def __enter__(self):
+        return self
+    
+    def loadModule(self):
         # find the module at the application path
         self.fp, pathname, description = imp.find_module(self.moduleName, [self.appConfigPath,])
         
         # load the module, the function can be called on it
-        return imp.load_module(self.moduleName, self.fp, pathname, description)
+        module = imp.load_module(self.moduleName, self.fp, pathname, description)
+        self.loaded = True
+        return module
     
     def __exit__(self, exctype, excinst, exctb):
         if exctype == ImportError:
-            logging.warn('User module not found for: ' + self.appName)
+            self.loaded = False
         if self.fp is not None and self.fp:
             self.fp.close()
+            
+        return True

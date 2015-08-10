@@ -496,20 +496,22 @@ generateExecutionMetrics <- function(configDir, phycores, configOutputDir) {
 # Uncomment for testing
 #argv = vector()
 #argv[1] = '/home/giacomo2/vespa'
-#argv[2] = '/home/giacomo2/experiments/arriving/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980'
-#argv[3] = '12'
-#argv[4] = '/home/giacomo2/experiments/analyzed/parpac/cfg1'
+#argv[2] = 'input/sargen-config.R'
+#argv[3] = '/home/giacomo2/experiments/arriving/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980'
+#argv[4] = '12'
+#argv[5] = '/home/giacomo2/experiments/analyzed/parpac/cfg1'
  
 # Read arguments from stdin
 if (exists("argv")) {
   vespaDir = argv[1]
-  configDir = argv[2]
-  phycores = as.numeric(argv[3])
-  configOutputDir = argv[4]
+  sargenConfiguration = argv[2]
+  configDir = argv[3]
+  phycores = as.numeric(argv[4])
+  configOutputDir = argv[5]
 
   # Load Preferences
   setwd(vespaDir)
-  source("input/sargen-config.R")
+  source(sargenConfiguration)
 
   generateExecutionMetrics(configDir, phycores, configOutputDir)
 }

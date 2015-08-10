@@ -3,6 +3,9 @@ Created on Nov 2, 2014
 
 @author: giacomo
 '''
+
+import imp
+import os
 import difflib
 import unittest
 
@@ -15,7 +18,7 @@ from core.enum import PinningOpt, DiskOpt, NetworkOpt, MPIBindOpt
 from core.experiment import AppTuning, Application
 from core.virtual import BuildsAllVMDetails, VMDetails, VMTemplate,\
     VirtualClusterTemplates, AllVMDetails
-import imp
+import shutil
 
 class VespaTestHelper(unittest.TestCase):
     """ Utility class used for testing, helps validating file content. """
@@ -225,7 +228,24 @@ class ParpacAbstractTest(unittest.TestCase):
         moduleName = 'read_output'
         fp, pathname, description = imp.find_module(moduleName, ['../apps/parpac',])
         self.read_output = imp.load_module(moduleName, fp, pathname, description)
+        
+class ConsolidateAbstractTest(VespaTestHelper):
+    """ Sets up integration tests for the consolidate functionality.
     
+    The resources/consolidate/arriving directory is copied to the /tmp/vespa/tests directory.
+    This allows for idem-potent consolidation tests that do not already include 
+    intermediary outputs in the input directories.
+    
+    """ 
+    
+    def setUp(self):
+        VespaTestHelper.setUp(self)
+        self.sourceDir = 'resources/datagen/arriving'
+        self.consolidateDir = '/tmp/vespa/tests/consolidate'
+        if os.path.exists(self.consolidateDir): # always get a fresh copy
+            shutil.rmtree(self.consolidateDir)
+        shutil.copytree(self.sourceDir, self.consolidateDir)
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

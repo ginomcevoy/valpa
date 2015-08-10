@@ -1,12 +1,12 @@
 #########
-# Parameters for configuring sar-analyzer.R
+# Parameters for configuring sar-analyzer.R (Unit testing only)
 #########
 
 # must contain 'usr' and 'sys'!
 input.cpu.headers = c('usr', 'sys', 'iowait', 'irq', 'guest', 'idle')
 
 # file inside config with scalar metrics
-input.metrics.config = 'metrics-app-test.csv'
+input.metrics.config = 'metrics-app.csv'
 
 # prefix for vm/host
 prefix.vm = 'V'

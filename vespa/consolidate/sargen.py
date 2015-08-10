@@ -13,7 +13,7 @@ import sys
 
 from . import configutil, configtree, configlist
 
-def sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsFilename):
+def sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsFilename, sargenConfig):
     configDirs = configutil.listAllConfigDirs(appDir)
     configNames = configutil.listAllConfigs(appDir)
     configDict = configlist.enumerateConfigs(configNames)
@@ -26,17 +26,21 @@ def sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsF
         configOutputName = configtree.getConfigOutputName(configName, configDict)
         configOutputDir = appOutputDir + '/' + configOutputName
         
-        analyzeSingleConfig(configDir, phycores, configOutputDir)
+        analyzeSingleConfig(configDir, phycores, configOutputDir, sargenConfig)
         
-def analyzeSingleConfig(configDir, phycores, configOutputDir):
+def analyzeSingleConfig(configDir, phycores, configOutputDir, sargenConfig):
     
     # get full path of this Python script, the R script is in the same directory
     pathOfThisScript = os.path.dirname(os.path.abspath(__file__))
     rScript = pathOfThisScript + '/sargen-metrics.R'
     vespaPath = pathOfThisScript + '/../../'
     
+    # variables may have $HOME environment variable
+    sargenConfig = os.path.expandvars(sargenConfig)
+    configOutputDir =  os.path.expandvars(configOutputDir)
+    
     # create call list
-    sargenArgs = [vespaPath, configDir, phycores, configOutputDir]
+    sargenArgs = [vespaPath, sargenConfig, configDir, phycores, configOutputDir]
     sargenCall = ['r', rScript]
     sargenCall.extend(sargenArgs)
     
@@ -70,5 +74,7 @@ if __name__ == '__main__':
     else:
         metricsFilename = 'metrics-app.csv'
         
+    sargenConfig = 'input/sargen-config.R'
+        
     # work
-    sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsFilename)
+    sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsFilename, sargenConfig)

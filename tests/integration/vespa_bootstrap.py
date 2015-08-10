@@ -21,10 +21,8 @@ class VespaWithBootstrapAbstractTest(unittest.TestCase):
         templateDir = 'resources'
         masterTemplate = 'master.xml'
         inventoryFilename = 'resources/vespa.nodes'
-        appFolder = 'resources/apps'
         bootstrap.doBootstrap(forReal, templateDir, masterTemplate, 
-                              vespaFilename, hardwareFilename, 
-                              inventoryFilename, appFolder)
+                              vespaFilename, hardwareFilename, inventoryFilename)
         self.bootstrap = bootstrap.getInstance()
         (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.bootstrap.getAllConfig()
         

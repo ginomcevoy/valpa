@@ -13,44 +13,51 @@ import csv
 import os.path
 
 from . import configutil
-from .plugin import CustomMetricsReader
+from .plugin import CustomReaderLoader
 from collections import OrderedDict
 import itertools
+import warnings
 
-def analyze(consolidateConfig, appName, consolidateKey):
+def analyze(consolidateConfig, appName, consolidateKey, override=False):
     
     # filenames: partial output, user-specific module, time output
     metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_same']
-    moduleName = consolidateConfig.consolidatePrefs['consolidate_module']
     timeFilename = consolidateConfig.runOpts['run_timeoutput']
     
     # get the relevant input directory for request, iterate subfolders
-    inputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
-    configDirs = configutil.listAllConfigDirs(inputDir)
+    appInputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
+    configDirs = configutil.listAllConfigDirs(appInputDir)
     
     for configDir in configDirs:
         
-        # if metrics file is ok, no need to analyze
-        if isMetricFileOutdated(configDir, metricsFilename):
+        # if metrics file is up-to-date, no need to analyze unless forced
+        if override or isMetricFileOutdated(configDir, metricsFilename):
             
             # analyze the file with the data derived from time command
             timeMetrics = getTimeMetrics(configDir, timeFilename)
             
             # analyze with application-specific module
-            appMetrics = getAppMetrics(consolidateConfig, moduleName, configDir)
+            appMetrics = getAppMetrics(consolidateConfig, configDir)
             
-            # validate consistency of metrics
-            if not areConsistent(appMetrics, timeMetrics):
-                raise ValueError("Experiment numbers don't match:", configDir)
+            if appMetrics is None:
+                # no module found for application metrics
+                allMetrics = timeMetrics
+            else:
+                # validate consistency of metrics
+                if not areConsistent(appMetrics, timeMetrics):
+                    raise ValueError("Experiment metrics don't match:", configDir)
+                
+                # metrics consistent, merge these metrics in order
+                allMetrics = OrderedDict(timeMetrics.items() + appMetrics.items())
             
-            # metrics consistent, merge these metrics in order and save
-            allMetrics = OrderedDict(timeMetrics.items() + appMetrics.items())
-            metricsToCSV(metricsFilename, allMetrics)
+            # save the available metrics
+            metricsFile = os.path.join(configDir, metricsFilename)
+            metricsToCSV(metricsFile, allMetrics)
                     
-def metricsToCSV(metricsFilename, allMetrics):
+def metricsToCSV(metricsFile, allMetrics):
     """ Generates a CSV file with the times data and application data (if any). """
 
-    with open(metricsFilename, 'wb') as csvfile:
+    with open(metricsFile, 'wb') as csvfile:
         csvWriter = csv.writer(csvfile, delimiter=';',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
         
@@ -59,13 +66,13 @@ def metricsToCSV(metricsFilename, allMetrics):
         csvWriter.writerow(allMetrics.keys())
         
         # write each row: this idiom creates an iterator through all the lists
-        # in the allMetrics dictionary, then use it to iterate rows
+        # in the allMetrics dictionary, which allows the iteration by row.
         rowIter = itertools.imap(lambda *x: list(x), *allMetrics.itervalues())
         for row in rowIter:
             csvWriter.writerow(row)
         
 def getTimeMetrics(configDir, timesFilename):
-    """ Return a dictionary with the output from time command.
+    """ Return an ordered dictionary with the output from time command.
     
     Current keys: userTime, systemTime, ellapsedTime
     """
@@ -100,8 +107,7 @@ def getAppMetrics(consolidateConfig, configDir):
     
     The dictionary has unspecified keys. For each key, a tuple is expected,
     where the length of the tuple is the number of repeated experiments for
-    the configuration. If there is no user module, the output dictionary will
-    be empty. 
+    the configuration. If there is no user module, the output is None.
     
     """
     
@@ -111,7 +117,9 @@ def getAppMetrics(consolidateConfig, configDir):
     
     # load user module for application-specific metrics
     # if there is no user module, the dictionary remains empty
-    with CustomMetricsReader(consolidateConfig.appParams, moduleName) as cr:
+    with CustomReaderLoader(consolidateConfig.appParams, moduleName) as crl:
+        
+        reader = crl.loadModule()
         
         # iterate experiments within each configuration
         expDirs = configutil.getSubDirs(configDir)
@@ -128,7 +136,7 @@ def getAppMetrics(consolidateConfig, configDir):
             
             with open(stdoutFile, 'r') as stdout, open(stderrFile, 'r') as stderr:
                 # module reads 
-                customMetrics = cr.read_metrics(stdout, stderr, expDir, cf)
+                customMetrics = reader.read_metrics(stdout, stderr, expDir, cf)
                 
                 # convert the customMetrics dictionary to a dictionary of lists
                 # each list has one element
@@ -143,9 +151,15 @@ def getAppMetrics(consolidateConfig, configDir):
                 else: 
                     # this idiom aggregates dictionaries of lists, maintaining structure
                     keys = appMetrics.keys()
-                    appMetrics = dict((k, metricsAsList.get(k, []) + appMetrics.get(k, [])) for k in keys) 
-                
-    return appMetrics 
+                    appMetrics = dict((k, metricsAsList.get(k, []) + appMetrics.get(k, [])) for k in keys)
+                    
+    # module not found, there are no appMetrics
+    if not crl.loaded:
+        appName = consolidateConfig.appParams['app.name']
+        warnings.warn('User module not loaded for: ' + appName)
+        return None                
+    else:
+        return appMetrics 
             
 def isMetricFileOutdated(configDir, metricsFilename):
     

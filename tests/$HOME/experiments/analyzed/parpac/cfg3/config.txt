@@ -1,0 +1,22 @@
+# Experiment data
+app=parpac
+args=
+
+# Primary core allocation variables
+nc=4
+cpv=2
+idf=2
+pstrat=NONE
+
+# Secondary core allocation variables
+deployedNodes=valpa02,valpa03
+deployedSockets=0,1
+
+# VMM Technologies
+network=vhost
+disk=virtio
+
+# App Tuning
+knem=False
+procpin=BIND_CORE
+
