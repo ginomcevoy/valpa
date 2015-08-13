@@ -29,6 +29,7 @@ class ApplicationConfigurator(object):
         
         self.__scanFolder__()
         self.__readApps__()
+        self.__addReservedApps__()
         
     def __scanFolder__(self):
         possibleApplications = os.listdir(self.appFolder)
@@ -98,6 +99,10 @@ class ApplicationConfigurator(object):
     def getConfigFor(self, appRequest):
         """ Return dictionary of configuration parameters for an application. """
         return self.appConfigs[appRequest.name]
+    
+    def __addReservedApps__(self):
+        """Declare that 'torque' application uses Torque. """
+        self.torque.append('torque')
             
     
 def getAppConfig(appFolder='../apps', paramFile='application.config'):
