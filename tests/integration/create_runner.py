@@ -67,11 +67,12 @@ class ApplicationExecutorTest(VespaWithBootstrapAbstractTest, VespaDeploymentAbs
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
         VespaWithBootstrapAbstractTest.setUp(self)
-        configFactory = self.bootstrap.getConfiguratorFactory()
-        self.executor = ApplicationExecutor(configFactory, False, self.vespaPrefs, self.runOpts)
+        
+        deploymentFactory = self.bootstrap.getDeploymentFactory()
+        self.executor = deploymentFactory.createApplicationExecutor()
     
     def testPrepareAndExecute(self):
-        (execConfig, executionFile) = self.executor.execute(self.clusterRequest, self.deploymentInfo, self.appRequest)
+        (execConfig, executionFile) = self.executor.execute(self.clusterRequest, self.deploymentInfo, self.appRequest, False)
         
         self.assertFileContentEqual(execConfig, 'resources/execConfig-expected.output')
         self.assertFileContentEqual(executionFile, 'resources/torque/pbs-exec-expected.pbs')

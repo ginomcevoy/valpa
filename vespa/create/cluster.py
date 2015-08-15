@@ -65,6 +65,7 @@ def defineVMsLibvirt(deployedVMs, forReal):
             subprocess.call(callList)            
         print(callList)
         
+        
 class PhysicalClusterDefiner:
     '''
     Used when deploying directly on physical cluster, without VMs.
@@ -74,11 +75,11 @@ class PhysicalClusterDefiner:
     TODO: use patterns to create variations Physical/Virtual + PBS/NoPBS
     '''
     
-    def __init__(self, hwSpecs, vespaPrefs, appConfig, runOpts, allNodes, allVMDetails):
+    def __init__(self, hwSpecs, submitParams, appConfig, allNodes, allVMDetails):
         # reuse some mapping functionality
-        self.mapper = MappingResolver(hwSpecs, vespaPrefs, allNodes, allVMDetails) 
+        self.mapper = MappingResolver(hwSpecs, allNodes, allVMDetails) 
         self.allNodes = allNodes
-        self.runOpts = runOpts
+        self.submitParams = submitParams
         self.appConfig = appConfig
 
     def defineCluster(self, clusterRequest, appRequest, forReal):
@@ -119,7 +120,7 @@ class PhysicalClusterDefiner:
         if self.appConfig.isTorqueBased(appRequest):
 
             # need to update PBS configuration
-            pbsUpdater = PBSUpdater(self.runOpts, forReal)
+            pbsUpdater = PBSUpdater(self.submitParams, forReal)
             pbsUpdater.updatePBS(deployedVMs, clusterRequest)
 
         else:
@@ -134,10 +135,9 @@ class VespaXMLGenerator:
     Produces Vespa XML for cluster XML generation, based on a master XML and
     configuration parameters.
     '''
-    def __init__(self, vespaXMLOpts, networkingOpts, repoOpts, templateDir, masterTemplate):
-        self.vespaXMLOpts = vespaXMLOpts
-        self.networkingOpts = networkingOpts
-        self.repoOpts = repoOpts
+    def __init__(self, createParams, networkParams, templateDir, masterTemplate):
+        self.createParams = createParams
+        self.networkParams = networkParams
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath=templateDir)
@@ -151,23 +151,23 @@ class VespaXMLGenerator:
         '''
         # choose network name from selected type 
         # types: ('sriov', 'use-bridge', 'create-bridge')
-        networkType = self.networkingOpts['network_source']
+        networkType = self.networkParams['network_source']
         if not networkType in config_vespa.allowedNetworkTypes():
             print('Allowed values = ' + str(config_vespa.allowedNetworkTypes()))
             raise ValueError('Network type not allowed: ', networkType)
         
         if networkType == 'external-bridge':
-            networkName = self.networkingOpts['net_name_bridge_use']
+            networkName = self.networkParams['net_name_bridge_use']
         elif networkType == 'libvirt-bridge':
-            networkName = self.networkingOpts['net_name_bridge_create']
+            networkName = self.networkParams['net_name_bridge_create']
         else: #networkType == 'sriov'
-            networkName = self.networkingOpts['net_name_sriov']
+            networkName = self.networkParams['net_name_sriov']
         
         # Prepare arguments for substitution 
         args = {'network_name' : networkName,
-                'xml_disk_drivertype' : self.vespaXMLOpts['xml_disk_drivertype'],
-                'repo_root' : self.repoOpts['repo_root'],
-                'xml_disk_dev' : self.vespaXMLOpts['xml_disk_dev']
+                'xml_disk_drivertype' : self.createParams['xml_disk_drivertype'],
+                'repo_root' : self.createParams['repo_root'],
+                'xml_disk_dev' : self.createParams['xml_disk_dev']
             }
         
         # apply jinja substitution
@@ -181,9 +181,9 @@ class ClusterXMLGenerator:
     cluster info. Returns the text of the xml.
     '''
 
-    def __init__(self, vespaXML, vespaPrefs, hwSpecs):
+    def __init__(self, vespaXML, createParams, hwSpecs):
         self.vespaXML = vespaXML
-        self.vespaPrefs = vespaPrefs
+        self.createParams = createParams
         self.hwSpecs = hwSpecs
         
         self.vespaXMLFilename = '/tmp/vespa-definition.xml'
@@ -209,8 +209,8 @@ class ClusterXMLGenerator:
             networkDriver = ''         # SR-IOV has no such line
             
         # calculate total memory based on number of cores, libvirt uses KB
-        memoryBase = int(self.vespaPrefs['vm_mem_base'])
-        memoryPerCore = int(self.vespaPrefs['vm_mem_core'])
+        memoryBase = int(self.createParams['vm_mem_base'])
+        memoryPerCore = int(self.createParams['vm_mem_core'])
         totalMemory = (memoryBase + memoryPerCore * topology.cpv) * 1024
         
         # gather all substitutions
@@ -219,7 +219,7 @@ class ClusterXMLGenerator:
                 'network_option' : technology.networkOpt, 
                 'network_driver' : networkDriver,  
                 'cluster_disk_bus' : technology.diskOpt,
-                'cluster_disk' : self.vespaPrefs['vm_disk'],
+                'cluster_disk' : self.createParams['vm_disk'],
                 
                 # if Infiniband is unused, last has no effect
                 'ib_flag' : technology.infinibandFlag,

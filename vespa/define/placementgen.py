@@ -24,14 +24,13 @@ class SimplePlacementScenarioGenerator():
         
         # Read Vespa configuration file
         vespaConfig = config_vespa.readVespaConfig(vespaFilename)
-        vespaPrefs = vespaConfig.getVespaPrefs()
         
         # load hardware specification
         hwInfo = config_hw.getHardwareInfo()
         hwSpecs = hwInfo.getHwSpecs()
         
         # delegate to generator
-        self.scenarioGenerator = SimpleScenarioGenerator(vespaPrefs, hwSpecs)
+        self.scenarioGenerator = SimpleScenarioGenerator(vespaConfig.createParams, hwSpecs)
         
         # specifications are built using some user input
         self.clusterSpecification = SimpleClusterGenerationSpecification(hwSpecs)

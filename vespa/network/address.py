@@ -8,8 +8,8 @@ Routines for newtork addresses
 
 class NetworkAddresses:
         
-    def __init__(self, networkingOpts, physicalCluster, hwSpecs):
-        self.networkingOpts = networkingOpts
+    def __init__(self, networkParams, physicalCluster, hwSpecs):
+        self.networkParams = networkParams
         self.physicalCluster = physicalCluster
         self.hwSpecs = hwSpecs
             
@@ -24,16 +24,16 @@ class NetworkAddresses:
         if self.__usingCClass__():
             # First VM of first machine will get $IP_PREFIX.($DHCP_START)
             # First VM of second machine will get $IP_PREFIX.($DHCP_START + DHCP_STEP )
-            dhcpStart = self.networkingOpts['dhcp_c_start']
-            dhcpStep = self.networkingOpts['dhcp_c_step']
+            dhcpStart = self.networkParams['dhcp_c_start']
+            dhcpStep = self.networkParams['dhcp_c_step']
             rangeStartSuffix = int(dhcpStart) + (int(dhcpStep) * nodeIndex) 
 
-            rangeStartPrefix =self.networkingOpts['dhcp_c_prefix']
+            rangeStartPrefix =self.networkParams['dhcp_c_prefix']
             rangeStart = rangeStartPrefix + '.' + str(rangeStartSuffix)
             
         elif self.__usingBClass__():
-            dhcpStart = self.networkingOpts['dhcp_b_start']
-            rangeStartPrefix = self.networkingOpts['dhcp_b_prefix']
+            dhcpStart = self.networkParams['dhcp_b_start']
+            rangeStartPrefix = self.networkParams['dhcp_b_prefix']
             rangeStart = rangeStartPrefix + '.' + str(node.number) + '.' + str(dhcpStart) 
             
         else:
@@ -51,18 +51,18 @@ class NetworkAddresses:
         
         # behavior depends on class
         if self.__usingCClass__():
-            dhcpStart = self.networkingOpts['dhcp_c_start']
-            dhcpStep = self.networkingOpts['dhcp_c_step'] 
+            dhcpStart = self.networkParams['dhcp_c_start']
+            dhcpStep = self.networkParams['dhcp_c_step'] 
             rangeEndSuffix = int(dhcpStart) + int(dhcpStep) * nodeIndex + vmsPerHost - 1
             
-            rangeEndPrefix = self.networkingOpts['dhcp_c_prefix']
+            rangeEndPrefix = self.networkParams['dhcp_c_prefix']
             rangeEnd = rangeEndPrefix + '.' + str(rangeEndSuffix) 
             
         elif self.__usingBClass__():
-            dhcpStart = self.networkingOpts['dhcp_b_start']
+            dhcpStart = self.networkParams['dhcp_b_start']
             rangeEndSuffix = int(dhcpStart) + vmsPerHost - 1
             
-            rangeEndPrefix = self.networkingOpts['dhcp_b_prefix']
+            rangeEndPrefix = self.networkParams['dhcp_b_prefix']
             rangeEnd = rangeEndPrefix + '.' + str(node.number) + '.' + str(rangeEndSuffix)
             
         else:
@@ -79,11 +79,11 @@ class NetworkAddresses:
         
         # behavior depends on class
         if self.__usingCClass__():
-            prefix = self.networkingOpts['dhcp_c_prefix']
+            prefix = self.networkParams['dhcp_c_prefix']
             nodeAddress = prefix + '.' + str(nodeIndex + 1)
             
         elif self.__usingBClass__():
-            prefix = self.networkingOpts['dhcp_b_prefix']
+            prefix = self.networkParams['dhcp_b_prefix']
             nodeAddress = prefix + '.' + str(node.number) + '.254'
             
         else:
@@ -102,15 +102,15 @@ class NetworkAddresses:
         if self.__usingCClass__():
             # First VM of first machine will get $IP_PREFIX.$DHCP_START
             # First VM of second machine will get $IP_PREFIX.($DHCP_START + $DHCP_STEP)
-            dhcpStart = self.networkingOpts['dhcp_c_start']
-            dhcpStep = self.networkingOpts['dhcp_c_step']
+            dhcpStart = self.networkParams['dhcp_c_start']
+            dhcpStep = self.networkParams['dhcp_c_step']
             vmAddressSuffix = int(dhcpStart) + (int(dhcpStep) * nodeIndex) + vmIndex 
 
-            vmAddressPrefix =self.networkingOpts['dhcp_c_prefix']
+            vmAddressPrefix =self.networkParams['dhcp_c_prefix']
             vmAddress = vmAddressPrefix + '.' + str(vmAddressSuffix)
             
         elif self.__usingBClass__():
-            vmAddressPrefix = self.networkingOpts['dhcp_b_prefix']
+            vmAddressPrefix = self.networkParams['dhcp_b_prefix']
             vmAddress = vmAddressPrefix + '.' + str(node.number) + '.' + str(vmIndex + 1)
 
         else:
@@ -144,17 +144,17 @@ class NetworkAddresses:
         else:
             raise ValueError('Vespa limitation: cannot issue MAC addresses for vmIndex > 255!')
         
-        macSuffix = self.networkingOpts['net_mac_prefix']
+        macSuffix = self.networkParams['net_mac_prefix']
         
         return macSuffix + ':' + nodePart + ':' + vmPart
         
     
     def networkBroadcast(self):
         if self.__usingBClass__():
-            prefix = self.networkingOpts['dhcp_b_prefix']
+            prefix = self.networkParams['dhcp_b_prefix']
             broadcast = prefix + '.255.255'
         elif self.__usingCClass__():
-            prefix = self.networkingOpts['dhcp_c_prefix']
+            prefix = self.networkParams['dhcp_c_prefix']
             broadcast = prefix + '.255'
         else:
             self.__invalidClass__()
@@ -173,10 +173,10 @@ class NetworkAddresses:
 
     def networkRouter(self):
         if self.__usingBClass__():
-            prefix = self.networkingOpts['dhcp_b_prefix']
+            prefix = self.networkParams['dhcp_b_prefix']
             router = prefix + '.0.254'
         elif self.__usingCClass__():
-            prefix = self.networkingOpts['dhcp_c_prefix']
+            prefix = self.networkParams['dhcp_c_prefix']
             router = prefix + '.1'
         else:
             self.__invalidClass__()
@@ -185,10 +185,10 @@ class NetworkAddresses:
     
     def networkSubnet(self):
         if self.__usingBClass__():
-            prefix = self.networkingOpts['dhcp_b_prefix']
+            prefix = self.networkParams['dhcp_b_prefix']
             subnet = prefix + '.0.0'
         elif self.__usingCClass__():
-            prefix = self.networkingOpts['dhcp_c_prefix']
+            prefix = self.networkParams['dhcp_c_prefix']
             subnet = prefix + '.0'
         else:
             self.__invalidClass__()
@@ -203,13 +203,13 @@ class NetworkAddresses:
         return self.networkSubnet() + "/" + subnetBits 
     
     def __usingBClass__(self):
-        return self.networkingOpts['net_class'] == 'B'
+        return self.networkParams['net_class'] == 'B'
     
     def __usingCClass__(self):
-        return self.networkingOpts['net_class'] == 'C'
+        return self.networkParams['net_class'] == 'C'
     
     def __invalidClass__(self):
-        raise ValueError('Invalid net_class parameter in vespa.params: ', self.networkingOpts['net_class'])
+        raise ValueError('Invalid net_class parameter in vespa.params: ', self.networkParams['net_class'])
 
 if __name__ == '__main__':
     pass

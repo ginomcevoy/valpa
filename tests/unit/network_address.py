@@ -13,7 +13,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
 
     def setUp(self):
         NetworkAbstractTest.setUp(self)
-        self.networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalNodes, self.hwSpecs)
+        self.networkAddresses = NetworkAddresses(self.networkParams, self.physicalNodes, self.hwSpecs)
         
     def testAddressRangeStartB1(self):
         # given node082
@@ -38,7 +38,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
     def testAddressRangeStartC1(self):
         # given node082 and C class
         nodeIndex = 0 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         rangeStart = self.networkAddresses.addressRangeStart(nodeIndex)
@@ -49,7 +49,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
     def testAddressRangeStartC2(self):
         # given node083 and C class
         nodeIndex = 1 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         rangeStart = self.networkAddresses.addressRangeStart(nodeIndex)
@@ -81,7 +81,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
     def testAddressRangeEndC1(self):
         # given node082 and C class
         nodeIndex = 0 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         rangeEnd = self.networkAddresses.addressRangeEnd(nodeIndex)
@@ -92,7 +92,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
     def testAddressRangeEndC2(self):
         # given node083 and C class
         nodeIndex = 1 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         rangeEnd = self.networkAddresses.addressRangeEnd(nodeIndex)
@@ -123,7 +123,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
     def testGetNodeAddressC1(self):
         # given node082 and C class
         nodeIndex = 0 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         nodeAddress = self.networkAddresses.getNodeAddress(nodeIndex)
@@ -134,7 +134,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
     def testGetNodeAddressC2(self):
         # given node083 and C class
         nodeIndex = 1 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         nodeAddress = self.networkAddresses.getNodeAddress(nodeIndex)
@@ -168,7 +168,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         # given node082, third VM and C class
         nodeIndex = 0 
         vmIndex = 2
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         vmAddress = self.networkAddresses.getVMAddress(nodeIndex, vmIndex)
@@ -180,7 +180,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         # given node083, last VM and C class
         nodeIndex = 1
         vmIndex = 11 
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         
         # when
         vmAddress = self.networkAddresses.getVMAddress(nodeIndex, vmIndex)
@@ -217,7 +217,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         
     def testNetworkBroadcastC(self):
         # switch to C class
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         broadcast = self.networkAddresses.networkBroadcast()
         self.assertEqual(broadcast, '192.168.3.255')
 
@@ -228,7 +228,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         
     def testNetworkNetmaskC(self):
         # switch to C class
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         netmask = self.networkAddresses.networkNetmask()
         self.assertEqual(netmask, '255.255.255.0')
         
@@ -239,7 +239,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         
     def testNetworkRouterC(self):
         # switch to C class
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         router = self.networkAddresses.networkRouter()
         self.assertEqual(router, '192.168.3.1')
         
@@ -250,7 +250,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         
     def testNetworkSubnetC(self):
         # switch to C class
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         subnet = self.networkAddresses.networkSubnet()
         self.assertEqual(subnet, '192.168.3.0')
         
@@ -261,7 +261,7 @@ class NetworkAddressesTest(NetworkAbstractTest):
         
     def testNetworkCIDRC(self):
         # switch to C class
-        self.networkingOpts['net_class'] = 'C'
+        self.networkParams['net_class'] = 'C'
         cidr = self.networkAddresses.networkCIDR()
         self.assertEqual(cidr, '192.168.3.0/24')
 

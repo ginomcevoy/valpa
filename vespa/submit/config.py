@@ -31,19 +31,19 @@ class ExecutionConfigurator(Configurator):
     
 class VespaConfigurator(Configurator):
     
-    def __init__(self, runOpts):
-        self.runOpts = runOpts
+    def __init__(self, submitParams):
+        self.submitParams = submitParams
         
     def enhanceExecutionFile(self, executionFile, execConfig=None):
         # Get values from Vespa submit options
-        timeFormat = self.runOpts['run_timeformat']
-        timeOutput = self.runOpts['run_timeoutput']
+        timeFormat = self.submitParams['run_timeformat']
+        timeOutput = self.submitParams['run_timeoutput']
         
-        monitorStart = self.runOpts['monitor_start']
-        monitorStop = self.runOpts['monitor_stop']
-        monitorPreProcess = self.runOpts['monitor_preprocess']
-        monitorDoNodes = self.runOpts['monitor_do_nodes']
-        monitorApp = self.runOpts['monitor_app']
+        monitorStart = self.submitParams['monitor_start']
+        monitorStop = self.submitParams['monitor_stop']
+        monitorPreProcess = self.submitParams['monitor_preprocess']
+        monitorDoNodes = self.submitParams['monitor_do_nodes']
+        monitorApp = self.submitParams['monitor_app']
         
         # replace in execution file
         with open(executionFile, 'r') as execution:
@@ -214,9 +214,9 @@ class ConfiguratorFactory:
     also creates a copy of the master execution file. 
     
     """
-    def __init__(self, runOpts, appConfig, networkAddresses):
-        self.runOpts = runOpts
-        self.masterPbs = runOpts['pbs_master'] 
+    def __init__(self, submitParams, appConfig, networkAddresses):
+        self.submitParams = submitParams
+        self.masterPbs = submitParams['pbs_master'] 
         self.networkAddresses = networkAddresses
         self.appConfig = appConfig
     
@@ -242,7 +242,7 @@ class ConfiguratorFactory:
         (adapted version) in the provided experimentPath 
         """
         executionFile = self.createBasicExecutionFile(appRequest, experimentPath)
-        vespaConfigurator = VespaConfigurator(self.runOpts)
+        vespaConfigurator = VespaConfigurator(self.submitParams)
         return vespaConfigurator.enhanceExecutionFile(executionFile)
         
     def createApplicationConfigurator(self, appRequest, experimentPath, forReal=True):

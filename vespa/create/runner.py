@@ -16,13 +16,15 @@ from submit.pbs.updater import PBSUpdater
 from .mapping import MappingResolver
 from core.cluster import SetsTechnologyDefaults
 from submit.execute import ApplicationExecutor
+from submit.prepare import ConfigFileGenerator, PreparesExperiment
+from submit.apprunner import RunnerFactory
 
 class ExperimentSetRunner():
     '''
     Runs all experiments in the experiment XML.
     '''
 
-    def __init__(self, deploymentFactory, hwSpecs, vespaPrefs, forReal):
+    def __init__(self, deploymentFactory, hwSpecs, createParams, forReal):
         '''
         Constructor, deploymentFactory should have been instantiated by bootstrap
         '''
@@ -38,10 +40,10 @@ class ExperimentSetRunner():
         self.applicationExecutor = deploymentFactory.createApplicationExecutor()
         
         # Strategy to set default Technology values
-        self.technologySetter = SetsTechnologyDefaults(vespaPrefs)
+        self.technologySetter = SetsTechnologyDefaults(createParams)
         
+        self.createParams = createParams
         self.hwSpecs = hwSpecs
-        self.vespaPrefs = vespaPrefs
         self.forReal = forReal
         
     def readAndExecute(self, scenarioXML):
@@ -92,11 +94,11 @@ class ExperimentSetRunner():
         deploymentInfo = self.clusterDefiner.defineCluster(clusterRequest, experiment.name, self.forReal) 
                         
         # instantiate cluster, may result in error 
-        error = self.clusterDeployer.deploy(clusterRequest, deploymentInfo, appRequest)
+        error = self.clusterDeployer.deploy(clusterRequest, deploymentInfo, appRequest, self.forReal)
         
         if error is None:                        
             # deployment correct, go on to application execution on the virtual cluster
-            self.applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest)
+            self.applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest, self.forReal)
                             
             # wait for application execution
             self.awaitExecution(appRequest)
@@ -110,7 +112,7 @@ class ExperimentSetRunner():
         hostCount = len(deployedNodes)
 
         # call meant for Ansible API
-        ansible_args = '../mgmt/stop-vms-local.sh ' + self.vespaPrefs['vm_prefix']
+        ansible_args = '../mgmt/stop-vms-local.sh ' + self.createParams['vm_prefix']
         
         if self.forReal:
             # Call Ansible runner programmatically
@@ -155,9 +157,8 @@ class DeploymentFactory:
     Instantiates the ClusterDefiner, ClusterDeployer and ApplicationExecutor.
     '''
     def __init__(self, forReal, vespaConfig, hwSpecs, vmDefinitionGenerator, configFactory, physicalCluster, allVMDetails, vespaXML):
-        # Process Vespa configuration
-        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = vespaConfig.getAll()
-       
+
+        self.vespaConfig = vespaConfig        
         self.hwSpecs = hwSpecs
         self.physicalCluster = physicalCluster
         self.allVMDetails = allVMDetails
@@ -169,26 +170,26 @@ class DeploymentFactory:
         self.configFactory  = configFactory
         self.appConfig = configFactory.appConfig
         
-        
     def createClusterDefiner(self):
         
-        mappingResolver = MappingResolver(self.hwSpecs, self.vespaPrefs, self.physicalCluster, self.allVMDetails)
-        clusterXMLGen = ClusterXMLGenerator(self.vespaXML, self.vespaPrefs, self.hwSpecs)
-        
+        mappingResolver = MappingResolver(self.hwSpecs, self.physicalCluster, self.allVMDetails)
+        clusterXMLGen = ClusterXMLGenerator(self.vespaXML, self.vespaConfig.createParams, self.hwSpecs)
         clusterDefiner = ClusterDefiner(mappingResolver, clusterXMLGen, self.vmDefinitionGenerator)
         return clusterDefiner
     
     def createPhysicalClusterDefiner(self):
-        clusterDefiner = PhysicalClusterDefiner(self.hwSpecs, self.vespaPrefs, self.appConfig, self.runOpts, self.physicalCluster, self.allVMDetails)
+        clusterDefiner = PhysicalClusterDefiner(self.hwSpecs, self.vespaConfig.submitParams, self.appConfig, self.physicalCluster, self.allVMDetails)
         return clusterDefiner
     
     def createClusterDeployer(self):
-        appConfig = self.configFactory.appConfig
-        pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
-        return ClusterDeployer(self.forReal, appConfig, pbsUpdater)
+        pbsUpdater = PBSUpdater(self.vespaConfig.submitParams, self.forReal)
+        return ClusterDeployer(self.configFactory.appConfig, pbsUpdater)
         
     def createApplicationExecutor(self):
-        applicationExecutor = ApplicationExecutor(self.configFactory, self.forReal, self.vespaPrefs, self.runOpts)
+        generator = ConfigFileGenerator(self.vespaConfig.submitParams, self.vespaConfig.miscParams)        
+        preparesExperiment = PreparesExperiment(generator)
+        runnerFactory = RunnerFactory(self.configFactory.appConfig)
+        applicationExecutor = ApplicationExecutor(self.configFactory, preparesExperiment, runnerFactory)
         return applicationExecutor 
     
 class ClusterDeployer:
@@ -196,17 +197,12 @@ class ClusterDeployer:
     Deploys a previously defined virtual cluster, while preparing it to submit
     the application.
     '''
-    def __init__(self, forReal, appConfig, pbsUpdater):
-        self.forReal = forReal
-        #self.hwSpecs = hwSpecs
-        #self.runOpts = runOpts
-        
+    def __init__(self, appConfig, pbsUpdater):
         # strategies 
         self.appConfig = appConfig
         self.pbsUpdater = pbsUpdater
-        
     
-    def deploy(self, cluster, deploymentInfo, appRequest):
+    def deploy(self, cluster, deploymentInfo, appRequest, forReal):
         
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo  # @UnusedVariable
         print(cluster)
@@ -232,7 +228,7 @@ class ClusterDeployer:
         deployedVMs.definitionsToFile(definitionFilename)
         
         createShellCall = ['/bin/bash', '../mgmt/create-vm-parallel.sh', str(hostCount), nodeFilename, definitionFilename]
-        if self.forReal:
+        if forReal:
             subprocess.call(createShellCall)
         else:
             print(createShellCall)
@@ -242,7 +238,6 @@ class ClusterDeployer:
             deploymentType = 'Torque'
             
             # need to update Torque configuration
-            #pbsUpdater = PBSUpdater(self.runOpts, self.forReal)
             self.pbsUpdater.updatePBS(deployedVMs, cluster)
             
         else:
@@ -264,7 +259,7 @@ class ClusterDeployer:
         deployedVMs.createVirtualInventory(vmFilename, inventoryVars) 
         
         playbookName = 'submit/prepare-vms.yml'
-        if self.forReal:
+        if forReal:
             # Setup the playbook, execute it and analyze return codes
             stats = callbacks.AggregateStats()
             playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)

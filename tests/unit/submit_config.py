@@ -32,7 +32,7 @@ class ConfiguratorFactoryTest(VespaDeploymentAbstractTest):
         
         # mock appConfig for this unit test
         appConfig = MockApplicationConfigurator()
-        self.configFactory = ConfiguratorFactory(self.runOpts, appConfig, None) # no NetworkAddresses
+        self.configFactory = ConfiguratorFactory(self.submitParams, appConfig, None) # no NetworkAddresses
 
     def testCreateBasicExecutionFile(self):
         # given

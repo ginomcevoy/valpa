@@ -28,20 +28,20 @@ def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     
     # application-specific directory for experiment consolidation
     # is a sub-directory from base output directory
-    baseOutputDir = consolidateConfig.consolidatePrefs['generated_dir']
+    baseOutputDir = consolidateConfig.consolidateParams['generated_dir']
     baseOutputDir = os.path.expandvars(baseOutputDir)  # may have $HOME environment variable
 
     outputName = appName if consolidateKey is None else consolidateKey 
     appOutputDir = baseOutputDir + '/' + outputName
     
     # filename for main output: all configurations
-    allConfigsFilename = consolidateConfig.consolidatePrefs['consolidate_configs_all'] 
+    allConfigsFilename = consolidateConfig.consolidateParams['consolidate_configs_all'] 
     
     # filename for main output: all metrics
-    metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_all']
+    metricsFilename = consolidateConfig.consolidateParams['consolidate_metrics_all']
     
     # filename for intermediary output: metrics for each configuration
-    metricsConfig = consolidateConfig.consolidatePrefs['consolidate_metrics_same']  
+    metricsConfig = consolidateConfig.consolidateParams['consolidate_metrics_same']  
     
     # physical cores per physical machine...
     phycores = str(consolidateConfig.hwSpecs['cores'])
@@ -61,7 +61,7 @@ def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     metricsgen.writeMetrics(metricsOutputFile, appInputDir, metricsConfig)
     
     # call sargen: analyze temporal metrics for each configuration
-    sargenConfig = consolidateConfig.consolidatePrefs['consolidate_sargen_config']
+    sargenConfig = consolidateConfig.consolidateParams['consolidate_sargen_config']
     sargen.sarAnalyze(appName, appInputDir, appOutputDir, phycores, 'config.txt',
                       metricsConfig, sargenConfig)
     
