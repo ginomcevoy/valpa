@@ -39,6 +39,7 @@ class VespaConfigurator(Configurator):
         timeFormat = self.submitParams['run_timeformat']
         timeOutput = self.submitParams['run_timeoutput']
         
+        monitorRun = self.submitParams['monitor_run']
         monitorStart = self.submitParams['monitor_start']
         monitorStop = self.submitParams['monitor_stop']
         monitorPreProcess = self.submitParams['monitor_preprocess']
@@ -50,6 +51,7 @@ class VespaConfigurator(Configurator):
             executionText = execution.read()
             executionText = executionText.replace('&TIME_FORMAT', timeFormat)
             executionText = executionText.replace('&TIME_OUTPUT', timeOutput)
+            executionText = executionText.replace('&MONITOR_RUN', monitorRun)
             executionText = executionText.replace('&MONITOR_START', monitorStart)
             executionText = executionText.replace('&MONITOR_STOP', monitorStop)
             executionText = executionText.replace('&MONITOR_PREPROCESS', monitorPreProcess)
