@@ -13,7 +13,7 @@ class NetworkAbstractTest(VespaDeploymentAbstractTest):
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
         
-        self.networkingOpts = {
+        self.networkParams = {
                             'network_source' : 'external-bridge',
                             'net_dev' : 'eth0',
                             'net_class' : 'B',

@@ -14,11 +14,11 @@ from core import uuid
 
 class PreparesExperiment:
     
-    def __init__(self, forReal, vespaPrefs, runOpts):
-        self.generator = ConfigFileGenerator(forReal, vespaPrefs, runOpts) 
+    def __init__(self, generator):
+        self.generator = generator 
     
-    def prepare(self, clusterInfo, deploymentInfo, appInfo):
-        (execConfig, distPath) = self.generator.createExecConfig(clusterInfo, deploymentInfo, appInfo)
+    def prepare(self, clusterInfo, deploymentInfo, appInfo, forReal):
+        (execConfig, distPath) = self.generator.createExecConfig(clusterInfo, deploymentInfo, appInfo, forReal)
         
         # create experimentPath using distPath/<config hash>
         theHash = self.configHash(execConfig)
@@ -61,20 +61,19 @@ class PreparesExperiment:
         
 class ConfigFileGenerator:
     
-    def __init__(self, forReal, vespaPrefs, runOpts):
-        self.forReal = forReal
-        self.vespaPrefs = vespaPrefs
-        self.runOpts = runOpts
+    def __init__(self, submitParams, miscParams):
+        self.submitParams = submitParams
+        self.miscParams = miscParams
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="../templates")
         templateEnv = jinja2.Environment(loader=templateLoader, keep_trailing_newline=True)
-        self.template = templateEnv.get_template(self.vespaPrefs['exec_config_template'])
+        self.template = templateEnv.get_template(self.submitParams['exec_config_template'])
         
-    def createExecConfig(self, clusterInfo, deploymentInfo, appInfo):
+    def createExecConfig(self, clusterInfo, deploymentInfo, appInfo, forReal):
         '''
         Creates an execution config file based on a template. Template and output are
-        specified in vespaPrefs
+        specified in submitParams.
         '''
         (deployedNodes, deployedSockets, deployedVMs) = deploymentInfo
         
@@ -87,25 +86,25 @@ class ConfigFileGenerator:
         hostCount = len(deployedNodes)
         
         # calculate deployment dir
-        expDir = self.runOpts['exp_dir']
+        expDir = self.submitParams['exp_dir']
         
-        distDir = self.runOpts['deploy_subdir_pattern']
+        distDir = self.submitParams['deploy_subdir_pattern']
         distDir = distDir.replace('&NC', str(clusterInfo.topology.nc))
         distDir = distDir.replace('&CPV', str(clusterInfo.topology.cpv))
         distDir = distDir.replace('&IDF', str(clusterInfo.mapping.idf))
         distDir = distDir.replace('&PSTRAT', str(clusterInfo.mapping.pinningOpt))
         
-        distPath = self.runOpts['deploy_dir_pattern']
+        distPath = self.submitParams['deploy_dir_pattern']
         distPath = distPath.replace('&EXPDIR', expDir)
         distPath = distPath.replace('&APP', appInfo.name)
         distPath = distPath.replace('&DEPLOYSUBDIR', distDir) 
         
         # add verbose
-        verbose = self.vespaPrefs['general_verbose']
+        verbose = self.miscParams['general_verbose']
         
         # output file = <exec.config.output>/<uuid>
-        execConfigName = uuid.newUUID(self.forReal)
-        execConfigDir = self.vespaPrefs['exec_config_output']
+        execConfigName = uuid.newUUID(forReal)
+        execConfigDir = self.submitParams['exec_config_output']
         execConfigFilename = execConfigDir + '/' + execConfigName
         print(execConfigFilename)
         if not os.path.exists(execConfigDir):

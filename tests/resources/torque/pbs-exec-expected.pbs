@@ -49,13 +49,17 @@ if [ 'True' == 'True' ]; then
 fi
 
 # Start monitoring
-$HOME/vespa/monitor/monitor-start-pbs.sh /tmp/pbs-nodefile.txt sysstat
+if [ 'True' == 'True' ]; then
+	$HOME/vespa/monitor/monitor-start-pbs.sh /tmp/pbs-nodefile.txt sysstat
+fi
 
 # The actual invocation of the application
 /usr/bin/time -f '%C\nUser\tSystem\tEllapsed\n%U\t%S\t%e' -a -o $EXEC_OUTPUT_DIR/../times.txt mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" --mca btl_tcp_if_include 172.16.0.0/16 --mca btl self,sm,tcp --bind-to socket PARPACBench firstarg secondarg > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
 
 # Stop monitoring iteratively
-$HOME/vespa/monitor/monitor-stop-pbs.sh /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR sysstat
+if [ 'True' == 'True' ]; then
+	$HOME/vespa/monitor/monitor-stop-pbs.sh /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR sysstat
+fi
 
 # Post-processing of output may be necessary
 if [ 'Y' == 'Y' ]; then
@@ -63,4 +67,6 @@ if [ 'Y' == 'Y' ]; then
 fi
 
 # Pre-process the monitor files, to save space
-$HOME/vespa/monitor/monitor-preprocess-pbs.sh $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt sysstat
+if [ 'True' == 'True' ]; then
+	$HOME/vespa/monitor/monitor-preprocess-pbs.sh $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt sysstat
+fi

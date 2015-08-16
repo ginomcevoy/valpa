@@ -18,14 +18,12 @@ class ShellParameters:
     
     def __init__(self, bootstrapper):
         
-        # Need hwconfig dicts, valpaPrefs, networkingOpts, repoOpts
+        # Need hwSpecs and Vespa configuration parameters
         # Build a single dictionary of parameters
-        self.allParams = dict(bootstrapper.getVespaPrefs())
-        self.allParams.update(bootstrapper.getNetworkingOpts())
-        self.allParams.update(bootstrapper.getRepoOpts())
-        
-        hwSpecs = bootstrapper.getHwSpecs()
-        self.allParams.update(hwSpecs)
+        self.allParams = dict(bootstrapper.createParams)
+        self.allParams.update(bootstrapper.networkParams)
+        self.allParams.update(bootstrapper.miscParams)
+        self.allParams.update(bootstrapper.hwSpecs)
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="../templates")

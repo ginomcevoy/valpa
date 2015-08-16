@@ -28,8 +28,7 @@ def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
     hwSpecs = bootstrapper.getHwSpecs()
     
     # Strategy to set default Technology values
-    vespaPrefs = bootstrapper.getVespaPrefs()
-    technologySetter = SetsTechnologyDefaults(vespaPrefs)
+    technologySetter = SetsTechnologyDefaults(bootstrapper.createParams)
     
     # update unset technology parameters with defaults
     clusterRequest.technology = technologySetter.setDefaultsOn(clusterRequest.technology)
@@ -53,7 +52,7 @@ def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
         
         # define and deploy cluster
         deploymentInfo = clusterDefiner.defineCluster(clusterRequest, 'quick', forReal)
-        clusterDeployer.deploy(clusterRequest, deploymentInfo, appInfo)
+        clusterDeployer.deploy(clusterRequest, deploymentInfo, appInfo, forReal)
     
 if __name__ == "__main__":
     # verify input

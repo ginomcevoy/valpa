@@ -62,8 +62,8 @@ class VespaAbstractTest(VespaTestHelper):
         
         # Vespa params
         vespaConfig = config_vespa.readVespaConfig('resources/vespa.params')
-        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = vespaConfig.getAll()
-        
+        (self.createParams, self.submitParams, self.networkParams,
+            self.consolidateParams, self.miscParams) = vespaConfig.getAllParams()
     
         
 class VespaWithNodesAbstractTest(VespaAbstractTest):
@@ -98,7 +98,7 @@ class VespaWithNodesAbstractTest(VespaAbstractTest):
                     }
         self.physicalCluster = PhysicalCluster(nodeDict)
         
-        buildsVMDetails = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
+        buildsVMDetails = BuildsAllVMDetails(self.createParams, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = buildsVMDetails.build()
         
 class VespaDeploymentAbstractTest(VespaWithNodesAbstractTest):

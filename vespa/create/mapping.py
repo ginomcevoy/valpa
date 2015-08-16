@@ -10,10 +10,9 @@ class MappingResolver:
 	be used to deploy virtual cluster.
 	'''
 
-	def __init__(self, hwSpecs, vespaPrefs, allNodes, allVMDetails):
+	def __init__(self, hwSpecs, allNodes, allVMDetails):
 		self.hwSpecs = hwSpecs
 		self.allNodes = allNodes
-		self.vespaPrefs = vespaPrefs
 		self.allVMDetails = allVMDetails
 
 	def processMappings(self, clusterRequest):

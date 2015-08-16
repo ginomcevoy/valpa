@@ -16,8 +16,8 @@ class VMRequestGenerationDetailsTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
-        networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        self.definitionDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
+        networkAddresses = NetworkAddresses(self.networkParams, self.physicalCluster, self.hwSpecs)
+        self.definitionDetails = VMDefinitionDetails(networkAddresses) 
         self.definitionDetails.setDeploymentContext(self.deploymentInfo)
 
     def testGetUUID(self):
@@ -42,8 +42,8 @@ class VMRequestInfinibandTest(VespaInfinibandAbstractTest):
     
     def setUp(self):
         VespaInfinibandAbstractTest.setUp(self)
-        networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        self.definitionDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses) 
+        networkAddresses = NetworkAddresses(self.networkParams, self.physicalCluster, self.hwSpecs)
+        self.definitionDetails = VMDefinitionDetails(networkAddresses) 
         self.definitionDetails.setDeploymentContext(self.deploymentInfo)
         
     def testGetInfinibandDetails(self):
@@ -64,9 +64,9 @@ class BasicVMGenTest(VespaDeploymentAbstractTest):
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
         (deployedNodes, deployedSockets, deployedVMs) = self.deploymentInfo  # @UnusedVariable
-        networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        definitionDetails = VMDefinitionDetails(self.vespaPrefs, networkAddresses)
-        self.basicGen = VMDefinitionBasicGenerator(self.vespaPrefs, definitionDetails)
+        networkAddresses = NetworkAddresses(self.networkParams, self.physicalCluster, self.hwSpecs)
+        definitionDetails = VMDefinitionDetails(networkAddresses)
+        self.basicGen = VMDefinitionBasicGenerator(definitionDetails)
         self.basicGen.setDeploymentContext(self.deploymentInfo, False)
 
     def testProduceXMLs(self):
@@ -95,7 +95,7 @@ class VmXMLSaverTest(VespaDeploymentAbstractTest):
                                'kvm-pbs082-02' : '/tmp/vespa/xmls/testExp/kvm-pbs082-02.xml'}
         
         (deployedNodes, deployedSockets, deployedVMs) = self.deploymentInfo  # @UnusedVariable
-        self.xmlSaver = VMXMLSaver(self.vespaPrefs)
+        self.xmlSaver = VMXMLSaver(self.createParams)
         
     def testSaveXMLs(self):
         xmlNameDict = self.xmlSaver.saveXMLs(self.xmlDict, 'testExp')

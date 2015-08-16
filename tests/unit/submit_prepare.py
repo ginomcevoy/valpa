@@ -14,11 +14,11 @@ class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
-        self.excConfigGen = ConfigFileGenerator(False, self.vespaPrefs, self.runOpts)
+        self.excConfigGen = ConfigFileGenerator(self.submitParams, self.miscParams)
     
     def testCreateExecConfig(self):
-        # when
-        (excConfig, deployDir) = self.excConfigGen.createExecConfig(self.clusterRequest, self.deploymentInfo, self.appRequest)
+        # when not for real
+        (excConfig, deployDir) = self.excConfigGen.createExecConfig(self.clusterRequest, self.deploymentInfo, self.appRequest, False)
         
         # then
         self.assertEquals(excConfig, '/tmp/vespa/execs/446bf85f-b4ba-459b-8e04-60394fc00d5c')
@@ -30,10 +30,9 @@ class ConfigFileGeneratorTest(VespaDeploymentAbstractTest):
         # given
         configFile = 'resources/execConfig-expected.output'
         outputPath = '/tmp'
-        excConfigGen = ConfigFileGenerator(False, self.vespaPrefs, self.runOpts)
         
         # when
-        trimmedConfigFile = excConfigGen.saveTrimmedExecConfig(configFile, outputPath)
+        trimmedConfigFile = self.excConfigGen.saveTrimmedExecConfig(configFile, outputPath)
         
         # then
         self.assertEquals(trimmedConfigFile, '/tmp/config.txt')
@@ -43,7 +42,8 @@ class PreparesExperimentTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
-        self.prepsExperiment = PreparesExperiment(False, self.vespaPrefs, self.runOpts)
+        generator = ConfigFileGenerator(self.submitParams, self.miscParams)
+        self.prepsExperiment = PreparesExperiment(generator)
     
     def testSaveTopology(self):
         # given

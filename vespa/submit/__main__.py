@@ -27,8 +27,7 @@ def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
     bootstrapper = bootstrap.getInstance()
     
     # Strategy to set default Technology values
-    vespaPrefs = bootstrapper.getVespaPrefs()
-    technologySetter = SetsTechnologyDefaults(vespaPrefs)
+    technologySetter = SetsTechnologyDefaults(bootstrapper.createParams)
     
     # update unset technology parameters with defaults
     clusterRequest.technology = technologySetter.setDefaultsOn(clusterRequest.technology)
@@ -41,7 +40,7 @@ def quickRun(appName, nc, cpv, idf, pstrat, forReal, args):
     clusterDefiner = deploymentFactory.createClusterDefiner()
     deploymentInfo = clusterDefiner.defineCluster(clusterRequest, appName, False) # false means don't do anything with the cluster, just get the details 
     
-    applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest) 
+    applicationExecutor.execute(clusterRequest, deploymentInfo, appRequest, forReal) 
     
 if __name__ == "__main__":
     # verify input

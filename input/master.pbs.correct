@@ -6,7 +6,7 @@
 # christian.simmendinger@t-systems.com
 #
 #PBS -l walltime=&WALLTIME
-#PBS -l nodes=&VMS:ppn=&CPV
+#PBS -l nodes=&PBS_TOPOLOGY
 #PBS -N &APP_EXECUTABLE
 #PBS -t 1-&EXEC_TIMES
 #PBS -o &EXPERIMENT_PATH/pbs.out
@@ -45,17 +45,21 @@ cp $PBS_NODEFILE /tmp/pbs-nodefile.txt
 
 # Also monitor nodes?
 if [ '&MONITOR_DO_NODES' == 'True' ]; then
-	echo -e '&NODE_LIST' >> /tmp/pbs-nodefile.txt
+	echo -e '&PHYSICAL_NODE_LIST' >> /tmp/pbs-nodefile.txt
 fi
 
 # Start monitoring
-&MONITOR_START /tmp/pbs-nodefile.txt &MONITOR_APP
+if [ '&MONITOR_RUN' == 'True' ]; then
+	&MONITOR_START /tmp/pbs-nodefile.txt &MONITOR_APP
+fi
 
 # The actual invocation of the application
-/usr/bin/time -f '&TIME_FORMAT' -a -o $EXEC_OUTPUT_DIR/../&TIME_OUTPUT mpirun --mca btl_tcp_if_include 172.16.0.0/16 &BIND_TO_CORE &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
+/usr/bin/time -f '&TIME_FORMAT' -a -o $EXEC_OUTPUT_DIR/../&TIME_OUTPUT mpirun --mca plm_rsh_agent "ssh -q -o StrictHostKeyChecking=no" &MPI_BTL &MPI_PROC_BIND &APP_EXECUTABLE &APP_ARGS > $EXEC_OUTPUT_DIR/$STDOUT 2> $EXEC_OUTPUT_DIR/$STDERR
 
 # Stop monitoring iteratively
-&MONITOR_STOP /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR &MONITOR_APP
+if [ '&MONITOR_RUN' == 'True' ]; then
+	&MONITOR_STOP /tmp/pbs-nodefile.txt $EXEC_OUTPUT_DIR &MONITOR_APP
+fi
 
 # Post-processing of output may be necessary
 if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
@@ -63,4 +67,6 @@ if [ '&APP_NEEDS_OUTPUT_COPY' == 'Y' ]; then
 fi
 
 # Pre-process the monitor files, to save space
-&MONITOR_PREPROCESS $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt &MONITOR_APP
+if [ '&MONITOR_RUN' == 'True' ]; then
+	&MONITOR_PREPROCESS $EXEC_OUTPUT_DIR /tmp/pbs-nodefile.txt &MONITOR_APP
+fi
