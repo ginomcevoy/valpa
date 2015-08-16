@@ -59,7 +59,6 @@ default_infiniband=True
 # Directory where Vespa is installed
 vespa_home=$HOME/vespa
 
-
 ###############################################################################
 # VM Memory
 ###############################################################################
@@ -68,7 +67,6 @@ vespa_home=$HOME/vespa
 # VM memory = vm_mem_base + (VM cores) * vm_mem_core   
 vm_mem_base=0
 vm_mem_core=1024
-
 
 ###############################################################################
 # Other network parameters
@@ -85,7 +83,6 @@ net_bridge=br0
 # the libvirt network definition for SR-IOV.
 net_dev=eth0
 
-
 ###############################################################################
 # Resource Monitoring
 ###############################################################################
@@ -98,14 +95,11 @@ monitor_app=sysstat
 # Also monitor physical nodes? (True/False)
 monitor_do_nodes=True
 
-
 ###############################################################################
 # Miscellaneous
 ###############################################################################
 # Verbosity level for Vespa
 general_verbose=1
-
-
 
 ###############################################################################
 # ATTENTION: Altering parameters below may cause Vespa to fail!
@@ -216,6 +210,5 @@ consolidate_app_folder=../apps
 
 
 [Misc]
-vm_pernode=12
 out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory

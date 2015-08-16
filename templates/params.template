@@ -30,7 +30,7 @@ NET_BRIDGE='{{ net_bridge }}'		# desired bridge name
 MAC_BASE='{{ net_mac_prefix }}'		# MAC address prefix for VMs
 
 # Virtual environment 
-VM_L={{ vm_pernode }} 				# max number of VMs per node
+VM_L={{ cores }} 				# max number of VMs per node
 NAME_PREFIX='{{ vm_prefix }}'		# prefix of VM names
 
 # Repository
