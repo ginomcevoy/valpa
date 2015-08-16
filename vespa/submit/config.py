@@ -40,9 +40,12 @@ class VespaConfigurator(Configurator):
         timeOutput = self.submitParams['run_timeoutput']
         
         monitorRun = self.submitParams['monitor_run']
-        monitorStart = self.submitParams['monitor_start']
-        monitorStop = self.submitParams['monitor_stop']
-        monitorPreProcess = self.submitParams['monitor_preprocess']
+        monitorStart = '/'.join((self.submitParams['vespa_home'],
+                                self.submitParams['monitor_start']))
+        monitorStop = '/'.join((self.submitParams['vespa_home'],
+                               self.submitParams['monitor_stop']))
+        monitorPreProcess = '/'.join((self.submitParams['vespa_home'],
+                                      self.submitParams['monitor_preprocess']))
         monitorDoNodes = self.submitParams['monitor_do_nodes']
         monitorApp = self.submitParams['monitor_app']
         

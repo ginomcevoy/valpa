@@ -56,9 +56,6 @@ default_tech_disk=virtio
 # True: use Infiniband, otherwise do not use
 default_infiniband=False
 
-# Directory where Vespa is installed
-vespa_home=$HOME/vespa
-
 ###############################################################################
 # VM Memory
 ###############################################################################
@@ -187,9 +184,9 @@ run_timeoutput=times.txt
 run_timeformat=%C\nUser\tSystem\tEllapsed\n%U\t%S\t%e
 
 # Vespa executables used for resource monitoring
-monitor_start=$HOME/vespa/monitor/monitor-start-pbs.sh
-monitor_stop=$HOME/vespa/monitor/monitor-stop-pbs.sh
-monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
+monitor_start=monitor/monitor-start-pbs.sh
+monitor_stop=monitor/monitor-stop-pbs.sh
+monitor_preprocess=monitor/monitor-preprocess-pbs.sh
 
 # Name of template used for the experiment configuration file
 exec_config_template=execConfig.template
