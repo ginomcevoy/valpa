@@ -25,7 +25,14 @@ fi
 XML_FILE=$XML_PATH/$XML_NAME.xml
 OUTPUT_LOG=$HOME/vespa-logs/$XML_NAME.log
 
-# Run experiment
+# Run experiment: return to shell, persist after logging out
 cd $VESPA_DIR/vespa
-PYTHONPATH=.. nohup python -m vespa True $XML_FILE &> $OUTPUT_LOG &
 echo "Output log at $OUTPUT_LOG"
+(
+ PYTHONPATH=.. nohup python -m vespa True $XML_FILE &> $OUTPUT_LOG 
+ EXIT_CODE=$?
+ if [ $EXIT_CODE -ne 0 ]; then
+   # inform immediate failure
+   echo "ERROR: Vespa exited with status $EXIT_CODE" >&2
+ fi
+) &
