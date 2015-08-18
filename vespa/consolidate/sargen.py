@@ -73,7 +73,7 @@ if __name__ == '__main__':
     else:
         metricsFilename = 'metrics-app.csv'
         
-    sargenConfig = 'input/sargen-config.R'
+    sargenConfig = 'config/sargen-config.R'
         
     # work
     sarAnalyze(appName, appDir, appOutputDir, phycores, configFilename, metricsFilename, sargenConfig)

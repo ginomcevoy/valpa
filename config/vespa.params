@@ -173,8 +173,8 @@ deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
 # Configuration parameters for using the Torque cluster manager
 # Users using older versions of Torque may need to modify the
 # value of pbs_server to match location.
-pbs_master=../input/master.pbs
 pbs_server=/var/spool/torque/server_priv
+pbs_master=../templates/master.pbs
 pbs_temp_nodelist = /tmp/pbs-nodes
 
 # Naming and data format for the file that stores output
@@ -206,7 +206,7 @@ consolidate_metrics_same=metrics-app.csv
 consolidate_metrics_all=metrics-all.csv
 consolidate_configs_all=configs.csv
 consolidate_module=read_output
-consolidate_sargen_config=input/sargen-config.R
+consolidate_sargen_config=config/sargen-config.R
 
 # Directory with information about application
 consolidate_app_folder=../apps 

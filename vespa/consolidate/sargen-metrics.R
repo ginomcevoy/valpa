@@ -496,7 +496,7 @@ generateExecutionMetrics <- function(configDir, phycores, configOutputDir) {
 # Uncomment for testing
 #argv = vector()
 #argv[1] = '/home/giacomo2/vespa'
-#argv[2] = 'input/sargen-config.R'
+#argv[2] = 'config/sargen-config.R'
 #argv[3] = '/home/giacomo2/experiments/arriving/parpac/nc4-cpv2-idf2-psNONE/e9b01aa4132532a40308d51c7ba99e6048cdcafd3a193af72d6619bdaa5d5980'
 #argv[4] = '12'
 #argv[5] = '/home/giacomo2/experiments/analyzed/parpac/cfg1'

@@ -20,7 +20,7 @@ class SimplePlacementScenarioGenerator():
     VMM settings and no MPI pinning options (NONE)
     '''
     
-    def __init__(self, vespaFilename='../input/vespa.params', hwParamFile='../input/hardware.params'):
+    def __init__(self, vespaFilename='../config/vespa.params', hwParamFile='../config/hardware.params'):
         
         # Read Vespa configuration file
         vespaConfig = config_vespa.readVespaConfig(vespaFilename)

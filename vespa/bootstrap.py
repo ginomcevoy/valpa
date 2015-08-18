@@ -19,7 +19,7 @@ from create.cluster import VespaXMLGenerator
 from submit.config import ConfiguratorFactory
 from collections import namedtuple
 
-def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../input/vespa.params', hardwareFilename='../input/hardware.params', inventoryFilename='../input/vespa.nodes'):
+def doBootstrap(forReal=True, templateDir='../templates', masterTemplate='master.xml', vespaFilename='../config/vespa.params', hardwareFilename='../config/hardware.params', inventoryFilename='../config/vespa.nodes'):
     # instantiate Bootstrapper as a Singleton
     
     if VespaBootstrapper.instance is None:
