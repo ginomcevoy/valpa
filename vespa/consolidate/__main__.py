@@ -31,7 +31,9 @@ def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     baseOutputDir = consolidateConfig.consolidatePrefs['generated_dir']
     baseOutputDir = os.path.expandvars(baseOutputDir)  # may have $HOME environment variable
 
-    outputName = appName if consolidateKey is None else consolidateKey 
+    # output dir, use consolidateKey if available
+    # TODO: put this in a proper function
+    outputName = appName if consolidateKey is None else "-".join((appName, consolidateKey))
     appOutputDir = baseOutputDir + '/' + outputName
     
     # filename for main output: all configurations
