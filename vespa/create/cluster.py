@@ -141,7 +141,7 @@ class VespaXMLGenerator:
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath=templateDir)
-        templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True, keep_trailing_newline=True)
         self.template = templateEnv.get_template(masterTemplate)
         
     def produceVespaXML(self):
@@ -190,7 +190,7 @@ class ClusterXMLGenerator:
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="/")
-        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True, keep_trailing_newline=True)
                 
     def produceClusterXML(self, topology, technology):
         '''

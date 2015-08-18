@@ -36,7 +36,7 @@ _CLUSTER_VAR_% endif %}
 		<emulator>/usr/bin/kvm</emulator>
 		<disk type="file" device="disk">
 			<driver name="qemu" type="raw"/>
-			<source file="/home/giacomo/vms/_VM_VAR_{ vm_path }}/_CLUSTER_VAR_{ cluster_disk }}"/>
+			<source file="/home/giacomo/vespa-vms/_VM_VAR_{ vm_path }}/_CLUSTER_VAR_{ cluster_disk }}"/>
 			<target dev="vda" bus="_CLUSTER_VAR_{ cluster_disk_bus }}"/>
 		</disk>
 		<console type="pty">

@@ -118,7 +118,7 @@ out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory
 
 # Main Consolidation output dir
-consolidate.output=/home/giacomo2/experiments/analyzed
+consolidate.output=/home/giacomo2/vespa-output/consolidated
 
 # Consolidation filenames
 metrics.config.name = metrics-app.csv
@@ -153,7 +153,7 @@ xml_disk_dev=vda
 
 [Repository]
 # Root dir for VM repository
-repo_root=/home/giacomo/vms
+repo_root=/home/giacomo/vespa-vms
 
 # Dir for base images inside root dir
 repo_base_dir=base

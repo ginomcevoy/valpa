@@ -77,7 +77,7 @@ net_name_bridge_use=valpa-existing-bridge
 net_mac_prefix=00:16:36:ff
 
 [Run]
-exp_dir=/home/giacomo2/shared/execs
+exp_dir=/home/giacomo2/shared/vespa-experiments
 deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
 deploy_dir_pattern=&EXPDIR/&APP/&DEPLOYSUBDIR
 
@@ -144,7 +144,7 @@ xml_disk_dev=hda
 
 [Repository]
 # Root dir for VM repository
-repo_root=/home/giacomo2/vms
+repo_root=/home/giacomo2/vespa-vms
 
 # Dir for base images inside root dir
 repo_base_dir=base
@@ -161,4 +161,4 @@ consolidate_sargen_config=input/sargen-config.R
 consolidate_app_folder=../apps 
 
 # Main output dir for consolidated data
-generated_dir=$HOME/experiments/analyzed
+generated_dir=$HOME/vespa-output/consolidated

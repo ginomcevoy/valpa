@@ -49,7 +49,7 @@ class VMDefinitionBasicGenerator:
         
         # setup jinja template
         templateLoader = jinja2.FileSystemLoader(searchpath="/")
-        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True)
+        self.templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True, keep_trailing_newline=True)
         
     def setDeploymentContext(self, deploymentInfo, forReal = True):
         self.deployedNodes = deploymentInfo[0]
