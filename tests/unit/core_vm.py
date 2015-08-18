@@ -11,7 +11,7 @@ class BuildsAllVMDetailsTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         VespaWithNodesAbstractTest.setUp(self)
-        self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
+        self.vmFactory = BuildsAllVMDetails(self.createParams, self.hwSpecs, self.physicalCluster)
 
     def testGetAllNodes(self):
         allVMDetails = self.vmFactory.build()
@@ -41,7 +41,7 @@ class AllVMDetailsTest(VespaWithNodesAbstractTest):
     
     def setUp(self):
         VespaWithNodesAbstractTest.setUp(self)
-        self.vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
+        self.vmFactory = BuildsAllVMDetails(self.createParams, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = self.vmFactory.build()
         
     def testGetSubset(self):
@@ -76,7 +76,7 @@ class VirtualClusterFactoryTest(VespaWithNodesAbstractTest):
 
     def setUp(self):
         VespaWithNodesAbstractTest.setUp(self)
-        vmDetailsFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
+        vmDetailsFactory = BuildsAllVMDetails(self.createParams, self.hwSpecs, self.physicalCluster)
         allVMDetails = vmDetailsFactory.build()
         self.vmTemplateFactory = VirtualClusterFactory(allVMDetails)
         

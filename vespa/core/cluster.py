@@ -227,21 +227,21 @@ class SetsTechnologyDefaults:
     overridden with the default values.
     """
     
-    def __init__(self, vespaPrefs):
-        self.vespaPrefs = vespaPrefs
+    def __init__(self, createParams):
+        self.createParams = createParams
         
     def setDefaultsOn(self, technology):
         
         # check for any parameters that are not overridden in experiment
         # if parameter is not set, use parameter from preferences
         if technology.networkOpt is None:
-            defaultNetworkOpt = self.vespaPrefs['default_tech_network']
+            defaultNetworkOpt = self.createParams['default_tech_network']
             technology.networkOpt = eval('NetworkOpt.' + defaultNetworkOpt)
         if technology.diskOpt is None:
-            defaultDiskOpt = self.vespaPrefs['default_tech_disk']
+            defaultDiskOpt = self.createParams['default_tech_disk']
             technology.diskOpt = eval('DiskOpt.' + defaultDiskOpt)
         if technology.infinibandFlag is None:
-            defaultInfinibandFlag = self.vespaPrefs['default_infiniband'] == 'True'
+            defaultInfinibandFlag = self.createParams['default_infiniband'] == 'True'
             technology.infinibandFlag = defaultInfinibandFlag
             
         return technology

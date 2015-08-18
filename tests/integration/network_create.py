@@ -18,12 +18,11 @@ class CreatesBasicNetworkXMLTest(VespaWithBootstrapAbstractTest):
     '''
     def setUp(self):
         VespaWithBootstrapAbstractTest.setUp(self)
-        networkingOpts = self.bootstrap.getNetworkingOpts()
         networkAddresses = self.bootstrap.getNetworkAddresses()
         
-        self.argumentsSRIOV = NetworkArgumentsForSRIOV(networkingOpts)
-        self.argumentsUseBridge = NetworkArgumentsForUsingBridge(networkingOpts)
-        self.argumentsCreateBridge = NetworkArgumentsForCreatingBridge(networkingOpts, networkAddresses)
+        self.argumentsSRIOV = NetworkArgumentsForSRIOV(self.bootstrap.networkParams)
+        self.argumentsUseBridge = NetworkArgumentsForUsingBridge(self.bootstrap.networkParams)
+        self.argumentsCreateBridge = NetworkArgumentsForCreatingBridge(self.bootstrap.networkParams, networkAddresses)
         
         self.networkCreator = CreatesBasicNetworkXML()
 

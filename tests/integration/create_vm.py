@@ -17,10 +17,10 @@ class VmRequestGeneratorIntegrationTest(VespaDeploymentAbstractTest):
         (self.deployedNodes, self.deployedSockets, self.deployedVMs) = self.deploymentInfo
         
         # instantiate
-        pinningWriterBuilder = BuildsPinningWriter(self.hwSpecs, self.vespaPrefs)
+        pinningWriterBuilder = BuildsPinningWriter(self.hwSpecs)
         pinningWriter = pinningWriterBuilder.build()
-        networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
-        buildsVMGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningWriter, networkAddresses)
+        networkAddresses = NetworkAddresses(self.networkParams, self.physicalCluster, self.hwSpecs)
+        buildsVMGenerator = BuildsVMDefinitionGenerator(self.createParams, pinningWriter, networkAddresses)
         self.vmDefinitionGenerator = buildsVMGenerator.build()
         
         # expected

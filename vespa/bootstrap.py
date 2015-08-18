@@ -57,14 +57,15 @@ class VespaBootstrapper():
     def bootstrap(self):
         # Read Vespa configuration file
         self.vespaConfig = config_vespa.readVespaConfig(self.vespaFilename)
-        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.vespaConfig.getAll()
+        (self.createParams, self.submitParams, self.networkParams,
+            self.consolidateParams, self.miscParams) = self.vespaConfig.getAllParams()
                
         # Read hardware specification
         self.hardwareInfo = config_hw.getHardwareInfo(self.hardwareFilename, self.inventoryFilename)
         self.hwSpecs = self.hardwareInfo.getHwSpecs()
         
         # Produce Vespa XML from master template
-        vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, self.templateDir, self.masterTemplate)
+        vespaXMLGen = VespaXMLGenerator(self.createParams, self.networkParams, self.templateDir, self.masterTemplate)
         self.vespaXML = vespaXMLGen.produceVespaXML()
         
         # Load physical cluster object
@@ -72,34 +73,14 @@ class VespaBootstrapper():
         self.physicalCluster = nodeFactory.getAllNodes()
         
         # Load details for all possible VMs
-        vmFactory = BuildsAllVMDetails(self.vespaPrefs, self.hwSpecs, self.physicalCluster)
+        vmFactory = BuildsAllVMDetails(self.createParams, self.hwSpecs, self.physicalCluster)
         self.allVMDetails = vmFactory.build()
         
         self.boostrapped = True
         
     def getAllConfig(self):
-        return (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts)
+        return self.vespaConfig.getAllParams()
         
-    def getVespaPrefs(self):
-        _checkBootstrap()
-        return self.vespaPrefs
-    
-    def getVespaXMLOpts(self):
-        _checkBootstrap()
-        return self.vespaXMLOPts
-        
-    def getNetworkingOpts(self):
-        _checkBootstrap()
-        return self.networkingOpts
-    
-    def getRunOpts(self):
-        _checkBootstrap()
-        return self.runOpts
-    
-    def getRepoOpts(self):
-        _checkBootstrap()
-        return self.repoOpts
-    
     def getHwSpecs(self):
         _checkBootstrap()
         return self.hwSpecs
@@ -122,15 +103,15 @@ class VespaBootstrapper():
     def getBuildsVMDefinitionGenerator(self):
         _checkBootstrap()
         if self.buildsVMDefinitionGenerator is None:
-            pinningBuilder = BuildsPinningWriter(self.hwSpecs, self.vespaPrefs)
+            pinningBuilder = BuildsPinningWriter(self.hwSpecs)
             networkAddresses = self.getNetworkAddresses()
-            self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.vespaPrefs, pinningBuilder.build(), networkAddresses)
+            self.buildsVMDefinitionGenerator = BuildsVMDefinitionGenerator(self.createParams, pinningBuilder.build(), networkAddresses)
         return self.buildsVMDefinitionGenerator
     
     def getAppConfig(self):
         _checkBootstrap()
         if self.appConfig is None:
-            appFolder = self.vespaConfig.consolidatePrefs['consolidate_app_folder']
+            appFolder = self.consolidateParams['consolidate_app_folder']
             self.appConfig = config_app.getAppConfig(appFolder)
         return self.appConfig
     
@@ -139,7 +120,7 @@ class VespaBootstrapper():
         if self.configFactory is None:
             networkAddresses = self.getNetworkAddresses()
             appConfig = self.getAppConfig()
-            self.configFactory = ConfiguratorFactory(self.runOpts, appConfig, networkAddresses)
+            self.configFactory = ConfiguratorFactory(self.submitParams, appConfig, networkAddresses)
         return self.configFactory
         
     def getDeploymentFactory(self):
@@ -156,14 +137,14 @@ class VespaBootstrapper():
     def getExperimentSetRunner(self):
         if self.experimentSetRunner is None:
             deploymentFactory = self.getDeploymentFactory()
-            self.experimentSetRunner = ExperimentSetRunner(deploymentFactory, self.hwSpecs, self.vespaPrefs, self.forReal)
+            self.experimentSetRunner = ExperimentSetRunner(deploymentFactory, self.hwSpecs, self.createParams, self.forReal)
         return self.experimentSetRunner
     
     def getBuildsNetworkXMLs(self):
         if self.buildsNetworkXMLs is None:
             basicCreator = CreatesBasicNetworkXML()
             physicalCluster = self.getPhysicalCluster()
-            argumentSolverFactory = ArgumentSolverFactory(self.networkingOpts, self.getNetworkAddresses())
+            argumentSolverFactory = ArgumentSolverFactory(self.networkParams, self.getNetworkAddresses())
             enhancerForCreatingBridge = EnhancesXMLForCreatingBridge(physicalCluster, self.getAllVMDetails())
             self.buildsNetworkXMLs = BuildsNetworkXMLs(basicCreator, argumentSolverFactory, enhancerForCreatingBridge, physicalCluster)
         return self.buildsNetworkXMLs
@@ -171,14 +152,14 @@ class VespaBootstrapper():
     def getConsolidateConfig(self, appName):
         """ Return a named tuple that holds configuration relevant to consolidation.
         
-        The tuple holds the names 'appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'.
+        The tuple holds the names 'appParams', 'consolidateParams', 'hwSpecs', 'submitParams'.
         """
         appConfig = self.getAppConfig()
         appParams = appConfig.appConfigs[appName]
     
         # Single variable for relevant configuration
-        ConsolidateConfig = namedtuple('ConsolidateConfig', ['appParams', 'consolidatePrefs', 'hwSpecs', 'runOpts'])
-        return ConsolidateConfig(appParams, self.vespaConfig.consolidatePrefs, self.hwSpecs, self.runOpts)
+        ConsolidateConfig = namedtuple('ConsolidateConfig', ['appParams', 'consolidateParams', 'hwSpecs', 'submitParams'])
+        return ConsolidateConfig(appParams, self.consolidateParams, self.hwSpecs, self.submitParams)
     
     def __loadNetworkAddresses__(self):
         '''
@@ -186,7 +167,7 @@ class VespaBootstrapper():
         '''
         if self.networkAddresses is None:
             # Load networking and IP addresses to physical nodes and VMs
-            self.networkAddresses = NetworkAddresses(self.networkingOpts, self.physicalCluster, self.hwSpecs)
+            self.networkAddresses = NetworkAddresses(self.networkParams, self.physicalCluster, self.hwSpecs)
             
             ipSetterPhysical = SetsAddressesToPhysicalCluster(self.networkAddresses)
             ipSetterPhysical.setAddresses(self.physicalCluster)

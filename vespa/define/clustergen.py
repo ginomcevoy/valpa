@@ -101,13 +101,13 @@ class SimpleClusterGenerator(ClusterRequestGenerator):
     characterization (DIST tuple). Calculates default technology from 
     Vespa configuration.
     '''
-    def __init__(self, vespaPrefs, hwSpecs):
+    def __init__(self, createParams, hwSpecs):
         # use the simple characterization for cluster placements
         placementSpecs = SimpleClusterPlacementSpecification(hwSpecs)
         placementGen =  SimpleClusterPlacementGenerator(hwSpecs, placementSpecs)
         
         # calculate default technology
-        technologySetter = SetsTechnologyDefaults(vespaPrefs)
+        technologySetter = SetsTechnologyDefaults(createParams)
         defaultTechnology = technologySetter.setDefaultsOn(Technology())
         
         ClusterRequestGenerator.__init__(self, hwSpecs, placementGen, defaultTechnology)

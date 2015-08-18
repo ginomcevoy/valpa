@@ -110,8 +110,8 @@ class NetworkArgumentsForSRIOV:
     Returns template arguments for SRIOV network.
     '''
     
-    def __init__(self, networkingOpts):
-        self.networkingOpts = networkingOpts
+    def __init__(self, networkParams):
+        self.networkParams = networkParams
     
     def getArguments(self, nodeIndex = 0):
         # select template
@@ -123,8 +123,8 @@ class NetworkArgumentsForSRIOV:
         #      <pf dev='@network_interface'/>
         #    </forward>
         #  </network>
-        args['network_name'] = self.networkingOpts['net_name_sriov']
-        args['network_interface'] = self.networkingOpts['net_dev']
+        args['network_name'] = self.networkParams['net_name_sriov']
+        args['network_interface'] = self.networkParams['net_dev']
         return args
 
 class NetworkArgumentsForUsingBridge:
@@ -132,8 +132,8 @@ class NetworkArgumentsForUsingBridge:
     Returns template arguments for bridged network, uses existing bridge
     '''
     
-    def __init__(self, networkingOpts):
-        self.networkingOpts = networkingOpts
+    def __init__(self, networkParams):
+        self.networkParams = networkParams
     
     def getArguments(self, nodeIndex = 0):
         # select template
@@ -145,8 +145,8 @@ class NetworkArgumentsForUsingBridge:
         #     <bridge name="@network_bridge"/>
         # </network>
 
-        args['network_name'] = self.networkingOpts['net_name_bridge_use']
-        args['network_bridge'] = self.networkingOpts['net_bridge']
+        args['network_name'] = self.networkParams['net_name_bridge_use']
+        args['network_bridge'] = self.networkParams['net_bridge']
         return args
 
 class NetworkArgumentsForCreatingBridge:
@@ -154,8 +154,8 @@ class NetworkArgumentsForCreatingBridge:
     Returns template arguments for bridged network, creates new bridge
     '''
     
-    def __init__(self, networkingOpts, networkAddresses):
-        self.networkingOpts = networkingOpts
+    def __init__(self, networkParams, networkAddresses):
+        self.networkParams = networkParams
         #self.physicalCluster = physicalCluster
         #self.hwSpecs = hwSpecs
         self.networkAddresses = networkAddresses
@@ -176,9 +176,9 @@ class NetworkArgumentsForCreatingBridge:
         # </network>
 
         # parameters for all nodes
-        args['network_name'] = self.networkingOpts['net_name_bridge_create']
-        args['network_interface'] = self.networkingOpts['net_dev']
-        args['network_bridge'] = self.networkingOpts['net_bridge']
+        args['network_name'] = self.networkParams['net_name_bridge_create']
+        args['network_interface'] = self.networkParams['net_dev']
+        args['network_bridge'] = self.networkParams['net_bridge']
         args['network_netmask'] = self.networkAddresses.networkNetmask()
         
         # parameters specific to node
@@ -192,18 +192,18 @@ class ArgumentSolverFactory:
     '''
     Provides instances to the three strategies for network arguments.
     '''
-    def __init__(self, networkingOpts, networkAddresses):
-        self.networkingOpts = networkingOpts 
+    def __init__(self, networkParams, networkAddresses):
+        self.networkParams = networkParams 
         self.networkAddresses = networkAddresses
         
     def createForSRIOV(self):
-        return NetworkArgumentsForSRIOV(self.networkingOpts)
+        return NetworkArgumentsForSRIOV(self.networkParams)
     
     def createForUsingBridge(self):
-        return NetworkArgumentsForUsingBridge(self.networkingOpts)
+        return NetworkArgumentsForUsingBridge(self.networkParams)
     
     def createForCreatingBridge(self):
-        return NetworkArgumentsForCreatingBridge(self.networkingOpts, self.networkAddresses)
+        return NetworkArgumentsForCreatingBridge(self.networkParams, self.networkAddresses)
     
 
 class EnhancesXMLForCreatingBridge:

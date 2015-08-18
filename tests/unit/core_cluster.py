@@ -86,7 +86,7 @@ class TestClusterDefaults(VespaDeploymentAbstractTest):
     
     def setUp(self):
         super(TestClusterDefaults, self).setUp()
-        self.technologySetter = SetsTechnologyDefaults(self.vespaPrefs)
+        self.technologySetter = SetsTechnologyDefaults(self.createParams)
 
     def testSetDefaultsOnNoInfiniband(self):
         # given that VespaDeploymentAbstractTest has 

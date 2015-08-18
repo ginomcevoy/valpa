@@ -2,32 +2,110 @@
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2013
 
-[Networking]
-
+[Preferences]
+###############################################################################
 # Main networking option: one of {libvirt-bridge | external-bridge | sriov}
+###############################################################################
 # Vespa will use this value when creating the VM definitions.
-# ALL options imply a virtual network created in libvirt, for each physical node
+# ALL options imply a virtual network created in libvirt for each physical node
 # The setup/define-virtual-networks.sh script can be used to generate the XML
 # definitions for these networks
 # 
-# libvirt-bridge: 	instructs Vespa to use a bridge managed by libvirt (DHCP by libvirt)
-# external-bridge:  instructs Vespa to use a previously defined bridge (bridge and DHCP external to libvirt)
-# sriov:         	instructs Vespa to use the Virtual Functions of a SR-IOV network
-#
+# libvirt-bridge: 	instructs Vespa to use a bridge managed by libvirt
+#					(DHCP by libvirt)
+# external-bridge:  instructs Vespa to use a previously defined bridge 
+#					(bridge and DHCP external to libvirt)
+# sriov:         	instructs Vespa to use the Virtual Functions of a 
+#					SR-IOV network
 network_source=external-bridge
+
+###############################################################################
+# VM image chosen to instantiate the VMs.
+###############################################################################
+# Each VM should have its own copy of the image. 
+vm_disk=disk.img
+
+###############################################################################
+# Installation paths
+###############################################################################
+# Directory where Vespa is installed
+vespa_home=$HOME/vespa
+
+# Root dir for VM repository
+repo_root=/home/giacomo/vespa-vms
+
+# Directory used for deploying and aggregating results from experiments.
+exp_dir=/tmp/vespa/tests/deploy
+
+# Main output dir for consolidated data
+generated_dir=/tmp/vespa/tests/consolidated
+
+###############################################################################
+# Default values for virtualization technologies.
+# These can be overridden by the user when defining experiments.
+###############################################################################
+# Technology for network virtualization, { virtio | vhost | sriov }
+# If using sriov (by default or by override), also set network_source=sriov
+# TODO: validate this constraint 
+default_tech_network=vhost
+
+# Technology for disk virtualization, { ide | scsi | virtio } 
+default_tech_disk=virtio
+
+# Use Infiniband? (assumes it is configured correctly)
+# True: use Infiniband, otherwise do not use
+default_infiniband=False
+
+###############################################################################
+# VM Memory
+###############################################################################
+# vm_mem_base: base memory (MB) assigned to each VM, independent of core count.
+# vm_mem_core: memory (MB) added to VM's memory for each virtual core.
+# VM memory = vm_mem_base + (VM cores) * vm_mem_core   
+vm_mem_base=0
+vm_mem_core=1024
+
+###############################################################################
+# Other network parameters
+###############################################################################
+# Network name for bridge if using 'external-bridge'. User needs to change this
+# to match configuration of the network in the physical cluster.
+net_name_bridge_use=vespa-external-bridge
+
+# Desired bridge name (libvirt-bridge) or name of external bridge (external-bridge)
+net_bridge=br0
 
 # Name of interface that will host bridge (libvirt-bridge)
 # It is also used by setup/define-virtual-networks.sh script to generate
 # the libvirt network definition for SR-IOV.
 net_dev=eth0
 
-# Desired bridge name (libvirt-bridge) or name of external bridge (external-bridge)
-net_bridge=br0
+###############################################################################
+# Resource Monitoring
+###############################################################################
+# Activate resource monitoring? (True/False)
+monitor_run=True
 
-####
+# Monitor application - monitor_app: either 'sysstat' or 'vmstat'
+monitor_app=sysstat
+
+# Also monitor physical nodes? (True/False)
+monitor_do_nodes=True
+
+###############################################################################
+# Miscellaneous
+###############################################################################
+# Verbosity level for Vespa
+general_verbose=1
+
+
+###############################################################################
+# ATTENTION: Altering parameters below may cause Vespa to fail!
+###############################################################################
+
+[Networking]
 # The following parameters are used by the setup/define-virtual-networks.sh
 # to generate the libvirt network definition for (libvirt-bridge) option.
-####
 
 # either B or C network class
 net_class=B
@@ -55,12 +133,10 @@ dhcp_c_start=15
 # 1st VM of 2nd node gets dhcp.c.start + dhcp.c.step 
 dhcp_c_step=15
 
-####
-# The following three parameters specify the names that Vespa expects
+# The following two parameters specify the names that Vespa will use
 # for the virtual networks managed by libvirt. 
 # net_name_sriov and net_name_bridge_create are used by the
 # setup/define-virtual-networks.sh script to create the networks XMLs.   
-####
 
 # network name for SR-IOV
 net_name_sriov=vespa-sriov
@@ -68,95 +144,56 @@ net_name_sriov=vespa-sriov
 # network name for libvirt bridge
 net_name_bridge_create=vespa-libvirt-bridge
 
-# Network name for external bridge, user needs to change this to match
-# configuration of the network in the physical cluster.
-net_name_bridge_use=vespa-external-bridge
-
-# Miscellaneous networking
-
 # MAC address prefix for VMs
 net_mac_prefix=00:16:36:ff
 
-[Run]
-exp_dir=/tmp/vespa/tests/deploy
-deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
+
+[Create]
+# These two parameters define the naming strategy for the VMs
+vm_prefix=kvm-pbs
+vm_pattern=&PREFIX&NODESUFFIX-&VMSUFFIX
+
+# Directory to store generated VM definitions at runtime
+vm_xml_output=/tmp/vespa/xmls
+
+# Configuration of the virtual disk 
+xml_disk_drivertype=raw
+xml_disk_dev=vda
+
+# Dir for base images inside root dir
+repo_base_dir=base
+
+
+[Submit]
+# Directory hierarchy for storing experiments
 deploy_dir_pattern=&EXPDIR/&APP/&DEPLOYSUBDIR
 
+# Naming strategy for the first level of experiment directory. 
+deploy_subdir_pattern=nc&NC-cpv&CPV-idf&IDF-ps&PSTRAT
+
+# Configuration parameters for using the Torque cluster manager
+# Users using older versions of Torque may need to modify the
+# value of pbs_server to match location.
 pbs_master=resources/torque/master.pbs
 pbs_server=/var/spool/torque/server_priv
 pbs_temp_nodelist = /tmp/pbs-nodes
 
+# Naming and data format for the file that stores output
+# of the time UNIX command.
+run_timeoutput=times.txt 
 run_timeformat=%C\nUser\tSystem\tEllapsed\n%U\t%S\t%e
-run_timeoutput=times.txt
 
-# Monitor application - monitor_app: either 'sysstat' or 'vmstat'
-monitor_app=sysstat
-monitor_start=$HOME/vespa/monitor/monitor-start-pbs.sh
-monitor_stop=$HOME/vespa/monitor/monitor-stop-pbs.sh
-monitor_preprocess=$HOME/vespa/monitor/monitor-preprocess-pbs.sh
+# Vespa executables used for resource monitoring
+monitor_start=monitor/monitor-start-pbs.sh
+monitor_stop=monitor/monitor-stop-pbs.sh
+monitor_preprocess=monitor/monitor-preprocess-pbs.sh
 
-# Also monitor physical nodes? (True/False)
-monitor_do_nodes=True
-
-[Preferences]
-vm_pernode=12
-vm_prefix=kvm-pbs
-vm_pattern=&PREFIX&NODESUFFIX-&VMSUFFIX
-
-vm_mem_base=0
-vm_mem_core=1024
-
-vm_disk=disk.img
-vm_mac_base=00:16:36:ff
-
-vm_xml_output=/tmp/vespa/xmls
-
+# Name of template used for the experiment configuration file
 exec_config_template=execConfig.template
+
+# Directory to store experiment configuration files at runtime
 exec_config_output=/tmp/vespa/execs
 
-out_node_inventory=/tmp/vespa-node-inventory
-out_vm_inventory=/tmp/vespa-vm-inventory
-
-# Main Consolidation output dir
-consolidate.output=/home/giacomo2/vespa-output/consolidated
-
-# Consolidation filenames
-metrics.config.name = metrics-app.csv
-metrics.all.name = metrics-all.csv
-configs.name = configs.csv
-
-general_verbose=1
-
-###
-# Default values for virtualization technologies.
-# These can be overridden by the user when defining experiments.
-###
-
-# Technology for network virtualization, { virtio | vhost | sriov }
-# If using sriov (by default or by override), also set network_source=sriov
-# TODO: validate this constraint 
-default_tech_network=vhost
-
-# Technology for disk virtualization, { ide | scsi | virtio } 
-default_tech_disk=virtio
-
-# Use Infiniband? (assumes it is configured correctly)
-# True: use Infiniband, otherwise do not use
-default_infiniband=False
-
-[MasterXML]
-# _DISK_DRIVER_TYPE
-xml_disk_drivertype=raw
-
-# _DISK_DEV
-xml_disk_dev=vda
-
-[Repository]
-# Root dir for VM repository
-repo_root=/home/giacomo/vespa-vms
-
-# Dir for base images inside root dir
-repo_base_dir=base
 
 [Consolidate]
 # Default filenames
@@ -169,5 +206,7 @@ consolidate_sargen_config=tests/resources/consolidate/sargen-config.R
 # Directory with information about application
 consolidate_app_folder=resources/apps 
 
-# Main output dir for consolidated data
-generated_dir=/tmp/vespa/tests/consolidated
+
+[Misc]
+out_node_inventory=/tmp/vespa-node-inventory
+out_vm_inventory=/tmp/vespa-vm-inventory

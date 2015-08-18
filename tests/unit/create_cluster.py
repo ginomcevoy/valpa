@@ -14,7 +14,7 @@ class VespaXMLGeneratorTest(VespaAbstractTest):
     
     def setUp(self):
         VespaAbstractTest.setUp(self)
-        self.vespaXMLGen = VespaXMLGenerator(self.vespaXMLOpts, self.networkingOpts, self.repoOpts, 'resources', 'master.xml')
+        self.vespaXMLGen = VespaXMLGenerator(self.createParams, self.networkParams, 'resources', 'master.xml')
         
     def testMasterXML(self):
         vespaXML = self.vespaXMLGen.produceVespaXML()
@@ -27,7 +27,7 @@ class ClusterXMLGeneratorTest(VespaAbstractTest):
     def setUp(self):
         super(ClusterXMLGeneratorTest, self).setUp()
         vespaXML = open('resources/vespa-expected.xml', 'r').read()
-        self.clusterGen = ClusterXMLGenerator(vespaXML, self.vespaPrefs, self.hwSpecs)
+        self.clusterGen = ClusterXMLGenerator(vespaXML, self.createParams, self.hwSpecs)
 
     def testGenerateVhostScsi(self):
         # given

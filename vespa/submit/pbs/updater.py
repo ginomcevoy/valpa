@@ -10,9 +10,9 @@ class PBSUpdater:
     '''
     Updates the node list at the PBS head'''
     
-    def __init__(self, runOpts, forReal):
-        self.tempFile = runOpts['pbs_temp_nodelist']
-        self.pbsServer = runOpts['pbs_server']
+    def __init__(self, submitParams, forReal):
+        self.tempFile = submitParams['pbs_temp_nodelist']
+        self.pbsServer = submitParams['pbs_server']
         self.forReal = forReal
         
     def updatePBS(self, deployedVMs, clusterInfo):

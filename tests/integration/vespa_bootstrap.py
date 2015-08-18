@@ -25,7 +25,8 @@ class VespaWithBootstrapAbstractTest(unittest.TestCase):
         bootstrap.doBootstrap(forReal, templateDir, masterTemplate, 
                               vespaFilename, hardwareFilename, inventoryFilename)
         self.bootstrap = bootstrap.getInstance()
-        (self.vespaPrefs, self.vespaXMLOpts, self.runOpts, self.networkingOpts, self.repoOpts) = self.bootstrap.getAllConfig()
+        (self.createParams, self.submitParams, self.networkParams,
+            self.consolidateParams, self.miscParams) = self.bootstrap.getAllConfig()
         
     def assertMultiLineEqual(self, first, second, msg=None):
         '''

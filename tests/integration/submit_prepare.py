@@ -7,18 +7,19 @@ Unit tests for submit.prepare
 '''
 
 import unittest
-from submit.prepare import PreparesExperiment
+from submit.prepare import PreparesExperiment, ConfigFileGenerator
 from unit.test_abstract import VespaDeploymentAbstractTest
 
 class PreparesExperimentTest(VespaDeploymentAbstractTest):
     
     def setUp(self):
         VespaDeploymentAbstractTest.setUp(self)
-        self.prepsExperiment = PreparesExperiment(False, self.vespaPrefs, self.runOpts)
+        generator = ConfigFileGenerator(self.submitParams, self.miscParams)
+        self.prepsExperiment = PreparesExperiment(generator)
         
     def testPrepare(self):
         # when
-        (execConfig, experimentPath) = self.prepsExperiment.prepare(self.clusterRequest, self.deploymentInfo, self.appRequest)
+        (execConfig, experimentPath) = self.prepsExperiment.prepare(self.clusterRequest, self.deploymentInfo, self.appRequest, False)
         
         # then
         self.maxDiff = None

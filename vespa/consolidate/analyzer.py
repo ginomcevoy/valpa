@@ -21,8 +21,8 @@ import warnings
 def analyze(consolidateConfig, appName, consolidateKey, override=False):
     
     # filenames: partial output, user-specific module, time output
-    metricsFilename = consolidateConfig.consolidatePrefs['consolidate_metrics_same']
-    timeFilename = consolidateConfig.runOpts['run_timeoutput']
+    metricsFilename = consolidateConfig.consolidateParams['consolidate_metrics_same']
+    timeFilename = consolidateConfig.submitParams['run_timeoutput']
     
     # get the relevant input directory for request, iterate subfolders
     appInputDir = configutil.appInputDir(consolidateConfig.appParams, consolidateKey)
@@ -112,7 +112,7 @@ def getAppMetrics(consolidateConfig, configDir):
     """
     
     appMetrics = {}
-    moduleName = consolidateConfig.consolidatePrefs['consolidate_module']
+    moduleName = consolidateConfig.consolidateParams['consolidate_module']
     customFilename = consolidateConfig.appParams['exec.outputrename']
     
     # load user module for application-specific metrics

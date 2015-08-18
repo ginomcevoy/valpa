@@ -43,7 +43,7 @@ class AnalyzerTest(VespaWithBootstrapAbstractTest, ConsolidateAbstractTest):
     def testAnalyzeWithoutCustomMetrics(self):
         # given
         noCustomConfig = self.bootstrap.getConsolidateConfig('parpac-nocustom')
-        metricsFilename = noCustomConfig.consolidatePrefs['consolidate_metrics_same']
+        metricsFilename = noCustomConfig.consolidateParams['consolidate_metrics_same']
         
         with warnings.catch_warnings(record=True) as w:
             # Cause all warnings to always be triggered.

@@ -100,10 +100,10 @@ class SimpleScenarioGenerator():
     so that it is ready to use.
     '''
     
-    def __init__(self, vespaPrefs, hwSpecs, templateFile = 'builder.template'):
+    def __init__(self, createParams, hwSpecs, templateFile = 'builder.template'):
         
         # prepare clusterRequest and applicationRequest generators
-        clusterGenerator = SimpleClusterGenerator(vespaPrefs, hwSpecs)
+        clusterGenerator = SimpleClusterGenerator(createParams, hwSpecs)
         applicationGenerator = AppRequestGenerator()
         
         # prepare delegate scenario generator
