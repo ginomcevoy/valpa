@@ -32,13 +32,13 @@ vm_disk=ubuntu14.04-infiniband.img
 vespa_home=$HOME/vespa
 
 # Root dir for VM repository
-repo_root=/home/giacomo2/vms
+repo_root=/home/giacomo2/vespa-vms
 
 # Directory used for deploying and aggregating results from experiments.
-exp_dir=/home/giacomo2/shared/execs
+exp_dir=/home/giacomo2/shared/vespa-experiments
 
 # Main output dir for consolidated data
-generated_dir=$HOME/experiments/analyzed
+generated_dir=$HOME/vespa-output/consolidated
 
 ###############################################################################
 # Default values for virtualization technologies.
@@ -190,8 +190,14 @@ monitor_preprocess=monitor/monitor-preprocess-pbs.sh
 # Name of template used for the experiment configuration file
 exec_config_template=execConfig.template
 
+<<<<<<< HEAD
+[Repository]
+# Root dir for VM repository
+repo_root=/home/giacomo2/vespa-vms
+=======
 # Directory to store experiment configuration files at runtime
 exec_config_output=/tmp/vespa/execs
+>>>>>>> origin/develop
 
 
 [Consolidate]
@@ -205,7 +211,12 @@ consolidate_sargen_config=input/sargen-config.R
 # Directory with information about application
 consolidate_app_folder=../apps 
 
+<<<<<<< HEAD
+# Main output dir for consolidated data
+generated_dir=$HOME/vespa-output/consolidated
+=======
 
 [Misc]
 out_node_inventory=/tmp/vespa-node-inventory
 out_vm_inventory=/tmp/vespa-vm-inventory
+>>>>>>> origin/develop

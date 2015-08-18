@@ -32,7 +32,7 @@ vm_disk=disk.img
 vespa_home=$HOME/vespa
 
 # Root dir for VM repository
-repo_root=/home/giacomo/vms
+repo_root=/home/giacomo/vespa-vms
 
 # Directory used for deploying and aggregating results from experiments.
 exp_dir=/tmp/vespa/tests/deploy
