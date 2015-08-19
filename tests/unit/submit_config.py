@@ -108,13 +108,8 @@ class MockNetworkAddresses():
         
 class ExecutionConfiguratorPBSTest(VespaDeploymentAbstractTest):
     '''
-<<<<<<< HEAD:tests/unit/run_config.py
-    Unit test for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
-    string, as well as the enhancement of the PBS file. The NetworkAddresses class
-=======
     Unit tests for ExecutionConfiguratorPBS. Tests the construction of the PBS_TOPOLOGY
     string, as well as the enhancement of the PBS file.
->>>>>>> develop:tests/unit/submit_config.py
     '''
 
     def setUp(self):
