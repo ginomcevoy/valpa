@@ -4,6 +4,7 @@ Created on Aug 31, 2014
 @author: giacomo
 '''
 import sys
+from datetime import date
 
 from .scenariogen import SimpleScenarioGenerator
 from .constraint import SimpleClusterGenerationSpecification,\
@@ -66,7 +67,9 @@ class SimplePlacementScenarioGenerator():
                     
         # default XML path
         if xmlPath is None:
-            xmlPath = os.path.join(self.definedDir, 'placement')
+            xmlPath = self.definedDir
+        if not os.path.exists(xmlPath):
+            os.makedirs(xmlPath)
         
         # call scenario generator
         self.scenarioGenerator.withApplicationSpecification(self.applicationSpecification)
@@ -100,6 +103,7 @@ if __name__ == '__main__':
     if pmCounts is not None:
         scenarioGenerator.limitedToPhysicalMachines(pmCounts)
         
-    # default values
-    xmlName = appName + '-place-' + str(nc) + '.xml' 
+    # default xml name
+    today = date.today().isoformat()    
+    xmlName = ''.join((appName,'_placement_',str(nc), '_', today, '.xml')) 
     scenarioGenerator.produceXML(xmlName)
