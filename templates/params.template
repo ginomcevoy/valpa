@@ -37,6 +37,9 @@ NAME_PREFIX='{{ vm_prefix }}'		# prefix of VM names
 REPO_ROOT='{{ repo_root }}'          # Root dir for VM repository
 REPO_BASE_DIR='{{ repo_base_dir }}'  # Dir for base images inside root dir
 
+# Experiment definitions
+DEFINED_DIR='{{ defined_dir }}'
+
 # Inventory
 DEFAULT_NODE_INVENTORY='{{ out_node_inventory }}'
 DEFAULT_VM_INVENTORY='{{ out_vm_inventory }}'

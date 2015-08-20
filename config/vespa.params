@@ -34,6 +34,9 @@ vespa_home=$HOME/vespa
 # Root dir for VM repository
 repo_root=/home/giacomo2/vespa-vms
 
+# Directory where experiment definitions are stored and read from
+defined_dir=/home/giacomo/vespa-exps
+
 # Directory used for deploying and aggregating results from experiments.
 exp_dir=/home/giacomo2/shared/vespa-experiments
 

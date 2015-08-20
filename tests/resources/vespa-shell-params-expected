@@ -37,6 +37,9 @@ NAME_PREFIX='kvm-pbs'		# prefix of VM names
 REPO_ROOT='/home/giacomo/vespa-vms'          # Root dir for VM repository
 REPO_BASE_DIR='base'  # Dir for base images inside root dir
 
+# Experiment definitions
+DEFINED_DIR='/home/giacomo/vespa-exps'
+
 # Inventory
 DEFAULT_NODE_INVENTORY='/tmp/vespa-node-inventory'
 DEFAULT_VM_INVENTORY='/tmp/vespa-vm-inventory'

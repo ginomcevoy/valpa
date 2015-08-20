@@ -24,6 +24,7 @@ class SimplePlacementScenarioGenerator():
         
         # Read Vespa configuration file
         vespaConfig = config_vespa.readVespaConfig(vespaFilename)
+        self.definedDir = vespaConfig.miscParams['defined_dir']
         
         # load hardware specification
         hwInfo = config_hw.getHardwareInfo()
@@ -55,12 +56,17 @@ class SimplePlacementScenarioGenerator():
         physicalMachinesConstraint.constrainPhysicalMachines(physicalMachinesTuple)
         self.clusterSpecification = self.clusterSpecification.constrainWith(physicalMachinesConstraint)
         
-    def produceXML(self, xmlName=None, xmlPath='../output/placement'):
+    def produceXML(self, xmlName=None, xmlPath=None):
+        # default XML name
         if xmlName is None:
             xmlName = self.appName + "-" + self.nc
             if self.physicalMachinesTuple is not None:
                 for physicalMachines in self.physicalMachinesTuple:
                     xmlName = xmlName + "_" + physicalMachines
+                    
+        # default XML path
+        if xmlPath is None:
+            xmlPath = os.path.join(self.definedDir, 'placement')
         
         # call scenario generator
         self.scenarioGenerator.withApplicationSpecification(self.applicationSpecification)

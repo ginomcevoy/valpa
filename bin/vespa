@@ -4,12 +4,15 @@
 LOCAL_DIR="$( cd "$( dirname "$0" )" && pwd )"
 VESPA_DIR=$LOCAL_DIR/../
 
+# Import params
+source $VESPA_DIR/params.sh
+
 # Verify parameters
 if [ $# -lt 1 ]; then
 	echo "Execute experiments in an XML"
 	echo "Usage: $0 <filename without .xml> [dir for xml]"
 	echo ".xml suffix will be appended to name supplied"
-	echo "Default dir for experiment definition: $HOME/vespa-exps"
+	echo "Default dir for experiment definition: $DEFINED_DIR"
 	exit 1
 fi
 
@@ -18,11 +21,14 @@ XML_NAME=$1
 if [ $# -gt 1 ]; then
 	XML_PATH=$2
 else
-	XML_PATH=$HOME/vespa-exps
+	XML_PATH=$DEFINED_DIR
 fi
 
 # Experiment file 
 XML_FILE=$XML_PATH/$XML_NAME.xml
+
+# Always put log here
+mkdir -p $HOME/vespa-logs 
 OUTPUT_LOG=$HOME/vespa-logs/$XML_NAME.log
 
 # Run experiment: return to shell, persist after logging out
@@ -32,7 +38,7 @@ echo "Output log at $OUTPUT_LOG"
  PYTHONPATH=.. nohup python -m vespa True $XML_FILE &> $OUTPUT_LOG 
  EXIT_CODE=$?
  if [ $EXIT_CODE -ne 0 ]; then
-   # inform immediate failure
+   # inform immediate failure, e.g. missing XML
    echo "ERROR: Vespa exited with status $EXIT_CODE" >&2
  fi
 ) &
