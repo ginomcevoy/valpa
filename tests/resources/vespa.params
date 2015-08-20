@@ -41,7 +41,7 @@ defined_dir=/home/giacomo/vespa-exps
 exp_dir=/tmp/vespa/tests/deploy
 
 # Main output dir for consolidated data
-generated_dir=/tmp/vespa/tests/consolidated
+consolidated_dir=/tmp/vespa/tests/consolidated
 
 ###############################################################################
 # Default values for virtualization technologies.

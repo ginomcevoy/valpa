@@ -55,7 +55,7 @@ class VespaConfig:
 		self.networkParams['net_bridge']  = userPrefs['net_bridge']
 		self.networkParams['net_dev']  = userPrefs['net_dev']
 		
-		self.consolidateParams['generated_dir']  = userPrefs['generated_dir']
+		self.consolidateParams['consolidated_dir']  = userPrefs['consolidated_dir']
 		
 		self.miscParams['defined_dir'] = userPrefs['defined_dir']
 		self.miscParams['general_verbose']  = userPrefs['general_verbose']

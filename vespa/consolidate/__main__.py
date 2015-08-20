@@ -28,7 +28,7 @@ def consolidate(consolidateConfig, appName, configVars, consolidateKey):
     
     # application-specific directory for experiment consolidation
     # is a sub-directory from base output directory
-    baseOutputDir = consolidateConfig.consolidateParams['generated_dir']
+    baseOutputDir = consolidateConfig.consolidateParams['consolidated_dir']
     baseOutputDir = os.path.expandvars(baseOutputDir)  # may have $HOME environment variable
 
     # output dir, use consolidateKey if available
