@@ -58,7 +58,7 @@ class VespaConfig:
 		self.consolidateParams['consolidated_dir']  = userPrefs['consolidated_dir']
 		
 		self.miscParams['defined_dir'] = userPrefs['defined_dir']
-		self.miscParams['general_verbose']  = userPrefs['general_verbose']
+		self.miscParams['general_verbose']  = int(userPrefs['general_verbose'])
 		
 	def getAllParams(self):
 		return (self.createParams, self.submitParams, self.networkParams,

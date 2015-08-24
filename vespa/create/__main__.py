@@ -35,7 +35,8 @@ def quickCluster(nc, cpv, idf, pstrat, withTorque, forReal):
     
     if not clusterRequest.isConsistentWith(hwSpecs):
         # declared cluster is invalid
-        print("ERROR: cluster invalid! ", clusterRequest)        
+        sys.stderr.write("ERROR: cluster invalid - {}".format(clusterRequest))
+        sys.stderr.flush()
     else:
         # mock application: if withTorque, then use an application
         # that will configure the Torque server with the VMs as nodes, 

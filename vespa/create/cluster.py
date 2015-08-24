@@ -63,8 +63,8 @@ def defineVMsLibvirt(deployedVMs, forReal):
         callList = ['virsh', '-c', address, 'define', xml]
         if forReal:
             subprocess.call(callList)            
-        print(callList)
-        
+        else:
+            print(callList)
         
 class PhysicalClusterDefiner:
     '''

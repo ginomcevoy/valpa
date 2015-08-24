@@ -22,7 +22,7 @@ NEEDS_UPDATE=$(diff $NODES_FILE $PBS_SERVER/nodes | wc -l)
 if [ $NEEDS_UPDATE -ne '0' ]; then
 
 	#Kill PBS server
-	echo "Killing PBS"
+	echo "Killing Torque server"
 	ssh root@localhost service torque-server stop
         ALIVE='1'
         while [ $ALIVE == '1' ]; do
@@ -33,9 +33,9 @@ if [ $NEEDS_UPDATE -ne '0' ]; then
         ALIVE='1'
 	ssh root@localhost service torque-scheduler stop
         while [ $ALIVE == '1' ]; do
-                echo "Waiting for PBS to shut down...."
+                echo "Waiting for Torque to shut down...."
                 ALIVE=$(ps -fea | grep pbs_sched | grep -v grep | grep -c pbs_sched)
-                sleep 1
+                sleep 3
         done
 
 	# Update PBS server
@@ -44,10 +44,10 @@ if [ $NEEDS_UPDATE -ne '0' ]; then
 	ssh root@localhost service torque-scheduler start
  	
 	if [ $# -eq 2 ]; then
-		WAIT=30
-		echo "Waiting for PBS scheduler to start .... ($WAIT seconds)"
+		WAIT=20
+		echo "Waiting for Torque scheduler to start... ($WAIT seconds)"
 		sleep $WAIT
 	fi
 	ssh root@localhost 'qmgr -c "set server scheduling=true"'
-	echo "PBS restarted"
+	echo "Torque server restarted"
 fi

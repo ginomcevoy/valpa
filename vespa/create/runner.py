@@ -8,7 +8,7 @@ from ansible.playbook import PlayBook
 from ansible import callbacks, utils, runner
 import json
 import subprocess
-from sys import stdout
+from sys import stdout, stderr
 
 from . import parser
 from create.cluster import ClusterDefiner, PhysicalClusterDefiner, ClusterXMLGenerator
@@ -19,12 +19,13 @@ from submit.execute import ApplicationExecutor
 from submit.prepare import ConfigFileGenerator, PreparesExperiment
 from submit.apprunner import RunnerFactory
 
+
 class ExperimentSetRunner():
     '''
     Runs all experiments in the experiment XML.
     '''
 
-    def __init__(self, deploymentFactory, hwSpecs, createParams, forReal):
+    def __init__(self, deploymentFactory, hwSpecs, createParams, verbose, forReal):
         '''
         Constructor, deploymentFactory should have been instantiated by bootstrap
         '''
@@ -44,6 +45,7 @@ class ExperimentSetRunner():
         
         self.createParams = createParams
         self.hwSpecs = hwSpecs
+        self.verbose = verbose
         self.forReal = forReal
         
     def readAndExecute(self, scenarioXML):
@@ -72,7 +74,8 @@ class ExperimentSetRunner():
             
             # validate experiment, skip with message if invalid
             if not experiment.isConsistentWith(self.hwSpecs):
-                print("ERROR: Experiment", experiment.name, "cannot be deployed on current hardware!")
+                stderr.write("ERROR: Experiment {} cannot be deployed on current hardware!".format(experiment.name))
+                stderr.flush()
                 continue
             
             # trials in experiment

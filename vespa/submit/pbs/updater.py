@@ -22,8 +22,6 @@ class PBSUpdater:
         # call script that will use administrative privileges for update
         updateCall = ['/bin/bash', 'submit/pbs/update-pbs.sh', filename, self.pbsServer]
         if self.forReal:
-            print('updating pbs')
-            stdout.flush()
             subprocess.call(updateCall)
         else:
             print(updateCall)

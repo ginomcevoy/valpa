@@ -106,7 +106,6 @@ class ConfigFileGenerator:
         execConfigName = uuid.newUUID(forReal)
         execConfigDir = self.submitParams['exec_config_output']
         execConfigFilename = execConfigDir + '/' + execConfigName
-        print(execConfigFilename)
         if not os.path.exists(execConfigDir):
             os.makedirs(execConfigDir)
         

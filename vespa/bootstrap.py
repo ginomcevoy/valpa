@@ -137,7 +137,8 @@ class VespaBootstrapper():
     def getExperimentSetRunner(self):
         if self.experimentSetRunner is None:
             deploymentFactory = self.getDeploymentFactory()
-            self.experimentSetRunner = ExperimentSetRunner(deploymentFactory, self.hwSpecs, self.createParams, self.forReal)
+            verbose = self.miscParams['general_verbose']
+            self.experimentSetRunner = ExperimentSetRunner(deploymentFactory, self.hwSpecs, self.createParams, verbose, self.forReal)
         return self.experimentSetRunner
     
     def getBuildsNetworkXMLs(self):
