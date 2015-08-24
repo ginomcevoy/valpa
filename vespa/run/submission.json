@@ -1,0 +1,43 @@
+{
+    "experiments": [
+        {
+            "application": "parpac", 
+            "deploymentError": "", 
+            "name": "parpac-nc32-cpv2-idf8-psNONE", 
+            "start": "2015-08-24 10:05:00", 
+            "cluster": "nc32-cpv2-idf8-psNONE", 
+            "finished": true, 
+            "deployed": true
+        }, 
+        {
+            "application": "parpac", 
+            "deploymentError": "kvm-pbs03-04 timeout", 
+            "name": "parpac-nc32-cpv4-idf8-psNONE", 
+            "start": "2015-08-24 10:30:00", 
+            "cluster": "nc32-cpv2-idf8-psNONE", 
+            "finished": true, 
+            "deployed": false
+        }, 
+        {
+            "application": "parpac", 
+            "deploymentError": "", 
+            "name": "parpac-nc32-cpv8-idf8-psNONE", 
+            "start": "2015-08-24 10:35:00", 
+            "cluster": "nc32-cpv2-idf8-psNONE", 
+            "finished": false, 
+            "deployed": false
+        }, 
+        {
+            "application": "parpac", 
+            "deploymentError": "", 
+            "name": "parpac-nc32-cpv2-idf4-psNONE", 
+            "start": "", 
+            "cluster": "nc32-cpv2-idf8-psNONE", 
+            "finished": false, 
+            "deployed": false
+        }
+    ], 
+    "submitted": "2015-08-24 10:00:00", 
+    "submission": "parpac-place-32.xml", 
+    "description": "Parpac with 32 nodes under different placements"
+}
