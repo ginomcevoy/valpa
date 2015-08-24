@@ -4,9 +4,6 @@ Created on Oct 15, 2013
 @author: giacomo
 '''
 
-from ansible.playbook import PlayBook
-from ansible import callbacks, utils, runner
-import json
 import subprocess
 from sys import stdout, stderr
 
@@ -18,6 +15,7 @@ from core.cluster import SetsTechnologyDefaults
 from submit.execute import ApplicationExecutor
 from submit.prepare import ConfigFileGenerator, PreparesExperiment
 from submit.apprunner import RunnerFactory
+from core.ansible_api import ansible_playbook, PlaybookError, ansible_script
 
 
 class ExperimentSetRunner():
@@ -110,27 +108,18 @@ class ExperimentSetRunner():
         # current implementation uses Ansible using the deployedNodes as inventory
         # TODO: use Ansible Python API and a proper module/playbook
         deployedNodes = deploymentInfo[0]
-        nodeFilename = '/tmp/vespa/' + str(clusterRequest) + '-nodes.txt'
-        deployedNodes.toFile(nodeFilename)
-        hostCount = len(deployedNodes)
+        node_inventory = '/tmp/vespa/{}-nodes.txt'.format(str(clusterRequest))
+        deployedNodes.toFile(node_inventory)
 
         # call meant for Ansible API
-        ansible_args = '../mgmt/stop-vms-local.sh ' + self.createParams['vm_prefix']
+        script_args = '../mgmt/stop-vms-local.sh {}'.format(self.createParams['vm_prefix'])
         
         if self.forReal:
-            # Call Ansible runner programmatically
-            theRunner = runner.Runner(
-                                   host_list=nodeFilename,
-                                   module_name='script',
-                                   module_args=ansible_args,
-                                   pattern='all',
-                                   forks=hostCount
-                                )
-            out = theRunner.run()
-            print json.dumps(out, sort_keys=True, indent=4, separators=(',', ': '))
+            # Call Vespa's Ansible API
+            ansible_script(node_inventory, script_args, len(deployedNodes), self.verbose)
         else:
-            print('ansible: ' + nodeFilename)
-            print('ansible: ' + ansible_args)
+            print("ansible inventory: {0}\nansible playbook: {1}".format(node_inventory,
+                                                                         script_args))
             
         # no need to undefine VMs, were not defined
                         
@@ -185,8 +174,9 @@ class DeploymentFactory:
         return clusterDefiner
     
     def createClusterDeployer(self):
+        verbose = self.vespaConfig.miscParams['general_verbose']
         pbsUpdater = PBSUpdater(self.vespaConfig.submitParams, self.forReal)
-        return ClusterDeployer(self.configFactory.appConfig, pbsUpdater)
+        return ClusterDeployer(self.configFactory.appConfig, pbsUpdater, verbose)
         
     def createApplicationExecutor(self):
         generator = ConfigFileGenerator(self.vespaConfig.submitParams, self.vespaConfig.miscParams)        
@@ -200,10 +190,11 @@ class ClusterDeployer:
     Deploys a previously defined virtual cluster, while preparing it to submit
     the application.
     '''
-    def __init__(self, appConfig, pbsUpdater):
+    def __init__(self, appConfig, pbsUpdater, verbose):
         # strategies 
         self.appConfig = appConfig
         self.pbsUpdater = pbsUpdater
+        self.verbose = verbose
     
     def deploy(self, cluster, deploymentInfo, appRequest, forReal):
         
@@ -254,40 +245,24 @@ class ClusterDeployer:
         # 3) activate KNEM module (if withKnem is True) 
         # The variables are passed in the Ansible inventory, represented
         # by the vmFilename variable.
-        vmFilename = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
+        playbook = 'submit/prepare-vms.yml'
+        vm_inventory = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
         inventoryVars = { "vmCount" : str(vmCount), 
                           "deploymentType" : deploymentType,
                           "withKnem" : str(withKnem)
                         }
-        deployedVMs.createVirtualInventory(vmFilename, inventoryVars) 
-        
-        playbookName = 'submit/prepare-vms.yml'
+        deployedVMs.createVirtualInventory(vm_inventory, inventoryVars) 
         if forReal:
-            # Setup the playbook, execute it and analyze return codes
-            stats = callbacks.AggregateStats()
-            playbook_cb = callbacks.PlaybookCallbacks(verbose=utils.VERBOSITY)
-            runner_cb = callbacks.PlaybookRunnerCallbacks(stats, verbose=utils.VERBOSITY)
-            pb = PlayBook(
-                          playbook = playbookName,
-                          stats = stats,
-                          callbacks = playbook_cb,
-                          runner_callbacks = runner_cb,
-                          host_list=vmFilename,
-                          forks=vmCount
-                          ) 
-            results = pb.run()
-            for hostname in results.keys():
-                if results[hostname]['failures'] != 0:
-                    # Found an error during playbook execution, 
-                    # report deployment failure to the caller
-                    return "ERROR: Deployment of VMs failed: " + hostname
-             
-            # Playbook succeeded, inform output
-            print json.dumps(results, sort_keys=True, indent=4, separators=(',', ':'))
-            stdout.flush()
+            # Use Vespa facade for Ansible API
+            try :
+                ansible_playbook(playbook, vm_inventory, 
+                                 vmCount, self.verbose)
+            except PlaybookError as e:
+                # Return error string TODO: just raise this?
+                return e.strerror
         else:
-            print('ansible: ' + vmFilename)
-            print('ansible: ' + playbookName)
+            print("ansible inventory: {0}\nansible playbook: {1}".format(vm_inventory,
+                                                                         playbook))
         
         # no error in deploying cluster
         return None
