@@ -229,6 +229,13 @@ class ParpacAbstractTest(unittest.TestCase):
         fp, pathname, description = imp.find_module(moduleName, ['../apps/parpac',])
         self.read_output = imp.load_module(moduleName, fp, pathname, description)
         
+class NPB_FT_AbstractTest(unittest.TestCase):
+    """ Sets up unit and integration tests using the NPB-FT plugin. """
+    
+    def setUp(self):
+        fp, pathname, description = imp.find_module('read_output', ['../apps/NPB-FT',])
+        self.read_output = imp.load_module('read_output', fp, pathname, description)
+        
 class ConsolidateAbstractTest(VespaTestHelper):
     """ Sets up integration tests for the consolidate functionality.
     
