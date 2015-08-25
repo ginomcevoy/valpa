@@ -99,7 +99,7 @@ monitor_do_nodes=True
 # Miscellaneous
 ###############################################################################
 # Verbosity level for Vespa
-general_verbose=1
+general_verbose=0
 
 ###############################################################################
 # ATTENTION: Altering parameters below may cause Vespa to fail!

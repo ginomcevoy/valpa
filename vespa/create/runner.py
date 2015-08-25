@@ -72,7 +72,7 @@ class ExperimentSetRunner():
             
             # validate experiment, skip with message if invalid
             if not experiment.isConsistentWith(self.hwSpecs):
-                stderr.write("ERROR: Experiment {} cannot be deployed on current hardware!".format(experiment.name))
+                stderr.write("ERROR: Experiment {} cannot be deployed on current hardware!\n".format(experiment.name))
                 stderr.flush()
                 continue
             
