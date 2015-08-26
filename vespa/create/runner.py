@@ -239,13 +239,13 @@ class ClusterDeployer:
             deploymentType = 'Simple'
         
         # Preparation of the VMs is made with the Ansible playbook
-        # submit/prepare-vms.yml. The steps are:
+        # create/prepare-vms.yml. The steps are:
         # 1) wait for VMs (use Torque if available, wait for SSH otherwise)    
         # 2) mount the NFS
         # 3) activate KNEM module (if withKnem is True) 
         # The variables are passed in the Ansible inventory, represented
         # by the vmFilename variable.
-        playbook = 'submit/prepare-vms.yml'
+        playbook = 'create/prepare-vms.yml'
         vm_inventory = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
         inventoryVars = { "vmCount" : str(vmCount), 
                           "deploymentType" : deploymentType,
