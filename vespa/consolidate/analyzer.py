@@ -9,7 +9,6 @@ of the execution dirs
 @author: giacomo
 '''
 
-import csv
 import os.path
 
 from . import configutil
@@ -17,6 +16,7 @@ from .plugin import CustomReaderLoader
 from collections import OrderedDict
 import itertools
 import warnings
+import csv
 
 def analyze(consolidateConfig, appName, consolidateKey, override=False):
     

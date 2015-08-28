@@ -1,5 +1,6 @@
 import sys
 import csv
+from collections import OrderedDict
 
 def read_metrics(stdout, stderr, expDir):
     """ Read application metrics for the NPB-FT benchmark.
