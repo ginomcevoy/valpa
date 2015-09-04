@@ -259,7 +259,7 @@ class ClusterDeployer:
                                  vmCount, self.verbose)
             except PlaybookError as e:
                 # Return error string TODO: just raise this?
-                return e.strerror
+                return str(e)
         else:
             print("ansible inventory: {0}\nansible playbook: {1}".format(vm_inventory,
                                                                          playbook))
