@@ -1,9 +1,11 @@
 #!/bin/bash 
 # Configures Vespa VMs 
 # This procedures consists of the following steps:
-# 1) Destroy any current VMs
-# 2) Create all possible VMs
-# 3) Configure VMs: hostname, /etc/hosts, copy Vespa files
+# 1) Create all possible VMs
+# 2) Configure VMs: hostname, /etc/hosts
+# 3) Setup Vespa: copy monitoring files
+# 4) Setup GRUB: copy GRUB configuration file (fixes VM getting stuck after bad shutdown)
+# 5) Setup Torque: copy Torque configuration file (fixes Infiniband limitation)
 # Author: Giacomo Mc Evoy - giacomo@lncc.br
 # LNCC Brazil 2015
 
@@ -37,3 +39,5 @@ INVENTORY=$($VESPA_DIR/util/vms-inventory.sh $NODE_L $VM_L)
 # Call playbook that configures VMs
 cd $LOCAL_DIR
 ansible-playbook setup-vms.yml --inventory=$INVENTORY --forks=$NODE_L --extra-vars="vespa_dir=$VESPA_DIR etc_hosts=$ETC_HOSTS"
+
+echo "Configuration of VMs completed! Restart/destroy all VMs before using."
