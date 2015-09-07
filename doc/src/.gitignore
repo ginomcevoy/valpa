@@ -1,0 +1,6 @@
+# Ignore LaTeX generated files, even the PDF
+*.aux
+*.fdb_latexmk
+*.pdf
+*.log
+*.synctex.gz
