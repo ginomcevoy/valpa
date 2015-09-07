@@ -35,7 +35,7 @@ vespa_home=$HOME/vespa
 repo_root=/home/giacomo2/vespa-vms
 
 # Directory where experiment definitions are stored and read from
-defined_dir=/home/giacomo/vespa-exps
+defined_dir=/home/giacomo2/vespa-exps
 
 # Directory used for deploying and aggregating results from experiments.
 exp_dir=/home/giacomo2/shared/vespa-experiments
@@ -99,7 +99,7 @@ monitor_do_nodes=True
 # Miscellaneous
 ###############################################################################
 # Verbosity level for Vespa
-general_verbose=1
+general_verbose=0
 
 ###############################################################################
 # ATTENTION: Altering parameters below may cause Vespa to fail!

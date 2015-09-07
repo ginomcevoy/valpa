@@ -72,7 +72,7 @@ class ExperimentSetRunner():
             
             # validate experiment, skip with message if invalid
             if not experiment.isConsistentWith(self.hwSpecs):
-                stderr.write("ERROR: Experiment {} cannot be deployed on current hardware!".format(experiment.name))
+                stderr.write("ERROR: Experiment {} cannot be deployed on current hardware!\n".format(experiment.name))
                 stderr.flush()
                 continue
             
@@ -239,13 +239,13 @@ class ClusterDeployer:
             deploymentType = 'Simple'
         
         # Preparation of the VMs is made with the Ansible playbook
-        # submit/prepare-vms.yml. The steps are:
+        # create/prepare-vms.yml. The steps are:
         # 1) wait for VMs (use Torque if available, wait for SSH otherwise)    
         # 2) mount the NFS
         # 3) activate KNEM module (if withKnem is True) 
         # The variables are passed in the Ansible inventory, represented
         # by the vmFilename variable.
-        playbook = 'submit/prepare-vms.yml'
+        playbook = 'create/prepare-vms.yml'
         vm_inventory = '/tmp/vespa/'+ str(cluster) + '-vms.txt'
         inventoryVars = { "vmCount" : str(vmCount), 
                           "deploymentType" : deploymentType,
@@ -259,7 +259,7 @@ class ClusterDeployer:
                                  vmCount, self.verbose)
             except PlaybookError as e:
                 # Return error string TODO: just raise this?
-                return e.strerror
+                return str(e)
         else:
             print("ansible inventory: {0}\nansible playbook: {1}".format(vm_inventory,
                                                                          playbook))
