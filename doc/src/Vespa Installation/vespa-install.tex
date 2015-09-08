@@ -31,7 +31,7 @@
 \definecolor{black}{RGB}{0,0,0}
 \definecolor{gray}{RGB}{100,100,100}
 \definecolor{light-gray}{RGB}{150,150,150}
-
+ 
 \newcommand{\commandlisting}{
   \lstset{ %
   language=sh,                % the language of the code
@@ -503,8 +503,12 @@ DISK_FILENAME=disk.img
 
 At this point, the \textbf{SSH keys} of the head should be copied to the VM manually for password-less SSH (vespauser and root) with a procedure similar to Listing \ref{lst:sshnode}. Also, the \texttt{/etc/hosts} file needs to be \textbf{updated} using the entries from the \texttt{VESPA\_HOME/data-output/hosts} at the head.
 
-(Remove /etc/udev/rules.d/70-persistent-net.rules)
-(Set GRUB\_RECORDFAIL\_TIMEOUT=0 in /etc/default/grub)
+Many Linux distros running inside a VM will create a network device that varies with the MAC address. To ensure that all VMs pick up the \texttt{eth0} interface, remove the file that specifies the behavior:
+
+\commandlisting
+\begin{lstlisting}[caption={Ensuring \texttt{eth0} (root@vm}]
+rm /etc/udev/rules.d/70-persistent-net.rules
+\end{lstlisting}
 
 \subsection{Setting up NFS}
 
@@ -724,12 +728,39 @@ mpicc -o example example.c
 mpirun -np 2 example
 \end{lstlisting}
 
-\subsection{Copying the VM images}
+\subsection{Cloning the VM images}
 
-The master VM image must be replicated to the other physical machines. The following script sends the image over the network: TODO: fix Vespa for VM image paths!
+The master VM image must be replicated to the other physical machines. Vespa provides two scripts to ease this task. The following script synchronizes the VM repository among the physical nodes, creating a single copy of each VM per node:
 \commandlisting
-\begin{lstlisting}[caption={Send the VM image over the network (vespauser@head)}]
-VESPA_HOME/setup$ ./upload-disk.sh ubuntu14.04-node
+\begin{lstlisting}[caption={Send the VM repository over the network (vespauser@head)}]
+VESPA_HOME/setup$ ./distribute-repository.sh
+\end{lstlisting}
+
+After the operation completes, each VM image in the repository should be cloned to have $ppn$ images. This will allow $ppn$ independent VM instances. The following script will perform the image cloning in the correct path:\footnote{This script asks for sudo password in the nodes, because \texttt{libvirt} changes the ownership of VM images to \texttt{root} after usage.}
+
+\begin{lstlisting}[caption={Clone the VMs in each physical node (vespauser@head)}]
+VESPA_HOME/setup$ ./replicate-images.sh
+\end{lstlisting}
+
+\subsection{Configuring the VM images for use}
+
+After having at least one VM image ready for use (distributed and cloned), the user should instruct Vespa which VM image to use in the configuration file:
+
+\outputlisting
+\begin{lstlisting}[caption={Configuration parameter for VM image in \texttt{config/vespa.params}}]
+vm_disk=ubuntu14.04-infiniband.img
+\end{lstlisting}
+
+Since the VM images have been cloned, they must be configured for different hostnames. The user should execute the \texttt{setup/setup-vms.sh} script that fixes the hostnames, as well as the following:
+\begin{itemize}
+  \item Configure \texttt{/etc/hosts} according to complete physical and virtual clusters.
+  \item Copy Vespa monitoring files.
+  \item Update GRUB configuration (fixes VM getting stuck after bad shutdown).
+  \item Update Torque configuration file (fixes Infiniband limitation)
+\end{itemize}
+
+\begin{lstlisting}[caption={Configuring VMs for first use (vespauser@head)}]
+VESPA_HOME/setup$ ./setup-vms.sh
 \end{lstlisting}
 
 %\bibliographystyle{sbc}
